@@ -3,9 +3,9 @@
 ## Team + rollen 
 
 - Emelie = Specialist
-- Sarah = ...
-- Mathis = ...
-- Ian = ...
+- Sarah = Monitor Evaluator
+- Mathis = Project Manager
+- Ian = Implementer
 
 ## Links 
 
