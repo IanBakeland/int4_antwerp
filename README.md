@@ -1,6 +1,6 @@
 # 🏙️ INT4 Antwerp
 
-Welkom bij de repository van het **INT4 Antwerp** project! Dit is de centrale documentatie voor ons team.
+Welkom bij de repository van het **INT4 Antwerp** project! Hierbij staan de belangrijke dingen over ons team als ook de links.
 
 ---
 
