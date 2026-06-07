@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 
-export default function Radar({ userLocation }) {
+export default function Home({ userLocation }) {
   return (
     <div>
-      <h1>Radar Page</h1>
+      <h1>Homepage</h1>
       <nav>
-        <Link to="/">Go to Homepage</Link>
+        <Link to="/radar">Go to Radar Page</Link>
       </nav>
-
+      
       {userLocation ? (
         <p>Live Coordinates: {userLocation.lat}, {userLocation.lng}</p>
       ) : (
