@@ -20,6 +20,7 @@ export default function App() {
         },
         (error) => {
           console.error(error.message);
+          setIsRadarActive(false);
         },
         {
           enableHighAccuracy: true,
@@ -45,4 +46,4 @@ export default function App() {
       </Routes>
     </BrowserRouter>
   );
-} 
+}
