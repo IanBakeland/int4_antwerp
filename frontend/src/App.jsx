@@ -5,11 +5,12 @@ import Radar from './pages/Radar';
 
 export default function App() {
   const [userLocation, setUserLocation] = useState(null);
+  const [isRadarActive, setIsRadarActive] = useState(false);
 
   useEffect(() => {
     let watcherId;
 
-    if ("geolocation" in navigator) {
+    if (isRadarActive && "geolocation" in navigator) {
       watcherId = navigator.geolocation.watchPosition(
         (position) => {
           setUserLocation({
@@ -25,6 +26,8 @@ export default function App() {
           maximumAge: 0
         }
       );
+    } else {
+      setUserLocation(null);
     }
 
     return () => {
@@ -32,14 +35,14 @@ export default function App() {
         navigator.geolocation.clearWatch(watcherId);
       }
     };
-  }, []);
+  }, [isRadarActive]);
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home userLocation={userLocation} />} />
-        <Route path="/radar" element={<Radar userLocation={userLocation} />} />
+        <Route path="/radar" element={<Radar userLocation={userLocation} isRadarActive={isRadarActive} setIsRadarActive={setIsRadarActive} />} />
       </Routes>
     </BrowserRouter>
   );
-}
+} 

@@ -8,10 +8,8 @@ export default function Home({ userLocation }) {
         <Link to="/radar">Go to Radar Page</Link>
       </nav>
       
-      {userLocation ? (
+      {userLocation && (
         <p>Live Coordinates: {userLocation.lat}, {userLocation.lng}</p>
-      ) : (
-        <p>Loading location data...</p>
       )}
     </div>
   );
