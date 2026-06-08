@@ -6,6 +6,7 @@ import Radar from './pages/Radar';
 export default function App() {
   const [userLocation, setUserLocation] = useState(null);
   const [isRadarActive, setIsRadarActive] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
   useEffect(() => {
     let watcherId;
@@ -42,7 +43,18 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home userLocation={userLocation} />} />
-        <Route path="/radar" element={<Radar userLocation={userLocation} isRadarActive={isRadarActive} setIsRadarActive={setIsRadarActive} />} />
+        <Route 
+          path="/radar" 
+          element={
+            <Radar 
+              userLocation={userLocation} 
+              isRadarActive={isRadarActive} 
+              setIsRadarActive={setIsRadarActive} 
+              selectedLocation={selectedLocation}
+              setSelectedLocation={setSelectedLocation}
+            />
+          } 
+        />
       </Routes>
     </BrowserRouter>
   );
