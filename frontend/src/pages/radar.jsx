@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export default function Radar({ userLocation, isRadarActive, setIsRadarActive, selectedLocation, setSelectedLocation, distance }) {  
+export default function Radar({ userLocation, isRadarActive, setIsRadarActive, selectedLocation, setSelectedLocation, distance, formatDistance }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
@@ -67,7 +67,7 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
       {distance !== null && (
         <div>
           <h2>Proximity Calculation</h2>
-          <p>Distance to target: {distance} meters</p>
+          <p>Distance to target: {formatDistance(distance)}</p>
         </div>
       )}
 
