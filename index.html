@@ -63,6 +63,43 @@
         button:hover {
             background-color: #0056b3;
         }
+
+        /* Custom UI op de panorama */
+        .pano-ui {
+            position: absolute;
+            bottom: 30px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+            /* Dit zorgt dat het boven de panorama komt */
+            display: none;
+            /* Wordt getoond als panorama start */
+        }
+
+        .pano-btn {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: 2px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+            padding: 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .pano-btn:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: black;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -77,6 +114,12 @@
 
     <!-- Hier wordt de 360 panorama in gerenderd -->
     <div id="panorama"></div>
+
+    <!-- UI Knoppen die we over de panorama kunnen gooien -->
+    <div id="pano-ui" class="pano-ui">
+        <button class="pano-btn" title="Like">❤️</button>
+        <button class="pano-btn" title="Share">↗️</button>
+    </div>
 
     <script>
         // Luister naar een klik op de startknop
@@ -106,6 +149,9 @@
 
             // Toon de panorama viewer div
             document.getElementById('panorama').style.display = 'block';
+
+            // Toon de custom UI buttons over de panorama
+            document.getElementById('pano-ui').style.display = 'flex';
 
             // Laad de Pannellum viewer in de div met id="panorama"
             pannellum.viewer('panorama', {
