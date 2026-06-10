@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Home from './pages/Home';
 import Radar from './pages/Radar';
+import Favourites from './pages/Favourites';
+import Share from './pages/Share';
 
 export default function App() {
   const [userLocation, setUserLocation] = useState(null);
@@ -96,10 +98,12 @@ export default function App() {
               selectedLocation={selectedLocation}
               setSelectedLocation={setSelectedLocation}
               distance={distance}
-              formatDistance={formatDistance} // Handing the function down as a prop
+              formatDistance={formatDistance}
             />
           } 
         />
+        <Route path="/favourites" element={<Favourites />} />
+        <Route path="/share" element={<Share />} />
       </Routes>
     </BrowserRouter>
   );
