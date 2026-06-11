@@ -151,7 +151,7 @@
             const panner = audioCtx.createPanner();
             panner.panningModel = 'HRTF';
             panner.distanceModel = 'inverse';
-            
+
             panner.positionX.value = 0;
             panner.positionY.value = 0;
             panner.positionZ.value = -5;
@@ -197,15 +197,15 @@
 
                 let fx = Math.sin(yawRad) * Math.cos(pitchRad);
                 let fy = Math.sin(pitchRad);
-                let fz = -Math.cos(yawRad) * Math.cos(pitchRad); 
+                let fz = -Math.cos(yawRad) * Math.cos(pitchRad);
 
-                let px = Math.sin(yawRad) * Math.cos(pitchRad + Math.PI/2);
-                let py = Math.sin(pitchRad + Math.PI/2);
-                let pz = -Math.cos(yawRad) * Math.cos(pitchRad + Math.PI/2);
+                let px = Math.sin(yawRad) * Math.cos(pitchRad + Math.PI / 2);
+                let py = Math.sin(pitchRad + Math.PI / 2);
+                let pz = -Math.cos(yawRad) * Math.cos(pitchRad + Math.PI / 2);
 
                 const listener = audioCtx.listener;
-                
-                if(listener.forwardX !== undefined) {
+
+                if (listener.forwardX !== undefined) {
                     listener.forwardX.value = fx;
                     listener.forwardY.value = fy;
                     listener.forwardZ.value = fz;
@@ -216,9 +216,10 @@
                     listener.setOrientation(fx, fy, fz, px, py, pz);
                 }
             }
-            
+
             requestAnimationFrame(updateAudioListener);
         }
     </script>
 </body>
+
 </html>
