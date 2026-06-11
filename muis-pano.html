@@ -1,0 +1,195 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>360 Panorama - Muis Navigatie</title>
+
+    <!-- Pannellum CSS & JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #000;
+        }
+
+        #panorama {
+            width: 100%;
+            height: 100%;
+            display: none;
+            /* Zorg dat de standaard muis-cursor een kruisje of verborgen is */
+            cursor: crosshair;
+        }
+
+        /* Overlay scherm voor instructies */
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            z-index: 10;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .instructions {
+            font-size: 18px;
+            color: #ddd;
+            max-width: 600px;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        /* Optioneel: een duidelijke richtlijn in het midden van het scherm (helpt de gebruiker oriënteren) */
+        #center-dot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 5;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="overlay">
+        <h2>Muis Verkenner</h2>
+        <p class="instructions">
+            Welkom bij de muis-navigatie! <br><br>
+            Beweeg simpelweg je muis naar de randen van het scherm om rond te kijken in de panorama.
+            Je hoeft niet te klikken en te slepen. <br><br>
+            <i>Tip: Hoe verder je muis uit het midden is, hoe sneller je rondkijkt. In het perfecte midden staat het
+                beeld stil.</i>
+        </p>
+        <button id="startButton">Start Verkenning</button>
+    </div>
+
+    <!-- Panorama container -->
+    <div id="panorama"></div>
+
+    <!-- Een zacht referentiepuntje voor het centrum -->
+    <div id="center-dot"></div>
+
+    <script>
+        let viewer;
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let isRunning = false;
+
+        document.getElementById('startButton').addEventListener('click', function () {
+            // Verberg instructies, toon panorama
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('panorama').style.display = 'block';
+            document.getElementById('center-dot').style.display = 'block';
+
+            // Initialiseer Pannellum
+            viewer = pannellum.viewer('panorama', {
+                "type": "equirectangular",
+                "panorama": "pano.jpeg", // Zelfde foto
+                "autoLoad": true,
+                "draggable": false,      // Zet standaard klik-en-sleep modus UIT!
+                "keyboardZoom": false,
+                "showZoomCtrl": false,
+                "showFullscreenCtrl": true
+            });
+
+            isRunning = true;
+
+            // Start de loop die elke frame checkt waar de muis is
+            requestAnimationFrame(autoPan);
+        });
+
+        // Houd de muispositie bij
+        document.addEventListener('mousemove', function (e) {
+            if (!isRunning) return;
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // Deze functie zorgt voor de soepele draaibeweging
+        function autoPan() {
+            if (!viewer || !isRunning) return;
+
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+
+            // Bereken hoe ver de muis van het midden af is (waarde tussen -1 en 1)
+            let deltaX = (mouseX - centerX) / centerX;
+            let deltaY = (mouseY - centerY) / centerY;
+
+            // "Deadzone": een cirkel in het midden waar de camera NIET beweegt.
+            // Dit is fijn voor de gebruiker zodat ze ook even rustig kunnen stilstaan.
+            const deadzone = 0.15; // 15% van het scherm vanuit het midden is de rust-zone
+
+            let speedX = 0;
+            let speedY = 0;
+
+            if (Math.abs(deltaX) > deadzone) {
+                // Hoe verder van de deadzone, hoe harder de snelheid. Max snelheid hier is *2
+                speedX = (Math.abs(deltaX) - deadzone) * Math.sign(deltaX) * 2;
+            }
+            if (Math.abs(deltaY) > deadzone) {
+                speedY = (Math.abs(deltaY) - deadzone) * Math.sign(deltaY) * 1.5;
+            }
+
+            // Pas de kijkrichting (Yaw/Pitch) alleen aan als we buiten de deadzone zijn
+            if (speedX !== 0 || speedY !== 0) {
+                let currentYaw = viewer.getYaw();
+                let currentPitch = viewer.getPitch();
+
+                // setYaw(waarde, geanimeerd? false voor ruwe updates)
+                viewer.setYaw(currentYaw + speedX, false);
+                viewer.setPitch(currentPitch - speedY, false); // Omgekeerd zodat muis omhoog = omhoog kijken
+            }
+
+            // Herhaal voor de volgende frame
+            requestAnimationFrame(autoPan);
+        }
+    </script>
+</body>
+
+</html>
