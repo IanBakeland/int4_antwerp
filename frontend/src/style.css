@@ -1,19 +1,19 @@
 /* tools */
 @media (max-width: 800px) {
   .noMobile {
-    display: none;
+    display: none!important;
   }
 }
 
 @media (min-width: 801px) and (max-width: 1024px) {
   .noTablet {
-    display: none;
+    display: none!important;
   }
 }
 
 @media (min-width: 1025px) {
   .noDesktop {
-    display: none;
+    display: none!important;
   }
 } 
 
@@ -39,12 +39,26 @@
 }
 
 /* styling */
+.navbarDesktop {
+  background-color: transparent;
+  border: none;
+  width:3rem;
+  border-radius: inherit;
+  padding: 0.65rem 1.3rem;
+  font-size: inherit;
+  cursor: default;
+  z-index: 1;
+  text-decoration: none; /* Removes standard link underlining */
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* Container to stack the icons on top of each other */
 .icon-container {
   margin-top: 4px;
   position: relative;
-  width: 33px; /* Match your SVG width */
-  height: 22px; /* Match your SVG height */
+  width: 33px;
+  height: 22px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,17 +74,19 @@
 /* Specific state classes */
 .icon-hidden {
   opacity: 0;
-  /* Optional: add a slight scale effect for more juice */
   transform: scale(0.8); 
   transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
 }
 
 .icon-visible {
+  fill: #171717;
   opacity: 1;
   transform: scale(1);
   transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
 }
-
+.icon-visible.active svg {
+  fill: #FF7D3C;
+}
 .tab p {
   color: #000000;
   font-weight: lighter;
@@ -81,6 +97,7 @@
 
 .tab p.active {
   font-weight: bold;
+  color: #FF7D3C;
 }
 
 .navbarMobile {

@@ -17,7 +17,7 @@ export default function NavbarMobile() {
                         <div className={`fade-icon ${isActive ? 'icon-hidden' : 'icon-visible'}`}>
                             <HomeIcon />
                         </div>
-                        <div className={`fade-icon ${isActive ? 'icon-visible' : 'icon-hidden'}`}>
+                        <div className={`active fade-icon ${isActive ? 'icon-visible' : 'icon-hidden'}`}>
                             <HomeFilledIcon />
                         </div>
                     </div>
@@ -32,7 +32,7 @@ export default function NavbarMobile() {
                         <div className={`fade-icon ${isActive ? 'icon-hidden' : 'icon-visible'}`}>
                             <RadarIcon />
                         </div>
-                        <div className={`fade-icon ${isActive ? 'icon-visible' : 'icon-hidden'}`}>
+                        <div className={`active fade-icon ${isActive ? 'icon-visible' : 'icon-hidden'}`}>
                             <RadarIcon />
                         </div>
                     </div>
@@ -47,7 +47,7 @@ export default function NavbarMobile() {
                         <div className={`fade-icon ${isActive ? 'icon-hidden' : 'icon-visible'}`}>
                             <HeartIcon />
                         </div>
-                        <div className={`fade-icon ${isActive ? 'icon-visible' : 'icon-hidden'}`}>
+                        <div className={`active fade-icon ${isActive ? 'icon-visible' : 'icon-hidden'}`}>
                             <HeartFilledIcon />
                         </div>
                     </div>
@@ -62,7 +62,7 @@ export default function NavbarMobile() {
                         <div className={`fade-icon ${isActive ? 'icon-hidden' : 'icon-visible'}`}>
                             <PlusCircleIcon />
                         </div>
-                        <div className={`fade-icon ${isActive ? 'icon-visible' : 'icon-hidden'}`}>
+                        <div className={`active fade-icon ${isActive ? 'icon-visible' : 'icon-hidden'}`}>
                             <PlusCircleFilledIcon />
                         </div>
                     </div>
