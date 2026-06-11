@@ -39,23 +39,67 @@
 }
 
 /* styling */
+/* Container to stack the icons on top of each other */
+.icon-container {
+  margin-top: 4px;
+  position: relative;
+  width: 33px; /* Match your SVG width */
+  height: 22px; /* Match your SVG height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Base class for the icons to enable smooth fading */
+.fade-icon {
+  position: absolute;
+  top: 0;
+  transition: opacity 0.25s ease-in-out;
+}
+
+/* Specific state classes */
+.icon-hidden {
+  opacity: 0;
+  /* Optional: add a slight scale effect for more juice */
+  transform: scale(0.8); 
+  transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+}
+
+.icon-visible {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+}
+
+.tab p {
+  color: #000000;
+  font-weight: lighter;
+  font-size: 0.75rem;
+  transition: color 0.25s ease;
+  margin-top: 1px;
+}
+
+.tab p.active {
+  font-weight: bold;
+}
+
 .navbarMobile {
+  font-family: Arial, Helvetica, sans-serif;
   position: fixed;
   width: min-content;
   bottom: 1rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  background-color: rgb(0, 0, 0, 0.75);
+  background-color: rgba(226, 226, 226, 0.75);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 50px;
-  box-shadow: 0 0 20px rgb(24, 18, 75, 0.75);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.10);
   --padding: 0.25rem;
   display: flex;
   padding: var(--padding);
   anchor-name: --segmented-button-hover;
-  
   
   &::before,
   &::after {
@@ -78,10 +122,7 @@
   &::after {
     background-color: light-dark(white, #333537);
     position-anchor: --segmented-button-checked;
-    box-shadow:
-      0 0 0 1px light-dark(#C7C8C8, #484A4C),
-      0 1px 3px 0 rgb(0 0 0 / 0.1),
-      0 1px 2px -1px rgb(0 0 0 / 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
   }
 }
 
@@ -100,7 +141,6 @@
   /* The anchor routing trick */
   anchor-name: var(--anchor-name-1, --a), var(--anchor-name-2, --b);
   
-  /* Tracks the mouse for the hover background */
   &:hover {
     cursor: pointer;
   }
@@ -108,10 +148,6 @@
   /* React Router applies .active when you are on this page */
   &.active {
     --anchor-name-2: --segmented-button-checked;
-  }
-  
-  &:focus-visible {
-    outline: 2px solid #007acc;
   }
 }
 
