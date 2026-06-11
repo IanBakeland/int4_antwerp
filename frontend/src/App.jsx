@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Radar from './pages/Radar';
 import Favourites from './pages/Favourites';
 import Share from './pages/Share';
+import Navbar from './components/Navbar';
 
 export default function App() {
   const [userLocation, setUserLocation] = useState(null);
@@ -86,6 +87,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home userLocation={userLocation} />} />
         <Route 

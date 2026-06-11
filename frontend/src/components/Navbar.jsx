@@ -4,10 +4,10 @@ import NavbarDesktop from './NavbarDesktop';
 export default function Navbar() {
   return (
     <nav>
-      <div className="noTablet noDesktop">
+      <div className="noTablet noDesktop navbarMobile">
         <NavbarMobile />
       </div>
-      <div className="noMobile">
+      <div className="noMobile navbarDesktop">
         <NavbarDesktop />
       </div>
     </nav>
