@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom';
 import HomeIcon from '../assets/icons/Home';
 import HomeFilledIcon from '../assets/icons/HomeFilled';
 import RadarIcon from '../assets/icons/Radar';
+import HeartIcon from '../assets/icons/Heart';
 
 export default function NavbarMobile() {
   return (
@@ -37,10 +38,34 @@ export default function NavbarMobile() {
             )}
         </NavLink>
         <NavLink to="/favourites" className="tab flexCenter alignUnder">
-            Favourites
+            {({ isActive }) => (
+                <>
+                    <div className="icon-container">
+                        <div className={`fade-icon ${isActive ? 'icon-hidden' : 'icon-visible'}`}>
+                            <HeartIcon />
+                        </div>
+                        <div className={`fade-icon ${isActive ? 'icon-visible' : 'icon-hidden'}`}>
+                            <HeartIcon />
+                        </div>
+                    </div>
+                    <p className={isActive ? 'active' : ''}>Favourites</p>
+                </>
+            )}
         </NavLink>
         <NavLink to="/share" className="tab flexCenter alignUnder">
-            Share
+            {({ isActive }) => (
+                <>
+                    <div className="icon-container">
+                        <div className={`fade-icon ${isActive ? 'icon-hidden' : 'icon-visible'}`}>
+                            <HomeIcon />
+                        </div>
+                        <div className={`fade-icon ${isActive ? 'icon-visible' : 'icon-hidden'}`}>
+                            <HomeFilledIcon />
+                        </div>
+                    </div>
+                    <p className={isActive ? 'active' : ''}>Share</p>
+                </>
+            )}
         </NavLink>
     </>
   );

@@ -74,7 +74,7 @@
 .tab p {
   color: #000000;
   font-weight: lighter;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   transition: color 0.25s ease;
   margin-top: 1px;
 }
@@ -106,7 +106,7 @@
     content: "";
     position: absolute;
     border-radius: inherit;
-    transition: inset 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: inset 500ms cubic-bezier(0.32, 1.25, 0.375, 1);
     inset:
       calc(anchor(start) + var(--padding))
       calc(anchor(end) + var(--padding))
@@ -129,7 +129,7 @@
 .tab {
   background-color: transparent;
   border: none;
-  width: 3rem;
+  width:3.1rem;
   border-radius: inherit;
   padding: 0.65rem 1.3rem;
   font-size: inherit;
@@ -137,6 +137,7 @@
   z-index: 1;
   text-decoration: none; /* Removes standard link underlining */
   color: inherit;
+  -webkit-tap-highlight-color: transparent;
   
   /* The anchor routing trick */
   anchor-name: var(--anchor-name-1, --a), var(--anchor-name-2, --b);
