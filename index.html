@@ -105,6 +105,11 @@
 
 <body>
 
+    <!-- Achtergrondmuziek -->
+    <audio id="bgMusic" loop>
+        <source src="natture.mp3" type="audio/mpeg">
+    </audio>
+
     <!-- De begin-overlay die toestemming gaat vragen/afvangen -->
     <div id="overlay">
         <h2>360° Panorama Ervaring</h2>
@@ -117,6 +122,7 @@
 
     <!-- UI Knoppen die we over de panorama kunnen gooien -->
     <div id="pano-ui" class="pano-ui">
+        <button id="muteBtn" class="pano-btn" title="Mute/Unmute">🔊</button>
         <button class="pano-btn" title="Like">❤️</button>
         <button class="pano-btn" title="Share">↗️</button>
     </div>
@@ -153,6 +159,12 @@
             // Toon de custom UI buttons over de panorama
             document.getElementById('pano-ui').style.display = 'flex';
 
+            // Start de achtergrondmuziek!
+            const bgAudio = document.getElementById('bgMusic');
+            bgAudio.play().catch(error => {
+                console.error("Audio kon niet gestart worden:", error);
+            });
+
             // Laad de Pannellum viewer in de div met id="panorama"
             pannellum.viewer('panorama', {
                 "type": "equirectangular",
@@ -162,6 +174,18 @@
                 "showControls": true             // Toon eventuele zoom/fullscreen knoppen
             });
         }
+
+        // Logica voor de Mute/Unmute knop
+        document.getElementById('muteBtn').addEventListener('click', function () {
+            const bgAudio = document.getElementById('bgMusic');
+            if (bgAudio.muted) {
+                bgAudio.muted = false;
+                this.textContent = '🔊';
+            } else {
+                bgAudio.muted = true;
+                this.textContent = '🔇';
+            }
+        });
     </script>
 </body>
 
