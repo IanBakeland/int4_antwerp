@@ -3,6 +3,9 @@ import HomeIcon from '../assets/icons/Home';
 import HomeFilledIcon from '../assets/icons/HomeFilled';
 import RadarIcon from '../assets/icons/Radar';
 import HeartIcon from '../assets/icons/Heart';
+import HeartFilledIcon from '../assets/icons/HeartFilled';
+import PlusCircleIcon from '../assets/icons/PlusCircle';
+import PlusCircleFilledIcon from '../assets/icons/PlusCircleFilled';
 
 export default function NavbarMobile() {
   return (
@@ -45,7 +48,7 @@ export default function NavbarMobile() {
                             <HeartIcon />
                         </div>
                         <div className={`fade-icon ${isActive ? 'icon-visible' : 'icon-hidden'}`}>
-                            <HeartIcon />
+                            <HeartFilledIcon />
                         </div>
                     </div>
                     <p className={isActive ? 'active' : ''}>Favourites</p>
@@ -57,10 +60,10 @@ export default function NavbarMobile() {
                 <>
                     <div className="icon-container">
                         <div className={`fade-icon ${isActive ? 'icon-hidden' : 'icon-visible'}`}>
-                            <HomeIcon />
+                            <PlusCircleIcon />
                         </div>
                         <div className={`fade-icon ${isActive ? 'icon-visible' : 'icon-hidden'}`}>
-                            <HomeFilledIcon />
+                            <PlusCircleFilledIcon />
                         </div>
                     </div>
                     <p className={isActive ? 'active' : ''}>Share</p>
