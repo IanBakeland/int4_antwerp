@@ -19,7 +19,7 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
     <div>
       <h1>Radar Page</h1>
       <nav>
-        <Link to="/">Go to Homepage</Link>
+        <Link to="/">Go to Homepage</Link> | <Link to="/favourites">Go to Favourites Page</Link> | <Link to="/share">Go to Share Page</Link>
       </nav>
 
       <form>
