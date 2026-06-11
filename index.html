@@ -12,7 +12,6 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
 
     <style>
-        /* Setup voor een fullscreen layout */
         body,
         html {
             margin: 0;
@@ -24,14 +23,12 @@
             background-color: #000;
         }
 
-        /* Container voor de panorama, verborgen totdat de gebruiker op start klikt */
         #panorama {
             width: 100%;
             height: 100%;
             display: none;
         }
 
-        /* Overlay scherm met de start knop */
         #overlay {
             position: absolute;
             top: 0;
@@ -47,7 +44,6 @@
             z-index: 10;
         }
 
-        /* Stijl voor de toestemmingsknop */
         button {
             padding: 15px 30px;
             font-size: 18px;
@@ -64,7 +60,6 @@
             background-color: #0056b3;
         }
 
-        /* Custom UI op de panorama */
         .pano-ui {
             position: absolute;
             bottom: 30px;
@@ -72,9 +67,7 @@
             display: flex;
             gap: 15px;
             z-index: 100;
-            /* Dit zorgt dat het boven de panorama komt */
             display: none;
-            /* Wordt getoond als panorama start */
         }
 
         .pano-btn {
@@ -104,23 +97,19 @@
 </head>
 
 <body>
-
     <!-- Achtergrondmuziek -->
     <audio id="bgMusic" loop>
         <source src="natture.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- De begin-overlay die toestemming gaat vragen/afvangen -->
     <div id="overlay">
         <h2>360° Panorama Ervaring</h2>
         <p>Beweeg je telefoon om rond te kijken.</p>
         <button id="startButton">Start 360° Ervaring</button>
     </div>
 
-    <!-- Hier wordt de 360 panorama in gerenderd -->
     <div id="panorama"></div>
 
-    <!-- UI Knoppen die we over de panorama kunnen gooien -->
     <div id="pano-ui" class="pano-ui">
         <button id="muteBtn" class="pano-btn" title="Mute/Unmute">🔊</button>
         <button class="pano-btn" title="Like">❤️</button>
@@ -128,9 +117,10 @@
     </div>
 
     <script>
-        // Luister naar een klik op de startknop
+        let viewer;
+        let audioCtx;
+
         document.getElementById('startButton').addEventListener('click', function () {
-            // Controleer of de browser (zoals iOS Safari) vereist dat we toestemming vragen voor sensoren
             if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
                 DeviceOrientationEvent.requestPermission()
                     .then(permissionState => {
@@ -138,55 +128,97 @@
                             startPanorama();
                         } else {
                             alert('Toestemming voor de gyroscoop is geweigerd. Je kunt wel navigeren met Touch.');
-                            startPanorama(); // Toch de foto laden, maar deviceOrientation zal niet werken
+                            startPanorama();
                         }
                     })
                     .catch(console.error);
             } else {
-                // Geen expliciete toestemming nodig (Android of desktop)
                 startPanorama();
             }
         });
 
-        // Functie die Pannellum initialiseert nadat de muisklik is afgehandeld
         function startPanorama() {
-            // Verberg de navigatie/toestemming overlay
             document.getElementById('overlay').style.display = 'none';
-
-            // Toon de panorama viewer div
             document.getElementById('panorama').style.display = 'block';
-
-            // Toon de custom UI buttons over de panorama
             document.getElementById('pano-ui').style.display = 'flex';
 
-            // Start de achtergrondmuziek!
             const bgAudio = document.getElementById('bgMusic');
+
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            audioCtx = new AudioContext();
+            const track = audioCtx.createMediaElementSource(bgAudio);
+
+            const panner = audioCtx.createPanner();
+            panner.panningModel = 'HRTF';
+            panner.distanceModel = 'inverse';
+            
+            panner.positionX.value = 0;
+            panner.positionY.value = 0;
+            panner.positionZ.value = -5;
+
+            track.connect(panner).connect(audioCtx.destination);
+
             bgAudio.play().catch(error => {
                 console.error("Audio kon niet gestart worden:", error);
             });
 
-            // Laad de Pannellum viewer in de div met id="panorama"
-            pannellum.viewer('panorama', {
+            viewer = pannellum.viewer('panorama', {
                 "type": "equirectangular",
-                "panorama": "pano.jpeg", // De bestandsnaam van jouw eigen foto
+                "panorama": "pano.jpeg",
                 "autoLoad": true,
-                "orientationOnByDefault": true,  // Zorg dat de gyroscoop standaard wordt gebruikt als die aanwezig is
-                "showControls": true             // Toon eventuele zoom/fullscreen knoppen
+                "orientationOnByDefault": true,
+                "showControls": true
             });
+
+            requestAnimationFrame(updateAudioListener);
         }
 
-        // Logica voor de Mute/Unmute knop
         document.getElementById('muteBtn').addEventListener('click', function () {
             const bgAudio = document.getElementById('bgMusic');
             if (bgAudio.muted) {
                 bgAudio.muted = false;
                 this.textContent = '🔊';
+                if (audioCtx && audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
             } else {
                 bgAudio.muted = true;
                 this.textContent = '🔇';
             }
         });
+
+        function updateAudioListener() {
+            if (viewer && audioCtx) {
+                let yaw = viewer.getYaw();
+                let pitch = viewer.getPitch();
+
+                let yawRad = yaw * Math.PI / 180;
+                let pitchRad = pitch * Math.PI / 180;
+
+                let fx = Math.sin(yawRad) * Math.cos(pitchRad);
+                let fy = Math.sin(pitchRad);
+                let fz = -Math.cos(yawRad) * Math.cos(pitchRad); 
+
+                let px = Math.sin(yawRad) * Math.cos(pitchRad + Math.PI/2);
+                let py = Math.sin(pitchRad + Math.PI/2);
+                let pz = -Math.cos(yawRad) * Math.cos(pitchRad + Math.PI/2);
+
+                const listener = audioCtx.listener;
+                
+                if(listener.forwardX !== undefined) {
+                    listener.forwardX.value = fx;
+                    listener.forwardY.value = fy;
+                    listener.forwardZ.value = fz;
+                    listener.upX.value = px;
+                    listener.upY.value = py;
+                    listener.upZ.value = pz;
+                } else {
+                    listener.setOrientation(fx, fy, fz, px, py, pz);
+                }
+            }
+            
+            requestAnimationFrame(updateAudioListener);
+        }
     </script>
 </body>
-
 </html>
