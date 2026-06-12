@@ -1,8 +1,12 @@
 import { Link, NavLink, useLocation } from 'react-router-dom';
+import SmartButton from './SmartButton';
+
+//icons
 import HeartIcon from '../assets/icons/Heart';
 import HeartFilledIcon from '../assets/icons/HeartFilled';
 import PersonIcon from '../assets/icons/Person';
 import PersonFilledIcon from '../assets/icons/PersonFilled';
+import PlusCircleIcon from '../assets/icons/PlusCircle';
 
 export default function SecondaryNav() {
   const location = useLocation();
@@ -13,13 +17,18 @@ export default function SecondaryNav() {
   };
 
   return (
-    <>
+    <div className="alignNext">
       <Link to="/" className="navbarAntwerpLogo" aria-label="Go to Homepage"></Link>
       <div className="navbarDesktopAnimation flexCenter">
-        <Link to="/" className={`navbarDesktopItem ${checkActive('/', '') ? 'active' : ''}`}>Home</Link>
-        <Link to="/#panoramas" className={`navbarDesktopItem ${checkActive('/', '#panoramas') ? 'active' : ''}`}>Panoramas</Link>
-        <Link to="/radar-explained" className={`navbarDesktopItem ${checkActive('/radar-explained', '') ? 'active' : ''}`}>Radar</Link>
+        <Link to="/" className={`navbarDesktopItem ${checkActive('/', '') ? 'active' : ''}`}>HOME</Link>
+        <Link to="/#panoramas" className={`navbarDesktopItem ${checkActive('/', '#panoramas') ? 'active' : ''}`}>PANORAMAS</Link>
+        <Link to="/radar" className={`navbarDesktopItem ${checkActive('/radar', '') ? 'active' : ''}`}>RADAR</Link>
       </div>
+
+
+      <SmartButton to="/share" icon={<PlusCircleIcon />}>Share your story</SmartButton>
+
+
       <NavLink to="/favourites" className="tab flexCenter alignUnder">
           {({ isActive }) => (
               <>
@@ -48,6 +57,6 @@ export default function SecondaryNav() {
               </>
           )}
       </NavLink>
-    </>
+    </div>
   );
 }

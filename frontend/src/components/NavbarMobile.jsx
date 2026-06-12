@@ -1,4 +1,6 @@
 import { NavLink } from 'react-router-dom';
+
+//icons
 import HomeIcon from '../assets/icons/Home';
 import HomeFilledIcon from '../assets/icons/HomeFilled';
 import RadarIcon from '../assets/icons/Radar';
