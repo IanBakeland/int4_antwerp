@@ -114,9 +114,11 @@ main {
   z-index: 1000;
   border-radius: 50px;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.10);
-  --padding: 0.25rem;
+  --padding: 0.125rem;
   display: flex;
   padding: var(--padding);
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
   anchor-name: --segmented-button-hover;
   
   &::before,
@@ -149,20 +151,19 @@ main {
   font-weight: lighter;
   font-size: 0.7rem;
   transition: color 0.25s ease;
-  margin-top: 1px;
 }
 
 .tab p.active {
   font-weight: bold;
   color: #FF7D3C;
 }
-
 .tab {
   background-color: transparent;
   border: none;
-  width: 3rem;
+  width: 3.5rem;
   border-radius: inherit;
-  padding: 0.65rem 1.3rem;
+  padding: 0.55rem 1.3rem;
+  margin: 0 -0.5rem;
   font-size: inherit;
   cursor: default;
   z-index: 1;
@@ -181,6 +182,11 @@ main {
 }
 
 /* Mobile tab icon animation */
+
+.tab svg {
+  height: 21px;
+}
+
 .icon-container {
   margin-top: 4px;
   position: relative;
