@@ -39,34 +39,76 @@
 }
 
 /* styling */
+html,
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+main {
+  max-width: 1700px;
+  margin: 0 auto;
+}
+
 .navbarDesktop {
-  background-color: transparent;
-  border: none;
+  position: fixed;
   width: 100%;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.10);
-  border-radius: inherit;
-  padding: 0.65rem 1.3rem;
-  font-size: inherit;
-  cursor: default;
-  z-index: 1;
-  text-decoration: none; /* Removes standard link underlining */
-  color: inherit;
-  -webkit-tap-highlight-color: transparent;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background-color: #fff;
+}
+
+.navbarDesktopAnimation {
+  gap: 3rem;
+  position: relative;
+  width: 100%;
+
+    &::after {
+    content: "";
+    position: absolute;
+    height: 3px;
+    background-color: #FF7D3C;
+    border-radius: 3px;
+    transition: inset 500ms cubic-bezier(0.32, 1.25, 0.375, 1);
+    position-anchor: --subnav-checked;
+    bottom: 0;
+    left: anchor(start);
+    right: anchor(end);
+  }
+
+}
+
+.navbarDesktopItem {
+  padding: 0.75rem 0.5rem;
+  text-decoration: none;
+  color: #000000;
+  font-weight: lighter;
+  font-size: 1rem;
+  transition: color 0.25s ease;
+  anchor-name: var(--anchor-name-hover, --a), var(--anchor-name-active, --b);
+
+  &:hover {
+    --anchor-name-hover: --subnav-hover;
+    cursor: pointer;
+  }
+  
+  &.active {
+    --anchor-name-active: --subnav-checked;
+    font-weight: bold;
+    color: #FF7D3C;
+  }
 }
 
 .navbarAntwerpLogo {
-  width: 40px;
-  height: 40px;
-
-  /* Point directly to the image file relative to this CSS file */
+  width: 4rem;
+  height: 4rem;
   background-image: url('./assets/images/antwerpLogo.png');
-  
-  /* Ensure the image scales correctly without stretching or repeating */
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
-/* Container to stack the icons on top of each other */
+
 .icon-container {
   margin-top: 4px;
   position: relative;
@@ -77,14 +119,12 @@
   align-items: center;
 }
 
-/* Base class for the icons to enable smooth fading */
 .fade-icon {
   position: absolute;
   top: 0;
   transition: opacity 0.25s ease-in-out;
 }
 
-/* Specific state classes */
 .icon-hidden {
   opacity: 0;
   transform: scale(0.8); 
@@ -100,6 +140,7 @@
 .icon-visible.active svg {
   fill: #FF7D3C;
 }
+
 .tab p {
   color: #000000;
   font-weight: lighter;
@@ -114,7 +155,6 @@
 }
 
 .navbarMobile {
-  font-family: Arial, Helvetica, sans-serif;
   position: fixed;
   width: min-content;
   bottom: 1rem;
@@ -159,26 +199,22 @@
 .tab {
   background-color: transparent;
   border: none;
-  width:3rem;
+  width: 3rem;
   border-radius: inherit;
   padding: 0.65rem 1.3rem;
   font-size: inherit;
   cursor: default;
   z-index: 1;
-  text-decoration: none; /* Removes standard link underlining */
+  text-decoration: none;
   color: inherit;
   -webkit-tap-highlight-color: transparent;
-  
-  /* The anchor routing trick */
-  anchor-name: var(--anchor-name-1, --a), var(--anchor-name-2, --b);
+  anchor-name: var(--active-anchor, --fallback);
   
   &:hover {
     cursor: pointer;
   }
   
-  /* React Router applies .active when you are on this page */
   &.active {
-    --anchor-name-2: --segmented-button-checked;
+    --active-anchor: --segmented-button-checked;
   }
 }
-

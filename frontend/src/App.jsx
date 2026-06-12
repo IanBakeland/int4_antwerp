@@ -6,6 +6,7 @@ import Favourites from './pages/Favourites';
 import Share from './pages/Share';
 import RadarExplained from './pages/RadarExplained';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 export default function App() {
   const [userLocation, setUserLocation] = useState(null);
@@ -89,26 +90,29 @@ export default function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home userLocation={userLocation} />} />
-        <Route 
-          path="/radar" 
-          element={
-            <Radar 
-              userLocation={userLocation} 
-              isRadarActive={isRadarActive} 
-              setIsRadarActive={setIsRadarActive} 
-              selectedLocation={selectedLocation}
-              setSelectedLocation={setSelectedLocation}
-              distance={distance}
-              formatDistance={formatDistance}
-            />
-          } 
-        />
-        <Route path="/favourites" element={<Favourites />} />
-        <Route path="/share" element={<Share />} />
-        <Route path="/radar-explained" element={<RadarExplained />} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route path="/" element={<Home userLocation={userLocation} />} />
+          <Route 
+            path="/radar" 
+            element={
+              <Radar 
+                userLocation={userLocation} 
+                isRadarActive={isRadarActive} 
+                setIsRadarActive={setIsRadarActive} 
+                selectedLocation={selectedLocation}
+                setSelectedLocation={setSelectedLocation}
+                distance={distance}
+                formatDistance={formatDistance}
+              />
+            } 
+          />
+          <Route path="/favourites" element={<Favourites />} />
+          <Route path="/share" element={<Share />} />
+          <Route path="/radar-explained" element={<RadarExplained />} />
+        </Routes>
+      </main>
+      <Footer />
     </BrowserRouter>
   );
 }
