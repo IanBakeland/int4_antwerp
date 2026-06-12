@@ -7,7 +7,7 @@ export default function Navbar() {
       <div className="navbarMobile noTablet noDesktop ">
         <NavbarMobile />
       </div>
-      <div className="navbarDesktop noMobile">
+      <div className="navbarDesktop noMobile alignNext">
         <NavbarDesktop />
       </div>
     </nav>

@@ -42,7 +42,8 @@
 .navbarDesktop {
   background-color: transparent;
   border: none;
-  width:3rem;
+  width: 100%;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.10);
   border-radius: inherit;
   padding: 0.65rem 1.3rem;
   font-size: inherit;
@@ -53,6 +54,18 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+.navbarAntwerpLogo {
+  width: 40px;
+  height: 40px;
+
+  /* Point directly to the image file relative to this CSS file */
+  background-image: url('./assets/images/antwerpLogo.png');
+  
+  /* Ensure the image scales correctly without stretching or repeating */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 /* Container to stack the icons on top of each other */
 .icon-container {
   margin-top: 4px;

@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Radar from './pages/Radar';
 import Favourites from './pages/Favourites';
 import Share from './pages/Share';
+import RadarExplained from './pages/RadarExplained';
 import Navbar from './components/Navbar';
 
 export default function App() {
@@ -106,6 +107,7 @@ export default function App() {
         />
         <Route path="/favourites" element={<Favourites />} />
         <Route path="/share" element={<Share />} />
+        <Route path="/radar-explained" element={<RadarExplained />} />
       </Routes>
     </BrowserRouter>
   );
