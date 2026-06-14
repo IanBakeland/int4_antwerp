@@ -1,4 +1,9 @@
 import { Link } from 'react-router-dom';
+import FiltersRadar from '../components/FiltersRadar';
+
+//icons
+import PersonIcon from '../assets/icons/Person';
+import MuteIcon from '../assets/icons/Mute';
 
 export default function Radar({ userLocation, isRadarActive, setIsRadarActive, selectedLocation, setSelectedLocation, distance, formatDistance }) {
   const handleSubmit = (e) => {
@@ -17,8 +22,20 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
 
   return (
     <div>
-      <h1>Radar Page</h1>
+      <div className="toolbar noDesktop noTablet">
+        <div className="alignNext ">
+          <h1>Radar</h1>
+          <Link to="#" className="iconbutton"><MuteIcon /></Link>
+          <Link to="/profile" className="iconbutton"><PersonIcon /></Link>
+        </div>
+      </div>
+      <div className="noMobile">
+        <h1>Radar</h1>
+      </div>
 
+      <div className="alignNext">
+        <FiltersRadar />
+      </div>
       <form>
         <label>
           <input 
@@ -34,21 +51,11 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
       <form onSubmit={handleSubmit}>
         <div>
           <label>Latitude: </label>
-          <input 
-            type="number" 
-            step="any"
-            name="latitude"
-            required 
-          />
+          <input type="number" step="any" name="latitude" required/>
         </div>
         <div>
           <label>Longitude: </label>
-          <input 
-            type="number" 
-            step="any"
-            name="longitude"
-            required 
-          />
+          <input type="number" step="any" name="longitude" required />
         </div>
         <button type="submit">Save Target Location</button>
       </form>
@@ -60,7 +67,6 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
           <p>Target Lng: {selectedLocation.lng}</p>
         </div>
       )}
-
       {distance !== null && (
         <div>
           <h2>Proximity Calculation</h2>
@@ -78,6 +84,13 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
       ) : (
         <p>Radar is disabled</p>
       )}
+      <hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
+      <hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
+      <hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
+      <hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
+      <hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
+      <hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
+      <hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
     </div>
   );
 }

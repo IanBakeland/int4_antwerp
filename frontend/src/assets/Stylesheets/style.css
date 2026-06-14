@@ -38,26 +38,51 @@
   flex-direction: column;
 }
 
-
 /* styling */
+@font-face {
+  font-family: 'Leaguesportan';
+  src: url("../fonts/League_Spartan/LeagueSpartan-VariableFont_wght.ttf"),
+       url("../fonts/League_Spartan/static");
+  font-weight: 100 900;
+  font-stretch: 75% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Antwerpen';
+  src: url("../fonts/Antwerpen Regular.otf"), sans-serif;
+}
+
 html,
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Leaguesportan', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Antwerpen', sans-serif;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 2.7rem;
+  letter-spacing: -2.4px;
+  margin-right: auto;
 }
 
 main {
   max-width: 1700px;
-  margin: 6rem auto 0;
+  margin: 6.5rem auto 0;
 }
 
 @media (max-width: 800px) {
   main {
-  margin: 4rem 1rem 7rem;
+  margin: 5rem 1rem 7rem;
   }
 }
 
 .glass {
-  background: rgba(196, 196, 196, 0.1);
+  background: rgba(196, 196, 196, 0.5);
   backdrop-filter: blur(4px);
   border: 2px solid rgba(255,255,255,0.2);
 }
@@ -82,6 +107,95 @@ main {
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
+.iconbutton {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  
+  width: 50px;
+  height: 50px;
+  margin-left: 0.6rem;
+  border-radius: 50px;
+  border: 2.5px solid #FFF;
+  background: #F6F6F6;
+  box-shadow: 0 1px 40px 0 rgba(0, 0, 0, 0.05);
+
+  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.iconbutton svg {
+  height: 22px;
+  fill: black;
+}
+
+.iconbuttonSmall {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  
+  height: 2.5rem;
+  width: 2.5rem;
+  margin-left: 0.6rem;
+  border-radius: 50px;
+  border: none; 
+  outline: 2.5px solid #E9E9E9;
+  outline-offset: 0;
+  background: #fff;
+  box-shadow: 0 1px 40px 0 rgba(0, 0, 0, 0.05);
+
+  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.iconbuttonSmall svg {
+  height: 22px;
+  fill: black;
+}
+
+.filters {
+  width: max-content;
+  display: flex;
+  gap: 0.3rem;
+  padding: 0.3rem;
+  background: #E9E9E9;
+  border-radius: 25px;
+}
+
+.filterButton {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+
+  width: 100%;
+  height: 2.5rem;
+  padding: 0 1.2rem;
+  gap: 0.5rem;
+
+  border-radius: 50px;
+  background: #fff;
+  color: #000;
+  font-size: 0.8rem;
+  font-weight: 600;
+  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.filterButton svg {
+  height: 1rem;
+  fill: black;
+}
+
 .button:hover {
   -webkit-transform: scale(1.01, 1.01);
   transform: scale(1.01, 1.01);
@@ -103,6 +217,58 @@ main {
   height: 18px;
   fill: currentColor;
 }
+
+.toolbar {
+  position: fixed;
+  top: 0;
+  width: calc(100% - 2rem);
+  height: 6rem;
+  background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 60%, rgba(255,255,255,0) 100%);
+}
+
+.toolbar div{
+  width: 100%;
+  height: 5rem;
+}
+
+.filters .active{
+  background-color: #000;
+  color: #fff;
+}
+
+.greenTag{
+  background-color: #00D77D;
+  color: #fff;
+}
+
+.orangeTag{
+  background-color: #FF7D3C;
+  color: #fff;
+}
+
+.pinkTag{
+  background-color: #FF82DC;
+  color: #fff;
+}
+
+.blueTag{
+  background-color: #5596FF;
+  color: #fff;
+}
+
+.limeTag{
+  background-color: #D2FF4B;
+  color: #000;
+}
+
+.greenTag svg, .orangeTag svg, .pinkTag svg, .blueTag svg, .filters .active svg{
+  fill: #fff;
+}
+
+.limeTag svg{
+  fill: #000;
+}
+
 
 /* Mobile navigation bar */
 .navbarMobile {
@@ -147,8 +313,9 @@ main {
 }
 
 .tab p {
+  font-family: 'Antwerpen', sans-serif;
   color: #000000;
-  font-weight: lighter;
+  font-weight: 100;
   font-size: 0.7rem;
   transition: color 0.25s ease;
 }
@@ -182,7 +349,6 @@ main {
 }
 
 /* Mobile tab icon animation */
-
 .tab svg {
   height: 21px;
 }
@@ -287,7 +453,7 @@ main {
   width: 28rem;
   height: 4rem;
 
-  background-image: url('./assets/images/antwerpLogo.png');
+  background-image: url('../images/antwerpLogo.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: left center;
