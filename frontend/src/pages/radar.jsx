@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
 import FiltersRadar from '../components/FiltersRadar';
+import RadarVisual from '../components/RadarVisual';
 
 //icons
 import PersonIcon from '../assets/icons/Person';
 import MuteIcon from '../assets/icons/Mute';
+import { useEffect } from 'react';
 
-export default function Radar({ userLocation, isRadarActive, setIsRadarActive, selectedLocation, setSelectedLocation, distance, formatDistance }) {
+export default function Radar({ userLocation, isRadarActive, setIsRadarActive, selectedLocation, setSelectedLocation, distance, setDistance, formatDistance }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
@@ -33,9 +35,18 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
         <h1>Radar</h1>
       </div>
 
-      <div className="alignNext">
-        <FiltersRadar />
-      </div>
+          <div>
+            <input
+              type="range"
+              min="5"
+              max="2500"
+              value={distance}
+              onChange={(e) => setDistance(Number(e.target.value))}
+            />
+            <p>Distance: {distance}</p>
+          </div>
+      <FiltersRadar />
+      <RadarVisual distance={distance}/>
       <form>
         <label>
           <input 

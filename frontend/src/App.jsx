@@ -103,6 +103,7 @@ export default function App() {
                 selectedLocation={selectedLocation}
                 setSelectedLocation={setSelectedLocation}
                 distance={distance}
+                setDistance={setDistance}
                 formatDistance={formatDistance}
               />
             } 

@@ -68,6 +68,8 @@ h1 {
   font-size: 2.7rem;
   letter-spacing: -2.4px;
   margin-right: auto;
+  height: 2.1rem;
+  text-box: trim-both cap alphabetic;
 }
 
 main {
@@ -82,9 +84,9 @@ main {
 }
 
 .glass {
-  background: rgba(196, 196, 196, 0.5);
+  background: rgba(216, 216, 216, 0.2);
   backdrop-filter: blur(4px);
-  border: 2px solid rgba(255,255,255,0.2);
+  border: 2px solid rgba(255,255,255,0.5);
 }
 
 .button {
@@ -105,6 +107,9 @@ main {
   cursor: pointer;
   -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+  -webkit-tap-highlight-color: transparent;
+  anchor-name: var(--active-anchor, --fallback);
 }
 
 .iconbutton {
@@ -125,11 +130,19 @@ main {
 
   -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  -webkit-tap-highlight-color: transparent;
+  anchor-name: var(--active-anchor, --fallback);
 }
 
 .iconbutton svg {
   height: 22px;
   fill: black;
+}
+
+.iconbutton:hover {
+  -webkit-transform: scale(1.02, 1.02);
+  transform: scale(1.02, 1.02);
+  border: 2.5px solid #ededed;
 }
 
 .iconbuttonSmall {
@@ -142,16 +155,26 @@ main {
   
   height: 2.5rem;
   width: 2.5rem;
+  min-width: 2.5rem;
   margin-left: 0.6rem;
   border-radius: 50px;
   border: none; 
-  outline: 2.5px solid #E9E9E9;
+  outline: 2px solid #E9E9E9;
   outline-offset: 0;
   background: #fff;
   box-shadow: 0 1px 40px 0 rgba(0, 0, 0, 0.05);
 
   -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  -webkit-tap-highlight-color: transparent;
+  anchor-name: var(--active-anchor, --fallback);
+}
+
+.iconbuttonSmall:hover {
+  -webkit-transform: scale(1.02, 1.02);
+  transform: scale(1.02, 1.02);
+  outline: 2px solid rgb(218, 218, 218);
+  background: #f7f7f7;
 }
 
 .iconbuttonSmall svg {
@@ -159,13 +182,26 @@ main {
   fill: black;
 }
 
+.filterBar{
+  margin-bottom: 0.5rem;
+}
+
 .filters {
-  width: max-content;
-  display: flex;
+  display: inline-flex;
   gap: 0.3rem;
   padding: 0.3rem;
   background: #E9E9E9;
   border-radius: 25px;
+  flex-wrap: wrap;
+  width: 100%;
+  white-space: nowrap;
+  
+}
+
+.filterMargin{
+  padding: 0.5rem;
+  max-width: 21.1rem;
+  gap: 0.4em;
 }
 
 .filterButton {
@@ -177,7 +213,7 @@ main {
   cursor: pointer;
   border: none;
 
-  width: 100%;
+  flex: 0 0 auto;
   height: 2.5rem;
   padding: 0 1.2rem;
   gap: 0.5rem;
@@ -189,21 +225,28 @@ main {
   font-weight: 600;
   -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  -webkit-tap-highlight-color: transparent;
+  anchor-name: var(--active-anchor, --fallback);
 }
+
 
 .filterButton svg {
   height: 1rem;
   fill: black;
 }
 
-.button:hover {
-  -webkit-transform: scale(1.01, 1.01);
-  transform: scale(1.01, 1.01);
-  box-shadow: 0 4px 12px rgba(255, 125, 60, 0.4);
+.filterButton:hover {
+  -webkit-transform: scale(1.015, 1.015);
+  transform: scale(1.015, 1.015);
+  opacity: 70%;
 }
 
-.button:active {
-  transform: translateY(0);
+.expand1{
+  flex: 1;
+}
+
+.expand2{
+  flex: 2;
 }
 
 .buttonIcon {
@@ -216,19 +259,6 @@ main {
   width: 18px;
   height: 18px;
   fill: currentColor;
-}
-
-.toolbar {
-  position: fixed;
-  top: 0;
-  width: calc(100% - 2rem);
-  height: 6rem;
-  background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 60%, rgba(255,255,255,0) 100%);
-}
-
-.toolbar div{
-  width: 100%;
-  height: 5rem;
 }
 
 .filters .active{
@@ -267,6 +297,29 @@ main {
 
 .limeTag svg{
   fill: #000;
+}
+
+.toolbar {
+  position: fixed;
+  top: 0;
+  width: calc(100% - 2rem);
+  margin: 0 -1rem;
+  padding: 0 1rem;
+  height: 5rem;
+background: linear-gradient(
+  to bottom,
+  #ffffff 0%,
+  #ffffff 50%,
+  rgba(255, 255, 255, 0.9) 60%,
+  rgba(255, 255, 255, 0.6) 80%,
+  rgba(255, 255, 255, 0.3) 90%,
+  rgba(255, 255, 255, 0) 100%
+);  z-index: 1000;
+}
+
+.toolbar div{
+  width: 100%;
+  height: 5rem;
 }
 
 
@@ -457,4 +510,66 @@ main {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: left center;
+}
+
+/* THE MASTER WRAPPER */
+.radar-container {
+  position: relative; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+max-width: 35rem;
+  aspect-ratio: 1 / 1;
+  margin-top: 3rem;
+}
+
+/* THE NOISE BLANKET (Now attached to the container) */
+.radar-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  z-index: 10;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 800 800' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.45' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");  
+  mix-blend-mode: overlay;
+  opacity: 0.50; 
+}
+
+/* SHARED PROPERTIES FOR ALL RINGS */
+.radar-outer, .radar-middle, .radar-inner {
+  position: absolute; /* Allows them to stack without nesting */
+  border-radius: 50%;
+  background-color: #FF7D3C;
+  /* Smooth animation when the React scale variable changes */
+  transition: transform 0.4s ease-out, opacity 0.4s ease-out; 
+}
+
+/* SPECIFIC RING SIZES & SHADOWS */
+.radar-outer {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #FF7D3C;
+  box-shadow: 0 1px 100px 0 rgba(154, 55, 6, 0.25);
+}
+
+.radar-middle {
+  width: 69%;
+  height: 69%;
+  box-shadow: 0 1px 75px rgba(255, 255, 255, 0.70);
+}
+
+.radar-inner {
+  width: 30%;
+  height: 30%;
+  box-shadow: 
+    inset 0 0 40px 0 rgba(255, 255, 255, 0.77),
+    0 1px 75px rgba(255, 255, 255, 0.70);
+  z-index: 2; /* Keeps the inner core on top */
 }

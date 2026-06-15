@@ -18,29 +18,28 @@ export default function FiltersRadar() {
 
   return (
     <>
-        <div className="filters">
-            <button className={`filterButton flexCenter ${activeFilters.length === 0 ? 'active' : ''}`}
-            onClick={() => {
-                setActiveFilters([]);
-                setIsDropdownOpen(false);
-            }}>
-            <PersonIcon />All</button> 
-
-            <button className={`filterButton flexCenter ${activeFilters.includes('Favourites') ? 'active' : ''}`} onClick={() => handleFilterClick('Favourites')}><PersonIcon />Favourites</button>
-
-                <button className={`filterButton flexCenter dropdown-trigger ${activeFilters.some(filter => filter !== 'Favourites') ? 'active' : ''}`} onClick={() => setIsDropdownOpen(!isDropdownOpen)}><PersonIcon />Categories</button>
-                
+        <div className="alignNext filterBar">
+            <div className="filters">
+                <button className={`filterButton flexCenter expand1 ${activeFilters.length === 0 ? 'active' : ''}`}
+                onClick={() => {
+                    setActiveFilters([]);
+                    setIsDropdownOpen(false);
+                }}>
+                <PersonIcon />All</button> 
+                <button className={`filterButton flexCenter expand2 ${activeFilters.includes('Favourites') ? 'active' : ''}`} onClick={() => handleFilterClick('Favourites')}><PersonIcon />Favourites</button>
+                <button className={`filterButton flexCenter dropdown-trigger expand2 ${activeFilters.some(filter => filter !== 'Favourites') ? 'active' : ''}`} onClick={() => setIsDropdownOpen(!isDropdownOpen)}><PersonIcon />Categories</button>
+            </div>
+            <button className="iconbuttonSmall"><PersonIcon /></button>
         </div>
-        <button className="iconbuttonSmall"><PersonIcon /></button>
         {isDropdownOpen && (
-                <div className="dropdown-menu">
-                    <button className={`filterButton ${activeFilters.includes('Action') ? 'limeTag' : ''}`} onClick={() => handleFilterClick('Action')}><PersonIcon />Action</button>
-                    <button className={`filterButton ${activeFilters.includes('Culture') ? 'orangeTag' : ''}`} onClick={() => handleFilterClick('Culture')}><PersonIcon />Culture</button>
-                    <button className={`filterButton ${activeFilters.includes('Business') ? 'blueTag' : ''}`} onClick={() => handleFilterClick('Business')}><PersonIcon />Business</button>
-                    <button className={`filterButton ${activeFilters.includes('Romantic') ? 'pinkTag' : ''}`} onClick={() => handleFilterClick('Romantic')}><PersonIcon />Romantic</button>
-                    <button className={`filterButton ${activeFilters.includes('Social') ? 'greenTag' : ''}`} onClick={() => handleFilterClick('Social')}><PersonIcon />Social</button>
-                </div>
-                )}
+        <div className="filters filterMargin">
+            <button className={`filterButton ${activeFilters.includes('Action') ? 'limeTag' : ''}`} onClick={() => handleFilterClick('Action')}><PersonIcon />Action</button>
+            <button className={`filterButton ${activeFilters.includes('Culture') ? 'orangeTag' : ''}`} onClick={() => handleFilterClick('Culture')}><PersonIcon />Culture</button>
+            <button className={`filterButton ${activeFilters.includes('Business') ? 'blueTag' : ''}`} onClick={() => handleFilterClick('Business')}><PersonIcon />Business</button>
+            <button className={`filterButton ${activeFilters.includes('Romantic') ? 'pinkTag' : ''}`} onClick={() => handleFilterClick('Romantic')}><PersonIcon />Romantic</button>
+            <button className={`filterButton ${activeFilters.includes('Social') ? 'greenTag' : ''}`} onClick={() => handleFilterClick('Social')}><PersonIcon />Social</button>
+        </div>
+        )}
     </>
   );
 }
