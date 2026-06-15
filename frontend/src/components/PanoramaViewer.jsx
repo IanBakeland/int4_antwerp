@@ -4,22 +4,20 @@ import { GyroscopePlugin } from '@photo-sphere-viewer/gyroscope-plugin';
 import '@photo-sphere-viewer/core/index.css';
 
 export default function PanoramaViewer({ image, className }) {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    return typeof window !== 'undefined' && (window.innerWidth <= 768 || /Mobi|Android/i.test(navigator.userAgent));
+  });
   const [gyroStarted, setGyroStarted] = useState(false);
+  const [gyroFailed, setGyroFailed] = useState(false);
   const viewerRef = useRef(null);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768 || /Mobi|Android/i.test(navigator.userAgent));
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+    console.log("PanoramaViewer: isMobile =", isMobile, "width =", window.innerWidth, "UA =", navigator.userAgent);
+  }, [isMobile]);
 
-  const plugins = [
+  const plugins = isMobile ? [
     [GyroscopePlugin, { absolutePosition: true }]
-  ];
+  ] : [];
 
   const handleStartGyro = () => {
     if (viewerRef.current) {
@@ -27,9 +25,12 @@ export default function PanoramaViewer({ image, className }) {
       if (gyroPlugin) {
         gyroPlugin.start().then(() => {
           setGyroStarted(true);
+          setGyroFailed(false);
         }).catch(err => {
-          console.error("Gyroscope error:", err);
-          alert("Kon gyroscoop niet starten. Controleer of je toestel dit ondersteunt en of je in Safari 'Motion & Orientation Access' aan hebt staan.");
+          console.warn("Gyroscoop niet ondersteund op dit apparaat/browser, fallback naar muisbesturing:", err);
+          // Verberg de overlay en sta slepen met 1 vinger/muis toe
+          setGyroStarted(true);
+          setGyroFailed(true);
         });
       }
     }
@@ -43,9 +44,14 @@ export default function PanoramaViewer({ image, className }) {
         height={"100%"}
         width={"100%"}
         plugins={plugins}
-        mousemove={!isMobile}
+        mousemove={true}
         mousewheel={true}
-        touchmoveTwoFingers={true}
+        // In development, if the gyroscope fails (e.g. on a desktop emulator), we disable the 
+        // two-finger requirement so the developer can easily drag using a single mouse click.
+        // In production, we keep it true on mobile so that if the user rejects the gyroscope, 
+        // they can still scroll the webpage with 1 finger and drag the panorama with 2 fingers.
+        touchmoveTwoFingers={isMobile && (!gyroFailed || !import.meta.env.DEV)}
+        navbar={false}
       />
       {isMobile && !gyroStarted && (
         <div style={{
