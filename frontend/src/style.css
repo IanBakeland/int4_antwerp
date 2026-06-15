@@ -47,12 +47,12 @@ body {
 
 main {
   max-width: 106.25rem;
-  margin: 6rem auto 0;
+  margin: 5rem auto 0;
 }
 
 @media (max-width: 800px) {
   main {
-    margin: 7.5rem 1rem 7rem;
+    margin: 4.2rem 1rem 7rem;
   }
 }
 
@@ -225,7 +225,7 @@ main {
   width: 100%;
   top: 0;
   left: 50%;
-  padding: 0.5rem 0;
+  padding: 0.25rem 0;
   transform: translateX(-50%);
   z-index: 1000;
   background-color: #fff;
@@ -283,8 +283,8 @@ main {
 }
 
 .navbarAntwerpLogo {
-  width: 28rem;
-  height: 4rem;
+  width: 31.5rem;
+  height: 4.5rem;
 
   background-image: url('./assets/images/antwerpLogo.png');
   background-size: contain;
@@ -301,7 +301,7 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem;
+  padding: 0.75rem 1rem 0.1rem;
   z-index: 1001;
   box-sizing: border-box;
 }
@@ -312,7 +312,7 @@ main {
 }
 
 .mobileLogoImg {
-  height: 3.5rem;
+  height: 3.25rem;
   width: auto;
   object-fit: contain;
 }
@@ -353,34 +353,39 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 2rem auto;
+  margin: 0 auto 2rem;
   width: 100%;
-  max-width: 21.4375rem;
   padding: 0 1rem;
   box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+  pointer-events: none; /* allows clicking/dragging the panorama through the wrapper background */
 }
 
 .homeLogoWrapper svg {
-  width: 100%;
-  height: auto;
+  width: 8.66425rem;
+  height: 3.63381rem;
+  pointer-events: auto; /* keeps the logo itself clickable if needed */
 }
 
 .homePanoImage {
   width: calc(100% + 2rem);
-  margin: 2rem -1rem;
+  margin: -3.8rem -1rem 2rem; /* negative margin top to overlap the bottom half of the logo */
   max-width: none;
   height: 40.5rem;
   object-fit: cover;
   object-position: 25% center;
   display: block;
   clip-path: url(#pano-clip);
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 801px) {
   .homePanoImage {
     width: 100%;
     max-width: 100%;
-    margin: 2rem auto;
+    margin: -3.8rem auto 2rem;
     height: 50rem;
     object-fit: cover;
     object-position: center;
