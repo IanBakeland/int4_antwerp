@@ -369,7 +369,9 @@ main {
   width: calc(100% + 2rem);
   margin: 2rem -1rem;
   max-width: none;
-  height: auto;
+  height: 40.5rem;
+  object-fit: cover;
+  object-position: 25% center;
   display: block;
   clip-path: url(#pano-clip);
 }
@@ -379,5 +381,8 @@ main {
     width: 100%;
     max-width: 100%;
     margin: 2rem auto;
+    height: 50rem;
+    object-fit: cover;
+    object-position: center;
   }
 }
