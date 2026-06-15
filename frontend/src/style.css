@@ -292,3 +292,61 @@ main {
   background-repeat: no-repeat;
   background-position: left center;
 }
+
+/* Mobile top navbar (default / mobile-first) */
+.navbarMobileTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  z-index: 1001;
+  box-sizing: border-box;
+}
+
+.mobileLogoLink {
+  display: flex;
+  align-items: center;
+}
+
+.mobileLogoImg {
+  height: 56px;
+  width: auto;
+  object-fit: contain;
+}
+
+.navbarMobileTopRight {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.topNavIcon {
+  color: #171717;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: opacity 0.25s ease;
+}
+
+.topNavIcon:hover {
+  opacity: 0.7;
+}
+
+.topNavIcon svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+/* Hide on tablet and desktop screens */
+@media (min-width: 801px) {
+  .navbarMobileTop {
+    display: none !important;
+  }
+}
+
