@@ -24,7 +24,7 @@ export default function Home({ userLocation }) {
       <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none' }}>
         <defs>
           <clipPath id="pano-clip" clipPathUnits="objectBoundingBox">
-            <path d="M 0,0 C 0.5,0.08 0.5,0.08 1,0 L 1,1 C 0.5,0.92 0.5,0.92 0,1 Z" />
+            <path d="M 0,0 C 0.5,0.04 0.5,0.04 1,0 L 1,1 C 0.5,0.96 0.5,0.96 0,1 Z" />
           </clipPath>
         </defs>
       </svg>
