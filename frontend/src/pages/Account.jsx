@@ -1,11 +1,11 @@
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
-export default function Share() {
-  useDocumentTitle('Delen');
+export default function Account() {
+  useDocumentTitle('Account');
 
   return (
     <div>
-      <h1>Share Page</h1>
+      <h1>Account Page</h1>
     </div>
   );
 }

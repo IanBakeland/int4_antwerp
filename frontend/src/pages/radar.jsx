@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 export default function Radar({ userLocation, isRadarActive, setIsRadarActive, selectedLocation, setSelectedLocation, distance, formatDistance }) {
+  useDocumentTitle('Radar');
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
