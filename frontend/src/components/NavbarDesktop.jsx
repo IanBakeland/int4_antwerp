@@ -22,7 +22,7 @@ export default function SecondaryNav() {
       <div className="navbarDesktopAnimation flexCenter">
         <Link to="/" className={`navbarDesktopItem ${checkActive('/', '') ? 'active' : ''}`}>HOME</Link>
         <Link to="/#panoramas" className={`navbarDesktopItem ${checkActive('/', '#panoramas') ? 'active' : ''}`}>PANORAMAS</Link>
-        <Link to="/radarExplained" className={`navbarDesktopItem ${checkActive('/radarExplained', '') ? 'active' : ''}`}>RADAR</Link>
+        <Link to="/radar-explained" className={`navbarDesktopItem ${checkActive('/radar-explained', '') ? 'active' : ''}`}>RADAR</Link>
       </div>
 
 

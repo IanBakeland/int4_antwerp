@@ -1,39 +1,39 @@
 /* tools */
 @media (max-width: 800px) {
   .noMobile {
-    display: none!important;
+    display: none !important;
   }
 }
 
 @media (min-width: 801px) and (max-width: 1024px) {
   .noTablet {
-    display: none!important;
+    display: none !important;
   }
 }
 
 @media (min-width: 1025px) {
   .noDesktop {
-    display: none!important;
+    display: none !important;
   }
-} 
+}
 
-.flexCenter{
+.flexCenter {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.alignNext{
+.alignNext {
   align-items: center;
   display: flex;
 }
 
-.alignNextTop{
+.alignNextTop {
   align-items: start;
   display: flex;
 }
 
-.alignUnder{
+.alignUnder {
   display: flex;
   flex-direction: column;
 }
@@ -46,20 +46,20 @@ body {
 }
 
 main {
-  max-width: 1700px;
+  max-width: 106.25rem;
   margin: 6rem auto 0;
 }
 
 @media (max-width: 800px) {
   main {
-  margin: 4rem 1rem 7rem;
+    margin: 7.5rem 1rem 7rem;
   }
 }
 
 .glass {
   background: rgba(196, 196, 196, 0.1);
-  backdrop-filter: blur(4px);
-  border: 2px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(0.25rem);
+  border: 0.125rem solid rgba(255, 255, 255, 0.2);
 }
 
 .button {
@@ -72,7 +72,7 @@ main {
   color: #FFFFFF;
   padding: 0.75rem 1.5rem;
   margin: 0.5rem 1.5rem;
-  border-radius: 50px;
+  border-radius: 3.125rem;
   font-size: 1rem;
   text-decoration: none;
   border: none;
@@ -85,7 +85,7 @@ main {
 .button:hover {
   -webkit-transform: scale(1.01, 1.01);
   transform: scale(1.01, 1.01);
-  box-shadow: 0 4px 12px rgba(255, 125, 60, 0.4);
+  box-shadow: 0 0.25rem 0.75rem rgba(255, 125, 60, 0.4);
 }
 
 .button:active {
@@ -99,8 +99,8 @@ main {
 }
 
 .buttonIcon svg {
-  width: 18px;
-  height: 18px;
+  width: 1.125rem;
+  height: 1.125rem;
   fill: currentColor;
 }
 
@@ -112,15 +112,15 @@ main {
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  border-radius: 50px;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.10);
+  border-radius: 3.125rem;
+  box-shadow: 0 0 2.5rem rgba(0, 0, 0, 0.10);
   --padding: 0.125rem;
   display: flex;
   padding: var(--padding);
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   anchor-name: --segmented-button-hover;
-  
+
   &::before,
   &::after {
     content: "";
@@ -128,21 +128,18 @@ main {
     border-radius: inherit;
     transition: inset 500ms cubic-bezier(0.32, 1.25, 0.375, 1);
     inset:
-      calc(anchor(start) + var(--padding))
-      calc(anchor(end) + var(--padding))
-      calc(anchor(end) + var(--padding))
-      calc(anchor(start) + var(--padding));
+      calc(anchor(start) + var(--padding)) calc(anchor(end) + var(--padding)) calc(anchor(end) + var(--padding)) calc(anchor(start) + var(--padding));
   }
-  
+
   &::before {
     background-color: light-dark(#E8E9E9, #1A1C20);
     position-anchor: --segmented-button-hover;
   }
-  
+
   &::after {
     background-color: light-dark(white, #333537);
     position-anchor: --segmented-button-checked;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.05);
   }
 }
 
@@ -157,6 +154,7 @@ main {
   font-weight: bold;
   color: #FF7D3C;
 }
+
 .tab {
   background-color: transparent;
   border: none;
@@ -171,11 +169,11 @@ main {
   color: inherit;
   -webkit-tap-highlight-color: transparent;
   anchor-name: var(--active-anchor, --fallback);
-  
+
   &:hover {
     cursor: pointer;
   }
-  
+
   &.active {
     --active-anchor: --segmented-button-checked;
   }
@@ -184,14 +182,14 @@ main {
 /* Mobile tab icon animation */
 
 .tab svg {
-  height: 21px;
+  height: 1.3125rem;
 }
 
 .icon-container {
-  margin-top: 4px;
+  margin-top: 0.25rem;
   position: relative;
-  width: 33px;
-  height: 22px;
+  width: 2.0625rem;
+  height: 1.375rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -205,7 +203,7 @@ main {
 
 .icon-hidden {
   opacity: 0;
-  transform: scale(0.8); 
+  transform: scale(0.8);
   transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
 }
 
@@ -215,6 +213,7 @@ main {
   transform: scale(1);
   transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
 }
+
 .icon-visible.active svg {
   fill: #FF7D3C;
 }
@@ -238,7 +237,7 @@ main {
   margin: 0 1rem;
 }
 
-.navbarDesktop .tab{
+.navbarDesktop .tab {
   width: 0.5rem;
 }
 
@@ -247,12 +246,12 @@ main {
   position: relative;
   width: 100%;
 
-    &::after {
+  &::after {
     content: "";
     position: absolute;
-    height: 3px;
+    height: 0.1875rem;
     background-color: #FF7D3C;
-    border-radius: 3px;
+    border-radius: 0.1875rem;
     transition: inset 500ms cubic-bezier(0.32, 1.25, 0.375, 1);
     position-anchor: --subnav-checked;
     bottom: 0;
@@ -275,7 +274,7 @@ main {
     --anchor-name-hover: --subnav-hover;
     cursor: pointer;
   }
-  
+
   &.active {
     --anchor-name-active: --subnav-checked;
     font-weight: bold;
@@ -291,4 +290,99 @@ main {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: left center;
+}
+
+/* Mobile top navbar (default / mobile-first) */
+.navbarMobileTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  z-index: 1001;
+  box-sizing: border-box;
+}
+
+.mobileLogoLink {
+  display: flex;
+  align-items: center;
+}
+
+.mobileLogoImg {
+  height: 3.5rem;
+  width: auto;
+  object-fit: contain;
+}
+
+.navbarMobileTopRight {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.topNavIcon {
+  color: #171717;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: opacity 0.25s ease;
+}
+
+.topNavIcon:hover {
+  opacity: 0.7;
+}
+
+.topNavIcon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: currentColor;
+}
+
+/* Hide on tablet and desktop screens */
+@media (min-width: 801px) {
+  .navbarMobileTop {
+    display: none !important;
+  }
+}
+
+.homeLogoWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  width: 100%;
+  max-width: 21.4375rem;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.homeLogoWrapper svg {
+  width: 100%;
+  height: auto;
+}
+
+.homePanoImage {
+  width: calc(100% + 2rem);
+  margin: 2rem -1rem;
+  max-width: none;
+  height: 40.5rem;
+  object-fit: cover;
+  object-position: 25% center;
+  display: block;
+  clip-path: url(#pano-clip);
+}
+
+@media (min-width: 801px) {
+  .homePanoImage {
+    width: 100%;
+    max-width: 100%;
+    margin: 2rem auto;
+    height: 50rem;
+    object-fit: cover;
+    object-position: center;
+  }
 }
