@@ -52,7 +52,7 @@ main {
 
 @media (max-width: 800px) {
   main {
-  margin: 4rem 1rem 7rem;
+    margin: 7.5rem 1rem 7rem;
   }
 }
 
