@@ -9,9 +9,5 @@ export default defineConfig({
   ],
   server: {
     host: true,
-    hmr: {
-      protocol: 'wss',
-      host: 'localhost',
-    },
   },
 })

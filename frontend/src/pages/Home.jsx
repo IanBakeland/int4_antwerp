@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import LogoAS from '../assets/icons/Logo';
 import panoImage from '../assets/images/pano.jpeg';
+import PanoramaViewer from '../components/PanoramaViewer';
 
 export default function Home({ userLocation }) {
   const location = useLocation();
@@ -14,7 +15,7 @@ export default function Home({ userLocation }) {
         <LogoAS />
       </div>
       
-      <img src={panoImage} alt="Panorama" className="homePanoImage" />
+      <PanoramaViewer image={panoImage} className="homePanoImage" />
       
       {userLocation && (
         <p>Live Coordinates: {userLocation.lat}, {userLocation.lng}</p>
