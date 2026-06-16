@@ -4,13 +4,23 @@ import { GyroscopePlugin } from '@photo-sphere-viewer/gyroscope-plugin';
 import { Link } from 'react-router-dom';
 import '@photo-sphere-viewer/core/index.css';
 
-export default function PanoramaViewer({ image, className }) {
+export default function PanoramaViewer({ 
+  image, 
+  storyCount, 
+  title, 
+  description, 
+  onNext, 
+  onPrev, 
+  className 
+}) {
   const [isMobile, setIsMobile] = useState(() => {
     return typeof window !== 'undefined' && (window.innerWidth <= 768 || /Mobi|Android/i.test(navigator.userAgent));
   });
   const [gyroStarted, setGyroStarted] = useState(false);
   const [gyroFailed, setGyroFailed] = useState(false);
   const viewerRef = useRef(null);
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
 
   useEffect(() => {
     console.log("PanoramaViewer: isMobile =", isMobile, "width =", window.innerWidth, "UA =", navigator.userAgent);
@@ -37,8 +47,36 @@ export default function PanoramaViewer({ image, className }) {
     }
   };
 
+  const handleTouchStart = (e) => {
+    if (e.touches.length === 1) {
+      touchStartX.current = e.touches[0].clientX;
+      touchStartY.current = e.touches[0].clientY;
+    }
+  };
+
+  const handleTouchEnd = (e) => {
+    if (e.changedTouches.length === 1 && onNext && onPrev) {
+      const diffX = e.changedTouches[0].clientX - touchStartX.current;
+      const diffY = e.changedTouches[0].clientY - touchStartY.current;
+
+      // Determine swipe if horizontal diff is greater than vertical diff and exceeds threshold (50px)
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+        if (diffX > 0) {
+          onPrev(); // Swipe right -> Previous scene
+        } else {
+          onNext(); // Swipe left -> Next scene
+        }
+      }
+    }
+  };
+
   return (
-    <div className={className} style={{ position: 'relative' }}>
+    <div 
+      className={className} 
+      style={{ position: 'relative' }}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <ReactPhotoSphereViewer
         ref={viewerRef}
         src={image}
@@ -59,11 +97,9 @@ export default function PanoramaViewer({ image, className }) {
         <>
           <div className="panoGradientOverlay" />
           <div className="panoContentWrapper">
-            <p className="panoContent__storyCount">One of 40+ stories in Antwerp</p>
-            <h2 className="panoContent__title">My first kiss</h2>
-            <p className="panoContent__description">
-              Step into the place where Emma’s first kiss became a lasting memory.
-            </p>
+            <p className="panoContent__storyCount">{storyCount}</p>
+            <h2 className="panoContent__title">{title}</h2>
+            <p className="panoContent__description">{description}</p>
             <div className="exploreActionsContainer">
               <Link
                 to="#"
