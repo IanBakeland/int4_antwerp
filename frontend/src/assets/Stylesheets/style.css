@@ -299,6 +299,28 @@ main {
   fill: #000;
 }
 
+.distanceTag{
+  background-color: #fff;
+  color: #000;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.10);
+  padding: 1rem 1.5rem;
+  width:min-content;
+  border-radius: 50px;
+  gap: 0.5rem;
+  margin: 2rem auto;
+}
+
+.distanceTag p{
+  text-box: trim-both cap alphabetic;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.distanceTag svg{
+  fill: #FF7D3C;
+  height: 20px;
+}
+
 .toolbar {
   position: fixed;
   top: 0;
@@ -523,7 +545,7 @@ background: linear-gradient(
 max-width: 35rem;
   aspect-ratio: 1 / 1;
   margin-top: 3rem;
-  z-index: 0;
+  z-index: -10;
 }
 
 /* THE NOISE BLANKET */

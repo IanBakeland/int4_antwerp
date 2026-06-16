@@ -5,6 +5,7 @@ import RadarVisual from '../components/RadarVisual';
 //icons
 import PersonIcon from '../assets/icons/Person';
 import MuteIcon from '../assets/icons/Mute';
+import LocationFilledIcon from '../assets/icons/LocationFilled';
 import { useEffect } from 'react';
 
 export default function Radar({ userLocation, isRadarActive, setIsRadarActive, selectedLocation, setSelectedLocation, distance, setDistance, formatDistance }) {
@@ -35,18 +36,24 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
         <h1>Radar</h1>
       </div>
 
-          <div>
-            <input 
-              type="range" 
-              min="0" 
-              max="2000"
-              value={distance ?? 2000} 
-              onChange={(e) => setDistance(e.target.value)} 
-            />
-            <p>Distance: {distance}</p>
-          </div>
       <FiltersRadar />
-      <RadarVisual distance={distance}/>
+      <RadarVisual distance={distance} isRadarActive={isRadarActive} />      {distance != null && isRadarActive && (
+        <div className="distanceTag flexCenter">
+          <LocationFilledIcon />
+          <p>{formatDistance(distance)}</p>
+        </div>
+      )}
+      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+      <div>
+        <input 
+          type="range" 
+          min="0" 
+          max="2000"
+          value={distance ?? 2000} 
+          onChange={(e) => setDistance(e.target.value)} 
+        />
+        <p>Distance: {distance}</p>
+      </div>
       <form>
         <label>
           <input 
@@ -95,13 +102,6 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
       ) : (
         <p>Radar is disabled</p>
       )}
-      <hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
-      <hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
-      <hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
-      <hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
-      <hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
-      <hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
-      <hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
     </div>
   );
 }

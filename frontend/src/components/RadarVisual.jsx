@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export default function RadarVisual({ distance }) {
+export default function RadarVisual({ distance, isRadarActive}) {
   let innerScale = 1;
   let middleScale = 1;
   let outerScale = 1;
@@ -62,22 +62,22 @@ export default function RadarVisual({ distance }) {
 
   return (
     <div className="radar-container">
-      
-      {/* 1. Added the 's' to the animationDuration here */}
-      <div 
-        className="radar-pulse-ring"
+    {distance != null && isRadarActive && (
+    <>
+        <div 
+        className="radar-pulse-ring" 
         style={{ animationDuration: `${pulseSpeed}s` }}
-      ></div>
-      
-      {/* 2. Added the 's' to the animationDuration here */}
-      {/* Ring 2 fires halfway through Ring 1's animation */}
-      <div 
-        className="radar-pulse-ring"
+        ></div>   
+        <div 
+        className="radar-pulse-ring" 
         style={{ 
-          animationDuration: `${pulseSpeed}s`, 
-          animationDelay: pulseDelay 
+            animationDuration: `${pulseSpeed}s`, 
+            animationDelay: pulseDelay 
         }}
-      ></div>
+        ></div>
+    </>
+    )}
+
       
       <div 
         className="radar-outer" 

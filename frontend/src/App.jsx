@@ -14,7 +14,6 @@ export default function App() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [distance, setDistance] = useState(null);
 
-  // handles turning  GPS tracking  on/off
   useEffect(() => {
     let watcherId;
 
@@ -32,7 +31,8 @@ export default function App() {
         },
         {
           enableHighAccuracy: true,
-          maximumAge: 0
+          maximumAge: 5000,
+          timeout: 10000
         }
       );
     } else {
@@ -46,7 +46,6 @@ export default function App() {
     };
   }, [isRadarActive]);
 
-  // calculates the distence between userLocation and selectedLocation
   useEffect(() => {
     if (userLocation && selectedLocation) {
       const earthRadiusMeters = 6371000;
@@ -69,7 +68,6 @@ export default function App() {
     }
   }, [userLocation, selectedLocation]);
 
-  // Formatting function for meters 
   const formatDistance = (meters) => {
     if (meters === null || meters === undefined) return '';
     
