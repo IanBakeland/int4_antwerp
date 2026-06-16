@@ -16,7 +16,7 @@ export default function PanoramaViewer({ image, className }) {
   }, [isMobile]);
 
   const plugins = isMobile ? [
-    [GyroscopePlugin, { absolutePosition: true }]
+    [GyroscopePlugin, { absolutePosition: true, moveMode: 'fast' }]
   ] : [];
 
   const handleStartGyro = () => {
