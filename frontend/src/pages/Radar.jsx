@@ -1,14 +1,22 @@
 import { Link } from 'react-router-dom';
-import useDocumentTitle from '../hooks/useDocumentTitle';
 
-export default function Radar({ userLocation, isRadarActive, setIsRadarActive, selectedLocation, setSelectedLocation, distance, formatDistance }) {
+import useDocumentTitle from '../hooks/useDocumentTitle';
+import FiltersRadar from '../components/FiltersRadar';
+import RadarVisual from '../components/RadarVisual';
+
+//icons
+import PersonIcon from '../assets/icons/Person';
+import MuteIcon from '../assets/icons/Mute';
+import LocationFilledIcon from '../assets/icons/LocationFilled';
+
+export default function Radar({ userLocation, isRadarActive, setIsRadarActive, selectedLocation, setSelectedLocation, distance, setDistance, formatDistance }) {
   useDocumentTitle('Radar');
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
     const lat = data.get('latitude');
     const lng = data.get('longitude');
-    
+
     if (lat && lng) {
       setSelectedLocation({
         lat: parseFloat(lat),
@@ -19,14 +27,42 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
 
   return (
     <div>
-      <h1>Radar Page</h1>
+      <div className="toolbar noDesktop noTablet">
+        <div className="alignNext">
+          <h1>Radar</h1>
+          <Link to="#" className="iconbutton"><MuteIcon /></Link>
+          <Link to="/profile" className="iconbutton"><PersonIcon /></Link>
+        </div>
+      </div>
+      <div className="noMobile">
+        <h1>Radar</h1>
+      </div>
 
+      <FiltersRadar />
+      <RadarVisual distance={distance} isRadarActive={isRadarActive} />
+      {distance != null && isRadarActive && (
+        <div className="distanceTag flexCenter">
+          <LocationFilledIcon />
+          <p>{formatDistance(distance)}</p>
+        </div>
+      )}
+      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+      <div>
+        <input
+          type="range"
+          min="0"
+          max="2000"
+          value={distance ?? 2000}
+          onChange={(e) => setDistance(e.target.value)}
+        />
+        <p>Distance: {distance}</p>
+      </div>
       <form>
         <label>
-          <input 
-            type="checkbox" 
-            checked={isRadarActive} 
-            onChange={(e) => setIsRadarActive(e.target.checked)} 
+          <input
+            type="checkbox"
+            checked={isRadarActive}
+            onChange={(e) => setIsRadarActive(e.target.checked)}
           />
           Enable Radar Tracking
         </label>
@@ -36,21 +72,11 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
       <form onSubmit={handleSubmit}>
         <div>
           <label>Latitude: </label>
-          <input 
-            type="number" 
-            step="any"
-            name="latitude"
-            required 
-          />
+          <input type="number" step="any" name="latitude" required/>
         </div>
         <div>
           <label>Longitude: </label>
-          <input 
-            type="number" 
-            step="any"
-            name="longitude"
-            required 
-          />
+          <input type="number" step="any" name="longitude" required />
         </div>
         <button type="submit">Save Target Location</button>
       </form>
@@ -62,7 +88,6 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
           <p>Target Lng: {selectedLocation.lng}</p>
         </div>
       )}
-
       {distance !== null && (
         <div>
           <h2>Proximity Calculation</h2>
