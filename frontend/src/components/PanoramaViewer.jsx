@@ -56,7 +56,9 @@ export default function PanoramaViewer({ image, className }) {
       />
       
       {isMobile && gyroStarted && (
-        <div className="exploreActionsContainer">
+        <>
+          <div className="panoGradientOverlay" />
+          <div className="exploreActionsContainer">
           <Link
             to="#"
             onClick={(e) => e.preventDefault()}
@@ -94,6 +96,7 @@ export default function PanoramaViewer({ image, className }) {
             <span className="discoverSpotsButton__arrow">→</span>
           </Link>
         </div>
+      </>
       )}
 
       {isMobile && !gyroStarted && (
