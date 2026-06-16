@@ -9,31 +9,41 @@ export default function RadarVisual({ distance }) {
   let middleOpacity = 1;
   let outerOpacity = 1;
 
-  // The scaling math based on distance
-  if (distance !== null && distance !== undefined) {
+if (distance !== null && distance !== undefined) {
+    
+    // inner ring infinity to 1000m
     if (distance > 1000) {
       const clampedDistance = Math.min(distance, 2000);
       innerScale = 0.5 + 0.5 * ((2000 - clampedDistance) / 1000);
-    }
-
-    if (distance > 1000) {
-      middleScale = 0;
+      middleScale = 0.66; 
       middleOpacity = 0;
-    } else if (distance > 500) {
-      middleScale = 1 - ((distance - 700) / 500);
-      middleOpacity = 1;
+      outerScale = 0.69;  
+      outerOpacity = 0;
     }
 
-    if (distance > 500) {
-      outerScale = 0;
+    // middle ring 1000m to 500m
+    else if (distance > 500) {
+      innerScale = 1;
+      const progress = (1000 - distance) / 500;
+      middleScale = 0.66 + (0.34 * progress);
+      middleOpacity = Math.min(1, progress * 2);
+      outerScale = 0.69;
       outerOpacity = 0;
-    } else if (distance > 150) {
-      outerScale = 1 - ((distance - 150) / 350);
-      outerOpacity = 1;
+    }
+
+    // outer ring 500m to 150m
+    else if (distance > 150) {
+      innerScale = 1;
+      middleScale = 1;
+      middleOpacity = 1;
+      const progress = (500 - distance) / 350;
+
+      outerScale = 0.69 + (0.31 * progress);
+      outerOpacity = Math.min(1, progress * 2);
     }
   }
 
-  // Story unlock logic
+  // Story unlock logic from 150 which would be an equivlent to a street i think
   useEffect(() => {
     if (distance !== null && distance <= 150) {
       console.log("Story Unlocked!");
