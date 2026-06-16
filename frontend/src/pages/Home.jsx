@@ -1,8 +1,13 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import LogoAS from '../assets/icons/Logo';
 import panoImage from '../assets/images/pano.jpeg';
 import PanoramaViewer from '../components/PanoramaViewer';
+import antwerpLogo from '../assets/images/antwerpLogo.png';
+import NavbarMobile from '../components/NavbarMobile';
+import NavbarDesktop from '../components/NavbarDesktop';
+import HeartIcon from '../assets/icons/Heart';
+import PersonIcon from '../assets/icons/Person';
 
 export default function Home({ userLocation }) {
   const location = useLocation();
@@ -10,6 +15,20 @@ export default function Home({ userLocation }) {
   useDocumentTitle(title);
 
   return (
+    <>
+      <div className="navbarMobileTop">
+        <Link to="/" className="mobileLogoLink" aria-label="Go to Homepage">
+          <img src={antwerpLogo} alt="Antwerpen Logo" className="mobileLogoImg" />
+        </Link>
+        <div className="navbarMobileTopRight">
+          <Link to="/favourites" className="topNavIcon" aria-label="Favourites">
+            <HeartIcon />
+          </Link>
+          <Link to="/account" className="topNavIcon" aria-label="Account">
+            <PersonIcon />
+          </Link>
+        </div>
+      </div>
     <div className="homeContainer">
       <div className="homeLogoWrapper">
         <LogoAS />
@@ -30,5 +49,6 @@ export default function Home({ userLocation }) {
         </defs>
       </svg>
     </div>
+    </>
   );
 }
