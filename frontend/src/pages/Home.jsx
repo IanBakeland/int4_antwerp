@@ -44,14 +44,35 @@ export default function Home({ userLocation }) {
   useDocumentTitle(title);
 
   const [currentPanoIndex, setCurrentPanoIndex] = useState(0);
+  const [transitionClass, setTransitionClass] = useState('slide-active');
   const activeStory = stories[currentPanoIndex];
 
+  const navigateToPano = (newIndex) => {
+    if (newIndex === currentPanoIndex) return;
+    const direction = newIndex > currentPanoIndex ? 'next' : 'prev';
+
+    // 1. Slide out current panorama
+    setTransitionClass(direction === 'next' ? 'slide-leave-left' : 'slide-leave-right');
+
+    setTimeout(() => {
+      // 2. Change active index
+      setCurrentPanoIndex(newIndex);
+      // 3. Render off-screen without animation
+      setTransitionClass(direction === 'next' ? 'slide-enter-right' : 'slide-enter-left');
+
+      // 4. Slide in smoothly to center
+      setTimeout(() => {
+        setTransitionClass('slide-active');
+      }, 50);
+    }, 250);
+  };
+
   const handleNext = () => {
-    setCurrentPanoIndex((prev) => (prev + 1) % stories.length);
+    navigateToPano((currentPanoIndex + 1) % stories.length);
   };
 
   const handlePrev = () => {
-    setCurrentPanoIndex((prev) => (prev - 1 + stories.length) % stories.length);
+    navigateToPano((currentPanoIndex - 1 + stories.length) % stories.length);
   };
 
   return (
@@ -81,8 +102,20 @@ export default function Home({ userLocation }) {
           description={activeStory.description}
           onNext={handleNext}
           onPrev={handlePrev}
-          className="homePanoImage" 
+          className={`homePanoImage ${transitionClass}`} 
         />
+        
+        {/* Pagination Indicators */}
+        <div className="panoPagination">
+          {stories.map((_, index) => (
+            <button 
+              key={index} 
+              className={`panoPagination__dot ${index === currentPanoIndex ? 'active' : ''}`}
+              onClick={() => navigateToPano(index)}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
         
         {userLocation && (
           <p>Live Coordinates: {userLocation.lat}, {userLocation.lng}</p>

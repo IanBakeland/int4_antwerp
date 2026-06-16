@@ -628,6 +628,7 @@ main {
   clip-path: url(#pano-clip);
   position: relative;
   z-index: 1;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @media (min-width: 801px) {
@@ -917,4 +918,79 @@ main {
   /* 16px */
   font-weight: 600;
   text-align: center;
+}
+
+.gyroStartOverlay__icon {
+  width: 0.75rem; /* 12px */
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+  font-size: 0.75rem; /* 12px */
+  font-weight: 400;
+  display: inline-block;
+  line-height: 1;
+}
+
+/* Panorama pagination indicators */
+.panoPagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem; /* 8px spacing */
+  margin: -1.25rem auto 1.5rem; /* Positions the dots inside the curved area */
+  position: relative;
+  z-index: 10;
+  width: 100%;
+}
+
+.panoPagination__dot {
+  width: 0.5rem; /* 8px */
+  height: 0.5rem; /* 8px */
+  border-radius: 50%;
+  background-color: #d8d8d8;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              border-radius 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+.panoPagination__dot.active {
+  width: 1.5rem; /* 24px pill shape */
+  border-radius: 0.25rem;
+  background-color: #ff82dc;
+}
+
+.panoPagination__dot:focus-visible {
+  outline: 0.125rem solid rgba(255, 130, 220, 0.5);
+  outline-offset: 0.125rem;
+}
+
+/* Panorama Swipe Transitions */
+.homePanoImage.slide-leave-left {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.homePanoImage.slide-leave-right {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.homePanoImage.slide-enter-left {
+  transform: translateX(-100%) !important;
+  opacity: 0 !important;
+  transition: none !important;
+}
+
+.homePanoImage.slide-enter-right {
+  transform: translateX(100%) !important;
+  opacity: 0 !important;
+  transition: none !important;
+}
+
+.homePanoImage.slide-active {
+  transform: translateX(0);
+  opacity: 1;
 }
