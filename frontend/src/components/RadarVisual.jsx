@@ -9,8 +9,8 @@ export default function RadarVisual({ distance }) {
   let middleOpacity = 1;
   let outerOpacity = 1;
 
-if (distance !== null && distance !== undefined) {
-    
+  let pulseSpeed = 5.0;
+
     // inner ring infinity to 1000m
     if (distance > 1000) {
       const clampedDistance = Math.min(distance, 2000);
@@ -41,7 +41,17 @@ if (distance !== null && distance !== undefined) {
       outerScale = 0.69 + (0.31 * progress);
       outerOpacity = Math.min(1, progress * 2);
     }
-  }
+    
+    if (distance > 1000) {
+      pulseSpeed = 5.0; 
+    } else if (distance <= 150) {
+      pulseSpeed = 2.0;
+    } else {
+      const progress = (1000 - distance) / 850; 
+      pulseSpeed = 2.0 - (progress * 1.4);
+    }
+
+  const pulseDelay = `${pulseSpeed / 10}s`;
 
   // Story unlock logic from 150 which would be an equivlent to a street i think
   useEffect(() => {
@@ -52,6 +62,23 @@ if (distance !== null && distance !== undefined) {
 
   return (
     <div className="radar-container">
+      
+      {/* 1. Added the 's' to the animationDuration here */}
+      <div 
+        className="radar-pulse-ring"
+        style={{ animationDuration: `${pulseSpeed}s` }}
+      ></div>
+      
+      {/* 2. Added the 's' to the animationDuration here */}
+      {/* Ring 2 fires halfway through Ring 1's animation */}
+      <div 
+        className="radar-pulse-ring"
+        style={{ 
+          animationDuration: `${pulseSpeed}s`, 
+          animationDelay: pulseDelay 
+        }}
+      ></div>
+      
       <div 
         className="radar-outer" 
         style={{ transform: `scale(${outerScale})`, opacity: outerOpacity }}

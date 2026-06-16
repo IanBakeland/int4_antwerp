@@ -36,12 +36,12 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
       </div>
 
           <div>
-            <input
-              type="range"
-              min="5"
-              max="2500"
-              value={distance}
-              onChange={(e) => setDistance(Number(e.target.value))}
+            <input 
+              type="range" 
+              min="0" 
+              max="2000"
+              value={distance ?? 2000} 
+              onChange={(e) => setDistance(e.target.value)} 
             />
             <p>Distance: {distance}</p>
           </div>
