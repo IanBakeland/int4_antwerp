@@ -1317,7 +1317,8 @@ main {
   font-size: 55px;
   font-style: normal;
   font-weight: 400;
-  line-height: 47px; /* 85.455% */
+  line-height: 47px;
+  /* 85.455% */
   letter-spacing: -2.462px;
   margin: 0;
 }
@@ -1362,7 +1363,8 @@ main {
   height: 237px;
   flex-shrink: 0;
   aspect-ratio: 47/35;
-  margin-left: -20px; /* Overlap the cards */
+  margin-left: -20px;
+  /* Overlap the cards */
 }
 
 .homeTopStoriesItem:first-child {
@@ -1378,7 +1380,8 @@ main {
   font-size: 120px;
   font-style: normal;
   font-weight: 400;
-  line-height: 72.622px; /* 60.519% */
+  line-height: 72.622px;
+  /* 60.519% */
   letter-spacing: -2.462px;
   color: transparent;
   -webkit-text-stroke-width: 3px;
