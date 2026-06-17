@@ -116,6 +116,28 @@ export default function Home({ userLocation }) {
             />
           ))}
         </div>
+
+        {/* Info Cards Grid */}
+        <div className="panoInfoGrid">
+          <div className="panoInfoCard panoInfoCard--orange">
+            <span className="panoInfoCard__number">
+              50+<span className="panoInfoCard__unit">KM</span>
+            </span>
+            <span className="panoInfoCard__label">Across Antwerp</span>
+          </div>
+          <div className="panoInfoCard panoInfoCard--blue">
+            <span className="panoInfoCard__number">40+</span>
+            <span className="panoInfoCard__label">Stories</span>
+          </div>
+          <div className="panoInfoCard panoInfoCard--pink">
+            <span className="panoInfoCard__number">63</span>
+            <span className="panoInfoCard__label">Hidden spots</span>
+          </div>
+          <div className="panoInfoCard panoInfoCard--lime">
+            <span className="panoInfoCard__number">10</span>
+            <span className="panoInfoCard__label">Weekly stories</span>
+          </div>
+        </div>
         
         {userLocation && (
           <p>Live Coordinates: {userLocation.lat}, {userLocation.lng}</p>
