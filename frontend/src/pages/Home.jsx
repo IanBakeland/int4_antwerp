@@ -94,22 +94,22 @@ export default function Home({ userLocation }) {
         <div className="homeLogoWrapper">
           <LogoAS />
         </div>
-        
-        <PanoramaViewer 
-          image={activeStory.image} 
+
+        <PanoramaViewer
+          image={activeStory.image}
           storyCount={activeStory.storyCount}
           title={activeStory.title}
           description={activeStory.description}
           onNext={handleNext}
           onPrev={handlePrev}
-          className={`homePanoImage ${transitionClass}`} 
+          className={`homePanoImage ${transitionClass}`}
         />
-        
+
         {/* Pagination Indicators */}
         <div className="panoPagination">
           {stories.map((_, index) => (
-            <button 
-              key={index} 
+            <button
+              key={index}
               className={`panoPagination__dot ${index === currentPanoIndex ? 'active' : ''}`}
               onClick={() => navigateToPano(index)}
               aria-label={`Go to slide ${index + 1}`}
@@ -138,7 +138,11 @@ export default function Home({ userLocation }) {
             <span className="panoInfoCard__label">Weekly stories</span>
           </div>
         </div>
-        
+
+        <h2 className="homePanoramaTitle">
+          180° panorama <br /> moments
+        </h2>
+
         {userLocation && (
           <p>Live Coordinates: {userLocation.lat}, {userLocation.lng}</p>
         )}
