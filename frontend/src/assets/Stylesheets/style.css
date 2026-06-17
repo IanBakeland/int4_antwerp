@@ -1159,3 +1159,50 @@ main {
   line-height: 46px; /* 115% */
   letter-spacing: -2.462px;
 }
+
+.homePanoramaDescription {
+  margin-top: 20px;
+  color: #000;
+  text-align: center;
+  font-family: 'League Spartan', 'Leaguesportan', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 29px; /* 145% */
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+}
+
+.homePanoramaDescription--bold {
+  color: #000;
+  font-family: 'League Spartan', 'Leaguesportan', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 29px;
+}
+
+.homeRadarButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  width: 117px;
+  height: 43px;
+  border-radius: 25.5px;
+  background: #FF7D3C;
+  color: #FFF;
+  font-family: 'League Spartan', 'Leaguesportan', sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+  text-decoration: none;
+  margin: 30px auto 0;
+  box-sizing: border-box;
+  transition: opacity 0.2s ease;
+}
+
+.homeRadarButton:hover {
+  opacity: 0.9;
+}

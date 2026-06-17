@@ -143,6 +143,14 @@ export default function Home({ userLocation }) {
           180° panorama <br /> moments
         </h2>
 
+        <p className="homePanoramaDescription">
+          Discover Antwerp through the eyes of locals and visitors. Experience immersive <span className="homePanoramaDescription--bold">panorama stories</span> with real images and sound, then continue the story in the city itself using our interactive <span className="homePanoramaDescription--bold">radar</span>.
+        </p>
+
+        <Link to="/radar" className="homeRadarButton">
+          Radar <span className="discoverSpotsButton__arrow">→</span>
+        </Link>
+
         {userLocation && (
           <p>Live Coordinates: {userLocation.lat}, {userLocation.lng}</p>
         )}
