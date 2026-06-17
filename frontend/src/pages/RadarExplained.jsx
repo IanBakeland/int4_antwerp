@@ -6,7 +6,7 @@ export default function RadarExplained() {
   return (
     <div>
       <h1>Radar Explained (voorlopig gebruikt voor test van de database)</h1>
-
+      
     </div>
   );
 }
