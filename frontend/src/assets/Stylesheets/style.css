@@ -1156,7 +1156,8 @@ main {
   font-size: 40px;
   font-style: normal;
   font-weight: 400;
-  line-height: 46px; /* 115% */
+  line-height: 46px;
+  /* 115% */
   letter-spacing: -2.462px;
 }
 
@@ -1168,7 +1169,8 @@ main {
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
-  line-height: 29px; /* 145% */
+  line-height: 29px;
+  /* 145% */
   padding: 0 1.5rem;
   box-sizing: border-box;
 }
@@ -1201,8 +1203,105 @@ main {
   margin: 30px auto 0;
   box-sizing: border-box;
   transition: opacity 0.2s ease;
+  position: relative;
+  z-index: 2;
 }
 
 .homeRadarButton:hover {
   opacity: 0.9;
+}
+
+.homeBackgroundMoments {
+  width: calc(100% + 2rem);
+  margin: -13rem -1rem 0 -1rem;
+  display: block;
+  height: auto;
+  position: relative;
+  z-index: 1;
+}
+
+
+.homeScrollBanner {
+  width: calc(100% + 2rem);
+  margin-left: -1rem;
+  margin-right: -1rem;
+  height: 78.58px;
+  transform: rotate(-1.574deg);
+  border-top: 3px solid #FF82DC;
+  border-bottom: 3px solid #FF82DC;
+  background: #FFF;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  margin-top: -70px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 3;
+  box-sizing: border-box;
+}
+
+.homeScrollBanner--horizontal {
+  width: calc(100% + 2rem);
+  margin-left: -1rem;
+  margin-right: -1rem;
+  transform: rotate(0deg);
+  margin-top: -30px;
+  z-index: 4;
+}
+
+.homeScrollBanner--horizontal .homeScrollBanner__content {
+  animation: marquee-scroll-reverse 18s linear infinite;
+}
+
+.homeScrollBanner__track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+}
+
+.homeScrollBanner__content {
+  display: flex;
+  align-items: center;
+  animation: marquee-scroll 15s linear infinite;
+  white-space: nowrap;
+}
+
+.homeScrollBanner__content span {
+  color: #000;
+  text-align: center;
+  font-family: "Rotunda Variable", sans-serif;
+  font-size: 35px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 97.276%;
+  /* 34.047px */
+  letter-spacing: -2.45px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.homeScrollBanner__content svg {
+  flex-shrink: 0;
+  display: inline-block;
+  margin: 0 2.5rem;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+@keyframes marquee-scroll-reverse {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
 }
