@@ -96,6 +96,12 @@ export default function Home({ userLocation }) {
   const title = location.hash === '#panoramas' ? 'Panoramas' : 'Home';
   useDocumentTitle(title);
 
+  const getLeftOffset = (idx) => {
+    if (idx === 0) return '-28px'; // Number 1
+    if (idx === 9) return '-65px'; // Number 10 (two characters)
+    return '-48px'; // Numbers 2 to 9
+  };
+
   const [currentPanoIndex, setCurrentPanoIndex] = useState(0);
   const [transitionClass, setTransitionClass] = useState('slide-active');
   const activeStory = stories[currentPanoIndex];
@@ -264,8 +270,11 @@ export default function Home({ userLocation }) {
         <div className="homeTopStoriesContainer">
           <div className="homeTopStoriesList">
             {topStories.map((story, index) => (
-              <div key={index} className="homeTopStoriesItem">
-                <span className="homeTopStoriesItem__number" style={{ WebkitTextStrokeColor: strokeColors[index % strokeColors.length] }}>
+              <div key={index} className="homeTopStoriesItem" style={{ zIndex: (index + 1) * 10 }}>
+                <span className="homeTopStoriesItem__number" style={{ 
+                  WebkitTextStrokeColor: strokeColors[index % strokeColors.length],
+                  left: getLeftOffset(index)
+                }}>
                   {index + 1}
                 </span>
                 <div className="homeTopStoriesItem__card" style={{ backgroundImage: `url(${story.image})` }}>

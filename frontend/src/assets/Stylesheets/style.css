@@ -1350,7 +1350,7 @@ main {
 
 .homeTopStoriesList {
   display: flex;
-  gap: 35px;
+  gap: 0;
   padding-left: 2.5rem;
   padding-right: 2rem;
   width: max-content;
@@ -1362,6 +1362,11 @@ main {
   height: 237px;
   flex-shrink: 0;
   aspect-ratio: 47/35;
+  margin-left: -20px; /* Overlap the cards */
+}
+
+.homeTopStoriesItem:first-child {
+  margin-left: 0;
 }
 
 .homeTopStoriesItem__number {
