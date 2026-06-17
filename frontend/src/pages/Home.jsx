@@ -39,6 +39,21 @@ const stories = [
   }
 ];
 
+const topStories = [
+  { title: "My first kiss", image: pano1 },
+  { title: "The Silent Cathedral", image: pano2 },
+  { title: "Port Authority", image: pano3 },
+  { title: "Park Spoor Noord", image: pano4 },
+  { title: "The MAS Museum", image: pano1 },
+  { title: "Central Station Echo", image: pano2 },
+  { title: "Scheldt Sunset", image: pano3 },
+  { title: "Grote Markt Lights", image: pano4 },
+  { title: "Het Steen Castle", image: pano1 },
+  { title: "Zurenborg Beauty", image: pano2 }
+];
+
+const strokeColors = ['#FD7C3F', '#66A0FF', '#FF82DC', '#D2FF4B'];
+
 const DividerSVG = ({ color }) => (
   <svg width="39" height="41" viewBox="0 0 39 41" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ color, flexShrink: 0 }}>
     <path d="M3.48647 10.8305L0.000198364 12.6356L1.80529 16.1219L5.29156 14.3168L3.48647 10.8305Z" fill="currentColor"/>
@@ -238,6 +253,27 @@ export default function Home({ userLocation }) {
               <span>LOCAL LIFE</span>
               <DividerSVG color="#66A0FF" />
             </div>
+          </div>
+        </div>
+
+        <div className="homeTopStoriesTitleWrapper">
+          <h2 className="homeTopStoriesTitle__top">TOP 10</h2>
+          <h3 className="homeTopStoriesTitle__sub">stories of the week</h3>
+        </div>
+
+        <div className="homeTopStoriesContainer">
+          <div className="homeTopStoriesList">
+            {topStories.map((story, index) => (
+              <div key={index} className="homeTopStoriesItem">
+                <span className="homeTopStoriesItem__number" style={{ WebkitTextStrokeColor: strokeColors[index % strokeColors.length] }}>
+                  {index + 1}
+                </span>
+                <div className="homeTopStoriesItem__card" style={{ backgroundImage: `url(${story.image})` }}>
+                  <div className="homeTopStoriesItem__gradient" />
+                  <h4 className="homeTopStoriesItem__title">{story.title}</h4>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
