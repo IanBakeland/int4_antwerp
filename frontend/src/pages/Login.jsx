@@ -1,12 +1,12 @@
 import { useState } from "react";
-import useDocumentTitle from '../hooks/useDocumentTitle';
+import { useNavigate } from "react-router-dom";
 
-export default function Login({ onLoginSuccess }) {
-  useDocumentTitle('Account');
+export default function Login({ setToken }) {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -29,10 +29,9 @@ export default function Login({ onLoginSuccess }) {
       }
 
       localStorage.setItem("token", data.jwt);
+      setToken(data.jwt);
+      navigate("/account");
       
-      if (onLoginSuccess) {
-        onLoginSuccess();
-      }
     } catch (err) {
       setError(err.message);
     } finally {

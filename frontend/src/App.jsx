@@ -16,6 +16,7 @@ export default function App() {
   const [isRadarActive, setIsRadarActive] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [distance, setDistance] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
     let watcherId;
@@ -90,7 +91,7 @@ export default function App() {
 
   return (
     <HashRouter>
-      <Navbar />
+      <Navbar token={token} />
       <main>
         <Routes>
           <Route path="/" element={<Home userLocation={userLocation} />} />
@@ -116,14 +117,14 @@ export default function App() {
           <Route 
             path="/account" 
             element={
-              localStorage.getItem("token") ? <Account /> : <Navigate to="/login" replace />
+              token ? <Account setToken={setToken} /> : <Navigate to="/login" replace />
             } 
           />
           
           <Route 
             path="/login" 
             element={
-              !localStorage.getItem("token") ? <Login /> : <Navigate to="/account" replace />
+              !token ? <Login setToken={setToken} /> : <Navigate to="/account" replace />
             } 
           />
 

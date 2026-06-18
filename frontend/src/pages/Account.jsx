@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
-import useDocumentTitle from '../hooks/useDocumentTitle';
+import { useNavigate } from "react-router-dom";
 
-export default function AccountPage({ onLogout }) {
-  useDocumentTitle('Account');
+export default function Account({ setToken }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     if (!token) {
       setLoading(false);
-      if (onLogout) onLogout();
       return;
     }
 
@@ -31,14 +30,16 @@ export default function AccountPage({ onLogout }) {
       })
       .catch(() => {
         localStorage.removeItem("token");
+        setToken(null);
         setLoading(false);
-        if (onLogout) onLogout();
+        navigate("/login");
       });
-  }, [token, onLogout]);
+  }, [token, setToken, navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    if (onLogout) onLogout();
+    setToken(null);
+    navigate("/login");
   };
 
   if (loading) {
