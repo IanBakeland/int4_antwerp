@@ -1,5 +1,5 @@
 import { useLocation, Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import LogoAS from '../assets/icons/Logo';
 import pano1 from '../assets/images/pano.jpeg';
@@ -104,9 +104,36 @@ export default function Home({ userLocation }) {
   };
 
   const [currentPanoIndex, setCurrentPanoIndex] = useState(0);
+  const [prevPanoIndex, setPrevPanoIndex] = useState(null);
   const [transitionClass, setTransitionClass] = useState('slide-active');
+  const [prevTransitionClass, setPrevTransitionClass] = useState('');
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isTransitionLoading, setIsTransitionLoading] = useState(false);
+
+  const transitionDirectionRef = useRef('next');
+  const transitionFallbackRef = useRef(null);
   const activeStory = stories[currentPanoIndex];
+
+  useEffect(() => {
+    // Intelligent Adjacent Preloading: preload only next and previous panoramas relative to active index
+    const nextIndex = (currentPanoIndex + 1) % stories.length;
+    const prevIndex = (currentPanoIndex - 1 + stories.length) % stories.length;
+
+    const nextImg = new Image();
+    nextImg.src = stories[nextIndex].image;
+
+    const prevImg = new Image();
+    prevImg.src = stories[prevIndex].image;
+  }, [currentPanoIndex]);
+
+  // Cleanup effect for safeguard timers
+  useEffect(() => {
+    return () => {
+      if (transitionFallbackRef.current) {
+        clearTimeout(transitionFallbackRef.current);
+      }
+    };
+  }, []);
 
   const transitionClassMap = {
     'slide-active': styles.slideActive,
@@ -114,29 +141,74 @@ export default function Home({ userLocation }) {
     'slide-leave-right': styles.slideLeaveRight,
     'slide-enter-left': styles.slideEnterLeft,
     'slide-enter-right': styles.slideEnterRight,
+    'static-active': styles.staticActive,
+    'static-leave-prep-left': styles.staticLeavePrepLeft,
+    'static-leave-prep-right': styles.staticLeavePrepRight,
+    'slide-enter-prep-left': styles.slideEnterPrepLeft,
+    'slide-enter-prep-right': styles.slideEnterPrepRight,
   };
 
   const navigateToPano = (newIndex, forcedDirection) => {
     if (newIndex === currentPanoIndex || isTransitioning) return;
     setIsTransitioning(true);
+    setIsTransitionLoading(true);
 
     const direction = forcedDirection || (newIndex > currentPanoIndex ? 'next' : 'prev');
+    transitionDirectionRef.current = direction;
 
-    // 1. Slide out current panorama
-    setTransitionClass(direction === 'next' ? 'slide-leave-left' : 'slide-leave-right');
+    // 1. Lock the current panorama in place as a static top layer
+    setPrevPanoIndex(currentPanoIndex);
+    setPrevTransitionClass('static-active');
 
+    // 2. Load the new index offscreen in the WebGL viewer underneath (keeps translation offscreen)
+    setCurrentPanoIndex(newIndex);
+    setTransitionClass(direction === 'next' ? 'slide-enter-right' : 'slide-enter-left');
+
+    // 3. Phase 1: Immediately slide both elements slightly (20%) to show loading state
     setTimeout(() => {
-      // 2. Change active index
-      setCurrentPanoIndex(newIndex);
-      // 3. Render off-screen without animation
-      setTransitionClass(direction === 'next' ? 'slide-enter-right' : 'slide-enter-left');
+      setPrevTransitionClass(direction === 'next' ? 'static-leave-prep-left' : 'static-leave-prep-right');
+      setTransitionClass(direction === 'next' ? 'slide-enter-prep-right' : 'slide-enter-prep-left');
+    }, 50);
+  };
 
-      // 4. Slide in smoothly to center
-      setTimeout(() => {
-        setTransitionClass('slide-active');
+  const handlePanoLoaded = () => {
+    if (prevPanoIndex !== null && isTransitionLoading) {
+      setIsTransitionLoading(false);
+      const direction = transitionDirectionRef.current;
+
+      // 4. Start side-by-side sliding transition only now that rendering is complete
+      setPrevTransitionClass(direction === 'next' ? 'slide-leave-left' : 'slide-leave-right');
+      setTransitionClass('slide-active');
+
+      // 5. Fallback safeguard: if transitionend fails, force cleanup in 500ms
+      if (transitionFallbackRef.current) {
+        clearTimeout(transitionFallbackRef.current);
+      }
+      transitionFallbackRef.current = setTimeout(() => {
+        setPrevPanoIndex(null);
+        setPrevTransitionClass('');
         setIsTransitioning(false);
-      }, 50);
-    }, 250);
+      }, 500);
+    } else {
+      setIsTransitioning(false);
+      setIsTransitionLoading(false);
+    }
+  };
+
+  const handleTransitionEnd = (e) => {
+    // During Phase 1 (loading), the element transitions to the 20% prep state, which we must keep.
+    if (isTransitionLoading) return;
+
+    // 6. Cleanup outgoing slide and release lock after transition finishes (supports webkit-transform)
+    if (e.propertyName.includes('transform')) {
+      if (transitionFallbackRef.current) {
+        clearTimeout(transitionFallbackRef.current);
+        transitionFallbackRef.current = null;
+      }
+      setPrevPanoIndex(null);
+      setPrevTransitionClass('');
+      setIsTransitioning(false);
+    }
   };
 
   const handleNext = () => {
@@ -168,16 +240,31 @@ export default function Home({ userLocation }) {
         </div>
 
         <div className={styles.homePanoWrapper}>
-          <PanoramaViewer
-            image={activeStory.image}
-            storyCount={activeStory.storyCount}
-            title={activeStory.title}
-            description={activeStory.description}
-            onNext={handleNext}
-            onPrev={handlePrev}
-            className={`${styles.homePanoImage} ${transitionClassMap[transitionClass]}`}
-          />
-        </div>
+        {prevPanoIndex !== null && (
+          <div 
+            className={`${styles.homePanoImage} ${styles.staticSlide} ${transitionClassMap[prevTransitionClass]}`}
+            onTransitionEnd={handleTransitionEnd}
+          >
+            <img src={stories[prevPanoIndex].image} alt="" className={styles.staticSlideImage} />
+          </div>
+        )}
+        
+        {isTransitionLoading && (
+          <div className={styles.transitionSpinnerWrapper}>
+            <div className={styles.spinner} />
+          </div>
+        )}
+        <PanoramaViewer
+          image={activeStory.image}
+          storyCount={activeStory.storyCount}
+          title={activeStory.title}
+          description={activeStory.description}
+          onNext={handleNext}
+          onPrev={handlePrev}
+          onLoaded={handlePanoLoaded}
+          className={`${styles.homePanoImage} ${transitionClassMap[transitionClass]}`}
+        />
+      </div>
 
         {/* Pagination Indicators */}
         <div className={styles.panoPagination}>

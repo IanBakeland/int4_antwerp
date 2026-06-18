@@ -12,16 +12,22 @@ export default function PanoramaViewer({
   description, 
   onNext, 
   onPrev, 
-  className 
+  className,
+  onLoaded
 }) {
   const [isMobile, setIsMobile] = useState(() => {
     return typeof window !== 'undefined' && (window.innerWidth <= 768 || /Mobi|Android/i.test(navigator.userAgent));
   });
   const [gyroStarted, setGyroStarted] = useState(false);
   const [gyroFailed, setGyroFailed] = useState(false);
+  const [viewerLoading, setViewerLoading] = useState(true);
   const viewerRef = useRef(null);
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
+
+  // Keep track of the freshest onLoaded callback to prevent stale closures in event listeners
+  const onLoadedRef = useRef(onLoaded);
+  onLoadedRef.current = onLoaded;
 
   useEffect(() => {
     console.log("PanoramaViewer: isMobile =", isMobile, "width =", window.innerWidth, "UA =", navigator.userAgent);
@@ -46,6 +52,26 @@ export default function PanoramaViewer({
         });
       }
     }
+  };
+
+  const handleReady = (instance) => {
+    setViewerLoading(false);
+
+    instance.addEventListener('panorama-load', () => {
+      setViewerLoading(true);
+    });
+
+    instance.addEventListener('panorama-loaded', () => {
+      setTimeout(() => {
+        setViewerLoading(false);
+        if (onLoadedRef.current) onLoadedRef.current();
+      }, 150);
+    });
+
+    instance.addEventListener('panorama-error', () => {
+      setViewerLoading(false);
+      if (onLoadedRef.current) onLoadedRef.current();
+    });
   };
 
   const handleTouchStart = (e) => {
@@ -92,7 +118,20 @@ export default function PanoramaViewer({
         // they can still scroll the webpage with 1 finger and drag the panorama with 2 fingers.
         touchmoveTwoFingers={isMobile && (!gyroFailed || !import.meta.env.DEV)}
         navbar={false}
+        onReady={handleReady}
       />
+
+      {/* Loading/Placeholder Overlay */}
+      <div className={`${styles.panoPlaceholder} ${!viewerLoading ? styles.panoPlaceholderHidden : ''}`}>
+        <img 
+          src={image} 
+          alt="" 
+          className={styles.panoPlaceholderImage} 
+        />
+        <div className={styles.loadingSpinnerWrapper}>
+          <div className={styles.spinner} />
+        </div>
+      </div>
 
       {isMobile && (
         <>
