@@ -28,11 +28,11 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
 
   return (
     <div>
-      <div className={`${styles.toolbar} ${styles.noDesktop} ${styles.noTablet}`}>
+      <div className={`toolbar noDesktop noTablet`}>
         <div className="alignNext">
-          <h1>Radar</h1>
-          <Link to="#" className={styles.iconbutton}><MuteIcon /></Link>
-          <Link to="/profile" className={styles.iconbutton}><PersonIcon /></Link>
+          <h1>The <span>radar</span></h1>
+          <Link to="#" className="iconbutton"><MuteIcon /></Link>
+          <Link to="/account" className="iconbutton"><PersonIcon /></Link>
         </div>
       </div>
       <div className="noMobile">

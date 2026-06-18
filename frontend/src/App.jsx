@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Home from './pages/Home';
 import Radar from './pages/Radar';
@@ -16,6 +16,7 @@ export default function App() {
   const [isRadarActive, setIsRadarActive] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [distance, setDistance] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
     let watcherId;
@@ -90,7 +91,7 @@ export default function App() {
 
   return (
     <HashRouter>
-      <Navbar />
+      <Navbar token={token} />
       <main>
         <Routes>
           <Route path="/" element={<Home userLocation={userLocation} />} />
@@ -112,8 +113,21 @@ export default function App() {
           <Route path="/favourites" element={<Favourites />} />
           <Route path="/share" element={<Share />} />
           <Route path="/radar-explained" element={<RadarExplained />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/login" element={<Login />} />
+          
+          <Route 
+            path="/account" 
+            element={
+              token ? <Account setToken={setToken} /> : <Navigate to="/login" replace />
+            } 
+          />
+          
+          <Route 
+            path="/login" 
+            element={
+              !token ? <Login setToken={setToken} /> : <Navigate to="/account" replace />
+            } 
+          />
+
         </Routes>
       </main>
       <Footer />

@@ -232,12 +232,7 @@ export default function Home({ userLocation }) {
           <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.mobileLogoImg} />
         </Link>
         <div className={styles.navbarMobileTopRight}>
-          <Link to="/favourites" className={styles.topNavIcon} aria-label="Favourites">
-            <HeartIcon />
-          </Link>
-          <Link to="/account" className={styles.topNavIcon} aria-label="Account">
-            <PersonIcon />
-          </Link>
+          <Link to="/account" className="iconbutton"><PersonIcon /></Link>
         </div>
       </div>
       <div className={styles.homeContainer}>
