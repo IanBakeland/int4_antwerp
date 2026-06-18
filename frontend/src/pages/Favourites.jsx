@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import PersonIcon from '../assets/icons/Person';
 import FavouriteAntistate from '../components/FavouriteAntistate';
+import StoryCard from '../components/StoryCard';
 
 export default function Favourites() {
   useDocumentTitle('Favourites');
@@ -35,7 +36,7 @@ export default function Favourites() {
           .map((fav, index) => `filters[documentId][$in][${index}]=${fav.documentId}`)
           .join('&');
         
-        const favRes = await fetch(`https://necessary-light-a082e19892.strapiapp.com/api/favourites?${inQuery}&populate[story][populate]=panorama`, {
+        const favRes = await fetch(`https://necessary-light-a082e19892.strapiapp.com/api/favourites?${inQuery}&populate[story][populate]=panorama,user`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -76,18 +77,13 @@ export default function Favourites() {
               if (!story) return null; 
 
               return (
-                <div key={favItem.documentId} className="favouriteCard">
-                  {story.panorama && (
-                    <img 
-                      src={story.panorama.formats?.high?.url || story.panorama.url} 
-                      alt={story.title} 
-                    />
-                  )}
-                  <div className="favouriteInfo">
-                    <h3>{story.title}</h3>
-                    <p>{story.category}</p>
-                  </div>
-                </div>
+                <StoryCard 
+                  key={favItem.documentId}
+                  title={story.Title}
+                  category={story.category}
+                  username={story.user?.username}
+                  image={story.panorama}
+                />
               );
             })}
           </div>
