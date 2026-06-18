@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Home from './pages/Home';
 import Radar from './pages/Radar';
@@ -112,8 +112,21 @@ export default function App() {
           <Route path="/favourites" element={<Favourites />} />
           <Route path="/share" element={<Share />} />
           <Route path="/radar-explained" element={<RadarExplained />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/login" element={<Login />} />
+          
+          <Route 
+            path="/account" 
+            element={
+              localStorage.getItem("token") ? <Account /> : <Navigate to="/login" replace />
+            } 
+          />
+          
+          <Route 
+            path="/login" 
+            element={
+              !localStorage.getItem("token") ? <Login /> : <Navigate to="/account" replace />
+            } 
+          />
+
         </Routes>
       </main>
       <Footer />
