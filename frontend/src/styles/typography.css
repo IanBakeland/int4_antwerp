@@ -1,0 +1,37 @@
+@font-face {
+  font-family: 'Leaguesportan';
+  src: url("../assets/fonts/League_Spartan/LeagueSpartan-VariableFont_wght.ttf"),
+    url("../assets/fonts/League_Spartan/static");
+  font-weight: 100 900;
+  font-stretch: 75% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Antwerpen';
+  src: url("../assets/fonts/Antwerpen Regular.otf"), sans-serif;
+}
+
+html,
+body {
+  font-family: var(--font-spartan);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-antwerpen);
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 2.7rem;
+  letter-spacing: -2.4px;
+  margin-right: auto;
+  height: 2.1rem;
+  text-box: trim-both cap alphabetic;
+}

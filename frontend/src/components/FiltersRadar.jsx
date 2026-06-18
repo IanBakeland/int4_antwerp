@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import styles from './FiltersRadar.module.css';
 
 //icons
 import PersonIcon from '../assets/icons/Person';
@@ -18,26 +19,26 @@ export default function FiltersRadar() {
 
   return (
     <>
-        <div className="alignNext filterBar">
-            <div className="filters">
-                <button className={`filterButton flexCenter expand1 ${activeFilters.length === 0 ? 'active' : ''}`}
+        <div className={`alignNext ${styles.filterBar}`}>
+            <div className={styles.filters}>
+                <button className={`${styles.filterButton} flexCenter ${styles.expand1} ${activeFilters.length === 0 ? styles.active : ''}`}
                 onClick={() => {
                     setActiveFilters([]);
                     setIsDropdownOpen(false);
                 }}>
                 <PersonIcon />All</button> 
-                <button className={`filterButton flexCenter expand2 ${activeFilters.includes('Favourites') ? 'active' : ''}`} onClick={() => handleFilterClick('Favourites')}><PersonIcon />Favourites</button>
-                <button className={`filterButton flexCenter dropdown-trigger expand2 ${activeFilters.some(filter => filter !== 'Favourites') ? 'active' : ''}`} onClick={() => setIsDropdownOpen(!isDropdownOpen)}><PersonIcon />Categories</button>
+                <button className={`${styles.filterButton} flexCenter ${styles.expand2} ${activeFilters.includes('Favourites') ? styles.active : ''}`} onClick={() => handleFilterClick('Favourites')}><PersonIcon />Favourites</button>
+                <button className={`${styles.filterButton} flexCenter dropdown-trigger ${styles.expand2} ${activeFilters.some(filter => filter !== 'Favourites') ? styles.active : ''}`} onClick={() => setIsDropdownOpen(!isDropdownOpen)}><PersonIcon />Categories</button>
             </div>
-            <button className="iconbuttonSmall"><PersonIcon /></button>
+            <button className={styles.iconbuttonSmall}><PersonIcon /></button>
         </div>
         {isDropdownOpen && (
-        <div className="filters filterMargin">
-            <button className={`filterButton ${activeFilters.includes('Action') ? 'limeTag' : ''}`} onClick={() => handleFilterClick('Action')}><PersonIcon />Action</button>
-            <button className={`filterButton ${activeFilters.includes('Culture') ? 'orangeTag' : ''}`} onClick={() => handleFilterClick('Culture')}><PersonIcon />Culture</button>
-            <button className={`filterButton ${activeFilters.includes('Business') ? 'blueTag' : ''}`} onClick={() => handleFilterClick('Business')}><PersonIcon />Business</button>
-            <button className={`filterButton ${activeFilters.includes('Romantic') ? 'pinkTag' : ''}`} onClick={() => handleFilterClick('Romantic')}><PersonIcon />Romantic</button>
-            <button className={`filterButton ${activeFilters.includes('Social') ? 'greenTag' : ''}`} onClick={() => handleFilterClick('Social')}><PersonIcon />Social</button>
+        <div className={`${styles.filters} ${styles.filterMargin}`}>
+            <button className={`${styles.filterButton} ${activeFilters.includes('Action') ? styles.limeTag : ''}`} onClick={() => handleFilterClick('Action')}><PersonIcon />Action</button>
+            <button className={`${styles.filterButton} ${activeFilters.includes('Culture') ? styles.orangeTag : ''}`} onClick={() => handleFilterClick('Culture')}><PersonIcon />Culture</button>
+            <button className={`${styles.filterButton} ${activeFilters.includes('Business') ? styles.blueTag : ''}`} onClick={() => handleFilterClick('Business')}><PersonIcon />Business</button>
+            <button className={`${styles.filterButton} ${activeFilters.includes('Romantic') ? styles.pinkTag : ''}`} onClick={() => handleFilterClick('Romantic')}><PersonIcon />Romantic</button>
+            <button className={`${styles.filterButton} ${activeFilters.includes('Social') ? styles.greenTag : ''}`} onClick={() => handleFilterClick('Social')}><PersonIcon />Social</button>
         </div>
         )}
     </>

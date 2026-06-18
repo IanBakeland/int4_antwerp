@@ -1,0 +1,34 @@
+.button {
+  width: max-content;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 0.75rem 1.5rem;
+  margin: 0.5rem 1.5rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  text-decoration: none;
+  border: none;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+  -webkit-tap-highlight-color: transparent;
+  anchor-name: var(--active-anchor, --fallback);
+}
+
+.buttonIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonIcon svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}

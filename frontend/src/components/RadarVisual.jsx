@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import styles from './RadarVisual.module.css';
 
 export default function RadarVisual({ distance, isRadarActive}) {
   let innerScale = 1;
@@ -61,15 +62,15 @@ export default function RadarVisual({ distance, isRadarActive}) {
   }, [distance]);
 
   return (
-    <div className="radar-container">
+    <div className={styles.radarContainer}>
     {distance != null && isRadarActive && (
     <>
         <div 
-        className="radar-pulse-ring" 
+        className={styles.radarPulseRing} 
         style={{ animationDuration: `${pulseSpeed}s` }}
         ></div>   
         <div 
-        className="radar-pulse-ring" 
+        className={styles.radarPulseRing} 
         style={{ 
             animationDuration: `${pulseSpeed}s`, 
             animationDelay: pulseDelay 
@@ -80,17 +81,17 @@ export default function RadarVisual({ distance, isRadarActive}) {
 
       
       <div 
-        className="radar-outer" 
+        className={styles.radarOuter} 
         style={{ transform: `scale(${outerScale})`, opacity: outerOpacity }}
       ></div>
       
       <div 
-        className="radar-middle" 
+        className={styles.radarMiddle} 
         style={{ transform: `scale(${middleScale})`, opacity: middleOpacity }}
       ></div>
       
       <div 
-        className="radar-inner" 
+        className={styles.radarInner} 
         style={{ transform: `scale(${innerScale})`, opacity: innerOpacity }}
       ></div>
     </div>
