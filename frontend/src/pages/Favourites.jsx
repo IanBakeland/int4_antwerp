@@ -79,12 +79,12 @@ export default function Favourites() {
                 <div key={favItem.documentId} className="favouriteCard">
                   {story.panorama && (
                     <img 
-                      src={story.panorama.formats?.thumbnail?.url || story.panorama.url} 
-                      alt={story.Title} 
+                      src={story.panorama.formats?.high?.url || story.panorama.url} 
+                      alt={story.title} 
                     />
                   )}
                   <div className="favouriteInfo">
-                    <h3>{story.Title}</h3>
+                    <h3>{story.title}</h3>
                     <p>{story.category}</p>
                   </div>
                 </div>
