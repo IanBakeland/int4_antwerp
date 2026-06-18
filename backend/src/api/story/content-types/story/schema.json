@@ -1,0 +1,73 @@
+{
+  "kind": "collectionType",
+  "collectionName": "stories",
+  "info": {
+    "singularName": "story",
+    "pluralName": "stories",
+    "displayName": "Story"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "stories"
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "action",
+        "culture",
+        "business",
+        "romantic",
+        "social"
+      ]
+    },
+    "Title": {
+      "type": "string"
+    },
+    "Story": {
+      "type": "richtext"
+    },
+    "latitude": {
+      "type": "decimal"
+    },
+    "longitude": {
+      "type": "decimal"
+    },
+    "hiddenSpots": {
+      "type": "integer"
+    },
+    "panorama": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "state": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "approved",
+        "deleted"
+      ]
+    },
+    "favourites": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::favourite.favourite",
+      "mappedBy": "story"
+    },
+    "reactions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::reaction.reaction",
+      "mappedBy": "story"
+    }
+  }
+}
