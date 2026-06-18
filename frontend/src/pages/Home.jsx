@@ -105,6 +105,7 @@ export default function Home({ userLocation }) {
 
   const [currentPanoIndex, setCurrentPanoIndex] = useState(0);
   const [transitionClass, setTransitionClass] = useState('slide-active');
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const activeStory = stories[currentPanoIndex];
 
   const transitionClassMap = {
@@ -115,9 +116,11 @@ export default function Home({ userLocation }) {
     'slide-enter-right': styles.slideEnterRight,
   };
 
-  const navigateToPano = (newIndex) => {
-    if (newIndex === currentPanoIndex) return;
-    const direction = newIndex > currentPanoIndex ? 'next' : 'prev';
+  const navigateToPano = (newIndex, forcedDirection) => {
+    if (newIndex === currentPanoIndex || isTransitioning) return;
+    setIsTransitioning(true);
+
+    const direction = forcedDirection || (newIndex > currentPanoIndex ? 'next' : 'prev');
 
     // 1. Slide out current panorama
     setTransitionClass(direction === 'next' ? 'slide-leave-left' : 'slide-leave-right');
@@ -131,16 +134,17 @@ export default function Home({ userLocation }) {
       // 4. Slide in smoothly to center
       setTimeout(() => {
         setTransitionClass('slide-active');
+        setIsTransitioning(false);
       }, 50);
     }, 250);
   };
 
   const handleNext = () => {
-    navigateToPano((currentPanoIndex + 1) % stories.length);
+    navigateToPano((currentPanoIndex + 1) % stories.length, 'next');
   };
 
   const handlePrev = () => {
-    navigateToPano((currentPanoIndex - 1 + stories.length) % stories.length);
+    navigateToPano((currentPanoIndex - 1 + stories.length) % stories.length, 'prev');
   };
 
   return (
@@ -163,15 +167,17 @@ export default function Home({ userLocation }) {
           <LogoAS />
         </div>
 
-        <PanoramaViewer
-          image={activeStory.image}
-          storyCount={activeStory.storyCount}
-          title={activeStory.title}
-          description={activeStory.description}
-          onNext={handleNext}
-          onPrev={handlePrev}
-          className={`${styles.homePanoImage} ${transitionClassMap[transitionClass]}`}
-        />
+        <div className={styles.homePanoWrapper}>
+          <PanoramaViewer
+            image={activeStory.image}
+            storyCount={activeStory.storyCount}
+            title={activeStory.title}
+            description={activeStory.description}
+            onNext={handleNext}
+            onPrev={handlePrev}
+            className={`${styles.homePanoImage} ${transitionClassMap[transitionClass]}`}
+          />
+        </div>
 
         {/* Pagination Indicators */}
         <div className={styles.panoPagination}>
