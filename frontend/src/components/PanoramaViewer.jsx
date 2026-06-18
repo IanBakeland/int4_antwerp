@@ -7,7 +7,6 @@ import styles from './PanoramaViewer.module.css';
 
 export default function PanoramaViewer({
   image,
-  pendingImage,
   storyCount,
   title,
   description,
@@ -21,6 +20,7 @@ export default function PanoramaViewer({
   });
   const [gyroStarted, setGyroStarted] = useState(false);
   const [gyroFailed, setGyroFailed] = useState(false);
+  const [viewerLoading, setViewerLoading] = useState(true);
   const viewerRef = useRef(null);
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
@@ -33,16 +33,6 @@ export default function PanoramaViewer({
     console.log("PanoramaViewer: isMobile =", isMobile, "width =", window.innerWidth, "UA =", navigator.userAgent);
   }, [isMobile]);
 
-  // Imperatively load pending image in Photo Sphere Viewer silently to prevent React remounting
-  useEffect(() => {
-    if (pendingImage && viewerRef.current) {
-      console.log("PanoramaViewer: Loading pending image background texture", pendingImage);
-      viewerRef.current.setPanorama(pendingImage)
-        .catch(err => {
-          console.warn("PanoramaViewer: setPanorama failed or cancelled:", err);
-        });
-    }
-  }, [pendingImage]);
 
   const plugins = isMobile ? [
     [GyroscopePlugin, { absolutePosition: true, moveMode: 'fast' }]
@@ -66,11 +56,21 @@ export default function PanoramaViewer({
   };
 
   const handleReady = (instance) => {
+    setViewerLoading(false);
+
+    instance.addEventListener('panorama-load', () => {
+      setViewerLoading(true);
+    });
+
     instance.addEventListener('panorama-loaded', () => {
-      if (onLoadedRef.current) onLoadedRef.current();
+      setTimeout(() => {
+        setViewerLoading(false);
+        if (onLoadedRef.current) onLoadedRef.current();
+      }, 150);
     });
 
     instance.addEventListener('panorama-error', () => {
+      setViewerLoading(false);
       if (onLoadedRef.current) onLoadedRef.current();
     });
   };
@@ -122,7 +122,17 @@ export default function PanoramaViewer({
         onReady={handleReady}
       />
 
-
+      {/* Loading/Placeholder Overlay */}
+      <div className={`${styles.panoPlaceholder} ${!viewerLoading ? styles.panoPlaceholderHidden : ''}`}>
+        <img
+          src={image}
+          alt=""
+          className={styles.panoPlaceholderImage}
+        />
+        <div className={styles.loadingSpinnerWrapper}>
+          <div className={styles.spinner} />
+        </div>
+      </div>
 
       {isMobile && (
         <>

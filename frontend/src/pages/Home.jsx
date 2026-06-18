@@ -104,21 +104,19 @@ export default function Home({ userLocation }) {
   };
 
   const [currentPanoIndex, setCurrentPanoIndex] = useState(0);
-  const [pendingPanoIndex, setPendingPanoIndex] = useState(null);
   const [prevPanoIndex, setPrevPanoIndex] = useState(null);
   const [transitionClass, setTransitionClass] = useState('slide-active');
   const [prevTransitionClass, setPrevTransitionClass] = useState('');
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isTransitionLoading, setIsTransitionLoading] = useState(false);
 
   const transitionDirectionRef = useRef('next');
   const transitionFallbackRef = useRef(null);
-  const preloadedImagesRef = useRef([]);
-
-  const displayIndex = pendingPanoIndex !== null ? pendingPanoIndex : currentPanoIndex;
-  const activeStory = stories[displayIndex];
+  const activeStory = stories[currentPanoIndex];
+  const displayIndex = currentPanoIndex;
 
   useEffect(() => {
-    // Intelligent Adjacent Preloading: preload both next and previous panoramas relative to active index
+    // Intelligent Adjacent Preloading: preload only next and previous panoramas relative to active index
     const nextIndex = (currentPanoIndex + 1) % stories.length;
     const prevIndex = (currentPanoIndex - 1 + stories.length) % stories.length;
 
@@ -127,8 +125,6 @@ export default function Home({ userLocation }) {
 
     const prevImg = new Image();
     prevImg.src = stories[prevIndex].image;
-
-    preloadedImagesRef.current = [nextImg, prevImg];
   }, [currentPanoIndex]);
 
   // Cleanup effect for safeguard timers
@@ -147,58 +143,70 @@ export default function Home({ userLocation }) {
     'slide-enter-left': styles.slideEnterLeft,
     'slide-enter-right': styles.slideEnterRight,
     'static-active': styles.staticActive,
+    'static-leave-prep-left': styles.staticLeavePrepLeft,
+    'static-leave-prep-right': styles.staticLeavePrepRight,
+    'slide-enter-prep-left': styles.slideEnterPrepLeft,
+    'slide-enter-prep-right': styles.slideEnterPrepRight,
   };
 
   const navigateToPano = (newIndex, forcedDirection) => {
     if (newIndex === currentPanoIndex || isTransitioning) return;
     setIsTransitioning(true);
+    setIsTransitionLoading(true);
 
     const direction = forcedDirection || (newIndex > currentPanoIndex ? 'next' : 'prev');
     transitionDirectionRef.current = direction;
 
-    // 1. Lock current panorama as static visual bridge snapshot on top (keeps translation 0, visible)
+    // 1. Lock the current panorama in place as a static top layer
     setPrevPanoIndex(currentPanoIndex);
     setPrevTransitionClass('static-active');
 
-    // 2. Load the target index silently offscreen underneath
-    setPendingPanoIndex(newIndex);
+    // 2. Load the new index offscreen in the WebGL viewer underneath (keeps translation offscreen)
+    setCurrentPanoIndex(newIndex);
     setTransitionClass(direction === 'next' ? 'slide-enter-right' : 'slide-enter-left');
 
-    // 3. Immediately start the slide transition side-by-side (takes 250ms)
+    // 3. Phase 1: Immediately slide both elements slightly (20%) to show loading state
     setTimeout(() => {
-      setPrevTransitionClass(direction === 'next' ? 'slide-leave-left' : 'slide-leave-right');
-      setTransitionClass('slide-active');
+      setPrevTransitionClass(direction === 'next' ? 'static-leave-prep-left' : 'static-leave-prep-right');
+      setTransitionClass(direction === 'next' ? 'slide-enter-prep-right' : 'slide-enter-prep-left');
     }, 50);
-
-    // 4. Fallback safeguard: force cleanup in 500ms
-    if (transitionFallbackRef.current) {
-      clearTimeout(transitionFallbackRef.current);
-    }
-    transitionFallbackRef.current = setTimeout(() => {
-      if (pendingPanoIndex !== null) {
-        setCurrentPanoIndex(pendingPanoIndex);
-        setPendingPanoIndex(null);
-      }
-      setPrevPanoIndex(null);
-      setPrevTransitionClass('');
-      setIsTransitioning(false);
-    }, 500);
   };
 
   const handlePanoLoaded = () => {
-    // Texture loaded silently in background WebGL canvas
+    if (prevPanoIndex !== null && isTransitionLoading) {
+      setIsTransitionLoading(false);
+      const direction = transitionDirectionRef.current;
+
+      // 4. Start side-by-side sliding transition only now that rendering is complete
+      setPrevTransitionClass(direction === 'next' ? 'slide-leave-left' : 'slide-leave-right');
+      setTransitionClass('slide-active');
+
+      // 5. Fallback safeguard: if transitionend fails, force cleanup in 500ms
+      if (transitionFallbackRef.current) {
+        clearTimeout(transitionFallbackRef.current);
+      }
+      transitionFallbackRef.current = setTimeout(() => {
+        setPrevPanoIndex(null);
+        setPrevTransitionClass('');
+        setIsTransitioning(false);
+      }, 500);
+    } else {
+      setIsTransitioning(false);
+      setIsTransitionLoading(false);
+    }
   };
 
   const handleTransitionEnd = (e) => {
+    // During Phase 1 (loading), the element transitions to the 20% prep state, which we must keep.
+    if (isTransitionLoading) return;
+
+    // 6. Cleanup outgoing slide and release lock after transition finishes (supports webkit-transform)
     if (e.propertyName.includes('transform')) {
       if (transitionFallbackRef.current) {
         clearTimeout(transitionFallbackRef.current);
         transitionFallbackRef.current = null;
       }
-      if (pendingPanoIndex !== null) {
-        setCurrentPanoIndex(pendingPanoIndex);
-        setPendingPanoIndex(null);
-      }
+
       setPrevPanoIndex(null);
       setPrevTransitionClass('');
       setIsTransitioning(false);
@@ -249,9 +257,13 @@ export default function Home({ userLocation }) {
             </div>
           )}
 
+          {isTransitionLoading && (
+            <div className={styles.transitionSpinnerWrapper}>
+              <div className={styles.spinner} />
+            </div>
+          )}
           <PanoramaViewer
-            image={stories[currentPanoIndex].image}
-            pendingImage={pendingPanoIndex !== null ? stories[pendingPanoIndex].image : null}
+            image={activeStory.image}
             storyCount={activeStory.storyCount}
             title={activeStory.title}
             description={activeStory.description}
