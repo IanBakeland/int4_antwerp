@@ -283,7 +283,7 @@ export default function Home({ userLocation }) {
           {stories.map((_, index) => (
             <button
               key={index}
-              className={`${styles.panoPagination__dot} ${index === displayIndex ? styles.active : ''}`}
+              className={`${styles.panoPagination__dot} ${index === displayIndex ? styles.panoPagination__dotActive : ''}`}
               onClick={() => navigateToPano(index)}
               aria-label={`Go to slide ${index + 1}`}
             />
