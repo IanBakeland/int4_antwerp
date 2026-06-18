@@ -6,6 +6,8 @@ import Favourites from './pages/Favourites';
 import Share from './pages/Share';
 import RadarExplained from './pages/RadarExplained';
 import Account from './pages/Account';
+import Login from './pages/Login';
+
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -111,6 +113,7 @@ export default function App() {
           <Route path="/share" element={<Share />} />
           <Route path="/radar-explained" element={<RadarExplained />} />
           <Route path="/account" element={<Account />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </main>
       <Footer />

@@ -127,7 +127,7 @@
   outline: none;
 }
 
-.panoPagination__dot.active {
+.panoPagination__dot.panoPagination__dotActive {
   width: 1.5rem;
   /* 24px pill shape */
   border-radius: 0.25rem;
