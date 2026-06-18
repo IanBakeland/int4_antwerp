@@ -11,6 +11,7 @@ import antwerpLogo from '../assets/images/antwerpLogo.png';
 import backgroundMoments from '../assets/images/backgroundmoments.png';
 import HeartIcon from '../assets/icons/Heart';
 import PersonIcon from '../assets/icons/Person';
+import styles from './Home.module.css';
 
 const stories = [
   {
@@ -106,6 +107,14 @@ export default function Home({ userLocation }) {
   const [transitionClass, setTransitionClass] = useState('slide-active');
   const activeStory = stories[currentPanoIndex];
 
+  const transitionClassMap = {
+    'slide-active': styles.slideActive,
+    'slide-leave-left': styles.slideLeaveLeft,
+    'slide-leave-right': styles.slideLeaveRight,
+    'slide-enter-left': styles.slideEnterLeft,
+    'slide-enter-right': styles.slideEnterRight,
+  };
+
   const navigateToPano = (newIndex) => {
     if (newIndex === currentPanoIndex) return;
     const direction = newIndex > currentPanoIndex ? 'next' : 'prev';
@@ -136,21 +145,21 @@ export default function Home({ userLocation }) {
 
   return (
     <>
-      <div className="navbarMobileTop">
-        <Link to="/" className="mobileLogoLink" aria-label="Go to Homepage">
-          <img src={antwerpLogo} alt="Antwerpen Logo" className="mobileLogoImg" />
+      <div className={styles.navbarMobileTop}>
+        <Link to="/" className={styles.mobileLogoLink} aria-label="Go to Homepage">
+          <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.mobileLogoImg} />
         </Link>
-        <div className="navbarMobileTopRight">
-          <Link to="/favourites" className="topNavIcon" aria-label="Favourites">
+        <div className={styles.navbarMobileTopRight}>
+          <Link to="/favourites" className={styles.topNavIcon} aria-label="Favourites">
             <HeartIcon />
           </Link>
-          <Link to="/account" className="topNavIcon" aria-label="Account">
+          <Link to="/account" className={styles.topNavIcon} aria-label="Account">
             <PersonIcon />
           </Link>
         </div>
       </div>
-      <div className="homeContainer">
-        <div className="homeLogoWrapper">
+      <div className={styles.homeContainer}>
+        <div className={styles.homeLogoWrapper}>
           <LogoAS />
         </div>
 
@@ -161,15 +170,15 @@ export default function Home({ userLocation }) {
           description={activeStory.description}
           onNext={handleNext}
           onPrev={handlePrev}
-          className={`homePanoImage ${transitionClass}`}
+          className={`${styles.homePanoImage} ${transitionClassMap[transitionClass]}`}
         />
 
         {/* Pagination Indicators */}
-        <div className="panoPagination">
+        <div className={styles.panoPagination}>
           {stories.map((_, index) => (
             <button
               key={index}
-              className={`panoPagination__dot ${index === currentPanoIndex ? 'active' : ''}`}
+              className={`${styles.panoPagination__dot} ${index === currentPanoIndex ? styles.active : ''}`}
               onClick={() => navigateToPano(index)}
               aria-label={`Go to slide ${index + 1}`}
             />
@@ -177,44 +186,44 @@ export default function Home({ userLocation }) {
         </div>
 
         {/* Info Cards Grid */}
-        <div className="panoInfoGrid">
-          <div className="panoInfoCard panoInfoCard--orange">
-            <span className="panoInfoCard__number">
-              50+<span className="panoInfoCard__unit">KM</span>
+        <div className={styles.panoInfoGrid}>
+          <div className={`${styles.panoInfoCard} ${styles['panoInfoCard--orange']}`}>
+            <span className={styles.panoInfoCard__number}>
+              50+<span className={styles.panoInfoCard__unit}>KM</span>
             </span>
-            <span className="panoInfoCard__label">Across Antwerp</span>
+            <span className={styles.panoInfoCard__label}>Across Antwerp</span>
           </div>
-          <div className="panoInfoCard panoInfoCard--blue">
-            <span className="panoInfoCard__number">40+</span>
-            <span className="panoInfoCard__label">Stories</span>
+          <div className={`${styles.panoInfoCard} ${styles['panoInfoCard--blue']}`}>
+            <span className={styles.panoInfoCard__number}>40+</span>
+            <span className={styles.panoInfoCard__label}>Stories</span>
           </div>
-          <div className="panoInfoCard panoInfoCard--pink">
-            <span className="panoInfoCard__number">63</span>
-            <span className="panoInfoCard__label">Hidden spots</span>
+          <div className={`${styles.panoInfoCard} ${styles['panoInfoCard--pink']}`}>
+            <span className={styles.panoInfoCard__number}>63</span>
+            <span className={styles.panoInfoCard__label}>Hidden spots</span>
           </div>
-          <div className="panoInfoCard panoInfoCard--lime">
-            <span className="panoInfoCard__number">10</span>
-            <span className="panoInfoCard__label">Weekly stories</span>
+          <div className={`${styles.panoInfoCard} ${styles['panoInfoCard--lime']}`}>
+            <span className={styles.panoInfoCard__number}>10</span>
+            <span className={styles.panoInfoCard__label}>Weekly stories</span>
           </div>
         </div>
 
-        <h2 className="homePanoramaTitle">
+        <h2 className={styles.homePanoramaTitle}>
           180° panorama <br /> moments
         </h2>
 
-        <p className="homePanoramaDescription">
-          Discover Antwerp through the eyes of locals and visitors. Experience immersive <span className="homePanoramaDescription--bold">panorama stories</span> with real images and sound, then continue the story in the city itself using our interactive <span className="homePanoramaDescription--bold">radar</span>.
+        <p className={styles.homePanoramaDescription}>
+          Discover Antwerp through the eyes of locals and visitors. Experience immersive <span className={styles['homePanoramaDescription--bold']}>panorama stories</span> with real images and sound, then continue the story in the city itself using our interactive <span className={styles['homePanoramaDescription--bold']}>radar</span>.
         </p>
 
-        <Link to="/radar" className="homeRadarButton">
-          Radar <span className="discoverSpotsButton__arrow">→</span>
+        <Link to="/radar" className={styles.homeRadarButton}>
+          Radar <span className={styles.discoverSpotsButton__arrow || ''}>→</span>
         </Link>
 
-        <img src={backgroundMoments} alt="180° panorama moments" className="homeBackgroundMoments" />
+        <img src={backgroundMoments} alt="180° panorama moments" className={styles.homeBackgroundMoments} />
 
-        <div className="homeScrollBanner">
-          <div className="homeScrollBanner__track">
-            <div className="homeScrollBanner__content">
+        <div className={styles.homeScrollBanner}>
+          <div className={styles.homeScrollBanner__track}>
+            <div className={styles.homeScrollBanner__content}>
               <span>RADAR</span>
               <DividerSVG color="#66A0FF" />
               <span>PANORAMIC SCENES</span>
@@ -224,32 +233,7 @@ export default function Home({ userLocation }) {
               <span>LOCAL LIFE</span>
               <DividerSVG color="#66A0FF" />
             </div>
-            <div className="homeScrollBanner__content" aria-hidden="true">
-              <span>RADAR</span>
-              <DividerSVG color="#66A0FF" />
-              <span>PANORAMIC SCENES</span>
-              <DividerSVG color="#FF82DC" />
-              <span>RELIVE MOMENTS</span>
-              <DividerSVG color="#D2FF4B" />
-              <span>LOCAL LIFE</span>
-              <DividerSVG color="#66A0FF" />
-            </div>
-          </div>
-        </div>
-
-        <div className="homeScrollBanner homeScrollBanner--horizontal">
-          <div className="homeScrollBanner__track">
-            <div className="homeScrollBanner__content">
-              <span>RADAR</span>
-              <DividerSVG color="#66A0FF" />
-              <span>PANORAMIC SCENES</span>
-              <DividerSVG color="#FF82DC" />
-              <span>RELIVE MOMENTS</span>
-              <DividerSVG color="#D2FF4B" />
-              <span>LOCAL LIFE</span>
-              <DividerSVG color="#66A0FF" />
-            </div>
-            <div className="homeScrollBanner__content" aria-hidden="true">
+            <div className={styles.homeScrollBanner__content} aria-hidden="true">
               <span>RADAR</span>
               <DividerSVG color="#66A0FF" />
               <span>PANORAMIC SCENES</span>
@@ -262,24 +246,49 @@ export default function Home({ userLocation }) {
           </div>
         </div>
 
-        <div className="homeTopStoriesTitleWrapper">
-          <h2 className="homeTopStoriesTitle__top">TOP 10</h2>
-          <h3 className="homeTopStoriesTitle__sub">stories of the week</h3>
+        <div className={`${styles.homeScrollBanner} ${styles['homeScrollBanner--horizontal']}`}>
+          <div className={styles.homeScrollBanner__track}>
+            <div className={styles.homeScrollBanner__content}>
+              <span>RADAR</span>
+              <DividerSVG color="#66A0FF" />
+              <span>PANORAMIC SCENES</span>
+              <DividerSVG color="#FF82DC" />
+              <span>RELIVE MOMENTS</span>
+              <DividerSVG color="#D2FF4B" />
+              <span>LOCAL LIFE</span>
+              <DividerSVG color="#66A0FF" />
+            </div>
+            <div className={styles.homeScrollBanner__content} aria-hidden="true">
+              <span>RADAR</span>
+              <DividerSVG color="#66A0FF" />
+              <span>PANORAMIC SCENES</span>
+              <DividerSVG color="#FF82DC" />
+              <span>RELIVE MOMENTS</span>
+              <DividerSVG color="#D2FF4B" />
+              <span>LOCAL LIFE</span>
+              <DividerSVG color="#66A0FF" />
+            </div>
+          </div>
         </div>
 
-        <div className="homeTopStoriesContainer">
-          <div className="homeTopStoriesList">
+        <div className={styles.homeTopStoriesTitleWrapper}>
+          <h2 className={styles.homeTopStoriesTitle__top}>TOP 10</h2>
+          <h3 className={styles.homeTopStoriesTitle__sub}>stories of the week</h3>
+        </div>
+
+        <div className={styles.homeTopStoriesContainer}>
+          <div className={styles.homeTopStoriesList}>
             {topStories.map((story, index) => (
-              <div key={index} className="homeTopStoriesItem" style={{ zIndex: (index + 1) * 10 }}>
-                <span className="homeTopStoriesItem__number" style={{
+              <div key={index} className={styles.homeTopStoriesItem} style={{ zIndex: (index + 1) * 10 }}>
+                <span className={styles.homeTopStoriesItem__number} style={{
                   WebkitTextStrokeColor: strokeColors[index % strokeColors.length],
                   left: getLeftOffset(index)
                 }}>
                   {index + 1}
                 </span>
-                <div className="homeTopStoriesItem__card" style={{ backgroundImage: `url(${story.image})` }}>
-                  <div className="homeTopStoriesItem__gradient" />
-                  <h4 className="homeTopStoriesItem__title">{story.title}</h4>
+                <div className={styles.homeTopStoriesItem__card} style={{ backgroundImage: `url(${story.image})` }}>
+                  <div className={styles.homeTopStoriesItem__gradient} />
+                  <h4 className={styles.homeTopStoriesItem__title}>{story.title}</h4>
                 </div>
               </div>
             ))}
@@ -290,7 +299,6 @@ export default function Home({ userLocation }) {
           <p>Live Coordinates: {userLocation.lat}, {userLocation.lng}</p>
         )}
 
-        {/* SVG ClipPath for the curved mobile banner effect */}
         <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none' }}>
           <defs>
             <clipPath id="pano-clip" clipPathUnits="objectBoundingBox">

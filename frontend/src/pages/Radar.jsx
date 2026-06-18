@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import styles from './Radar.module.css';
 
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import FiltersRadar from '../components/FiltersRadar';
@@ -27,11 +28,11 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
 
   return (
     <div>
-      <div className="toolbar noDesktop noTablet">
+      <div className={`${styles.toolbar} ${styles.noDesktop} ${styles.noTablet}`}>
         <div className="alignNext">
           <h1>Radar</h1>
-          <Link to="#" className="iconbutton"><MuteIcon /></Link>
-          <Link to="/profile" className="iconbutton"><PersonIcon /></Link>
+          <Link to="#" className={styles.iconbutton}><MuteIcon /></Link>
+          <Link to="/profile" className={styles.iconbutton}><PersonIcon /></Link>
         </div>
       </div>
       <div className="noMobile">
@@ -41,7 +42,7 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
       <FiltersRadar />
       <RadarVisual distance={distance} isRadarActive={isRadarActive} />
       {distance != null && isRadarActive && (
-        <div className="distanceTag flexCenter">
+        <div className={`${styles.distanceTag} flexCenter`}>
           <LocationFilledIcon />
           <p>{formatDistance(distance)}</p>
         </div>

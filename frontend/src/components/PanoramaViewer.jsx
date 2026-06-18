@@ -3,6 +3,7 @@ import { ReactPhotoSphereViewer } from 'react-photo-sphere-viewer';
 import { GyroscopePlugin } from '@photo-sphere-viewer/gyroscope-plugin';
 import { Link } from 'react-router-dom';
 import '@photo-sphere-viewer/core/index.css';
+import styles from './PanoramaViewer.module.css';
 
 export default function PanoramaViewer({ 
   image, 
@@ -95,20 +96,20 @@ export default function PanoramaViewer({
 
       {isMobile && (
         <>
-          <div className="panoGradientOverlay" />
-          <div className="panoContentWrapper">
-            <p className="panoContent__storyCount">{storyCount}</p>
-            <h2 className="panoContent__title">{title}</h2>
-            <p className="panoContent__description">{description}</p>
-            <div className="exploreActionsContainer">
+          <div className={styles.panoGradientOverlay} />
+          <div className={styles.panoContentWrapper}>
+            <p className={styles.panoContent__storyCount}>{storyCount}</p>
+            <h2 className={styles.panoContent__title}>{title}</h2>
+            <p className={styles.panoContent__description}>{description}</p>
+            <div className={styles.exploreActionsContainer}>
               <Link
                 to="#"
                 onClick={(e) => e.preventDefault()}
-                className="exploreSceneButton"
+                className={styles.exploreSceneButton}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="exploreSceneButton__icon"
+                  className={styles.exploreSceneButton__icon}
                   viewBox="0 0 16 12"
                   fill="none"
                 >
@@ -132,10 +133,10 @@ export default function PanoramaViewer({
               <Link
                 to="#"
                 onClick={(e) => e.preventDefault()}
-                className="discoverSpotsButton"
+                className={styles.discoverSpotsButton}
               >
                 Discover spots
-                <span className="discoverSpotsButton__arrow">→</span>
+                <span className={styles.discoverSpotsButton__arrow}>→</span>
               </Link>
             </div>
           </div>
@@ -144,7 +145,7 @@ export default function PanoramaViewer({
 
       {isMobile && !gyroStarted && (
         <button
-          className="gyroStartOverlay"
+          className={styles.gyroStartOverlay}
           onClick={handleStartGyro}
         >
           <svg 
@@ -153,7 +154,7 @@ export default function PanoramaViewer({
             viewBox="0 0 12 15" 
             fill="none" 
             xmlns="http://www.w3.org/2000/svg"
-            className="gyroStartOverlay__icon"
+            className={styles.gyroStartOverlay__icon}
             style={{ flexShrink: 0 }}
           >
             <path 
