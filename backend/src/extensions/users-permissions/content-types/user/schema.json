@@ -77,6 +77,12 @@
       "relation": "oneToMany",
       "target": "api::favourite.favourite",
       "mappedBy": "user"
+    },
+    "reactions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::reaction.reaction",
+      "mappedBy": "user"
     }
   }
 }

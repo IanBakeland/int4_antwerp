@@ -4,7 +4,7 @@
   "info": {
     "singularName": "story",
     "pluralName": "stories",
-    "displayName": "Stories"
+    "displayName": "Story"
   },
   "options": {
     "draftAndPublish": true
@@ -61,6 +61,12 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::favourite.favourite",
+      "mappedBy": "story"
+    },
+    "reactions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::reaction.reaction",
       "mappedBy": "story"
     }
   }

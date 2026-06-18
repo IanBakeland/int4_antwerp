@@ -472,10 +472,47 @@ export interface ApiFavouriteFavourite extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiReactionReaction extends Struct.CollectionTypeSchema {
+  collectionName: 'reactions';
+  info: {
+    displayName: 'Reaction';
+    pluralName: 'reactions';
+    singularName: 'reaction';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    emoji: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 1;
+        minLength: 1;
+      }>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::reaction.reaction'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    story: Schema.Attribute.Relation<'manyToOne', 'api::story.story'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
 export interface ApiStoryStory extends Struct.CollectionTypeSchema {
   collectionName: 'stories';
   info: {
-    displayName: 'Stories';
+    displayName: 'Story';
     pluralName: 'stories';
     singularName: 'story';
   };
@@ -501,6 +538,7 @@ export interface ApiStoryStory extends Struct.CollectionTypeSchema {
     longitude: Schema.Attribute.Decimal;
     panorama: Schema.Attribute.Media<'images'>;
     publishedAt: Schema.Attribute.DateTime;
+    reactions: Schema.Attribute.Relation<'oneToMany', 'api::reaction.reaction'>;
     state: Schema.Attribute.Enumeration<['pending', 'approved', 'deleted']>;
     Story: Schema.Attribute.RichText;
     Title: Schema.Attribute.String;
@@ -1000,6 +1038,7 @@ export interface PluginUsersPermissionsUser
       }>;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    reactions: Schema.Attribute.Relation<'oneToMany', 'api::reaction.reaction'>;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
     role: Schema.Attribute.Relation<
       'manyToOne',
@@ -1030,6 +1069,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::favourite.favourite': ApiFavouriteFavourite;
+      'api::reaction.reaction': ApiReactionReaction;
       'api::story.story': ApiStoryStory;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
