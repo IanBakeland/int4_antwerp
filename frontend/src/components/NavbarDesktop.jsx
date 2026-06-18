@@ -21,37 +21,37 @@ export default function SecondaryNav() {
     <div className="alignNext">
       <Link to="/" className={styles.navbarAntwerpLogo} aria-label="Go to Homepage"></Link>
       <div className={`${styles.navbarDesktopAnimation} flexCenter`}>
-        <Link to="/" className={`${styles.navbarDesktopItem} ${checkActive('/', '') ? styles.active : ''}`}>HOME</Link>
-        <Link to="/#panoramas" className={`${styles.navbarDesktopItem} ${checkActive('/', '#panoramas') ? styles.active : ''}`}>PANORAMAS</Link>
-        <Link to="/radar-explained" className={`${styles.navbarDesktopItem} ${checkActive('/radar-explained', '') ? styles.active : ''}`}>RADAR</Link>
+        <Link to="/" className={`${styles.navbarDesktopItem} ${checkActive('/', '') ? styles.navbarDesktopItemActive : ''}`}>HOME</Link>
+        <Link to="/#panoramas" className={`${styles.navbarDesktopItem} ${checkActive('/', '#panoramas') ? styles.navbarDesktopItemActive : ''}`}>PANORAMAS</Link>
+        <Link to="/radar-explained" className={`${styles.navbarDesktopItem} ${checkActive('/radar-explained', '') ? styles.navbarDesktopItemActive : ''}`}>RADAR</Link>
       </div>
 
 
       <SmartButton to="/share" icon={<PlusCircleIcon />}>Share your story</SmartButton>
 
 
-      <NavLink to="/favourites" className={({ isActive }) => `${styles.tab} flexCenter alignUnder ${isActive ? styles.active : ''}`}>
+      <NavLink to="/favourites" className={({ isActive }) => `tab flexCenter alignUnder ${isActive ? 'active' : ''}`}>
           {({ isActive }) => (
               <>
-                  <div className={styles.iconContainer}>
-                      <div className={`${styles.fadeIcon} ${isActive ? styles.iconHidden : styles.iconVisible}`}>
+                  <div className="iconContainer">
+                      <div className={`fadeIcon ${isActive ? 'iconHidden' : 'iconVisible'}`}>
                           <HeartIcon />
                       </div>
-                      <div className={`${styles.active} ${styles.fadeIcon} ${isActive ? styles.iconVisible : styles.iconHidden}`}>
+                      <div className={`active fadeIcon ${isActive ? 'iconVisible' : 'iconHidden'}`}>
                           <HeartFilledIcon />
                       </div>
                   </div>
               </>
           )}
       </NavLink>
-      <NavLink to="/account" className={({ isActive }) => `${styles.tab} flexCenter alignUnder ${isActive ? styles.active : ''}`}>
+      <NavLink to="/account" className={({ isActive }) => `tab flexCenter alignUnder ${isActive ? 'active' : ''}`}>
           {({ isActive }) => (
               <>
-                  <div className={styles.iconContainer}>
-                      <div className={`${styles.fadeIcon} ${isActive ? styles.iconHidden : styles.iconVisible}`}>
+                  <div className="iconContainer">
+                      <div className={`fadeIcon ${isActive ? 'iconHidden' : 'iconVisible'}`}>
                           <PersonIcon />
                       </div>
-                      <div className={`${styles.active} ${styles.fadeIcon} ${isActive ? styles.iconVisible : styles.iconHidden}`}>
+                      <div className={`active fadeIcon ${isActive ? 'iconVisible' : 'iconHidden'}`}>
                           <PersonFilledIcon />
                       </div>
                   </div>

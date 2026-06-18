@@ -4,6 +4,18 @@
   }
 }
 
+@media (min-width: 801px) and (max-width: 1024px) {
+  .noTablet {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .noDesktop {
+    display: none !important;
+  }
+}
+
 .flexCenter {
   display: flex;
   justify-content: center;
@@ -18,4 +30,78 @@
 .alignUnder {
   display: flex;
   flex-direction: column;
+}
+
+.tab {
+  background-color: transparent;
+  border: none;
+  width: var(--nav-tab-width, 3.5rem);
+  border-radius: inherit;
+  padding: 0.55rem 1.3rem;
+  margin: 0 -0.5rem;
+  font-size: inherit;
+  cursor: default;
+  z-index: 1;
+  text-decoration: none;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+  anchor-name: var(--active-anchor, --fallback);
+}
+
+.tab:hover {
+  cursor: pointer;
+}
+
+.tab.active {
+  --active-anchor: --segmented-button-checked;
+}
+
+.tab p {
+  font-family: var(--font-antwerpen);
+  color: var(--color-black);
+  font-weight: 100;
+  font-size: 0.7rem;
+  transition: color 0.25s ease;
+}
+
+.tab p.active {
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+.tab svg {
+  height: 21px;
+}
+
+.iconContainer {
+  margin-top: 4px;
+  position: relative;
+  width: 33px;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fadeIcon {
+  position: absolute;
+  top: 0;
+  transition: opacity 0.25s ease-in-out;
+}
+
+.iconHidden {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+}
+
+.iconVisible {
+  fill: var(--color-dark-gray);
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+}
+
+.iconVisible.active svg {
+  fill: var(--color-primary);
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import styles from './FiltersRadar.module.css';
 
 //icons
@@ -21,14 +21,14 @@ export default function FiltersRadar() {
     <>
         <div className={`alignNext ${styles.filterBar}`}>
             <div className={styles.filters}>
-                <button className={`${styles.filterButton} flexCenter ${styles.expand1} ${activeFilters.length === 0 ? styles.active : ''}`}
+                <button className={`${styles.filterButton} flexCenter ${styles.expand1} ${activeFilters.length === 0 ? styles.filterActive : ''}`}
                 onClick={() => {
                     setActiveFilters([]);
                     setIsDropdownOpen(false);
                 }}>
                 <PersonIcon />All</button> 
-                <button className={`${styles.filterButton} flexCenter ${styles.expand2} ${activeFilters.includes('Favourites') ? styles.active : ''}`} onClick={() => handleFilterClick('Favourites')}><PersonIcon />Favourites</button>
-                <button className={`${styles.filterButton} flexCenter dropdown-trigger ${styles.expand2} ${activeFilters.some(filter => filter !== 'Favourites') ? styles.active : ''}`} onClick={() => setIsDropdownOpen(!isDropdownOpen)}><PersonIcon />Categories</button>
+                <button className={`${styles.filterButton} flexCenter ${styles.expand2} ${activeFilters.includes('Favourites') ? styles.filterActive : ''}`} onClick={() => handleFilterClick('Favourites')}><PersonIcon />Favourites</button>
+                <button className={`${styles.filterButton} flexCenter dropdown-trigger ${styles.expand2} ${activeFilters.some(filter => filter !== 'Favourites') ? styles.filterActive : ''}`} onClick={() => setIsDropdownOpen(!isDropdownOpen)}><PersonIcon />Categories</button>
             </div>
             <button className={styles.iconbuttonSmall}><PersonIcon /></button>
         </div>
