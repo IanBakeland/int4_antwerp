@@ -540,8 +540,8 @@ export interface ApiStoryStory extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     reactions: Schema.Attribute.Relation<'oneToMany', 'api::reaction.reaction'>;
     state: Schema.Attribute.Enumeration<['pending', 'approved', 'deleted']>;
-    Story: Schema.Attribute.RichText;
-    Title: Schema.Attribute.String;
+    story: Schema.Attribute.RichText;
+    title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

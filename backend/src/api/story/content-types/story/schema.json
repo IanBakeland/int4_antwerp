@@ -27,10 +27,10 @@
         "social"
       ]
     },
-    "Title": {
+    "title": {
       "type": "string"
     },
-    "Story": {
+    "story": {
       "type": "richtext"
     },
     "latitude": {
