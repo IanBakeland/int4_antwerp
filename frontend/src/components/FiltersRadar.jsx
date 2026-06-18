@@ -30,7 +30,7 @@ export default function FiltersRadar() {
                 <button className={`${styles.filterButton} flexCenter ${styles.expand2} ${activeFilters.includes('Favourites') ? styles.filterActive : ''}`} onClick={() => handleFilterClick('Favourites')}><PersonIcon />Favourites</button>
                 <button className={`${styles.filterButton} flexCenter dropdown-trigger ${styles.expand2} ${activeFilters.some(filter => filter !== 'Favourites') ? styles.filterActive : ''}`} onClick={() => setIsDropdownOpen(!isDropdownOpen)}><PersonIcon />Categories</button>
             </div>
-            <button className={styles.iconbuttonSmall}><PersonIcon /></button>
+            <button className="iconbuttonSmall"><PersonIcon /></button>
         </div>
         {isDropdownOpen && (
         <div className={`${styles.filters} ${styles.filterMargin}`}>

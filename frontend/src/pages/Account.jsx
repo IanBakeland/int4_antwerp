@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Account({ setToken }) {
   const [user, setUser] = useState(null);
@@ -52,7 +52,16 @@ export default function Account({ setToken }) {
 
   return (
     <div>
-      <h2>My Account</h2>
+      <div style={{ paddingTop: "1rem" }} className={`noDesktop noTablet`}></div>
+      <div className={`toolbar noDesktop noTablet`}>
+        <div className="">
+          <button onClick={() => navigate(-1)} className="backButton">Back</button>
+          <h1>Hey <span>{user.username}</span></h1>
+        </div>
+      </div>
+      <div className="noMobile">
+        <h1>My Account</h1>
+      </div>
       <div>
         <p><strong>Username:</strong> {user.username}</p>
         <p><strong>Email:</strong> {user.email}</p>

@@ -41,7 +41,16 @@ export default function Login({ setToken }) {
 
   return (
     <div>
-      <h2>Login</h2>
+      <div style={{ paddingTop: "1rem" }} className={`noDesktop noTablet`}></div>
+      <div className={`toolbar noDesktop noTablet`}>
+        <div className="">
+          <button onClick={() => navigate(-1)} className="backButton">Back</button>
+          <h1><span>Welcome,</span> log in</h1>
+        </div>
+      </div>
+      <div className="noMobile">
+        <h1>My Account</h1>
+      </div>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleLogin}>
         <div>

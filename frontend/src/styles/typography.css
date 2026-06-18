@@ -30,8 +30,15 @@ h6 {
 
 h1 {
   font-size: 2.7rem;
-  letter-spacing: -2.4px;
+  letter-spacing: -2.3px;
   margin-right: auto;
-  height: 2.1rem;
   text-box: trim-both cap alphabetic;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+h1 span{
+  color: var(--color-primary);
+  text-transform: uppercase;
+  margin-left: 0.5rem;
 }
