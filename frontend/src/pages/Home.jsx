@@ -1,13 +1,17 @@
 import { useLocation, Link } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import useDocumentTitle from '../hooks/useDocumentTitle';
-import LogoAS from '../assets/icons/Logo';
+import PanoramaViewer from '../components/PanoramaViewer';
+
+//panoramas (tijdelijk tot werking van database)
 import pano1 from '../assets/images/pano.jpeg';
 import pano2 from '../assets/images/pano2.jpeg';
 import pano3 from '../assets/images/pano3.jpeg';
 import pano4 from '../assets/images/pano4.jpeg';
-import PanoramaViewer from '../components/PanoramaViewer';
+
+//icons
 import antwerpLogo from '../assets/images/antwerpLogo.png';
+import LogoAS from '../assets/icons/Logo';
 import backgroundMoments from '../assets/images/backgroundmoments.png';
 import HeartIcon from '../assets/icons/Heart';
 import PersonIcon from '../assets/icons/Person';

@@ -1,5 +1,4 @@
 import { NavLink } from 'react-router-dom';
-import styles from './NavbarMobile.module.css';
 
 //icons
 import HomeIcon from '../assets/icons/Home';
@@ -13,63 +12,63 @@ import PlusCircleFilledIcon from '../assets/icons/PlusCircleFilled';
 export default function NavbarMobile() {
   return (
     <>
-        <NavLink to="/" className={({ isActive }) => `${styles.tab} flexCenter alignUnder ${isActive ? styles.active : ''}`}>
+        <NavLink to="/" className={({ isActive }) => `tab flexCenter alignUnder ${isActive ? 'active' : ''}`}>
             {({ isActive }) => (
                 <>
-                    <div className={styles.iconContainer}>
-                        <div className={`${styles.fadeIcon} ${isActive ? styles.iconHidden : styles.iconVisible}`}>
+                    <div className="iconContainer">
+                        <div className={`fadeIcon ${isActive ? 'iconHidden' : 'iconVisible'}`}>
                             <HomeIcon />
                         </div>
-                        <div className={`${styles.active} ${styles.fadeIcon} ${isActive ? styles.iconVisible : styles.iconHidden}`}>
+                        <div className={`active fadeIcon ${isActive ? 'iconVisible' : 'iconHidden'}`}>
                             <HomeFilledIcon />
                         </div>
                     </div>
-                    <p className={isActive ? styles.active : ''}>Home</p>
+                    <p className={isActive ? 'active' : ''}>Home</p>
                 </>
             )}
         </NavLink>
-        <NavLink to="/radar" className={({ isActive }) => `${styles.tab} flexCenter alignUnder ${isActive ? styles.active : ''}`}>
+        <NavLink to="/radar" className={({ isActive }) => `tab flexCenter alignUnder ${isActive ? 'active' : ''}`}>
             {({ isActive }) => (
                 <>
-                    <div className={styles.iconContainer}>
-                        <div className={`${styles.fadeIcon} ${isActive ? styles.iconHidden : styles.iconVisible}`}>
+                    <div className="iconContainer">
+                        <div className={`fadeIcon ${isActive ? 'iconHidden' : 'iconVisible'}`}>
                             <RadarIcon />
                         </div>
-                        <div className={`${styles.active} ${styles.fadeIcon} ${isActive ? styles.iconVisible : styles.iconHidden}`}>
+                        <div className={`active fadeIcon ${isActive ? 'iconVisible' : 'iconHidden'}`}>
                             <RadarIcon />
                         </div>
                     </div>
-                    <p className={isActive ? styles.active : ''}>Radar</p>
+                    <p className={isActive ? 'active' : ''}>Radar</p>
                 </>
             )}
         </NavLink>
-        <NavLink to="/favourites" className={({ isActive }) => `${styles.tab} flexCenter alignUnder ${isActive ? styles.active : ''}`}>
+        <NavLink to="/favourites" className={({ isActive }) => `tab flexCenter alignUnder ${isActive ? 'active' : ''}`}>
             {({ isActive }) => (
                 <>
-                    <div className={styles.iconContainer}>
-                        <div className={`${styles.fadeIcon} ${isActive ? styles.iconHidden : styles.iconVisible}`}>
+                    <div className="iconContainer">
+                        <div className={`fadeIcon ${isActive ? 'iconHidden' : 'iconVisible'}`}>
                             <HeartIcon />
                         </div>
-                        <div className={`${styles.active} ${styles.fadeIcon} ${isActive ? styles.iconVisible : styles.iconHidden}`}>
+                        <div className={`active fadeIcon ${isActive ? 'iconVisible' : 'iconHidden'}`}>
                             <HeartFilledIcon />
                         </div>
                     </div>
-                    <p className={isActive ? styles.active : ''}>Favourites</p>
+                    <p className={isActive ? 'active' : ''}>Favourites</p>
                 </>
             )}
         </NavLink>
-        <NavLink to="/share" className={({ isActive }) => `${styles.tab} flexCenter alignUnder ${isActive ? styles.active : ''}`}>
+        <NavLink to="/share" className={({ isActive }) => `tab flexCenter alignUnder ${isActive ? 'active' : ''}`}>
             {({ isActive }) => (
                 <>
-                    <div className={styles.iconContainer}>
-                        <div className={`${styles.fadeIcon} ${isActive ? styles.iconHidden : styles.iconVisible}`}>
+                    <div className="iconContainer">
+                        <div className={`fadeIcon ${isActive ? 'iconHidden' : 'iconVisible'}`}>
                             <PlusCircleIcon />
                         </div>
-                        <div className={`${styles.active} ${styles.fadeIcon} ${isActive ? styles.iconVisible : styles.iconHidden}`}>
+                        <div className={`active fadeIcon ${isActive ? 'iconVisible' : 'iconHidden'}`}>
                             <PlusCircleFilledIcon />
                         </div>
                     </div>
-                    <p className={isActive ? styles.active : ''}>Share</p>
+                    <p className={isActive ? 'active' : ''}>Share</p>
                 </>
             )}
         </NavLink>

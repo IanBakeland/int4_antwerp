@@ -1,18 +1,6 @@
-@media (min-width: 801px) and (max-width: 1024px) {
-  .noTablet {
-    display: none !important;
-  }
-}
-
-@media (min-width: 1025px) {
-  .noDesktop {
-    display: none !important;
-  }
-}
-
 .glass {
   background: rgba(216, 216, 216, 0.2);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
   border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
@@ -55,6 +43,7 @@
 }
 
 .navbarDesktop {
+  --nav-tab-width: 0.5rem;
   position: fixed;
   width: 100%;
   top: 0;
@@ -63,4 +52,10 @@
   transform: translateX(-50%);
   z-index: 1000;
   background-color: var(--color-white);
+}
+
+.navbarDesktop > div{
+  width: 100%;
+      max-width: 1700px;
+      margin: 0 1rem;
 }
