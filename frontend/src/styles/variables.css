@@ -1,0 +1,23 @@
+:root {
+  --color-primary: #FF7D3C;
+  --color-primary-dark: #b53f04;
+  --color-secondary: #FF82DC;
+  --color-secondary-light: rgba(255, 130, 220, 0.35);
+  --color-blue: #66A0FF;
+  --color-blue-dark: #003671;
+  --color-lime: #D2FF4B;
+  --color-lime-dark: #334000;
+  
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+  --color-dark-gray: #171717;
+  --color-light-gray: #E9E9E9;
+  --color-border-light: #DADADA;
+  --color-bg-light: #F6F6F6;
+  --color-bg-dark: #1A1C20;
+  --color-bg-light-dark: #E8E9E9;
+  --color-bg-tab-hover: #f7f7f7;
+
+  --font-spartan: 'Leaguesportan', sans-serif;
+  --font-antwerpen: 'Antwerpen', sans-serif;
+}

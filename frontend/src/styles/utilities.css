@@ -1,0 +1,21 @@
+@media (max-width: 800px) {
+  .noMobile {
+    display: none !important;
+  }
+}
+
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.alignNext {
+  align-items: center;
+  display: flex;
+}
+
+.alignUnder {
+  display: flex;
+  flex-direction: column;
+}
