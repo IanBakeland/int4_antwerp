@@ -434,6 +434,10 @@ export default function Home({ userLocation }) {
                 className={isLarge ? styles.homeStoryCardLarge : styles.homeStoryCardSmall}
                 style={{ backgroundImage: `url(${story.image})` }}
               >
+                <div className={styles.homeTopStoriesItem__authorBadge}>
+                  <UserCircleIcon className={styles.homeTopStoriesItem__authorBadgeIcon} />
+                  <span>Emma</span>
+                </div>
                 <div className={styles.homeStoryCardGradient} />
                 <h4 className={styles.homeStoryCardTitle}>{story.title}</h4>
                 <div className={styles.homeStoryCardHeart}>
