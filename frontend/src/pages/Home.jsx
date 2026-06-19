@@ -38,7 +38,7 @@ const stories = [
   {
     image: pano3,
     storyCount: "Three of 40+ stories in Antwerp",
-    title: "Port Authority",
+    title: "The street that inspired my carreer for painting",
     description: "Gaze at the futuristic lines merging with the historical harbor docks."
   },
   {
@@ -52,7 +52,7 @@ const stories = [
 const topStories = [
   { title: "My first kiss", image: pano1 },
   { title: "The Silent Cathedral", image: pano2 },
-  { title: "Port Authority", image: pano3 },
+  { title: "The street that inspired my carreer for painting", image: pano3 },
   { title: "Park Spoor Noord", image: pano4 },
   { title: "The MAS Museum", image: pano1 },
   { title: "Central Station Echo", image: pano2 },
@@ -64,9 +64,10 @@ const topStories = [
 
 const gridStories = Array.from({ length: 20 }, (_, index) => ({
   id: index + 1,
-  title: "My first kiss",
+  title: index === 5 ? "The street that inspired my carreer for painting" : "My first kiss",
   image: pano1,
 }));
+
 
 const strokeColors = ['#FD7C3F', '#66A0FF', '#FF82DC', '#D2FF4B'];
 

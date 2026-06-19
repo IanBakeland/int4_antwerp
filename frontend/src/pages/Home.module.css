@@ -549,6 +549,9 @@
   margin: 0;
   text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .homePanoImage.staticActive {
@@ -615,6 +618,9 @@
   font-weight: 400;
   line-height: normal;
   margin: 0.1875rem 0 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .panoContent__description {
@@ -955,6 +961,19 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.homeStoryCardLarge .homeStoryCardTitle {
+  bottom: 15px;
+  left: 20px;
+  right: 44px;
+  font-size: 26px;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 
 .homeStoryCardHeart {
   position: absolute;
