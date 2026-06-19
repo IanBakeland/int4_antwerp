@@ -796,7 +796,8 @@
 
 .homeToolCircle svg {
   flex-shrink: 0;
-  width: 1.125rem; /* ~18px */
+  width: 1.125rem;
+  /* ~18px */
   height: 1.125rem;
   fill: currentColor;
 }
@@ -806,6 +807,49 @@
   left: 0.75rem;
   top: 0.875rem;
   z-index: 5;
+}
+
+.homeStoryCardBadge,
+.homeStoryCardBadgeSmall {
+  position: absolute;
+  width: 73px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 51px;
+  background: rgba(0, 0, 0, 0.50);
+  box-shadow: 0 1px 40px 0 rgba(0, 0, 0, 0.05);
+  z-index: 5;
+  box-sizing: border-box;
+}
+
+.homeStoryCardBadge {
+  top: 14px;
+  right: 13px;
+}
+
+.homeStoryCardBadgeSmall {
+  bottom: 65px; /* 25px bottom + 36px title + 4px gap */
+  left: 20px;
+}
+
+.homeStoryCardBadge span,
+.homeStoryCardBadgeSmall span {
+  color: #FFF;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: "League Spartan", var(--font-spartan);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px; /* 200% */
+}
+
+.homeStoryCardBadge svg,
+.homeStoryCardBadgeSmall svg {
+  flex-shrink: 0;
 }
 
 
@@ -822,7 +866,8 @@
   height: 52rem;
   /* 832px window height - maximum safe mobile height to trigger internal scrolling */
   overflow-y: auto;
-  overscroll-behavior: auto; /* Changed to auto to allow scroll chaining/bubbling to the page viewport, resolving the 'stuck' scroll issue */
+  overscroll-behavior: auto;
+  /* Changed to auto to allow scroll chaining/bubbling to the page viewport, resolving the 'stuck' scroll issue */
   -webkit-overflow-scrolling: touch;
 
   /* CSS Edge Fade Masks - Top fade only, no bottom fade */
@@ -948,7 +993,8 @@
   position: absolute;
   bottom: 25px;
   left: 20px;
-  right: 61px; /* 16px right border margin + 26px heart size + 19px gap between text and heart */
+  right: 61px;
+  /* 16px right border margin + 26px heart size + 19px gap between text and heart */
   color: var(--color-white);
   font-family: var(--font-antwerpen);
   font-size: 1.125rem;
@@ -971,12 +1017,22 @@
   font-size: 16px;
   text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
   line-height: 1.2;
+  width: 114px;
+  max-height: 36px;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  right: auto;
 }
 
 .homeStoryCardHeart {
   position: absolute;
   bottom: 20px;
-  right: 16px; /* exactly 16px from the right border */
+  right: 16px;
+  /* exactly 16px from the right border */
   z-index: 2;
   display: flex;
   align-items: center;
