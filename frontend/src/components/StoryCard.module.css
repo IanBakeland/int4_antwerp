@@ -14,6 +14,12 @@
   cursor: pointer;
 }
 
+@media (min-width: 801px) {
+  .storyCard {
+    aspect-ratio: 16 / 10;
+  }
+}
+
 .storyCard::before {
   content: '';
   position: absolute;
