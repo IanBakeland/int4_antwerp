@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import styles from "./Login.module.css";
+import antwerpLogo from "../assets/images/antwerpLogo.png";
+import PersonFilledIcon from "../assets/icons/PersonFilled";
 
 export default function Login({ setToken }) {
   const [identifier, setIdentifier] = useState("");
@@ -40,19 +43,20 @@ export default function Login({ setToken }) {
   };
 
   return (
-    <div>
-      <div style={{ paddingTop: "1rem" }} className={`noDesktop noTablet`}></div>
-      <div className={`toolbar noDesktop noTablet`}>
-        <div className="">
-          <button onClick={() => navigate(-1)} className="backButton">Back</button>
-          <h1><span>Welcome,</span> log in</h1>
+    <div className={styles.loginContainer}>
+      <header className={styles.navbarMobileTop}>
+        <Link to="/" className={styles.mobileLogoLink} aria-label="Go to Homepage">
+          <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.mobileLogoImg} />
+        </Link>
+        <div className={styles.navbarMobileTopRight}>
+          <Link to="/account" className={`${styles.activeIconButton} iconbutton`} aria-label="Account"><PersonFilledIcon /></Link>
         </div>
-      </div>
-      <div className="noMobile">
-        <h1>Welcome, <span>log in</span> </h1>
-      </div>
-      {error && <p style={{ color: "red" }} role="alert">{error}</p>}
-      <form onSubmit={handleLogin}>
+      </header>
+
+      <div className={styles.loginContent}>
+        <h1>Welcome, <span>log in</span></h1>
+        {error && <p style={{ color: "red" }} role="alert">{error}</p>}
+      <form onSubmit={handleLogin} className={styles.loginForm}>
         <div>
           <label htmlFor="login-username-input">Username or Email:</label>
           <input
@@ -79,6 +83,7 @@ export default function Login({ setToken }) {
           {loading ? "Logging in..." : "Log In"}
         </button>
       </form>
+      </div>
     </div>
   );
 }

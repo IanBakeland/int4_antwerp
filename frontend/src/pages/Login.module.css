@@ -1,0 +1,99 @@
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  box-sizing: border-box;
+  background-image: url('../assets/images/backgroundlogin.png');
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: 240px; /* size on desktop */
+  background-color: var(--color-white);
+  padding: 2rem;
+}
+
+.loginContent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  margin-top: 1.5rem;
+}
+
+.loginContent h1 {
+  font-family: var(--font-antwerpen);
+  font-size: 2.7rem;
+  letter-spacing: -2.3px;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.loginContent h1 span {
+  color: var(--color-primary);
+  text-transform: uppercase;
+  margin-left: 0.5rem;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* Mobile top navbar styles matching homepage */
+.navbarMobileTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem 0.1rem;
+  z-index: 1001;
+  box-sizing: border-box;
+}
+
+.mobileLogoLink {
+  display: flex;
+  align-items: center;
+}
+
+.mobileLogoImg {
+  height: 3.25rem;
+  width: auto;
+  object-fit: contain;
+}
+
+.navbarMobileTopRight {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.activeIconButton svg {
+  fill: var(--color-primary) !important;
+}
+
+@media (min-width: 801px) {
+  .navbarMobileTop {
+    display: none !important;
+  }
+}
+
+@media (max-width: 800px) {
+  .loginContainer {
+    position: fixed;
+    inset: 0;
+    height: 100dvh;
+    width: 100vw;
+    overflow: hidden;
+    padding: 1.5rem;
+    z-index: 5; /* Lower than mobile navbar (1000) so the bottom navbar remains visible */
+    background-size: 160px; /* size on mobile */
+  }
+
+  .loginContent {
+    margin-top: 5.5rem; /* Pushes content down below the absolute mobile top navbar */
+  }
+}
