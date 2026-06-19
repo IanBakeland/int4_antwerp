@@ -8,7 +8,7 @@
   background-image: url('../assets/images/backgroundlogin.png');
   background-position: right bottom;
   background-repeat: no-repeat;
-  background-size: 240px;
+  background-size: 800px;
   /* size on desktop */
   background-color: var(--color-white);
   padding: 2rem;
@@ -169,7 +169,8 @@
   max-width: 100%;
   height: 1px;
   background: #EAEAEA;
-  margin: 18px 0 14px 0; /* exactly 18px above, 14px below */
+  margin: 18px 0 14px 0;
+  /* exactly 18px above, 14px below */
   align-self: center;
 }
 
@@ -267,7 +268,7 @@
     /* 1.375rem is exactly 22px */
     z-index: 5;
     /* Lower than mobile navbar (1000) so the bottom navbar remains visible */
-    background-size: 160px;
+    background-size: 500px;
     /* size on mobile */
   }
 
