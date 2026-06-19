@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styles from './Footer.module.css';
 
 // Social media icons
@@ -9,6 +9,13 @@ import instagramIcon from '../assets/images/instagram.png';
 import youtubeIcon from '../assets/images/youtube.png';
 
 export default function Footer() {
+  const location = useLocation();
+  const allowedPaths = ['/', '/favourites', '/share'];
+
+  if (!allowedPaths.includes(location.pathname)) {
+    return null;
+  }
+
   return (
     <footer className={styles.footer}>
       {/* Background SVG decoration for mobile */}

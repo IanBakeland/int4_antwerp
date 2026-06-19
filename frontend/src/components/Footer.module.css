@@ -71,7 +71,7 @@
   justify-content: center;
   align-items: center;
   gap: 1.25rem; /* 20px gap */
-  margin-top: 1.75rem; /* space under Visit Antwerp */
+  margin-top: 1.25rem; /* space under Visit Antwerp */
 }
 
 .footerSocialLink {
@@ -139,5 +139,5 @@
   line-height: 1.5; /* 150% (18px) */
   letter-spacing: 0.24px;
   text-transform: uppercase;
-  margin-top: 1.75rem; /* Space under the socials */
+  margin-top: 1.25rem; /* Space under the socials */
 }
