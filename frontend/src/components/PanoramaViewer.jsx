@@ -202,7 +202,7 @@ export default function PanoramaViewer({
               fill="white"
             />
           </svg>
-          Move your phone
+          Touch to move
         </button>
       )}
     </div>
