@@ -275,6 +275,11 @@
     /* size on mobile */
   }
 
+  .signupContainer {
+    overflow-y: auto !important;
+    padding-bottom: 8rem !important;
+  }
+
   .loginContent {
     margin-top: 6.5rem;
     /* Pushes content down below the absolute mobile top navbar */
