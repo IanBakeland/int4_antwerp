@@ -11,7 +11,10 @@
   background-size: 800px;
   /* size on desktop */
   background-color: var(--color-white);
-  padding: 2rem;
+}
+
+.signupContainer {
+  background-image: url('../assets/images/backgroundsignup.png');
 }
 
 .loginContent {

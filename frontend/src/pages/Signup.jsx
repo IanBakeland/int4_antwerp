@@ -18,7 +18,7 @@ export default function Signup() {
   const asterisk = <span style={{ color: "#FF7D3C", marginLeft: "4px" }}>*</span>;
 
   return (
-    <div className={styles.loginContainer}>
+    <div className={`${styles.loginContainer} ${styles.signupContainer}`}>
       <header className={styles.navbarMobileTop}>
         <Link to="/" className={styles.mobileLogoLink} aria-label="Go to Homepage">
           <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.mobileLogoImg} />
