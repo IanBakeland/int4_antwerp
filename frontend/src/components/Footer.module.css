@@ -45,6 +45,12 @@
   height: 3.63381rem;
 }
 
+.footerLogoImg {
+  width: 8.66425rem;
+  height: auto;
+  object-fit: contain;
+}
+
 .footerNav {
   display: flex;
   flex-direction: column;
