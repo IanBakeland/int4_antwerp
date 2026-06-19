@@ -15,6 +15,7 @@ export default function App() {
   const [userLocation, setUserLocation] = useState(null);
   const [isRadarActive, setIsRadarActive] = useState(false);
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const [selectedStory, setSelectedStory] = useState(null);
 
   useEffect(() => {
     let watcherId;
@@ -79,6 +80,8 @@ export default function App() {
                 isRadarActive={isRadarActive} 
                 setIsRadarActive={setIsRadarActive} 
                 formatDistance={formatDistance}
+                selectedStory={selectedStory}
+                setSelectedStory={setSelectedStory}
               />
             } 
           />
@@ -88,7 +91,12 @@ export default function App() {
           <Route 
             path="/favourites" 
             element={
-              token ? <Favourites /> : <Navigate to="/login" replace />
+              token ? (
+                <Favourites 
+                  selectedStory={selectedStory} 
+                  setSelectedStory={setSelectedStory} 
+                />
+              ) : <Navigate to="/login" replace />
             } 
           />
           

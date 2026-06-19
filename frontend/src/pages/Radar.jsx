@@ -11,11 +11,18 @@ import PersonIcon from '../assets/icons/Person';
 import MuteIcon from '../assets/icons/Mute';
 import LocationFilledIcon from '../assets/icons/LocationFilled';
 
-export default function Radar({ userLocation, isRadarActive, setIsRadarActive, formatDistance }) {
+// NEW: Accept selectedStory and setSelectedStory as props
+export default function Radar({ 
+  userLocation, 
+  isRadarActive, 
+  setIsRadarActive, 
+  formatDistance,
+  selectedStory,
+  setSelectedStory 
+}) {
   useDocumentTitle('Radar');
 
   const [stories, setStories] = useState([]);
-  const [selectedStory, setSelectedStory] = useState(null);
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -129,7 +136,6 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, f
       )}
 
       {activeStory && isRadarActive && (
-        <div style={{ marginTop: "1rem", padding: "0 1rem" }}>
           <StoryCardSelected 
             key={activeStory.documentId}
             title={activeStory.title}
@@ -137,8 +143,9 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, f
             username={activeStory.user?.username}
             image={activeStory.panorama}
             state={selectedStory ? "selected" : "closest"}
+            hiddenSpots={activeStory.hiddenSpots}
+            onSelect={() => setSelectedStory(activeStory)}
           />
-        </div>
       )}
 
       <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>

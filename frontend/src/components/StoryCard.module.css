@@ -1,7 +1,7 @@
 
 .storyCard {
   position: relative;
-  border-radius: 14px;
+  border-radius: 15px;
   overflow: hidden;
   background-size: cover;
   background-position: center;
@@ -51,12 +51,14 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  width: min-content;
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(4px);
   border-radius: 999px;
   padding: 0 0.75rem;
   max-width: 62%;
   height: 2rem;
+  border: rgba(255, 255, 255, 0.2) 2px solid;
 }
 
 .storyCard > div:first-child > div:first-child svg {
@@ -115,7 +117,6 @@
   white-space: nowrap;
   text-decoration: none;
   cursor: pointer;
-  border: none;
 
   flex: 0 0 auto;
   width: 2rem;
@@ -125,6 +126,7 @@
   border-radius: 50%;
   background: var(--color-white);
   color: var(--color-black);
+  border: rgba(255, 255, 255, 0.2) 2px solid;
   font-size: 0.8rem;
   font-weight: 600;
   -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);

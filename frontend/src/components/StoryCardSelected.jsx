@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import styles from './StoryCardSelected.module.css';
 
-//icons
 import PersonIcon from '../assets/icons/Person'
 import PersonFilledIcon from '../assets/icons/PersonFilled';
-import FilterIcon from '../assets/icons/Filter';
+import RadarIcon from '../assets/icons/Radar';
+import RadarLocationIcon from '../assets/icons/RadarLocation';
 import HeartIcon from '../assets/icons/Heart';
 import HeartFilledIcon from '../assets/icons/HeartFilled';
 import PersonRunningIcon from '../assets/icons/PersonRunning';
@@ -12,7 +12,7 @@ import MonumentIcon from '../assets/icons/Monument';
 import FolderIcon from '../assets/icons/Folder';
 import PersonDoubleIcon from '../assets/icons/PersonDouble';
 
-export default function StoryCardSelected({ title, category, username, image, state }) {
+export default function StoryCardSelected({ title, category, username, image, state, hiddenSpots, onSelect }) {
   const previewImage = image?.formats?.large?.url;
   const originalImage = image?.url;
 
@@ -42,18 +42,33 @@ export default function StoryCardSelected({ title, category, username, image, st
   return (
     <div
       className={`${styles.storyCard} alignUnder`}
-      style={
-        backgroundImage
-          ? { backgroundImage: `url(${backgroundImage})` }
-          : undefined
-      }
+      style={{
+        backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
+        cursor: state === "closest" ? "pointer" : "default" 
+      }}
+      onClick={state === "closest" ? onSelect : undefined}
     >
-      <div>
-        <div>
+      {state === "selected" ? (
+        <div className={`${styles.currentState} alignNext`}>
+          <RadarLocationIcon />
+          <p>Selected story</p>
+        </div>
+      ) : (
+        <div className={`${styles.currentState} alignNext`}>
+          <RadarIcon />
+          <p>Currently locating</p>
+        </div>
+      )}
+      <div className='alignNext' style={{ gap: '1rem' }}>
+        <div className={styles.personTag}>
           <PersonIcon />
           <p>{username}</p>
         </div>
-        <div className={`${styles.filterButton} ${styles[`${category}Tag`]}`}>
+        <div className={styles.filterButton}>
+          <PersonIcon />
+          <p className={`${styles.filterButton}`}>{hiddenSpots} hidden spots</p>
+        </div>
+        <div className={`${styles.categoryTag} ${styles[`${category}Tag`]}`}>
           <CategoryIcon />
         </div>
       </div>
