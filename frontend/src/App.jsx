@@ -7,6 +7,7 @@ import Share from './pages/Share';
 import RadarExplained from './pages/RadarExplained';
 import Account from './pages/Account';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -132,6 +133,12 @@ export default function App() {
             path="/login" 
             element={
               !token ? <Login setToken={setToken} /> : <Navigate to="/account" replace />
+            } 
+          />
+          <Route 
+            path="/signup" 
+            element={
+              !token ? <Signup /> : <Navigate to="/account" replace />
             } 
           />
 
