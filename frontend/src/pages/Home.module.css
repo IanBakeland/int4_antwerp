@@ -28,19 +28,23 @@
   align-items: center;
 }
 
-.homeContainer {
-  width: 100%;
-  position: relative;
-  overflow-x: hidden;
+.topNavIcon {
+  color: var(--color-dark-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: opacity 0.25s ease;
 }
 
-.homeRadarButton__arrow {
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
-  font-size: 1.1875rem;
-  font-weight: 400;
-  line-height: 1;
-  transform: translateY(-0.0625rem);
-  display: inline-block;
+.topNavIcon:hover {
+  opacity: 0.7;
+}
+
+.topNavIcon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: currentColor;
 }
 
 @media (min-width: 801px) {
@@ -717,6 +721,8 @@
   line-height: 1.75rem;
   white-space: nowrap;
 
+  leading-trim: both;
+  text-edge: cap;
 
   box-sizing: border-box;
   transition: opacity 0.25s ease, transform 0.25s ease;
@@ -825,18 +831,22 @@
 }
 
 .homeStoryCardBadgeSmall {
-  bottom: 65px; /* 25px bottom + 36px title + 4px gap */
+  bottom: 65px;
+  /* 25px bottom + 36px title + 4px gap */
   left: 20px;
 }
 
 .homeStoryCardBadge span,
 .homeStoryCardBadgeSmall span {
   color: #FFF;
+  leading-trim: both;
+  text-edge: cap;
   font-family: "League Spartan", var(--font-spartan);
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  line-height: 28px; /* 200% */
+  line-height: 28px;
+  /* 200% */
 }
 
 .homeStoryCardBadge svg,
@@ -1032,9 +1042,6 @@
   color: var(--color-white);
   cursor: pointer;
   transition: transform 0.2s ease, opacity 0.2s ease;
-  background: none;
-  border: none;
-  padding: 0;
 }
 
 .homeStoryCardHeart:hover {

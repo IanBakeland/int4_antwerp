@@ -18,6 +18,7 @@ import PersonIcon from '../assets/icons/Person';
 import AddCircleIcon from '../assets/icons/AddCircle';
 import FilterIcon from '../assets/icons/Filter';
 import SearchIcon from '../assets/icons/Search';
+import UserCircleIcon from '../assets/icons/UserCircle';
 import AuthorBadge from '../components/AuthorBadge';
 import styles from './Home.module.css';
 
@@ -248,7 +249,7 @@ export default function Home({ userLocation }) {
           <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.mobileLogoImg} />
         </Link>
         <div className={styles.navbarMobileTopRight}>
-          <Link to="/account" className="iconbutton" aria-label="Go to profile"><PersonIcon /></Link>
+          <Link to="/account" className="iconbutton"><PersonIcon /></Link>
         </div>
       </div>
       <div className={styles.homeContainer}>
@@ -290,14 +291,13 @@ export default function Home({ userLocation }) {
         </div>
 
         {/* Pagination Indicators */}
-        <div className={styles.panoPagination} role="group" aria-label="Panorama slides">
+        <div className={styles.panoPagination}>
           {stories.map((_, index) => (
             <button
               key={index}
               className={`${styles.panoPagination__dot} ${index === displayIndex ? styles.panoPagination__dotActive : ''}`}
               onClick={() => navigateToPano(index)}
               aria-label={`Go to slide ${index + 1}`}
-              aria-current={index === displayIndex ? 'true' : 'false'}
             />
           ))}
         </div>
@@ -333,7 +333,7 @@ export default function Home({ userLocation }) {
         </p>
 
         <Link to="/radar" className={styles.homeRadarButton}>
-          Radar <span className={styles.homeRadarButton__arrow}>→</span>
+          Radar <span className={styles.discoverSpotsButton__arrow || ''}>→</span>
         </Link>
 
         <img src={backgroundMoments} alt="180° panorama moments" className={styles.homeBackgroundMoments} />
@@ -450,27 +450,23 @@ export default function Home({ userLocation }) {
                 {isLarge ? (
                   <div className={styles.homeStoryCardBadge}>
                     <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M4.5 0C5.69047 0 6.73798 0.422548 7.64258 1.2666C8.54718 2.11076 8.99994 3.24429 9 4.66699C9 5.61553 8.62709 6.64719 7.88184 7.76172C7.13656 8.87626 6.00929 10.0833 4.5 11.3828C2.99078 10.0834 1.86342 8.87623 1.11816 7.76172C0.37296 6.64723 0 5.6155 0 4.66699C6.49664e-05 3.24429 0.452824 2.11076 1.35742 1.2666C2.26202 0.422497 3.30952 2.80738e-05 4.5 0ZM4.54395 2.22852C3.37454 2.22858 2.42685 3.17623 2.42676 4.3457C2.42676 5.51525 3.37449 6.4638 4.54395 6.46387C5.71346 6.46387 6.66211 5.51529 6.66211 4.3457C6.66202 3.17619 5.7134 2.22852 4.54395 2.22852Z" fill="white"/>
+                      <path d="M4.5 0C5.69047 0 6.73798 0.422548 7.64258 1.2666C8.54718 2.11076 8.99994 3.24429 9 4.66699C9 5.61553 8.62709 6.64719 7.88184 7.76172C7.13656 8.87626 6.00929 10.0833 4.5 11.3828C2.99078 10.0834 1.86342 8.87623 1.11816 7.76172C0.37296 6.64723 0 5.6155 0 4.66699C6.49664e-05 3.24429 0.452824 2.11076 1.35742 1.2666C2.26202 0.422497 3.30952 2.80738e-05 4.5 0ZM4.54395 2.22852C3.37454 2.22858 2.42685 3.17623 2.42676 4.3457C2.42676 5.51525 3.37449 6.4638 4.54395 6.46387C5.71346 6.46387 6.66211 5.51529 6.66211 4.3457C6.66202 3.17619 5.7134 2.22852 4.54395 2.22852Z" fill="white" />
                     </svg>
                     <span>{story.distance}</span>
                   </div>
                 ) : (
                   <div className={styles.homeStoryCardBadgeSmall}>
                     <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M4.5 0C5.69047 0 6.73798 0.422548 7.64258 1.2666C8.54718 2.11076 8.99994 3.24429 9 4.66699C9 5.61553 8.62709 6.64719 7.88184 7.76172C7.13656 8.87626 6.00929 10.0833 4.5 11.3828C2.99078 10.0834 1.86342 8.87623 1.11816 7.76172C0.37296 6.64723 0 5.6155 0 4.66699C6.49664e-05 3.24429 0.452824 2.11076 1.35742 1.2666C2.26202 0.422497 3.30952 2.80738e-05 4.5 0ZM4.54395 2.22852C3.37454 2.22858 2.42685 3.17623 2.42676 4.3457C2.42676 5.51525 3.37449 6.4638 4.54395 6.46387C5.71346 6.46387 6.66211 5.51529 6.66211 4.3457C6.66202 3.17619 5.7134 2.22852 4.54395 2.22852Z" fill="white"/>
+                      <path d="M4.5 0C5.69047 0 6.73798 0.422548 7.64258 1.2666C8.54718 2.11076 8.99994 3.24429 9 4.66699C9 5.61553 8.62709 6.64719 7.88184 7.76172C7.13656 8.87626 6.00929 10.0833 4.5 11.3828C2.99078 10.0834 1.86342 8.87623 1.11816 7.76172C0.37296 6.64723 0 5.6155 0 4.66699C6.49664e-05 3.24429 0.452824 2.11076 1.35742 1.2666C2.26202 0.422497 3.30952 2.80738e-05 4.5 0ZM4.54395 2.22852C3.37454 2.22858 2.42685 3.17623 2.42676 4.3457C2.42676 5.51525 3.37449 6.4638 4.54395 6.46387C5.71346 6.46387 6.66211 5.51529 6.66211 4.3457C6.66202 3.17619 5.7134 2.22852 4.54395 2.22852Z" fill="white" />
                     </svg>
                     <span>{story.distance}</span>
                   </div>
                 )}
                 <div className={styles.homeStoryCardGradient} />
                 <h4 className={styles.homeStoryCardTitle}>{story.title}</h4>
-                <button
-                  className={styles.homeStoryCardHeart}
-                  aria-label="Like story"
-                  type="button"
-                >
+                <div className={styles.homeStoryCardHeart}>
                   <HeartIcon />
-                </button>
+                </div>
 
               </div>
             );
