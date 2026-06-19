@@ -14,11 +14,17 @@
   border: none;
   white-space: nowrap;
   cursor: pointer;
-  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  -webkit-transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 
   -webkit-tap-highlight-color: transparent;
   anchor-name: var(--active-anchor, --fallback);
+}
+
+.button:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 24px rgba(255, 125, 60, 0.45);
+  background-color: var(--color-primary-dark);
 }
 
 .buttonIcon {
