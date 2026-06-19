@@ -11,6 +11,7 @@ import Signup from './pages/Signup';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 
 export default function App() {
   const [userLocation, setUserLocation] = useState(null);
@@ -92,6 +93,7 @@ export default function App() {
 
   return (
     <HashRouter>
+      <ScrollToTop />
       <a href="#main-content" className="skip-link">Skip to main content</a>
       <Navbar token={token} />
       <main id="main-content" tabIndex="-1" style={{ outline: 'none' }}>
