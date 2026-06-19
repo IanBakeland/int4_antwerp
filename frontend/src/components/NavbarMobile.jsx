@@ -23,7 +23,7 @@ export default function NavbarMobile() {
                             <HomeFilledIcon />
                         </div>
                     </div>
-                    <p className={isActive ? 'active' : ''}>Home</p>
+                    <p className={isActive ? 'active' : ''}>Stories</p>
                 </>
             )}
         </NavLink>
