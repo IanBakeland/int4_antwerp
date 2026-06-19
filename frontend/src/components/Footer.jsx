@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import styles from './Footer.module.css';
+import LogoAS from '../assets/icons/Logo';
 
 // Social media icons
 import pinterestIcon from '../assets/images/pinterest.png';
@@ -88,6 +89,9 @@ export default function Footer() {
 
       {/* Footer Content Area */}
       <div className={styles.footerContent}>
+        <div className={styles.footerLogoWrapper}>
+          <LogoAS />
+        </div>
         <nav className={styles.footerNav}>
           <Link to="/" className={styles.footerLink}>Home</Link>
           <Link to="/#panoramas" className={styles.footerLink}>Panorama's</Link>
