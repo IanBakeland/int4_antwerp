@@ -1,8 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
 import styles from './Footer.module.css';
-import LogoAS from '../assets/icons/Logo';
 
-// Social media icons
+// Logo and Social media icons
+import logoAntwerpFooter from '../assets/images/logoantwerpfooter.png';
 import pinterestIcon from '../assets/images/pinterest.png';
 import tiktokIcon from '../assets/images/tiktok.png';
 import facebookIcon from '../assets/images/facebook.png';
@@ -90,7 +90,7 @@ export default function Footer() {
       {/* Footer Content Area */}
       <div className={styles.footerContent}>
         <div className={styles.footerLogoWrapper}>
-          <LogoAS />
+          <img src={logoAntwerpFooter} alt="Antwerp Stories" className={styles.footerLogoImg} />
         </div>
         <nav className={styles.footerNav}>
           <Link to="/" className={styles.footerLink}>Home</Link>

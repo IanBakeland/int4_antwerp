@@ -31,8 +31,8 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
       <div className={`toolbar noDesktop noTablet`}>
         <div className="alignNext">
           <h1>The <span>radar</span></h1>
-          <Link to="#" className="iconbutton"><MuteIcon /></Link>
-          <Link to="/account" className="iconbutton"><PersonIcon /></Link>
+          <Link to="#" className="iconbutton" aria-label="Mute sounds"><MuteIcon /></Link>
+          <Link to="/account" className="iconbutton" aria-label="Account"><PersonIcon /></Link>
         </div>
       </div>
       <div className="noMobile">
@@ -49,7 +49,9 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
       )}
       <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
       <div>
+        <label htmlFor="distance-slider">Distance threshold (meters): </label>
         <input
+          id="distance-slider"
           type="range"
           min="0"
           max="2000"
@@ -59,25 +61,26 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
         <p>Distance: {distance}</p>
       </div>
       <form>
-        <label>
-          <input
-            type="checkbox"
-            checked={isRadarActive}
-            onChange={(e) => setIsRadarActive(e.target.checked)}
-          />
+        <label htmlFor="radar-tracking-checkbox">
           Enable Radar Tracking
         </label>
+        <input
+          id="radar-tracking-checkbox"
+          type="checkbox"
+          checked={isRadarActive}
+          onChange={(e) => setIsRadarActive(e.target.checked)}
+        />
       </form>
 
       <h2>Test Location Input</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Latitude: </label>
-          <input type="number" step="any" name="latitude" required/>
+          <label htmlFor="test-latitude-input">Latitude: </label>
+          <input id="test-latitude-input" type="number" step="any" name="latitude" required/>
         </div>
         <div>
-          <label>Longitude: </label>
-          <input type="number" step="any" name="longitude" required />
+          <label htmlFor="test-longitude-input">Longitude: </label>
+          <input id="test-longitude-input" type="number" step="any" name="longitude" required />
         </div>
         <button type="submit">Save Target Location</button>
       </form>

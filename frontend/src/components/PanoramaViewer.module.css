@@ -34,7 +34,11 @@
   line-height: normal;
   margin: 0.1875rem 0 0 0;
   /* 3px spacing */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 
 .panoContent__description {
   color: var(--color-white);

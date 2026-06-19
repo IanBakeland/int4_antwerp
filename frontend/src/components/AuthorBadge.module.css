@@ -1,0 +1,57 @@
+.badgeContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px; /* 10px spacing between name tag and circle */
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.authorBadge {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  width: 4.9375rem;
+  height: 1.625rem;
+  border-radius: 2.076rem;
+  border: 0.5px solid #DCDCDC;
+  background: rgba(230, 230, 230, 0.80);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-sizing: border-box;
+  color: #000;
+
+  font-family: var(--font-spartan);
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
+}
+
+.authorBadgeIcon {
+  flex-shrink: 0;
+  width: 0.8125rem;
+  height: 0.8125rem;
+}
+
+.authorName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.badgeCircle {
+  width: 26px;
+  height: 26px;
+  border-radius: 33.039px;
+  border: 0.5px solid #DCDCDC;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+

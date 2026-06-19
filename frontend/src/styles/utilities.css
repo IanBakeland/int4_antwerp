@@ -210,3 +210,54 @@
   }
 }
 
+.skip-link {
+  position: absolute !important;
+  left: 1rem !important;
+  top: -10rem !important;
+  background-color: var(--color-primary, #FF7D3C) !important;
+  color: var(--color-white, #ffffff) !important;
+  padding: 0.75rem 1.5rem !important;
+  border-bottom-left-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+  font-family: var(--font-antwerpen), sans-serif !important;
+  font-weight: bold !important;
+  font-size: 0.9rem !important;
+  text-decoration: none !important;
+  z-index: 100000 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  transition: top 0.25s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+}
+
+.skip-link:focus {
+  top: 0 !important;
+  outline: 3px solid var(--color-white) !important;
+  outline-offset: -3px !important;
+}
+
+/* Hides content visually but keeps it in the accessibility tree. */
+.visually-hidden:where(:not(:focus-within, :active)) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: scroll !important;
+    scroll-behavior: auto !important;
+    transition-delay: 0s !important;
+    transition-duration: 0s !important;
+  }
+}
+
+
