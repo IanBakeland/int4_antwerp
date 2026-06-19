@@ -15,3 +15,28 @@ main {
     padding: 0 1rem;
   }
 }
+
+/* Custom Scrollbars */
+* {
+  scrollbar-color: var(--color-primary) #ECECE7;
+  scrollbar-width: auto;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ECECE7;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border: 3px solid #ECECE7;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-lime);
+}

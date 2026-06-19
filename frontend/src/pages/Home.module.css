@@ -720,11 +720,6 @@
 
   box-sizing: border-box;
   transition: opacity 0.25s ease, transform 0.25s ease;
-
-  margin-top: calc(3.4375rem - 1.875rem);
-  margin-left: calc(0.9375rem - 1rem);
-  position: relative;
-  z-index: 2;
 }
 
 .homeShareStoryButton__icon {
@@ -738,8 +733,95 @@
   transform: translateY(-1px);
 }
 
+.homeActionsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% + 2rem);
+  margin-left: -1rem;
+  margin-right: -1rem;
+  padding: 0 0.9375rem;
+  box-sizing: border-box;
+  margin-top: calc(3.4375rem - 1.875rem);
+  position: relative;
+  z-index: 2;
+}
+
 @media (min-width: 801px) {
-  .homeShareStoryButton {
-    margin-left: 0.9375rem;
+  .homeActionsRow {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0 0.9375rem;
   }
+}
+
+.homeToolsContainer {
+  display: flex;
+  width: 5.4375rem;
+  height: 2.6875rem;
+  padding: 0.125rem;
+  align-items: center;
+  gap: 0.3125rem;
+  box-sizing: border-box;
+  border-radius: 3.125rem;
+  background: var(--color-light-gray);
+}
+
+.homeToolCircle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.4375rem;
+  height: 2.4375rem;
+  border-radius: 1.3125rem;
+  border: 1px solid var(--color-light-gray);
+  background: var(--color-white);
+  padding: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+  color: var(--color-black);
+  transition: opacity 0.25s ease, background-color 0.25s ease;
+}
+
+.homeToolCircle:hover {
+  background-color: var(--color-bg-light);
+}
+
+.homeToolCircle svg {
+  flex-shrink: 0;
+}
+
+.homeTopStoriesItem__authorBadge {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.875rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  width: 4.9375rem;
+  height: 1.625rem;
+  border-radius: 2.076rem;
+  border: 0.5px solid #DCDCDC;
+  background: rgba(230, 230, 230, 0.80);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-sizing: border-box;
+  color: #000;
+
+  font-family: var(--font-spartan);
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
+  pointer-events: none;
+}
+
+.homeTopStoriesItem__authorBadgeIcon {
+  flex-shrink: 0;
+  width: 0.8125rem;
+  height: 0.8125rem;
 }
