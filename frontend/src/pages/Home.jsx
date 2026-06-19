@@ -19,6 +19,7 @@ import AddCircleIcon from '../assets/icons/AddCircle';
 import FilterIcon from '../assets/icons/Filter';
 import SearchIcon from '../assets/icons/Search';
 import UserCircleIcon from '../assets/icons/UserCircle';
+import AuthorBadge from '../components/AuthorBadge';
 import styles from './Home.module.css';
 
 const stories = [
@@ -397,10 +398,11 @@ export default function Home({ userLocation }) {
                   {index + 1}
                 </span>
                 <div className={styles.homeTopStoriesItem__card} style={{ backgroundImage: `url(${story.image})` }}>
-                  <div className={styles.homeTopStoriesItem__authorBadge}>
-                    <UserCircleIcon className={styles.homeTopStoriesItem__authorBadgeIcon} />
-                    <span>{story.author || 'Emma'}</span>
-                  </div>
+                  <AuthorBadge 
+                    author={story.author || 'Emma'} 
+                    colorIndex={index} 
+                    className={styles.homeAuthorBadgeWrapper}
+                  />
                   <div className={styles.homeTopStoriesItem__gradient} />
                   <h4 className={styles.homeTopStoriesItem__title}>{story.title}</h4>
                 </div>
@@ -434,10 +436,11 @@ export default function Home({ userLocation }) {
                 className={isLarge ? styles.homeStoryCardLarge : styles.homeStoryCardSmall}
                 style={{ backgroundImage: `url(${story.image})` }}
               >
-                <div className={styles.homeTopStoriesItem__authorBadge}>
-                  <UserCircleIcon className={styles.homeTopStoriesItem__authorBadgeIcon} />
-                  <span>Emma</span>
-                </div>
+                <AuthorBadge 
+                  author="Emma" 
+                  colorIndex={i + 1} // Offset by 1 to differentiate from Top Stories
+                  className={styles.homeAuthorBadgeWrapper}
+                />
                 <div className={styles.homeStoryCardGradient} />
                 <h4 className={styles.homeStoryCardTitle}>{story.title}</h4>
                 <div className={styles.homeStoryCardHeart}>

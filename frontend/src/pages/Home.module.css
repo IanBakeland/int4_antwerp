@@ -795,39 +795,13 @@
   fill: currentColor;
 }
 
-.homeTopStoriesItem__authorBadge {
+.homeAuthorBadgeWrapper {
   position: absolute;
   left: 0.75rem;
   top: 0.875rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-  width: 4.9375rem;
-  height: 1.625rem;
-  border-radius: 2.076rem;
-  border: 0.5px solid #DCDCDC;
-  background: rgba(230, 230, 230, 0.80);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  box-sizing: border-box;
-  color: #000;
-
-  font-family: var(--font-spartan);
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  text-align: center;
-  pointer-events: none;
+  z-index: 5;
 }
 
-.homeTopStoriesItem__authorBadgeIcon {
-  flex-shrink: 0;
-  width: 0.8125rem;
-  height: 0.8125rem;
-}
 
 .homeStoriesGrid {
   display: grid;
