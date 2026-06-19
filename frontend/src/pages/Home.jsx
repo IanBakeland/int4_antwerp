@@ -447,6 +447,7 @@ export default function Home({ userLocation }) {
                 <div className={styles.homeStoryCardHeart}>
                   <HeartIcon />
                 </div>
+
               </div>
             );
           })}
