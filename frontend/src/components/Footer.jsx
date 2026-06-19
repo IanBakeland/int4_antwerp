@@ -1,4 +1,12 @@
+import { Link } from 'react-router-dom';
 import styles from './Footer.module.css';
+
+// Social media icons
+import pinterestIcon from '../assets/images/pinterest.png';
+import tiktokIcon from '../assets/images/tiktok.png';
+import facebookIcon from '../assets/images/facebook.png';
+import instagramIcon from '../assets/images/instagram.png';
+import youtubeIcon from '../assets/images/youtube.png';
 
 export default function Footer() {
   return (
@@ -73,7 +81,43 @@ export default function Footer() {
 
       {/* Footer Content Area */}
       <div className={styles.footerContent}>
-        {/* Mobile footer contents will be built here */}
+        <nav className={styles.footerNav}>
+          <Link to="/" className={styles.footerLink}>Home</Link>
+          <Link to="/#panoramas" className={styles.footerLink}>Panorama's</Link>
+          <Link to="/radar" className={styles.footerLink}>Radar</Link>
+          <Link to="/favourites" className={styles.footerLink}>Favourites</Link>
+          <Link to="/account" className={styles.footerLink}>Account</Link>
+          <a
+            href="https://www.visitantwerpen.be"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${styles.footerLink} ${styles.footerLinkSpecial}`}
+          >
+            Visit Antwerp
+          </a>
+          
+          <div className={styles.footerSocials}>
+            <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer" className={styles.footerSocialLink}>
+              <img src={pinterestIcon} alt="Pinterest" className={styles.footerSocialIcon} />
+            </a>
+            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className={styles.footerSocialLink}>
+              <img src={tiktokIcon} alt="TikTok" className={styles.footerSocialIcon} />
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className={styles.footerSocialLink}>
+              <img src={facebookIcon} alt="Facebook" className={styles.footerSocialIcon} />
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className={styles.footerSocialLink}>
+              <img src={instagramIcon} alt="Instagram" className={styles.footerSocialIcon} />
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className={styles.footerSocialLink}>
+              <img src={youtubeIcon} alt="YouTube" className={styles.footerSocialIcon} />
+            </a>
+          </div>
+        </nav>
+
+        <p className={styles.footerCopyright}>
+          © All rights reserved 2026
+        </p>
       </div>
     </footer>
   );

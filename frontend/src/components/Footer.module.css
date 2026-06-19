@@ -1,7 +1,7 @@
 .footer {
   position: relative;
   width: 100%;
-  height: 44.6875rem; /* 715px */
+  height: 50rem; /* 800px */
   margin-top: 5rem;
   overflow: hidden;
   box-sizing: border-box;
@@ -22,15 +22,84 @@
   z-index: 2;
   width: 100%;
   height: 100%;
-  padding: 15rem 1rem 2rem 1rem;
+  padding-top: 25rem; /* Pushes content down into the solid orange area on mobile */
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footerNav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footerLink {
+  color: var(--color-white);
+  font-family: var(--font-spartan);
+  font-size: 1rem; /* 16px */
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.5; /* 150% (24px) */
+  letter-spacing: 0.32px;
+  text-transform: uppercase;
+  
+  /* Text decoration rules requested */
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+  
+  transition: opacity 0.25s ease;
+}
+
+.footerLink:hover {
+  opacity: 0.8;
+}
+
+.footerLinkSpecial {
+  margin-top: 1.5rem; /* Creates the blank line spacing before VISIT ANTWERP */
+}
+
+.footerSocials {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem; /* 20px gap */
+  margin-top: 1.75rem; /* space under Visit Antwerp */
+}
+
+.footerSocialLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.footerSocialIcon {
+  width: 1.875rem;
+  height: 1.875rem;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.footerSocialLink:hover .footerSocialIcon {
+  transform: translateY(-2px);
+  opacity: 0.8;
 }
 
 @media (min-width: 801px) {
   .footer {
     height: auto;
-    min-height: 25rem; /* 400px */
+    min-height: 15rem; /* 240px */
     background: var(--color-primary);
+    margin-top: 8rem;
   }
 
   .footerBg {
@@ -41,5 +110,34 @@
     max-width: 106.25rem; /* 1700px */
     margin: 0 auto;
     padding: 4rem 2rem;
+    align-items: center;
   }
+
+  .footerNav {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .footerLinkSpecial {
+    margin-top: 0; /* Resets the blank line margin on desktop */
+  }
+
+  .footerSocials {
+    margin-top: 0; /* Resets the top margin on desktop */
+  }
+}
+
+.footerCopyright {
+  color: var(--color-white);
+  text-align: center;
+  font-family: var(--font-spartan);
+  font-size: 0.75rem; /* 12px */
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.5; /* 150% (18px) */
+  letter-spacing: 0.24px;
+  text-transform: uppercase;
+  margin-top: 1.75rem; /* Space under the socials */
 }
