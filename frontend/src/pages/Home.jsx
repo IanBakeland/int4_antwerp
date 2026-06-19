@@ -244,20 +244,24 @@ export default function Home({ userLocation }) {
 
   return (
     <>
-      <div className={styles.navbarMobileTop}>
+      <header className={styles.navbarMobileTop}>
         <Link to="/" className={styles.mobileLogoLink} aria-label="Go to Homepage">
           <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.mobileLogoImg} />
         </Link>
         <div className={styles.navbarMobileTopRight}>
-          <Link to="/account" className="iconbutton"><PersonIcon /></Link>
+          <Link to="/account" className="iconbutton" aria-label="Account"><PersonIcon /></Link>
         </div>
-      </div>
+      </header>
       <div className={styles.homeContainer}>
         <div className={styles.homeLogoWrapper}>
           <LogoAS />
         </div>
 
-        <div className={styles.homePanoWrapper}>
+        <div 
+          className={styles.homePanoWrapper}
+          role="region"
+          aria-label={`360 degree panorama viewer displaying: ${activeStory.title}`}
+        >
           {prevPanoIndex !== null && (
             <div
               className={`${styles.homePanoImage} ${styles.staticSlide} ${transitionClassMap[prevTransitionClass]}`}
@@ -336,7 +340,7 @@ export default function Home({ userLocation }) {
           Radar <span className={styles.discoverSpotsButton__arrow || ''}>→</span>
         </Link>
 
-        <img src={backgroundMoments} alt="180° panorama moments" className={styles.homeBackgroundMoments} />
+        <img src={backgroundMoments} alt="" className={styles.homeBackgroundMoments} aria-hidden="true" />
 
         <div className={styles.homeScrollBanner}>
           <div className={styles.homeScrollBanner__track}>
@@ -410,7 +414,7 @@ export default function Home({ userLocation }) {
                     className={styles.homeAuthorBadgeWrapper}
                   />
                   <div className={styles.homeTopStoriesItem__gradient} />
-                  <h4 className={styles.homeTopStoriesItem__title}>{story.title}</h4>
+                  <h3 className={styles.homeTopStoriesItem__title}>{story.title}</h3>
                 </div>
               </div>
             ))}
@@ -463,7 +467,7 @@ export default function Home({ userLocation }) {
                   </div>
                 )}
                 <div className={styles.homeStoryCardGradient} />
-                <h4 className={styles.homeStoryCardTitle}>{story.title}</h4>
+                <h3 className={styles.homeStoryCardTitle}>{story.title}</h3>
                 <div className={styles.homeStoryCardHeart}>
                   <HeartIcon />
                 </div>

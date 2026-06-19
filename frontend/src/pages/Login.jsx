@@ -51,23 +51,27 @@ export default function Login({ setToken }) {
       <div className="noMobile">
         <h1>Welcome, <span>log in</span> </h1>
       </div>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p style={{ color: "red" }} role="alert">{error}</p>}
       <form onSubmit={handleLogin}>
         <div>
-          <label>Username or Email:</label>
+          <label htmlFor="login-username-input">Username or Email:</label>
           <input
+            id="login-username-input"
             type="text"
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
+            autocomplete="username"
             required
           />
         </div>
         <div>
-          <label>Password:</label>
+          <label htmlFor="login-password-input">Password:</label>
           <input
+            id="login-password-input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            autocomplete="current-password"
             required
           />
         </div>

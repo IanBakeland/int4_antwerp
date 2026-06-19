@@ -237,7 +237,7 @@
   color: inherit;
   text-align: center;
   font-family: var(--font-antwerpen);
-  font-size: 35px;
+  font-size: 2.1875rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -251,7 +251,7 @@
   color: inherit;
   text-align: center;
   font-family: var(--font-antwerpen);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -266,7 +266,7 @@
   color: inherit;
   text-align: center;
   font-family: var(--font-spartan);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 600;
   line-height: 39px;
@@ -279,7 +279,7 @@
   color: var(--color-primary);
   text-align: center;
   font-family: var(--font-antwerpen);
-  font-size: 40px;
+  font-size: 2.5rem;
   font-style: normal;
   font-weight: 400;
   line-height: 46px;
@@ -292,7 +292,7 @@
   color: var(--color-black);
   text-align: center;
   font-family: var(--font-spartan);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 400;
   line-height: 29px;
@@ -304,7 +304,7 @@
 .homePanoramaDescription--bold {
   color: var(--color-black);
   font-family: var(--font-spartan);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 600;
   line-height: 29px;
@@ -321,7 +321,7 @@
   background: var(--color-primary);
   color: var(--color-white);
   font-family: var(--font-spartan);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 500;
   line-height: 28px;
@@ -395,7 +395,7 @@
   color: var(--color-black);
   text-align: center;
   font-family: "Rotunda Variable", sans-serif;
-  font-size: 35px;
+  font-size: 2.1875rem;
   font-style: normal;
   font-weight: 700;
   line-height: 97.276%;
@@ -439,7 +439,7 @@
 .homeTopStoriesTitle__top {
   color: var(--color-primary);
   font-family: var(--font-antwerpen);
-  font-size: 55px;
+  font-size: 3.4375rem;
   font-style: normal;
   font-weight: 400;
   line-height: 47px;
@@ -451,7 +451,7 @@
 .homeTopStoriesTitle__sub {
   color: var(--color-black);
   font-family: var(--font-antwerpen);
-  font-size: 40px;
+  font-size: 2.5rem;
   font-style: normal;
   font-weight: 400;
   line-height: 47px;
@@ -502,7 +502,7 @@
   bottom: 13px;
   z-index: 1;
   font-family: var(--font-antwerpen);
-  font-size: 120px;
+  font-size: 7.5rem;
   font-style: normal;
   font-weight: 400;
   line-height: 72.622px;
@@ -544,7 +544,7 @@
   right: 20px;
   color: var(--color-white);
   font-family: var(--font-antwerpen);
-  font-size: 26px;
+  font-size: 1.625rem;
   font-weight: 400;
   margin: 0;
   text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
@@ -842,7 +842,7 @@
   leading-trim: both;
   text-edge: cap;
   font-family: "League Spartan", var(--font-spartan);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
   line-height: 28px;
@@ -1010,13 +1010,13 @@
 }
 
 .homeStoryCardLarge .homeStoryCardTitle {
-  font-size: 26px;
+  font-size: 1.625rem;
   text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
   line-height: 1.2;
 }
 
 .homeStoryCardSmall .homeStoryCardTitle {
-  font-size: 16px;
+  font-size: 1rem;
   text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
   line-height: 1.2;
   width: 114px;

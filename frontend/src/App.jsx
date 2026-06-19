@@ -91,8 +91,9 @@ export default function App() {
 
   return (
     <HashRouter>
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       <Navbar token={token} />
-      <main>
+      <main id="main-content" tabIndex="-1" style={{ outline: 'none' }}>
         <Routes>
           <Route path="/" element={<Home userLocation={userLocation} />} />
           <Route 
