@@ -95,6 +95,7 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, s
           <p>Distance to target: {formatDistance(distance)}</p>
         </div>
       )}
+      
 
       <h2>Live Status</h2>
       {isRadarActive ? (
