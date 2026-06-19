@@ -1,1 +1,45 @@
-/* Footer module styles */
+.footer {
+  position: relative;
+  width: 100%;
+  height: 44.6875rem; /* 715px */
+  margin-top: 5rem;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.footerBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.footerContent {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  padding: 15rem 1rem 2rem 1rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 801px) {
+  .footer {
+    height: auto;
+    min-height: 25rem; /* 400px */
+    background: var(--color-primary);
+  }
+
+  .footerBg {
+    display: none;
+  }
+
+  .footerContent {
+    max-width: 106.25rem; /* 1700px */
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+}

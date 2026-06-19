@@ -2,7 +2,79 @@ import styles from './Footer.module.css';
 
 export default function Footer() {
   return (
-    <footer className="noMobile">
+    <footer className={styles.footer}>
+      {/* Background SVG decoration for mobile */}
+      <svg
+        className={styles.footerBg}
+        viewBox="0 0 393 715"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+      >
+        <rect width="393" height="244" fill="url(#paint0_linear_1639_3590)" />
+        <g filter="url(#filter0_d_1639_3590)">
+          <path
+            d="M-1 215C-1 215 69.2008 235.78 196 235.78C322.799 235.78 393 215 393 215V468C393 468 318.578 447.22 196 447.22C73.4222 447.22 -1 468 -1 468V215Z"
+            fill="#FF7D3C"
+          />
+        </g>
+        <rect x="-1" y="401" width="394" height="314" fill="#FF7D3C" />
+        <defs>
+          <filter
+            id="filter0_d_1639_3590"
+            x="-71"
+            y="175"
+            width="534"
+            height="393"
+            filterUnits="userSpaceOnUse"
+            colorInterpolationFilters="sRGB"
+          >
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
+            <feColorMatrix
+              in="SourceAlpha"
+              type="matrix"
+              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+              result="hardAlpha"
+            />
+            <feOffset dy="30" />
+            <feGaussianBlur stdDeviation="35" />
+            <feColorMatrix
+              type="matrix"
+              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
+            />
+            <feBlend
+              mode="normal"
+              in2="BackgroundImageFix"
+              result="effect1_dropShadow_1639_3590"
+            />
+            <feBlend
+              mode="normal"
+              in="SourceGraphic"
+              in2="effect1_dropShadow_1639_3590"
+              result="shape"
+            />
+          </filter>
+          <linearGradient
+            id="paint0_linear_1639_3590"
+            x1="196.5"
+            y1="0"
+            x2="196.5"
+            y2="244"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stopColor="white" stopOpacity="0" />
+            <stop offset="0.216346" stopColor="white" stopOpacity="0.25" />
+            <stop offset="0.475962" stopColor="white" stopOpacity="0.5" />
+            <stop offset="0.716346" stopColor="white" stopOpacity="0.75" />
+            <stop offset="1" stopColor="white" />
+          </linearGradient>
+        </defs>
+      </svg>
+
+      {/* Footer Content Area */}
+      <div className={styles.footerContent}>
+        {/* Mobile footer contents will be built here */}
+      </div>
     </footer>
   );
 }
