@@ -5,10 +5,10 @@ import HeartFilledIcon from '../assets/icons/HeartFilled';
 import PersonIcon from '../assets/icons/Person';
 
 export default function StoryCard({ title, category, username, image }) {
-  const highQualityImage = image?.formats?.large?.url || image?.formats?.medium?.url || image?.url;
+  const highQualityImage = image?.url || image?.formats?.large?.url;
 
   return (
-    <div className="storyCard alignUnder" style={ highQualityImage ? { backgroundImage: `url(${highQualityImage})` } : undefined }>
+    <div className={`${styles.storyCard} alignUnder`} style={ highQualityImage ? { backgroundImage: `url(${highQualityImage})` } : undefined }>
       <div>
         <div>
           <PersonIcon />

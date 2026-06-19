@@ -36,7 +36,7 @@ export default function Favourites() {
           .map((fav, index) => `filters[documentId][$in][${index}]=${fav.documentId}`)
           .join('&');
         
-        const favRes = await fetch(`https://necessary-light-a082e19892.strapiapp.com/api/favourites?${inQuery}&populate[story][populate]=panorama,user`, {
+        const favRes = await fetch(`https://necessary-light-a082e19892.strapiapp.com/api/favourites?${inQuery}&populate[story][populate][0]=panorama&populate[story][populate][1]=user`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -70,7 +70,7 @@ export default function Favourites() {
         {loading ? (
           <p>Loading your saved panoramas...</p>
         ) : favourites.length > 0 ? (
-          <div className="favouritesGrid">
+          <div className="storyCardContainer">
             {favourites.map((favItem) => {
               const story = favItem.story;
               
@@ -79,7 +79,7 @@ export default function Favourites() {
               return (
                 <StoryCard 
                   key={favItem.documentId}
-                  title={story.Title}
+                  title={story.title}
                   category={story.category}
                   username={story.user?.username}
                   image={story.panorama}
