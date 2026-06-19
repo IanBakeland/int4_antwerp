@@ -61,6 +61,12 @@ const topStories = [
   { title: "Zurenborg Beauty", image: pano2 }
 ];
 
+const gridStories = Array.from({ length: 20 }, (_, index) => ({
+  id: index + 1,
+  title: "My first kiss",
+  image: pano1,
+}));
+
 const strokeColors = ['#FD7C3F', '#66A0FF', '#FF82DC', '#D2FF4B'];
 
 const DividerSVG = ({ color }) => (
@@ -417,6 +423,25 @@ export default function Home({ userLocation }) {
               <SearchIcon />
             </button>
           </div>
+        </div>
+
+        <div className={styles.homeStoriesGrid}>
+          {gridStories.map((story, i) => {
+            const isLarge = (i % 11 === 0 || i % 11 === 5 || i % 11 === 6);
+            return (
+              <div
+                key={i}
+                className={isLarge ? styles.homeStoryCardLarge : styles.homeStoryCardSmall}
+                style={{ backgroundImage: `url(${story.image})` }}
+              >
+                <div className={styles.homeStoryCardGradient} />
+                <h4 className={styles.homeStoryCardTitle}>{story.title}</h4>
+                <div className={styles.homeStoryCardHeart}>
+                  <HeartIcon />
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         {userLocation && (
