@@ -839,7 +839,7 @@
   height: 52rem;
   /* 832px window height - maximum safe mobile height to trigger internal scrolling */
   overflow-y: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior: auto; /* Changed to auto to allow scroll chaining/bubbling to the page viewport, resolving the 'stuck' scroll issue */
   -webkit-overflow-scrolling: touch;
 
   /* CSS Edge Fade Masks - Top fade only, no bottom fade */
