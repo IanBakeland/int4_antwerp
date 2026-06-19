@@ -5,7 +5,7 @@ import styles from './Radar.module.css';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import FiltersRadar from '../components/FiltersRadar';
 import RadarVisual from '../components/RadarVisual';
-import StoryCard from '../components/StoryCard';
+import StoryCardSelected from '../components/StoryCardSelected';
 
 import PersonIcon from '../assets/icons/Person';
 import MuteIcon from '../assets/icons/Mute';
@@ -114,7 +114,7 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, f
         </div>
       </div>
       <div className="noMobile">
-        <h1>Radar</h1>
+        <h1>The <span>radar</span></h1>
       </div>
 
       <FiltersRadar />
@@ -130,12 +130,13 @@ export default function Radar({ userLocation, isRadarActive, setIsRadarActive, f
 
       {activeStory && isRadarActive && (
         <div style={{ marginTop: "1rem", padding: "0 1rem" }}>
-          <StoryCard 
+          <StoryCardSelected 
             key={activeStory.documentId}
             title={activeStory.title}
             category={activeStory.category}
             username={activeStory.user?.username}
             image={activeStory.panorama}
+            state={selectedStory ? "selected" : "closest"}
           />
         </div>
       )}
