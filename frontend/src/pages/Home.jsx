@@ -15,6 +15,7 @@ import LogoAS from '../assets/icons/Logo';
 import backgroundMoments from '../assets/images/backgroundmoments.png';
 import HeartIcon from '../assets/icons/Heart';
 import PersonIcon from '../assets/icons/Person';
+import AddCircleIcon from '../assets/icons/AddCircle';
 import styles from './Home.module.css';
 
 const stories = [
@@ -396,6 +397,7 @@ export default function Home({ userLocation }) {
         </div>
 
         <Link to="/share" className={styles.homeShareStoryButton}>
+          <AddCircleIcon className={styles.homeShareStoryButton__icon} />
           Share your story
         </Link>
 
