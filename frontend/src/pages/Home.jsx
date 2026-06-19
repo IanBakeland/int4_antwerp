@@ -395,6 +395,10 @@ export default function Home({ userLocation }) {
           </div>
         </div>
 
+        <Link to="/share" className={styles.homeShareStoryButton}>
+          Share your story
+        </Link>
+
         {userLocation && (
           <p>Live Coordinates: {userLocation.lat}, {userLocation.lng}</p>
         )}

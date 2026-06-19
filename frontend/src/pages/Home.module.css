@@ -692,3 +692,47 @@
   opacity: 0.5 !important;
   transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
+
+.homeShareStoryButton {
+  display: flex;
+  width: 11rem;
+  height: 2.6875rem;
+  padding: 0.5625rem 0.75rem 0.625rem 0.75rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+
+  border-radius: 1.59375rem;
+  background: var(--color-primary);
+  color: var(--color-white);
+  text-decoration: none;
+
+  font-family: var(--font-spartan);
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.75rem;
+
+  leading-trim: both;
+  text-edge: cap;
+
+  box-sizing: border-box;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+
+  margin-top: calc(3.4375rem - 1.875rem);
+  margin-left: calc(0.9375rem - 1rem);
+  position: relative;
+  z-index: 2;
+}
+
+.homeShareStoryButton:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+@media (min-width: 801px) {
+  .homeShareStoryButton {
+    margin-left: 0.9375rem;
+  }
+}
