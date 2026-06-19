@@ -5,7 +5,7 @@
 .filters {
   display: inline-flex;
   gap: 0.3rem;
-  padding: 0.3rem;
+  padding: 0.4rem;
   background: var(--color-light-gray);
   border-radius: 25px;
   flex-wrap: wrap;
@@ -16,8 +16,9 @@
 
 .filterMargin {
   padding: 0.5rem;
-  max-width: 21.1rem;
+  max-width: 21.5rem;
   gap: 0.4em;
+  width: calc(100% - 1rem);
 }
 
 .filterButton {

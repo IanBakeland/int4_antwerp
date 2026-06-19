@@ -3,6 +3,17 @@ import styles from './FiltersRadar.module.css';
 
 //icons
 import PersonIcon from '../assets/icons/Person';
+import PersonFilledIcon from '../assets/icons/PersonFilled';
+import MagnifierIcon from '../assets/icons/Magnifier';
+import FilterIcon from '../assets/icons/Filter';
+import HeartIcon from '../assets/icons/Heart';
+import HeartFilledIcon from '../assets/icons/HeartFilled';
+import PersonRunningIcon from '../assets/icons/PersonRunning';
+import MonumentIcon from '../assets/icons/Monument';
+import FolderIcon from '../assets/icons/Folder';
+import PersonDoubleIcon from '../assets/icons/PersonDouble';
+import CircleGridIcon from '../assets/icons/CircleGrid';
+import CircleGridFilledIcon from '../assets/icons/CircleGridFilled';
 
 export default function FiltersRadar() {
   const [activeFilters, setActiveFilters] = useState([]);
@@ -26,19 +37,19 @@ export default function FiltersRadar() {
                     setActiveFilters([]);
                     setIsDropdownOpen(false);
                 }}>
-                <PersonIcon />All</button> 
-                <button className={`${styles.filterButton} flexCenter ${styles.expand2} ${activeFilters.includes('Favourites') ? styles.filterActive : ''}`} onClick={() => handleFilterClick('Favourites')}><PersonIcon />Favourites</button>
-                <button className={`${styles.filterButton} flexCenter dropdown-trigger ${styles.expand2} ${activeFilters.some(filter => filter !== 'Favourites') ? styles.filterActive : ''}`} onClick={() => setIsDropdownOpen(!isDropdownOpen)}><PersonIcon />Categories</button>
+                {activeFilters.length === 0 ? <CircleGridFilledIcon /> : <CircleGridIcon />}All</button>
+                <button className={`${styles.filterButton} flexCenter ${styles.expand2} ${activeFilters.includes('Favourites') ? styles.filterActive : ''}`} onClick={() => handleFilterClick('Favourites')}>{activeFilters.includes('Favourites') ? <HeartFilledIcon /> : <HeartIcon />}Favourites</button>
+                <button className={`${styles.filterButton} flexCenter dropdown-trigger ${styles.expand2} ${activeFilters.some(filter => filter !== 'Favourites') ? styles.filterActive : ''}`} onClick={() => setIsDropdownOpen(!isDropdownOpen)}><FilterIcon />Categories</button>
             </div>
-            <button className="iconbuttonSmall"><PersonIcon /></button>
+            <button className="iconbuttonSmall"><MagnifierIcon /></button>
         </div>
         {isDropdownOpen && (
         <div className={`${styles.filters} ${styles.filterMargin}`}>
-            <button className={`${styles.filterButton} ${activeFilters.includes('Action') ? styles.limeTag : ''}`} onClick={() => handleFilterClick('Action')}><PersonIcon />Action</button>
-            <button className={`${styles.filterButton} ${activeFilters.includes('Culture') ? styles.orangeTag : ''}`} onClick={() => handleFilterClick('Culture')}><PersonIcon />Culture</button>
-            <button className={`${styles.filterButton} ${activeFilters.includes('Business') ? styles.blueTag : ''}`} onClick={() => handleFilterClick('Business')}><PersonIcon />Business</button>
-            <button className={`${styles.filterButton} ${activeFilters.includes('Romantic') ? styles.pinkTag : ''}`} onClick={() => handleFilterClick('Romantic')}><PersonIcon />Romantic</button>
-            <button className={`${styles.filterButton} ${activeFilters.includes('Social') ? styles.greenTag : ''}`} onClick={() => handleFilterClick('Social')}><PersonIcon />Social</button>
+            <button className={`${styles.filterButton} ${activeFilters.includes('Action') ? styles.limeTag : ''}`} onClick={() => handleFilterClick('Action')}><PersonRunningIcon />Action</button>
+            <button className={`${styles.filterButton} ${activeFilters.includes('Culture') ? styles.orangeTag : ''}`} onClick={() => handleFilterClick('Culture')}><MonumentIcon />Culture</button>
+            <button className={`${styles.filterButton} ${activeFilters.includes('Business') ? styles.blueTag : ''}`} onClick={() => handleFilterClick('Business')}><FolderIcon />Business</button>
+            <button className={`${styles.filterButton} ${activeFilters.includes('Romantic') ? styles.pinkTag : ''}`} onClick={() => handleFilterClick('Romantic')}><HeartIcon />Romantic</button>
+            <button className={`${styles.filterButton} ${activeFilters.includes('Social') ? styles.greenTag : ''}`} onClick={() => handleFilterClick('Social')}><PersonDoubleIcon />Social</button>
         </div>
         )}
     </>

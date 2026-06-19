@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import PersonIcon from '../assets/icons/Person';
 import FavouriteAntistate from '../components/FavouriteAntistate';
+import Loading from '../components/Loading';
 import StoryCard from '../components/StoryCard';
 
 export default function Favourites() {
@@ -68,7 +69,9 @@ export default function Favourites() {
       
       <div className="favouritesContainer">
         {loading ? (
-          <p>Loading your saved panoramas...</p>
+          <>
+            <Loading message="Loading your favourite stories..." />
+          </>
         ) : favourites.length > 0 ? (
           <div className="storyCardContainer">
             {favourites.map((favItem) => {

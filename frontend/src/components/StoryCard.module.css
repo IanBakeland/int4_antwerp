@@ -17,6 +17,7 @@
 @media (min-width: 801px) {
   .storyCard {
     aspect-ratio: 16 / 10;
+    padding: 1rem 1.5rem;
   }
 }
 
@@ -88,7 +89,13 @@
   font-size: 17px;
   font-weight: 700;
   line-height: 1.25;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+@media (min-width: 1025px) {
+  .storyCard > div:last-child h3 {
+  font-weight: 500;
+    font-size: 22px;
+  }
 }
 
 .storyCard > div:last-child > svg {
