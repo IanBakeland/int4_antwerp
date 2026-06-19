@@ -15,6 +15,10 @@ import LogoAS from '../assets/icons/Logo';
 import backgroundMoments from '../assets/images/backgroundmoments.png';
 import HeartIcon from '../assets/icons/Heart';
 import PersonIcon from '../assets/icons/Person';
+import AddCircleIcon from '../assets/icons/AddCircle';
+import FilterIcon from '../assets/icons/Filter';
+import SearchIcon from '../assets/icons/Search';
+import UserCircleIcon from '../assets/icons/UserCircle';
 import styles from './Home.module.css';
 
 const stories = [
@@ -387,11 +391,31 @@ export default function Home({ userLocation }) {
                   {index + 1}
                 </span>
                 <div className={styles.homeTopStoriesItem__card} style={{ backgroundImage: `url(${story.image})` }}>
+                  <div className={styles.homeTopStoriesItem__authorBadge}>
+                    <UserCircleIcon className={styles.homeTopStoriesItem__authorBadgeIcon} />
+                    <span>{story.author || 'Emma'}</span>
+                  </div>
                   <div className={styles.homeTopStoriesItem__gradient} />
                   <h4 className={styles.homeTopStoriesItem__title}>{story.title}</h4>
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        <div className={styles.homeActionsRow}>
+          <Link to="/share" className={styles.homeShareStoryButton}>
+            <AddCircleIcon className={styles.homeShareStoryButton__icon} />
+            Share your story
+          </Link>
+
+          <div className={styles.homeToolsContainer}>
+            <button className={styles.homeToolCircle} aria-label="Filter stories">
+              <FilterIcon />
+            </button>
+            <button className={styles.homeToolCircle} aria-label="Search stories">
+              <SearchIcon />
+            </button>
           </div>
         </div>
 
