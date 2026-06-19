@@ -18,7 +18,6 @@ import PersonIcon from '../assets/icons/Person';
 import AddCircleIcon from '../assets/icons/AddCircle';
 import FilterIcon from '../assets/icons/Filter';
 import SearchIcon from '../assets/icons/Search';
-import UserCircleIcon from '../assets/icons/UserCircle';
 import AuthorBadge from '../components/AuthorBadge';
 import styles from './Home.module.css';
 
@@ -249,7 +248,7 @@ export default function Home({ userLocation }) {
           <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.mobileLogoImg} />
         </Link>
         <div className={styles.navbarMobileTopRight}>
-          <Link to="/account" className="iconbutton"><PersonIcon /></Link>
+          <Link to="/account" className="iconbutton" aria-label="Go to profile"><PersonIcon /></Link>
         </div>
       </div>
       <div className={styles.homeContainer}>
@@ -291,13 +290,14 @@ export default function Home({ userLocation }) {
         </div>
 
         {/* Pagination Indicators */}
-        <div className={styles.panoPagination}>
+        <div className={styles.panoPagination} role="group" aria-label="Panorama slides">
           {stories.map((_, index) => (
             <button
               key={index}
               className={`${styles.panoPagination__dot} ${index === displayIndex ? styles.panoPagination__dotActive : ''}`}
               onClick={() => navigateToPano(index)}
               aria-label={`Go to slide ${index + 1}`}
+              aria-current={index === displayIndex ? 'true' : 'false'}
             />
           ))}
         </div>
@@ -333,7 +333,7 @@ export default function Home({ userLocation }) {
         </p>
 
         <Link to="/radar" className={styles.homeRadarButton}>
-          Radar <span className={styles.discoverSpotsButton__arrow || ''}>→</span>
+          Radar <span className={styles.homeRadarButton__arrow}>→</span>
         </Link>
 
         <img src={backgroundMoments} alt="180° panorama moments" className={styles.homeBackgroundMoments} />
@@ -464,9 +464,13 @@ export default function Home({ userLocation }) {
                 )}
                 <div className={styles.homeStoryCardGradient} />
                 <h4 className={styles.homeStoryCardTitle}>{story.title}</h4>
-                <div className={styles.homeStoryCardHeart}>
+                <button
+                  className={styles.homeStoryCardHeart}
+                  aria-label="Like story"
+                  type="button"
+                >
                   <HeartIcon />
-                </div>
+                </button>
 
               </div>
             );
