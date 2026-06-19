@@ -843,15 +843,15 @@
   -webkit-overflow-scrolling: touch;
 
   /* CSS Edge Fade Masks - Top fade only, no bottom fade */
-  mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 100%);
 
   /* Hide standard scrollbars for a clean immersive card drawer look */
   scrollbar-width: none;
   /* Firefox */
 
-  padding: 1.5rem 1rem 24.5rem 1rem;
-  /* Adjusted padding-bottom to 24.5rem to buffer the deeper footer overlap */
+  padding: 1.5rem 1rem 8rem 1rem;
+  /* Adjusted padding-bottom to 8rem to prevent empty scrollable white space at the bottom */
   box-sizing: border-box;
   position: relative;
   z-index: 2;
@@ -873,8 +873,8 @@
     overscroll-behavior: auto;
 
     /* Top fade only on desktop */
-    mask-image: linear-gradient(to bottom, transparent 0%, black 6%, black 100%);
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 6%, black 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 100%);
   }
 }
 
