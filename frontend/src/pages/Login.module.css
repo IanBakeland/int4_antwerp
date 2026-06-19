@@ -276,8 +276,15 @@
   }
 
   .signupContainer {
-    overflow-y: auto !important;
-    padding-bottom: 8rem !important;
+    position: absolute;
+    height: auto;
+    min-height: 100dvh;
+    overflow-y: visible;
+  }
+
+  .signupContainer :global(.loginContent),
+  .signupContainer .loginContent {
+    padding-bottom: 5rem;
   }
 
   .loginContent {
