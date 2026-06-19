@@ -790,6 +790,9 @@
 
 .homeToolCircle svg {
   flex-shrink: 0;
+  width: 1.125rem; /* ~18px */
+  height: 1.125rem;
+  fill: currentColor;
 }
 
 .homeTopStoriesItem__authorBadge {
