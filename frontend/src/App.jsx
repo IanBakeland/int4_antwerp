@@ -14,8 +14,6 @@ import Footer from './components/Footer';
 export default function App() {
   const [userLocation, setUserLocation] = useState(null);
   const [isRadarActive, setIsRadarActive] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState(null);
-  const [distance, setDistance] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
@@ -50,28 +48,6 @@ export default function App() {
     };
   }, [isRadarActive]);
 
-  useEffect(() => {
-    if (userLocation && selectedLocation) {
-      const earthRadiusMeters = 6371000;
-      const userLatRadians = userLocation.lat * (Math.PI / 180);
-      const targetLatRadians = selectedLocation.lat * (Math.PI / 180);
-      const latDifferenceRadians = (selectedLocation.lat - userLocation.lat) * (Math.PI / 180);
-      const lngDifferenceRadians = (selectedLocation.lng - userLocation.lng) * (Math.PI / 180);
-
-      const intermediateValueA = 
-        Math.sin(latDifferenceRadians / 2) * Math.sin(latDifferenceRadians / 2) +
-        Math.cos(userLatRadians) * Math.cos(targetLatRadians) *
-        Math.sin(lngDifferenceRadians / 2) * Math.sin(lngDifferenceRadians / 2);
-      
-      const intermediateValueC = 2 * Math.atan2(Math.sqrt(intermediateValueA), Math.sqrt(1 - intermediateValueA));
-      const totalMeters = earthRadiusMeters * intermediateValueC;
-
-      setDistance(totalMeters);
-    } else {
-      setDistance(null);
-    }
-  }, [userLocation, selectedLocation]);
-
   const formatDistance = (meters) => {
     if (meters === null || meters === undefined) return '';
     
@@ -102,10 +78,6 @@ export default function App() {
                 userLocation={userLocation} 
                 isRadarActive={isRadarActive} 
                 setIsRadarActive={setIsRadarActive} 
-                selectedLocation={selectedLocation}
-                setSelectedLocation={setSelectedLocation}
-                distance={distance}
-                setDistance={setDistance}
                 formatDistance={formatDistance}
               />
             } 
