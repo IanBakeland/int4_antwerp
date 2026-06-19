@@ -100,6 +100,13 @@
   fill: var(--color-primary);
 }
 
+.backButton{
+  padding: 0;
+}
+.backButton > * {
+  padding: 0;
+}
+
 .iconbutton {
   display: inline-flex;
   justify-content: center;
@@ -169,15 +176,6 @@
 }
 
 
-.backButton{
-  padding: 0;
-}
-
-.backButton > * {
-  padding: 0;
-}
-
-
 .toolbar {
   position: fixed;
   top: 0;
@@ -197,4 +195,17 @@
 .toolbar div {
   width: 100%;
   padding: 1rem 0;
+}
+
+
+.storyCardContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+@media (min-width: 801px) {
+  .storyCardContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

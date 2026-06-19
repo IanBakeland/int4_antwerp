@@ -49,7 +49,7 @@ export default function Login({ setToken }) {
         </div>
       </div>
       <div className="noMobile">
-        <h1>My Account</h1>
+        <h1>Welcome, <span>log in</span> </h1>
       </div>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleLogin}>

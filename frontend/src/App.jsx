@@ -110,9 +110,15 @@ export default function App() {
               />
             } 
           />
-          <Route path="/favourites" element={<Favourites />} />
           <Route path="/share" element={<Share />} />
           <Route path="/radar-explained" element={<RadarExplained />} />
+          
+          <Route 
+            path="/favourites" 
+            element={
+              token ? <Favourites /> : <Navigate to="/login" replace />
+            } 
+          />
           
           <Route 
             path="/account" 

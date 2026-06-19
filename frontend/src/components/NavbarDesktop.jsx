@@ -44,20 +44,27 @@ export default function SecondaryNav() {
               </>
           )}
       </NavLink>
-      <NavLink to="/account" className={({ isActive }) => `tab flexCenter alignUnder ${isActive ? 'active' : ''}`}>
-          {({ isActive }) => (
-              <>
-                  <div className="iconContainer">
-                      <div className={`fadeIcon ${isActive ? 'iconHidden' : 'iconVisible'}`}>
-                          <PersonIcon />
-                      </div>
-                      <div className={`active fadeIcon ${isActive ? 'iconVisible' : 'iconHidden'}`}>
-                          <PersonFilledIcon />
-                      </div>
-                  </div>
-              </>
-          )}
-      </NavLink>
+      <NavLink to="/account" className={({ isActive }) => `tab flexCenter alignUnder ${ isActive || location.pathname === "/login" || location.pathname === "/register" ? "active" : ""}`}>
+            {({ isActive }) => {
+                const active =
+                    isActive ||
+                    location.pathname === "/login" ||
+                    location.pathname === "/register";
+
+                return (
+                    <>
+                        <div className="iconContainer">
+                            <div className={`fadeIcon ${active ? "iconHidden" : "iconVisible"}`}>
+                                <PersonIcon />
+                            </div>
+                            <div className={`active fadeIcon ${active ? "iconVisible" : "iconHidden"}`}>
+                                <PersonFilledIcon />
+                            </div>
+                        </div>
+                    </>
+                );
+            }}
+        </NavLink>
     </div>
   );
 }
