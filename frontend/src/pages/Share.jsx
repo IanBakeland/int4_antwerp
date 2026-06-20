@@ -55,6 +55,8 @@ export default function Share() {
   const [story, setStory] = useState('');
   const [isListening, setIsListening] = useState(false);
   const [recognition, setRecognition] = useState(null);
+  const [spots, setSpots] = useState([]);
+  const [currentSpot, setCurrentSpot] = useState('');
   const token = localStorage.getItem('token');
   const baseStoryRef = useRef('');
 
@@ -142,6 +144,24 @@ export default function Share() {
     }
   };
 
+  const handleAddSpot = () => {
+    if (currentSpot.trim()) {
+      setSpots((prev) => [...prev, currentSpot.trim()]);
+      setCurrentSpot('');
+    }
+  };
+
+  const handleRemoveSpot = (indexToRemove) => {
+    setSpots((prev) => prev.filter((_, index) => index !== indexToRemove));
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevent accidental form submission
+      handleAddSpot();
+    }
+  };
+
   return (
     <div className={styles.shareContainer}>
       <header className={styles.navbarMobileTop}>
@@ -226,11 +246,36 @@ export default function Share() {
                 type="text"
                 className={styles.inputField}
                 placeholder="e.g. Café Den Engel, Handelsbeurs..."
+                value={currentSpot}
+                onChange={(e) => setCurrentSpot(e.target.value)}
+                onKeyDown={handleKeyDown}
               />
-              <button type="button" className={styles.addSpotButton} aria-label="Add spot">
+              <button 
+                type="button" 
+                className={styles.addSpotButton} 
+                onClick={handleAddSpot}
+                aria-label="Add spot"
+              >
                 +
               </button>
             </div>
+            {spots.length > 0 && (
+              <div className={styles.spotsList}>
+                {spots.map((spot, index) => (
+                  <span key={index} className={styles.spotTag}>
+                    {spot}
+                    <button 
+                      type="button" 
+                      className={styles.removeSpotButton} 
+                      onClick={() => handleRemoveSpot(index)}
+                      aria-label={`Remove ${spot}`}
+                    >
+                      &times;
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Panorama photo requirements and dropzone */}
