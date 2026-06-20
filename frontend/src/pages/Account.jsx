@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Loading from '../components/Loading';
 
 export default function Account({ setToken }) {
   const [user, setUser] = useState(null);
@@ -42,32 +43,36 @@ export default function Account({ setToken }) {
     navigate("/login");
   };
 
-  if (loading) {
-    return <div>Loading account data...</div>;
-  }
-
-  if (!user) {
-    return <div>No user logged in.</div>;
-  }
-
   return (
     <div>
-      <div style={{ paddingTop: "1rem" }} className={`noDesktop noTablet`}></div>
-      <div className={`toolbar noDesktop noTablet`}>
-        <div className="">
-          <button onClick={() => navigate(-1)} className="backButton">Back</button>
-          <h1>Hey <span>{user.username}</span></h1>
+      <div style={{ paddingTop: "1rem" }} className="noDesktop noTablet"></div>
+
+      <div className="toolbar noDesktop noTablet">
+        <div>
+          <button onClick={() => navigate(-1)} className="backButton">
+            Back
+          </button>
+          <h1>Hey <span>{user?.username}</span></h1>
         </div>
       </div>
+
       <div className="noMobile">
-        <h1>My Account</h1>
+        <h1>Hey <span>{user?.username}</span></h1>
       </div>
-      <div>
-        <p><strong>Username:</strong> {user.username}</p>
-        <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>User ID:</strong> {user.id}</p>
-      </div>
-      <button onClick={handleLogout}>Log Out</button>
+
+      {loading ? (
+        <Loading message="Loading your favourite stories..." />
+      ) : (
+        <>
+          <div>
+            <p><strong>Username:</strong> {user.username}</p>
+            <p><strong>Email:</strong> {user.email}</p>
+            <p><strong>User ID:</strong> {user.id}</p>
+          </div>
+
+          <button onClick={handleLogout}>Log Out</button>
+        </>
+      )}
     </div>
   );
 }

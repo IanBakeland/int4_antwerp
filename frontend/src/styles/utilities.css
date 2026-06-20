@@ -33,7 +33,6 @@
 }
 
 .tab {
-  background-color: transparent;
   border: none;
   width: var(--nav-tab-width, 3.5rem);
   border-radius: inherit;
@@ -51,16 +50,6 @@
   cursor: pointer;
 }
 
-/* Scale icon up and tint label on hover */
-.tab:hover .iconContainer {
-  transform: scale(1.12);
-  transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.tab:hover p {
-  color: var(--color-primary);
-  transition: color 0.2s ease;
-}
 .tab.active {
   --active-anchor: --segmented-button-checked;
 }
@@ -72,7 +61,7 @@
   transition: color 0.25s ease;
 }
 .tab p.active {
-  font-weight: bold;
+  font-weight: 900;
   color: var(--color-primary);
 }
 .tab svg {
