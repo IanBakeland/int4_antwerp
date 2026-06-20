@@ -114,7 +114,12 @@ export default function App() {
               />
             } 
           />
-          <Route path="/share" element={<Share />} />
+          <Route 
+            path="/share" 
+            element={
+              token ? <Share /> : <Navigate to="/login" replace />
+            } 
+          />
           <Route path="/radar-explained" element={<RadarExplained />} />
           
           <Route 
