@@ -130,6 +130,7 @@ export default function Radar({
       return;
     }
 
+    setActiveFilters([]); 
     setSelectedStory(target);
   };
 
@@ -153,6 +154,7 @@ export default function Radar({
       <FiltersRadar 
         activeFilters={activeFilters} 
         setActiveFilters={setActiveFilters} 
+        selectedStory={selectedStory}
         setSelectedStory={setSelectedStory} 
       />
       
@@ -174,7 +176,10 @@ export default function Radar({
             image={activeStory.panorama}
             state={selectedStory ? "selected" : "closest"}
             hiddenSpots={activeStory.hiddenSpots}
-            onSelect={() => setSelectedStory(activeStory)}
+            onSelect={() => {
+              setSelectedStory(activeStory);
+              setActiveFilters([]); 
+            }}
           />
       )}
 

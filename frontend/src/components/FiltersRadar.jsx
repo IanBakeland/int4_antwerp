@@ -14,7 +14,7 @@ import PersonDoubleIcon from '../assets/icons/PersonDouble';
 import CircleGridIcon from '../assets/icons/CircleGrid';
 import CircleGridFilledIcon from '../assets/icons/CircleGridFilled';
 
-export default function FiltersRadar({ activeFilters, setActiveFilters, setSelectedStory }) {
+export default function FiltersRadar({ activeFilters, setActiveFilters, selectedStory, setSelectedStory }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // The toggle logic for adding/removing filters
@@ -31,15 +31,24 @@ export default function FiltersRadar({ activeFilters, setActiveFilters, setSelec
     <>
         <div className={`alignNext ${styles.filterBar}`}>
             <div className={styles.filters}>
-                <button className={`${styles.filterButton} flexCenter ${styles.expand1} ${activeFilters.length === 0 ? styles.filterActive : ''}`}
-                onClick={() => {
-                    setSelectedStory(null);
-                    setActiveFilters([]);
-                    setIsDropdownOpen(false);
-                }}>
-                {activeFilters.length === 0 ? <CircleGridFilledIcon /> : <CircleGridIcon />}All</button>
-                <button className={`${styles.filterButton} flexCenter ${styles.expand2} ${activeFilters.includes('Favourites') ? styles.filterActive : ''}`} onClick={() => handleFilterClick('Favourites')}>{activeFilters.includes('Favourites') ? <HeartFilledIcon /> : <HeartIcon />}Favourites</button>
-                <button className={`${styles.filterButton} flexCenter dropdown-trigger ${styles.expand2} ${activeFilters.some(filter => filter !== 'Favourites') ? styles.filterActive : ''}`} onClick={() => setIsDropdownOpen(!isDropdownOpen)}><FilterIcon />Categories</button>
+                <button className={`${styles.filterButton} flexCenter ${styles.expand1} ${activeFilters.length === 0 && !selectedStory ? styles.filterActive : ''}`}
+                  onClick={() => {
+                      setSelectedStory(null);
+                      setActiveFilters([]);
+                      setIsDropdownOpen(false);
+                  }}>
+                  {activeFilters.length === 0 && !selectedStory ? <CircleGridFilledIcon /> : <CircleGridIcon />}All
+                </button>
+                <button 
+                  className={`${styles.filterButton} flexCenter ${styles.expand2} ${activeFilters.includes('Favourites') ? styles.filterActive : ''}`} 
+                  onClick={() => handleFilterClick('Favourites')}>
+                  {activeFilters.includes('Favourites') ? <HeartFilledIcon /> : <HeartIcon />}Favourites
+                </button>
+                <button 
+                  className={`${styles.filterButton} flexCenter dropdown-trigger ${styles.expand2} ${activeFilters.some(filter => filter !== 'Favourites') ? styles.filterActive : ''}`} 
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                  <FilterIcon />Categories
+                </button>
             </div>
             <button className="iconbuttonSmall"><MagnifierIcon /></button>
         </div>
