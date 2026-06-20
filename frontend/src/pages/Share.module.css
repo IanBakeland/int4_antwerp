@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   background-color: var(--color-white);
   width: 100%;
@@ -10,9 +11,11 @@
 .shareContent {
   display: flex;
   flex-direction: column;
+  align-items: center; /* Centers all children, including h1 and form fields */
+  justify-content: center;
   width: 100%;
   max-width: 800px;
-  margin-top: 0;
+  margin: 0 auto; /* Centering fallback */
 }
 
 .shareContent h1 {
@@ -25,6 +28,7 @@
   letter-spacing: -2.462px;
   margin-bottom: 0.5rem;
   text-align: center;
+  width: 100%;
 }
 
 .shareContent h1 span {
@@ -33,7 +37,7 @@
 
 /* Mobile top navbar styles matching login/homepage layout */
 .navbarMobileTop {
-  position: fixed; /* Fixed at the top of the screen */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -43,7 +47,7 @@
   padding: 0.75rem 1rem 0.1rem;
   z-index: 1001;
   box-sizing: border-box;
-  background-color: var(--color-white); /* Prevents scrolled content from clipping under logo text */
+  background-color: var(--color-white);
 }
 
 .mobileLogoLink {
@@ -74,7 +78,7 @@
   
   .shareContent h1 {
     font-size: 56px;
-    text-align: left;
+    text-align: center;
     margin-top: 0;
   }
 }
@@ -85,6 +89,6 @@
   }
 
   .shareContent {
-    margin-top: 0.5rem; /* Small spacing below the header */
+    margin-top: 0.5rem;
   }
 }
