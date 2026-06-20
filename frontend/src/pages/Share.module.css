@@ -7,7 +7,7 @@
   box-sizing: border-box;
   background-color: var(--color-white);
   width: 100%;
-  padding: 0;
+  padding: 0 1.25rem; /* 20px side padding on mobile */
 }
 
 .shareContent {
@@ -16,7 +16,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 350px; /* Match form card width on mobile */
+  max-width: 500px; /* Allow card to be wider on large phones and desktop */
   margin: 0 auto;
   margin-top: calc(115px - 5rem);
 }
@@ -444,7 +444,7 @@
   }
   
   .shareContent {
-    max-width: 450px; /* Form sits nicely on desktop at this width */
+    max-width: 500px; /* Form sits nicely on desktop at this width */
     margin-top: calc(115px - 6.5rem);
   }
 
