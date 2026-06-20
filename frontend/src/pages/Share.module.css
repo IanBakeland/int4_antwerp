@@ -186,6 +186,29 @@
   border-color: #A0A0A0;
 }
 
+.transcribeButtonActive {
+  background-color: rgba(255, 59, 48, 0.08) !important;
+  border-color: #FF3B30 !important;
+  color: #FF3B30 !important;
+  animation: mic-pulse 1.5s infinite ease-in-out;
+}
+
+.transcribeButtonActive svg {
+  fill: #FF3B30 !important;
+}
+
+@keyframes mic-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(255, 59, 48, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0);
+  }
+}
+
 .transcribeButton svg {
   flex-shrink: 0;
 }

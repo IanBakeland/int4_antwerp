@@ -27,6 +27,12 @@ const MicIcon = () => (
   </svg>
 );
 
+const StopIcon = () => (
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="12" height="12" rx="2.5" fill="#FF3B30"/>
+  </svg>
+);
+
 const PhotoIcon = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M12.6667 2H3.33333C2.59695 2 2 2.59695 2 3.33333V12.6667C2 13.403 2.59695 14 3.33333 14H12.6667C13.403 14 14 13.403 14 12.6667V3.33333C14 2.59695 13.403 2 12.6667 2Z" stroke="#00D77D" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
@@ -46,6 +52,9 @@ const SpotIcon = () => (
 export default function Share() {
   useDocumentTitle('Share your story');
   const [username, setUsername] = useState('Emma');
+  const [story, setStory] = useState('');
+  const [isListening, setIsListening] = useState(false);
+  const [recognition, setRecognition] = useState(null);
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -77,6 +86,54 @@ export default function Share() {
       };
     }
   }, []);
+
+  // Initialize Speech Recognition
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const rec = new SpeechRecognition();
+      rec.continuous = true;
+      rec.interimResults = false;
+      rec.lang = 'nl-BE'; // Optimized for local Dutch storytelling, but works for clean English speech too
+
+      rec.onstart = () => {
+        setIsListening(true);
+      };
+
+      rec.onend = () => {
+        setIsListening(false);
+      };
+
+      rec.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        setIsListening(false);
+      };
+
+      rec.onresult = (event) => {
+        const transcript = event.results[event.results.length - 1][0].transcript;
+        setStory((prev) => prev ? `${prev} ${transcript}` : transcript);
+      };
+
+      setRecognition(rec);
+    }
+  }, []);
+
+  const handleTranscribeClick = () => {
+    if (!recognition) {
+      alert('Spraakherkenning wordt niet ondersteund in deze browser. Probeer Google Chrome of Safari.');
+      return;
+    }
+
+    if (isListening) {
+      recognition.stop();
+    } else {
+      try {
+        recognition.start();
+      } catch (err) {
+        console.error('Speech recognition start error:', err);
+      }
+    }
+  };
 
   return (
     <div className={styles.shareContainer}>
@@ -127,15 +184,21 @@ export default function Share() {
                 Your story
                 <span className={styles.requiredAsterisk}>*</span>
               </label>
-              <button type="button" className={styles.transcribeButton}>
-                <MicIcon />
-                Transcribe
+              <button 
+                type="button" 
+                className={`${styles.transcribeButton} ${isListening ? styles.transcribeButtonActive : ''}`}
+                onClick={handleTranscribeClick}
+              >
+                {isListening ? <StopIcon /> : <MicIcon />}
+                {isListening ? 'Listening' : 'Transcribe'}
               </button>
             </div>
             <textarea
               id="story-input"
               className={styles.textareaField}
               placeholder="Type your story here, or use the microphone to record it..."
+              value={story}
+              onChange={(e) => setStory(e.target.value)}
               required
             />
           </div>
