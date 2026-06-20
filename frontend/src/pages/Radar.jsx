@@ -6,6 +6,7 @@ import useDocumentTitle from '../hooks/useDocumentTitle';
 import FiltersRadar from '../components/FiltersRadar';
 import RadarVisual from '../components/RadarVisual';
 import StoryCardSelected from '../components/StoryCardSelected';
+import StoryCard from '../components/StoryCard';
 
 import PersonIcon from '../assets/icons/Person';
 import MuteIcon from '../assets/icons/Mute';
@@ -73,7 +74,7 @@ export default function Radar({
     fetchStories();
   }, [token]);
 
-  const { activeStory, activeDistance } = useMemo(() => {
+  const { activeStory, activeDistance, nearbyStories } = useMemo(() => {
     let filteredStories = stories;
 
     if (activeFilters.includes('Favourites')) {
@@ -86,7 +87,7 @@ export default function Radar({
     }
 
     if (!userLocation || filteredStories.length === 0) {
-      return { activeStory: null, activeDistance: null };
+      return { activeStory: null, activeDistance: null, nearbyStories: [] };
     }
 
     const earthRadiusMeters = 6371000;
@@ -106,31 +107,37 @@ export default function Radar({
       return earthRadiusMeters * intermediateValueC;
     };
 
+    const storiesWithDistance = filteredStories
+      .filter(story => story.latitude && story.longitude)
+      .map(story => ({
+        ...story,
+        calculatedDistance: getDistance(story.latitude, story.longitude)
+      }))
+      .sort((a, b) => a.calculatedDistance - b.calculatedDistance);
+
+    let currentActiveStory = null;
+    let currentActiveDistance = null;
+
     if (selectedStory) {
-      return {
-        activeStory: selectedStory,
-        activeDistance: getDistance(selectedStory.latitude, selectedStory.longitude)
-      };
+      currentActiveStory = selectedStory;
+      currentActiveDistance = getDistance(selectedStory.latitude, selectedStory.longitude);
+    } else if (storiesWithDistance.length > 0) {
+      currentActiveStory = storiesWithDistance[0];
+      currentActiveDistance = storiesWithDistance[0].calculatedDistance;
     }
 
-    let minDistance = Infinity;
-    let nearest = null;
-
-    filteredStories.forEach(story => {
-      if (story.latitude && story.longitude) {
-        const d = getDistance(story.latitude, story.longitude);
-        if (d < minDistance) {
-          minDistance = d;
-          nearest = story;
-        }
-      }
-    });
-
-    if (nearest) {
-      return { activeStory: nearest, activeDistance: minDistance };
+    let nearby = [];
+    if (currentActiveStory) {
+      nearby = storiesWithDistance
+        .filter(story => story.documentId !== currentActiveStory.documentId)
+        .slice(0, 6);
     }
 
-    return { activeStory: null, activeDistance: null };
+    return { 
+      activeStory: currentActiveStory, 
+      activeDistance: currentActiveDistance, 
+      nearbyStories: nearby 
+    };
   }, [userLocation, stories, selectedStory, activeFilters, userFavourites]);
 
   const handleSubmit = (e) => {
@@ -198,9 +205,30 @@ export default function Radar({
             hiddenSpots={activeStory.hiddenSpots}
             onSelect={() => {
               setSelectedStory(activeStory);
-              setActiveFilters([]); 
             }}
           />
+      )}
+
+      {nearbyStories.length > 0 && isRadarActive && (
+        <>
+          <h2>Stories <span>nearby</span></h2>
+          <div className="storyCardContainer">
+            {nearbyStories.map((story) => (
+              <StoryCard 
+                key={story.documentId}
+                title={story.title}
+                category={story.category}
+                username={story.user?.username}
+                hiddenSpots={story.hiddenSpots}
+                image={story.panorama}
+                distance={formatDistance(story.calculatedDistance)}
+                onSelect={() => {
+                  setSelectedStory(story);
+                }}
+              />
+            ))}
+          </div>
+        </>
       )}
 
       <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>

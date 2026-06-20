@@ -48,3 +48,20 @@ h1 span{
     margin-bottom: 2rem;
   }
 }
+
+
+h2 {
+  font-size: 2rem;
+  letter-spacing: -2px;
+  margin-right: auto;
+  font-weight: 100;
+  text-box: trim-both cap alphabetic;
+  line-height: 1.2;
+  margin-top: 2rem;
+}
+
+h2 span{
+  color: var(--color-primary);
+  text-transform: uppercase;
+  margin-left: 0.5rem;
+}
