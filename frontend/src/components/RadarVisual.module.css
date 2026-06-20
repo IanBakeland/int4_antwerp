@@ -1,4 +1,8 @@
-.radarContainer {
+.radarBackground {
+  background-image: url('../assets/images/backgroundRadar.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
   position: relative;
   display: flex;
   justify-content: center;
@@ -6,9 +10,22 @@
   width: 100%;
   margin-right: auto;
   margin-left: auto;
+  aspect-ratio: 18 / 13;
+  margin-top: 2rem;
+  z-index: -10;
   max-width: 35rem;
+}
+
+.radarContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  max-width: 25rem;
+  margin-right: auto;
+  margin-left: auto;
   aspect-ratio: 1 / 1;
-  margin-top: 3rem;
   z-index: -10;
 }
 
