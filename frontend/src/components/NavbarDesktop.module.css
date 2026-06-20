@@ -1,16 +1,28 @@
 .navbarAntwerpLogo {
+  position: relative;
   width: 28rem;
   height: 4rem;
   background-image: url('../assets/images/antwerpLogo.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: left center;
-  transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.navbarAntwerpLogo:hover {
-  opacity: 0.8;
-  transform: scale(1.02);
+/* Colour logo layered on top, hidden by default */
+.navbarAntwerpLogo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('../assets/images/antwerplogokleur.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.navbarAntwerpLogo:hover::before {
+  opacity: 1;
 }
 
 .navbarDesktopAnimation {
