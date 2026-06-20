@@ -1,3 +1,4 @@
+/* 1. Base styles (Mobile First - default for mobile screens) */
 .shareContainer {
   display: flex;
   flex-direction: column;
@@ -6,16 +7,18 @@
   box-sizing: border-box;
   background-color: var(--color-white);
   width: 100%;
+  padding: 0; /* Default mobile container padding */
 }
 
 .shareContent {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centers all children, including h1 and form fields */
+  align-items: center;
   justify-content: center;
   width: 100%;
   max-width: 800px;
-  margin: 0 auto; /* Centering fallback */
+  margin: 0 auto;
+  margin-top: calc(115px - 5rem); /* Default mobile top margin (main is 5rem) */
 }
 
 .shareContent h1 {
@@ -35,7 +38,7 @@
   color: var(--color-primary);
 }
 
-/* Mobile top navbar styles matching login/homepage layout */
+/* Mobile top navbar (visible on mobile by default) */
 .navbarMobileTop {
   position: fixed;
   top: 0;
@@ -71,24 +74,21 @@
   fill: var(--color-primary) !important;
 }
 
+/* 2. Desktop overrides (layered on top for larger screens) */
 @media (min-width: 801px) {
+  .shareContainer {
+    padding: 1rem; /* Desktop container padding */
+  }
+
   .navbarMobileTop {
-    display: none !important;
+    display: none !important; /* Hide mobile top header on desktop */
   }
   
+  .shareContent {
+    margin-top: calc(115px - 6.5rem); /* Desktop top margin (main is 6.5rem) */
+  }
+
   .shareContent h1 {
     font-size: 56px;
-    text-align: center;
-    margin-top: 0;
-  }
-}
-
-@media (max-width: 800px) {
-  .shareContainer {
-    padding: 0;
-  }
-
-  .shareContent {
-    margin-top: 0.5rem;
   }
 }
