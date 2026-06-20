@@ -62,6 +62,7 @@ export default function Share() {
   const [panoramaPreview, setPanoramaPreview] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [spotsError, setSpotsError] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const token = localStorage.getItem('token');
   const baseStoryRef = useRef('');
   const fileInputRef = useRef(null);
@@ -289,7 +290,7 @@ export default function Share() {
       return;
     }
     setSpotsError('');
-    alert('Je verhaal is succesvol verzonden!');
+    setIsSubmitted(true);
   };
 
   return (
@@ -305,188 +306,210 @@ export default function Share() {
         </div>
       </header>
 
-      <div className={styles.shareContent}>
-        <h1>Share your<span> story</span></h1>
-        <p className={styles.shareSubtitle}>
-          Share your own personal story about Antwerp and help others discover the city through your experience.
-        </p>
-
-        <form className={styles.shareForm} onSubmit={handleSubmit}>
-          <div className={styles.formHeader}>
-            <h2>Hey {username},</h2>
-            <p>share your Antwerp story!</p>
+      {isSubmitted ? (
+        <div className={styles.successContent}>
+          <div className={styles.successCheckCircle}>
+            <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M35.8327 10.75L16.1243 30.4583L7.16602 21.5" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </div>
+          <h1 className={styles.successTitle}>
+            Story <br /><span className={styles.successTitleOrange}>SHARED</span>!
+          </h1>
+          <p className={styles.successMessage}>
+            Thank you, {username}. Your story has been received and will be checked soon.
+          </p>
+          <Link to="/" className={styles.successButton}>
+            Back to home
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </Link>
+        </div>
+      ) : (
+        <div className={styles.shareContent}>
+          <h1>Share your<span> story</span></h1>
+          <p className={styles.shareSubtitle}>
+            Share your own personal story about Antwerp and help others discover the city through your experience.
+          </p>
 
-          {/* Location Field */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="location-input" className={styles.inputLabel}>
-              <PinIcon />
-              Location in Antwerp
-              <span className={styles.requiredAsterisk}>*</span>
-            </label>
-            <input
-              id="location-input"
-              type="text"
-              className={styles.inputField}
-              placeholder="e.g. Leopoldstraat, Grote Markt, ..."
-              required
-            />
-          </div>
+          <form className={styles.shareForm} onSubmit={handleSubmit}>
+            <div className={styles.formHeader}>
+              <h2>Hey {username},</h2>
+              <p>share your Antwerp story!</p>
+            </div>
 
-          {/* Story Field */}
-          <div className={styles.inputGroup}>
-            <div className={styles.labelRow}>
-              <label htmlFor="story-input" className={styles.inputLabel}>
-                <PencilIcon />
-                Your story
+            {/* Location Field */}
+            <div className={styles.inputGroup}>
+              <label htmlFor="location-input" className={styles.inputLabel}>
+                <PinIcon />
+                Location in Antwerp
                 <span className={styles.requiredAsterisk}>*</span>
               </label>
-              <button 
-                type="button" 
-                className={`${styles.transcribeButton} ${isListening ? styles.transcribeButtonActive : ''}`}
-                onClick={handleTranscribeClick}
-              >
-                {isListening ? <StopIcon /> : <MicIcon />}
-                {isListening ? 'Listening' : 'Transcribe'}
-              </button>
-            </div>
-            <textarea
-              id="story-input"
-              className={styles.textareaField}
-              placeholder="Type your story here, or use the microphone to record it..."
-              value={story}
-              onChange={(e) => setStory(e.target.value)}
-              required
-            />
-          </div>
-
-          {/* Specific Spots Field */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="spots-input" className={styles.inputLabel}>
-              <SpotIcon />
-              Specific spots in your story
-              <span className={styles.requiredAsterisk}>*</span>
-            </label>
-            <p className={styles.spotSublabel}>
-              Tag the exact places you mention. Streets, squares, buildings, cafés, etc.
-            </p>
-            <div className={styles.spotInputRow}>
               <input
-                id="spots-input"
+                id="location-input"
                 type="text"
                 className={styles.inputField}
-                placeholder="e.g. Café Den Engel, Handelsbeurs..."
-                value={currentSpot}
-                onChange={(e) => setCurrentSpot(e.target.value)}
-                onKeyDown={handleKeyDown}
+                placeholder="e.g. Leopoldstraat, Grote Markt, ..."
+                required
               />
-              <button 
-                type="button" 
-                className={styles.addSpotButton} 
-                onClick={handleAddSpot}
-                aria-label="Add spot"
-              >
-                +
-              </button>
-            </div>
-            {spots.length > 0 && (
-              <div className={styles.spotsList}>
-                {spots.map((spot, index) => (
-                  <span key={index} className={styles.spotTag}>
-                    {spot}
-                    <button 
-                      type="button" 
-                      className={styles.removeSpotButton} 
-                      onClick={() => handleRemoveSpot(index)}
-                      aria-label={`Remove ${spot}`}
-                    >
-                      &times;
-                    </button>
-                  </span>
-                ))}
-              </div>
-            )}
-            {spotsError && (
-              <div className={styles.errorBox}>
-                <p className={styles.errorText}>{spotsError}</p>
-              </div>
-            )}
-          </div>
-
-          {/* Panorama photo requirements and dropzone */}
-          <div className={styles.inputGroup}>
-            <label className={styles.inputLabel}>
-              <PhotoIcon />
-              Panorama photo
-            </label>
-            
-            <div className={styles.requirementsBox}>
-              <h3 className={styles.requirementsTitle}>Panorama requirements</h3>
-              <ul className={styles.requirementsList}>
-                <li className={styles.requirementItem}>Minimum aspect ratio 2:1 wide (e.g. 4000 × 2000 px)</li>
-                <li className={styles.requirementItem}>Format: JPG or PNG, maximum 30 MB</li>
-                <li className={styles.requirementItem}>Must be a true panorama, not a cropped landscape photo</li>
-              </ul>
             </div>
 
-            <div 
-              className={`${styles.uploadDropzone} ${panoramaPreview ? styles.hasPreview : ''}`}
-              onClick={handleDropzoneClick}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-            >
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                accept="image/jpeg,image/png,image/jpg"
-                style={{ display: 'none' }}
+            {/* Story Field */}
+            <div className={styles.inputGroup}>
+              <div className={styles.labelRow}>
+                <label htmlFor="story-input" className={styles.inputLabel}>
+                  <PencilIcon />
+                  Your story
+                  <span className={styles.requiredAsterisk}>*</span>
+                </label>
+                <button 
+                  type="button" 
+                  className={`${styles.transcribeButton} ${isListening ? styles.transcribeButtonActive : ''}`}
+                  onClick={handleTranscribeClick}
+                >
+                  {isListening ? <StopIcon /> : <MicIcon />}
+                  {isListening ? 'Listening' : 'Transcribe'}
+                </button>
+              </div>
+              <textarea
+                id="story-input"
+                className={styles.textareaField}
+                placeholder="Type your story here, or use the microphone to record it..."
+                value={story}
+                onChange={(e) => setStory(e.target.value)}
+                required
               />
-              {panoramaPreview ? (
-                <div className={styles.previewContainer}>
-                  <img src={panoramaPreview} alt="Panorama preview" className={styles.previewImage} />
-                  <div className={styles.previewOverlay}>
-                    <span>Click to change panorama</span>
-                  </div>
-                  <button 
-                    type="button" 
-                    className={styles.removePreviewButton} 
-                    onClick={handleRemovePreview}
-                    aria-label="Remove panorama"
-                  >
-                    &times;
-                  </button>
+            </div>
+
+            {/* Specific Spots Field */}
+            <div className={styles.inputGroup}>
+              <label htmlFor="spots-input" className={styles.inputLabel}>
+                <SpotIcon />
+                Specific spots in your story
+                <span className={styles.requiredAsterisk}>*</span>
+              </label>
+              <p className={styles.spotSublabel}>
+                Tag the exact places you mention. Streets, squares, buildings, cafés, etc.
+              </p>
+              <div className={styles.spotInputRow}>
+                <input
+                  id="spots-input"
+                  type="text"
+                  className={styles.inputField}
+                  placeholder="e.g. Café Den Engel, Handelsbeurs..."
+                  value={currentSpot}
+                  onChange={(e) => setCurrentSpot(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                />
+                <button 
+                  type="button" 
+                  className={styles.addSpotButton} 
+                  onClick={handleAddSpot}
+                  aria-label="Add spot"
+                >
+                  +
+                </button>
+              </div>
+              {spots.length > 0 && (
+                <div className={styles.spotsList}>
+                  {spots.map((spot, index) => (
+                    <span key={index} className={styles.spotTag}>
+                      {spot}
+                      <button 
+                        type="button" 
+                        className={styles.removeSpotButton} 
+                        onClick={() => handleRemoveSpot(index)}
+                        aria-label={`Remove ${spot}`}
+                      >
+                        &times;
+                      </button>
+                    </span>
+                  ))}
                 </div>
-              ) : (
-                <>
-                  <div className={styles.uploadIconContainer}>
-                    <PhotoIcon />
-                    <span className={styles.uploadPlusBadge}>+</span>
-                  </div>
-                  <span className={styles.uploadText}>Click to add your panorama</span>
-                </>
+              )}
+              {spotsError && (
+                <div className={styles.errorBox}>
+                  <p className={styles.errorText}>{spotsError}</p>
+                </div>
               )}
             </div>
 
-            {errorMessage && (
-              <div className={styles.errorBox}>
-                <p className={styles.errorText}>{errorMessage}</p>
+            {/* Panorama photo requirements and dropzone */}
+            <div className={styles.inputGroup}>
+              <label className={styles.inputLabel}>
+                <PhotoIcon />
+                Panorama photo
+              </label>
+              
+              <div className={styles.requirementsBox}>
+                <h3 className={styles.requirementsTitle}>Panorama requirements</h3>
+                <ul className={styles.requirementsList}>
+                  <li className={styles.requirementItem}>Minimum aspect ratio 2:1 wide (e.g. 4000 × 2000 px)</li>
+                  <li className={styles.requirementItem}>Format: JPG or PNG, maximum 30 MB</li>
+                  <li className={styles.requirementItem}>Must be a true panorama, not a cropped landscape photo</li>
+                </ul>
               </div>
-            )}
-          </div>
 
-          {/* Submit button */}
-          <button type="submit" className={styles.submitStoryButton}>
-            Submit story &rarr;
-          </button>
+              <div 
+                className={`${styles.uploadDropzone} ${panoramaPreview ? styles.hasPreview : ''}`}
+                onClick={handleDropzoneClick}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+              >
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  accept="image/jpeg,image/png,image/jpg"
+                  style={{ display: 'none' }}
+                />
+                {panoramaPreview ? (
+                  <div className={styles.previewContainer}>
+                    <img src={panoramaPreview} alt="Panorama preview" className={styles.previewImage} />
+                    <div className={styles.previewOverlay}>
+                      <span>Click to change panorama</span>
+                    </div>
+                    <button 
+                      type="button" 
+                      className={styles.removePreviewButton} 
+                      onClick={handleRemovePreview}
+                      aria-label="Remove panorama"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <div className={styles.uploadIconContainer}>
+                      <PhotoIcon />
+                      <span className={styles.uploadPlusBadge}>+</span>
+                    </div>
+                    <span className={styles.uploadText}>Click to add your panorama</span>
+                  </>
+                )}
+              </div>
 
-          {/* Disclaimer */}
-          <p className={styles.disclaimerText}>
-            Antwerp curates the stories featured on Antwerp Scenes. Your submission may be rewritten if it does not meet our quality standards. By submitting a story, you agree to <a href={termsPdf} target="_blank" rel="noopener noreferrer">our Terms and conditions</a>.
-          </p>
-        </form>
-      </div>
+              {errorMessage && (
+                <div className={styles.errorBox}>
+                  <p className={styles.errorText}>{errorMessage}</p>
+                </div>
+              )}
+            </div>
+
+            {/* Submit button */}
+            <button type="submit" className={styles.submitStoryButton}>
+              Submit story &rarr;
+            </button>
+
+            {/* Disclaimer */}
+            <p className={styles.disclaimerText}>
+              Antwerp curates the stories featured on Antwerp Scenes. Your submission may be rewritten if it does not meet our quality standards. By submitting a story, you agree to <a href={termsPdf} target="_blank" rel="noopener noreferrer">our Terms and conditions</a>.
+            </p>
+          </form>
+        </div>
+      )}
     </div>
   );
 }

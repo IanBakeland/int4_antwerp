@@ -600,3 +600,112 @@
     font-size: 56px;
   }
 }
+
+/* 3. Success page layout styling */
+.successContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  margin-top: calc(115px - 1.5rem);
+  padding: 4rem 1.5rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.successCheckCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: #FF7D3C;
+  margin-bottom: 2rem;
+  animation: scale-up 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes scale-up {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.successTitle {
+  color: #000;
+  text-align: center;
+  font-family: var(--font-antwerpen);
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 49px; /* 122.5% */
+  letter-spacing: -2.462px;
+  margin: 0;
+}
+
+.successTitleOrange {
+  color: #FF7D3C;
+  font-family: var(--font-antwerpen);
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 49px;
+  letter-spacing: -2.462px;
+  text-transform: uppercase;
+}
+
+.successMessage {
+  color: #8A8A8A;
+  text-align: center;
+  font-family: var(--font-spartan);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 2.5rem auto;
+  max-width: 320px;
+}
+
+.successButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 2rem;
+  border-radius: 24px;
+  background-color: #FF7D3C;
+  color: #FFF;
+  font-family: var(--font-spartan);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.successButton:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.successButton:active {
+  transform: scale(0.98);
+}
+
+.successButton svg {
+  transition: transform 0.2s ease;
+}
+
+.successButton:hover svg {
+  transform: translateX(4px);
+}
+
