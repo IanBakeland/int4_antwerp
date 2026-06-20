@@ -5,7 +5,7 @@ import styles from './Share.module.css';
 
 // images & icons
 import antwerpLogo from '../assets/images/antwerpLogo.png';
-import PersonFilledIcon from '../assets/icons/PersonFilled';
+import PersonIcon from '../assets/icons/Person';
 import termsPdf from '../assets/files/termsandconditions.pdf';
 
 // SVGs provided by the user
@@ -300,8 +300,8 @@ export default function Share() {
           <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.mobileLogoImg} />
         </Link>
         <div className={styles.navbarMobileTopRight}>
-          <Link to="/account" className={`${styles.activeIconButton} iconbutton`} aria-label="Account">
-            <PersonFilledIcon />
+          <Link to="/account" className="iconbutton" aria-label="Account">
+            <PersonIcon />
           </Link>
         </div>
       </header>
