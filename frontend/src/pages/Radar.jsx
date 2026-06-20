@@ -11,18 +11,21 @@ import PersonIcon from '../assets/icons/Person';
 import MuteIcon from '../assets/icons/Mute';
 import LocationFilledIcon from '../assets/icons/LocationFilled';
 
-// NEW: Accept selectedStory and setSelectedStory as props
 export default function Radar({ 
   userLocation, 
   isRadarActive, 
   setIsRadarActive, 
   formatDistance,
   selectedStory,
-  setSelectedStory 
+  setSelectedStory,
+  activeFilters,
+  setActiveFilters,
+  token
 }) {
   useDocumentTitle('Radar');
 
   const [stories, setStories] = useState([]);
+  const [userFavourites, setUserFavourites] = useState([]);
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -31,15 +34,38 @@ export default function Radar({
         if (!res.ok) throw new Error("Failed to fetch stories");
         const data = await res.json();
         setStories(data.data || []);
+
+        if (token) {
+          const userRes = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/users/me?populate=favourites", {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          if (userRes.ok) {
+            const userData = await userRes.json();
+            if (userData.favourites) {
+              setUserFavourites(userData.favourites.map(f => f.documentId));
+            }
+          }
+        }
       } catch (error) {
         console.error(error);
       }
     };
     fetchStories();
-  }, []);
+  }, [token]);
 
   const { activeStory, activeDistance } = useMemo(() => {
-    if (!userLocation || stories.length === 0) {
+    let filteredStories = stories;
+
+    if (activeFilters.includes('Favourites')) {
+      filteredStories = filteredStories.filter(story => userFavourites.includes(story.documentId));
+    }
+
+    const categoryFilters = activeFilters.filter(f => f !== 'Favourites').map(f => f.toLowerCase());
+    if (categoryFilters.length > 0) {
+      filteredStories = filteredStories.filter(story => categoryFilters.includes(story.category?.toLowerCase()));
+    }
+
+    if (!userLocation || filteredStories.length === 0) {
       return { activeStory: null, activeDistance: null };
     }
 
@@ -70,7 +96,7 @@ export default function Radar({
     let minDistance = Infinity;
     let nearest = null;
 
-    stories.forEach(story => {
+    filteredStories.forEach(story => {
       if (story.latitude && story.longitude) {
         const d = getDistance(story.latitude, story.longitude);
         if (d < minDistance) {
@@ -85,7 +111,7 @@ export default function Radar({
     }
 
     return { activeStory: null, activeDistance: null };
-  }, [userLocation, stories, selectedStory]);
+  }, [userLocation, stories, selectedStory, activeFilters, userFavourites]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -124,7 +150,11 @@ export default function Radar({
         <h1>The <span>radar</span></h1>
       </div>
 
-      <FiltersRadar />
+      <FiltersRadar 
+        activeFilters={activeFilters} 
+        setActiveFilters={setActiveFilters} 
+        setSelectedStory={setSelectedStory} 
+      />
       
       <RadarVisual distance={activeDistance} isRadarActive={isRadarActive} />
       
