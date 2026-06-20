@@ -16,6 +16,7 @@ export default function App() {
   const [isRadarActive, setIsRadarActive] = useState(true); 
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [selectedStory, setSelectedStory] = useState(null);
+  const [activeFilters, setActiveFilters] = useState([]);
 
   useEffect(() => {
     let watcherId;
@@ -30,7 +31,6 @@ export default function App() {
         },
         (error) => {
           console.error(error.message);
-          // Automatically turn off the UI toggle if the user denies GPS permissions
           if (error.code === 1) setIsRadarActive(false);
         },
         {
@@ -83,6 +83,9 @@ export default function App() {
                 formatDistance={formatDistance}
                 selectedStory={selectedStory}
                 setSelectedStory={setSelectedStory}
+                activeFilters={activeFilters}
+                setActiveFilters={setActiveFilters}
+                token={token}
               />
             } 
           />

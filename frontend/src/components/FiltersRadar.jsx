@@ -15,12 +15,12 @@ import PersonDoubleIcon from '../assets/icons/PersonDouble';
 import CircleGridIcon from '../assets/icons/CircleGrid';
 import CircleGridFilledIcon from '../assets/icons/CircleGridFilled';
 
-export default function FiltersRadar() {
-  const [activeFilters, setActiveFilters] = useState([]);
+export default function FiltersRadar({ activeFilters, setActiveFilters, setSelectedStory }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // The toggle logic for adding/removing filters
   const handleFilterClick = (filterValue) => {
+    setSelectedStory(null);
     if (activeFilters.includes(filterValue)) {
       setActiveFilters(activeFilters.filter(item => item !== filterValue));
     } else {
@@ -34,6 +34,7 @@ export default function FiltersRadar() {
             <div className={styles.filters}>
                 <button className={`${styles.filterButton} flexCenter ${styles.expand1} ${activeFilters.length === 0 ? styles.filterActive : ''}`}
                 onClick={() => {
+                    setSelectedStory(null);
                     setActiveFilters([]);
                     setIsDropdownOpen(false);
                 }}>

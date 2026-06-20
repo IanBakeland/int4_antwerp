@@ -41,8 +41,7 @@ export default function StoryCardSelected({ title, category, username, image, st
 
   return (
     <div
-      className={`${styles.storyCard} alignUnder`}
-      style={{
+      className={`${styles.storyCard} alignUnder ${state === "selected" ? styles.selected : ""}`}       style={{
         backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
         cursor: state === "closest" ? "pointer" : "default" 
       }}
