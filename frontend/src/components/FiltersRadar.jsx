@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import styles from './FiltersRadar.module.css';
 
-//icons
 import PersonIcon from '../assets/icons/Person';
 import PersonFilledIcon from '../assets/icons/PersonFilled';
 import MagnifierIcon from '../assets/icons/Magnifier';
