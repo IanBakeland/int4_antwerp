@@ -193,6 +193,7 @@
 .iconTag p {
   margin-top: 4.5px;
   text-transform: capitalize;
+  font-weight: 400;
 }
 .iconTag svg {
   width: 14px;
