@@ -237,7 +237,7 @@
   color: inherit;
   text-align: center;
   font-family: var(--font-antwerpen);
-  font-size: 35px;
+  font-size: 2.1875rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -251,7 +251,7 @@
   color: inherit;
   text-align: center;
   font-family: var(--font-antwerpen);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -266,7 +266,7 @@
   color: inherit;
   text-align: center;
   font-family: var(--font-spartan);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 600;
   line-height: 39px;
@@ -279,7 +279,7 @@
   color: var(--color-primary);
   text-align: center;
   font-family: var(--font-antwerpen);
-  font-size: 40px;
+  font-size: 2.5rem;
   font-style: normal;
   font-weight: 400;
   line-height: 46px;
@@ -292,7 +292,7 @@
   color: var(--color-black);
   text-align: center;
   font-family: var(--font-spartan);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 400;
   line-height: 29px;
@@ -304,7 +304,7 @@
 .homePanoramaDescription--bold {
   color: var(--color-black);
   font-family: var(--font-spartan);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 600;
   line-height: 29px;
@@ -321,7 +321,7 @@
   background: var(--color-primary);
   color: var(--color-white);
   font-family: var(--font-spartan);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 500;
   line-height: 28px;
@@ -395,7 +395,7 @@
   color: var(--color-black);
   text-align: center;
   font-family: "Rotunda Variable", sans-serif;
-  font-size: 35px;
+  font-size: 2.1875rem;
   font-style: normal;
   font-weight: 700;
   line-height: 97.276%;
@@ -439,7 +439,7 @@
 .homeTopStoriesTitle__top {
   color: var(--color-primary);
   font-family: var(--font-antwerpen);
-  font-size: 55px;
+  font-size: 3.4375rem;
   font-style: normal;
   font-weight: 400;
   line-height: 47px;
@@ -451,7 +451,7 @@
 .homeTopStoriesTitle__sub {
   color: var(--color-black);
   font-family: var(--font-antwerpen);
-  font-size: 40px;
+  font-size: 2.5rem;
   font-style: normal;
   font-weight: 400;
   line-height: 47px;
@@ -502,7 +502,7 @@
   bottom: 13px;
   z-index: 1;
   font-family: var(--font-antwerpen);
-  font-size: 120px;
+  font-size: 7.5rem;
   font-style: normal;
   font-weight: 400;
   line-height: 72.622px;
@@ -539,16 +539,19 @@
 
 .homeTopStoriesItem__title {
   position: absolute;
-  bottom: 15px;
+  bottom: 25px;
   left: 20px;
   right: 20px;
   color: var(--color-white);
   font-family: var(--font-antwerpen);
-  font-size: 26px;
+  font-size: 1.625rem;
   font-weight: 400;
   margin: 0;
   text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .homePanoImage.staticActive {
@@ -615,6 +618,9 @@
   font-weight: 400;
   line-height: normal;
   margin: 0.1875rem 0 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .panoContent__description {
@@ -790,38 +796,262 @@
 
 .homeToolCircle svg {
   flex-shrink: 0;
+  width: 1.125rem;
+  /* ~18px */
+  height: 1.125rem;
+  fill: currentColor;
 }
 
-.homeTopStoriesItem__authorBadge {
+.homeAuthorBadgeWrapper {
   position: absolute;
   left: 0.75rem;
   top: 0.875rem;
+  z-index: 5;
+}
+
+.homeStoryCardBadge,
+.homeStoryCardBadgeSmall {
+  position: absolute;
+  width: 73px;
+  height: 26px;
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem;
-  width: 4.9375rem;
-  height: 1.625rem;
-  border-radius: 2.076rem;
-  border: 0.5px solid #DCDCDC;
-  background: rgba(230, 230, 230, 0.80);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  gap: 8px;
+  border-radius: 51px;
+  background: rgba(0, 0, 0, 0.50);
+  box-shadow: 0 1px 40px 0 rgba(0, 0, 0, 0.05);
+  z-index: 5;
   box-sizing: border-box;
-  color: #000;
+}
 
-  font-family: var(--font-spartan);
+.homeStoryCardBadge {
+  top: 14px;
+  right: 13px;
+}
+
+.homeStoryCardBadgeSmall {
+  bottom: 65px;
+  /* 25px bottom + 36px title + 4px gap */
+  left: 20px;
+}
+
+.homeStoryCardBadge span,
+.homeStoryCardBadgeSmall span {
+  color: #FFF;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: "League Spartan", var(--font-spartan);
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
-  line-height: normal;
-  text-align: center;
-  pointer-events: none;
+  line-height: 28px;
+  /* 200% */
 }
 
-.homeTopStoriesItem__authorBadgeIcon {
+.homeStoryCardBadge svg,
+.homeStoryCardBadgeSmall svg {
   flex-shrink: 0;
-  width: 0.8125rem;
-  height: 0.8125rem;
+}
+
+
+.homeStoriesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: min-content;
+  align-content: start;
+  gap: 0.25rem;
+  /* 4px gap */
+  width: calc(100% + 2rem);
+  margin: 1.5rem -1rem -23.4rem -1rem;
+  /* -22.5rem margin-bottom pulls the footer slightly higher over the stories grid container */
+  height: 52rem;
+  /* 832px window height - maximum safe mobile height to trigger internal scrolling */
+  overflow-y: auto;
+  overscroll-behavior: auto;
+  /* Changed to auto to allow scroll chaining/bubbling to the page viewport, resolving the 'stuck' scroll issue */
+  -webkit-overflow-scrolling: touch;
+
+  /* CSS Edge Fade Masks - Top fade only, no bottom fade */
+  mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 100%);
+
+  /* Hide standard scrollbars for a clean immersive card drawer look */
+  scrollbar-width: none;
+  /* Firefox */
+
+  padding: 1.5rem 1rem 8rem 1rem;
+  /* Adjusted padding-bottom to 8rem to prevent empty scrollable white space at the bottom */
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+}
+
+.homeStoriesGrid::-webkit-scrollbar {
+  display: none;
+  /* Safari/Chrome */
+}
+
+@media (min-width: 801px) {
+  .homeStoriesGrid {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    height: 70rem;
+    /* Taller on desktop but within viewport bounds */
+    padding: 2rem 0.9375rem 4rem 0.9375rem;
+    overscroll-behavior: auto;
+
+    /* Top fade only on desktop */
+    mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 100%);
+  }
+}
+
+.homeStoryCardLarge {
+  position: relative;
+  grid-column: span 2;
+  aspect-ratio: 182 / 107;
+  border-radius: 10px;
+  background-color: lightgray;
+  background-position: -87.358px -0.068px;
+  background-size: 141.916% 100.064%;
+  background-repeat: no-repeat;
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--color-border-light);
+  overflow: hidden;
+}
+
+.homeStoryCardSmall {
+  position: relative;
+  grid-column: span 1;
+  aspect-ratio: 3 / 4;
+  border-radius: 10px;
+  background-color: lightgray;
+  background-position: -255.217px 0px;
+  background-size: 383.575% 100%;
+  background-repeat: no-repeat;
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--color-border-light);
+  overflow: hidden;
+}
+
+/* On screens larger than the target width of mobile (approx 400px), standard cover/center scales better */
+@media (min-width: 420px) {
+
+  .homeStoryCardLarge,
+  .homeStoryCardSmall {
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+@keyframes storyExit {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.95);
+  }
+}
+
+/* Apply scroll-driven animations if supported natively - Top exit animation only */
+@supports (animation-timeline: view()) and (animation-range: 0% 100%) {
+
+  .homeStoryCardLarge,
+  .homeStoryCardSmall {
+    animation: storyExit linear both;
+    animation-timeline: view();
+    animation-range: exit 0% exit 100%;
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+
+  .homeStoryCardLarge,
+  .homeStoryCardSmall {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+.homeStoryCardGradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.homeStoryCardTitle {
+  position: absolute;
+  bottom: 25px;
+  left: 20px;
+  right: 61px;
+  /* 16px right border margin + 26px heart size + 19px gap between text and heart */
+  color: var(--color-white);
+  font-family: var(--font-antwerpen);
+  font-size: 1.125rem;
+  font-weight: 400;
+  margin: 0;
+  z-index: 2;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.homeStoryCardLarge .homeStoryCardTitle {
+  font-size: 1.625rem;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
+}
+
+.homeStoryCardSmall .homeStoryCardTitle {
+  font-size: 1rem;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
+  width: 114px;
+  max-height: 36px;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  right: auto;
+}
+
+.homeStoryCardHeart {
+  position: absolute;
+  bottom: 20px;
+  right: 16px;
+  /* exactly 16px from the right border */
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.homeStoryCardHeart:hover {
+  transform: scale(1.15);
+  opacity: 0.9;
+}
+
+.homeStoryCardHeart svg {
+  width: 26px;
+  height: 26px;
+  fill: var(--color-white);
+  opacity: 0.85;
 }

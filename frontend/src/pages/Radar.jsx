@@ -163,8 +163,8 @@ export default function Radar({
       <div className={`toolbar noDesktop noTablet`}>
         <div className="alignNext">
           <h1>The <span>radar</span></h1>
-          <Link to="#" className="iconbutton"><MuteIcon /></Link>
-          <Link to="/account" className="iconbutton"><PersonIcon /></Link>
+          <Link to="#" className="iconbutton" aria-label="Mute sounds"><MuteIcon /></Link>
+          <Link to="/account" className="iconbutton" aria-label="Account"><PersonIcon /></Link>
         </div>
       </div>
       <div className="noMobile">
@@ -204,23 +204,24 @@ export default function Radar({
       )}
 
       <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-      
+
       <form>
-        <label>
-          <input
-            type="checkbox"
-            checked={isRadarActive}
-            onChange={(e) => setIsRadarActive(e.target.checked)}
-          />
+        <label htmlFor="radar-tracking-checkbox">
           Enable Radar Tracking
         </label>
+        <input
+          id="radar-tracking-checkbox"
+          type="checkbox"
+          checked={isRadarActive}
+          onChange={(e) => setIsRadarActive(e.target.checked)}
+        />
       </form>
 
       <h2>Test Location Input</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Story ID: </label>
-          <input type="text" name="storyId" placeholder="Enter documentId or ID" required/>
+          <label htmlFor="story-id-input">Story ID: </label>
+          <input id="story-id-input" type="text" name="storyId" placeholder="Enter documentId or ID" required/>
         </div>
         <button type="submit">Lock Target to Story</button>
       </form>

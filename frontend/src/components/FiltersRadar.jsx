@@ -31,34 +31,44 @@ export default function FiltersRadar({ activeFilters, setActiveFilters, selected
     <>
         <div className={`alignNext ${styles.filterBar}`}>
             <div className={styles.filters}>
-                <button className={`${styles.filterButton} flexCenter ${styles.expand1} ${activeFilters.length === 0 && !selectedStory ? styles.filterActive : ''}`}
-                  onClick={() => {
-                      setSelectedStory(null);
-                      setActiveFilters([]);
-                      setIsDropdownOpen(false);
-                  }}>
-                  {activeFilters.length === 0 && !selectedStory ? <CircleGridFilledIcon /> : <CircleGridIcon />}All
-                </button>
-                <button 
-                  className={`${styles.filterButton} flexCenter ${styles.expand2} ${activeFilters.includes('Favourites') ? styles.filterActive : ''}`} 
-                  onClick={() => handleFilterClick('Favourites')}>
-                  {activeFilters.includes('Favourites') ? <HeartFilledIcon /> : <HeartIcon />}Favourites
-                </button>
-                <button 
-                  className={`${styles.filterButton} flexCenter dropdown-trigger ${styles.expand2} ${activeFilters.some(filter => filter !== 'Favourites') ? styles.filterActive : ''}`} 
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-                  <FilterIcon />Categories
-                </button>
+              <button 
+                className={`${styles.filterButton} flexCenter ${styles.expand1} ${activeFilters.length === 0 && !selectedStory ? styles.filterActive : ''}`}
+                onClick={() => {
+                  setSelectedStory(null);
+                  setActiveFilters([]);
+                  setIsDropdownOpen(false);
+                }}
+                aria-pressed={activeFilters.length === 0}
+              >
+                {activeFilters.length === 0 && !selectedStory ? <CircleGridFilledIcon /> : <CircleGridIcon />}All
+              </button>
+
+              <button 
+                className={`${styles.filterButton} flexCenter ${styles.expand2} ${activeFilters.includes('Favourites') ? styles.filterActive : ''}`} 
+                onClick={() => handleFilterClick('Favourites')}
+                aria-pressed={activeFilters.includes('Favourites')}
+              >
+                {activeFilters.includes('Favourites') ? <HeartFilledIcon /> : <HeartIcon />}Favourites
+              </button>
+
+              <button 
+                className={`${styles.filterButton} flexCenter dropdown-trigger ${styles.expand2} ${activeFilters.some(filter => filter !== 'Favourites') ? styles.filterActive : ''}`} 
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                aria-haspopup="menu"
+                aria-expanded={isDropdownOpen}
+              >
+                <FilterIcon />Categories
+              </button>
             </div>
-            <button className="iconbuttonSmall"><MagnifierIcon /></button>
+            <button className="iconbuttonSmall" aria-label="Search"><MagnifierIcon /></button>
         </div>
         {isDropdownOpen && (
-        <div className={`${styles.filters} ${styles.filterMargin}`}>
-            <button className={`${styles.filterButton} ${activeFilters.includes('Action') ? styles.limeTag : ''}`} onClick={() => handleFilterClick('Action')}><PersonRunningIcon />Action</button>
-            <button className={`${styles.filterButton} ${activeFilters.includes('Culture') ? styles.orangeTag : ''}`} onClick={() => handleFilterClick('Culture')}><MonumentIcon />Culture</button>
-            <button className={`${styles.filterButton} ${activeFilters.includes('Business') ? styles.blueTag : ''}`} onClick={() => handleFilterClick('Business')}><FolderIcon />Business</button>
-            <button className={`${styles.filterButton} ${activeFilters.includes('Romantic') ? styles.pinkTag : ''}`} onClick={() => handleFilterClick('Romantic')}><HeartIcon />Romantic</button>
-            <button className={`${styles.filterButton} ${activeFilters.includes('Social') ? styles.greenTag : ''}`} onClick={() => handleFilterClick('Social')}><PersonDoubleIcon />Social</button>
+        <div className={`${styles.filters} ${styles.filterMargin}`} role="menu" aria-label="Categories">
+            <button className={`${styles.filterButton} ${activeFilters.includes('Action') ? styles.limeTag : ''}`} onClick={() => handleFilterClick('Action')} aria-pressed={activeFilters.includes('Action')} role="menuitemcheckbox"><PersonRunningIcon />Action</button>
+            <button className={`${styles.filterButton} ${activeFilters.includes('Culture') ? styles.orangeTag : ''}`} onClick={() => handleFilterClick('Culture')} aria-pressed={activeFilters.includes('Culture')} role="menuitemcheckbox"><MonumentIcon />Culture</button>
+            <button className={`${styles.filterButton} ${activeFilters.includes('Business') ? styles.blueTag : ''}`} onClick={() => handleFilterClick('Business')} aria-pressed={activeFilters.includes('Business')} role="menuitemcheckbox"><FolderIcon />Business</button>
+            <button className={`${styles.filterButton} ${activeFilters.includes('Romantic') ? styles.pinkTag : ''}`} onClick={() => handleFilterClick('Romantic')} aria-pressed={activeFilters.includes('Romantic')} role="menuitemcheckbox"><HeartIcon />Romantic</button>
+            <button className={`${styles.filterButton} ${activeFilters.includes('Social') ? styles.greenTag : ''}`} onClick={() => handleFilterClick('Social')} aria-pressed={activeFilters.includes('Social')} role="menuitemcheckbox"><PersonDoubleIcon />Social</button>
         </div>
         )}
     </>

@@ -62,7 +62,7 @@ export default function StoryCard({ title, category, username, image }) {
         </div>
       </div>
       <div>
-        <h3>{title}</h3>
+        <h2>{title}</h2>
         <HeartFilledIcon />
       </div>
     </div>

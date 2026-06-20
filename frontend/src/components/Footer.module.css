@@ -3,7 +3,8 @@
   width: 100%;
   height: 50rem;
   /* 800px */
-  margin-top: 5rem;
+  margin-top: -10rem;
+  z-index: 10;
   overflow: hidden;
   box-sizing: border-box;
 }
@@ -44,6 +45,17 @@
   height: 3.63381rem;
 }
 
+.footerLogoImg {
+  width: 8.66425rem;
+  height: auto;
+  object-fit: contain;
+  transition: filter 0.25s ease;
+}
+
+.footerLogoWrapper:hover .footerLogoImg {
+  filter: brightness(0);
+}
+
 .footerNav {
   display: flex;
   flex-direction: column;
@@ -71,11 +83,11 @@
   text-underline-offset: auto;
   text-underline-position: from-font;
 
-  transition: opacity 0.25s ease;
+  transition: color 0.2s ease;
 }
 
 .footerLink:hover {
-  opacity: 0.8;
+  color: var(--color-dark-gray);
 }
 
 .footerLinkSpecial {
@@ -106,12 +118,12 @@
   height: 1.875rem;
   object-fit: contain;
   filter: brightness(0) invert(1);
-  transition: transform 0.25s ease, opacity 0.25s ease;
+  transition: filter 0.2s ease, transform 0.2s ease;
 }
 
 .footerSocialLink:hover .footerSocialIcon {
+  filter: brightness(0);
   transform: translateY(-2px);
-  opacity: 0.8;
 }
 
 @media (min-width: 801px) {

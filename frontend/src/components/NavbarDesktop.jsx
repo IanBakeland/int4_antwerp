@@ -30,7 +30,7 @@ export default function SecondaryNav() {
       <SmartButton to="/share" icon={<PlusCircleIcon />}>Share your story</SmartButton>
 
 
-      <NavLink to="/favourites" className={({ isActive }) => `tab flexCenter alignUnder ${isActive ? 'active' : ''}`}>
+      <NavLink to="/favourites" aria-label="Favourites" className={({ isActive }) => `tab flexCenter alignUnder ${isActive ? 'active' : ''}`}>
           {({ isActive }) => (
               <>
                   <div className="iconContainer">
@@ -44,7 +44,7 @@ export default function SecondaryNav() {
               </>
           )}
       </NavLink>
-      <NavLink to="/account" className={({ isActive }) => `tab flexCenter alignUnder ${ isActive || location.pathname === "/login" || location.pathname === "/register" ? "active" : ""}`}>
+      <NavLink to="/account" aria-label="Account" className={({ isActive }) => `tab flexCenter alignUnder ${ isActive || location.pathname === "/login" || location.pathname === "/register" ? "active" : ""}`}>
             {({ isActive }) => {
                 const active =
                     isActive ||

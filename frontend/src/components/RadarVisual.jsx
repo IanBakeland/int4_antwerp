@@ -62,7 +62,7 @@ export default function RadarVisual({ distance, isRadarActive}) {
   }, [distance]);
 
   return (
-    <div className={styles.radarContainer}>
+    <div className={styles.radarContainer} aria-hidden="true">
     {distance != null && isRadarActive && (
     <>
         <div 

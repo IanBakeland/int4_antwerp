@@ -19,6 +19,7 @@ import AddCircleIcon from '../assets/icons/AddCircle';
 import FilterIcon from '../assets/icons/Filter';
 import SearchIcon from '../assets/icons/Search';
 import UserCircleIcon from '../assets/icons/UserCircle';
+import AuthorBadge from '../components/AuthorBadge';
 import styles from './Home.module.css';
 
 const stories = [
@@ -37,7 +38,7 @@ const stories = [
   {
     image: pano3,
     storyCount: "Three of 40+ stories in Antwerp",
-    title: "Port Authority",
+    title: "The street that inspired my carreer for painting",
     description: "Gaze at the futuristic lines merging with the historical harbor docks."
   },
   {
@@ -51,7 +52,7 @@ const stories = [
 const topStories = [
   { title: "My first kiss", image: pano1 },
   { title: "The Silent Cathedral", image: pano2 },
-  { title: "Port Authority", image: pano3 },
+  { title: "The street that inspired my carreer for painting", image: pano3 },
   { title: "Park Spoor Noord", image: pano4 },
   { title: "The MAS Museum", image: pano1 },
   { title: "Central Station Echo", image: pano2 },
@@ -60,6 +61,18 @@ const topStories = [
   { title: "Het Steen Castle", image: pano1 },
   { title: "Zurenborg Beauty", image: pano2 }
 ];
+
+const gridStories = Array.from({ length: 20 }, (_, index) => {
+  // Random number between 1 and 5 with 1 decimal place
+  const randomDist = (Math.random() * (5 - 1) + 1).toFixed(1);
+  return {
+    id: index + 1,
+    title: index === 5 ? "The street that inspired my carreer for painting" : (index === 1 ? "A sudden adventure" : "My first kiss"),
+    image: pano1,
+    distance: `${randomDist} km`
+  };
+});
+
 
 const strokeColors = ['#FD7C3F', '#66A0FF', '#FF82DC', '#D2FF4B'];
 
@@ -111,6 +124,7 @@ export default function Home({ userLocation }) {
     return '-48px'; // Numbers 2 to 9
   };
 
+  const top10Ref = useRef(null);
   const [currentPanoIndex, setCurrentPanoIndex] = useState(0);
   const [prevPanoIndex, setPrevPanoIndex] = useState(null);
   const [transitionClass, setTransitionClass] = useState('slide-active');
@@ -134,6 +148,13 @@ export default function Home({ userLocation }) {
     const prevImg = new Image();
     prevImg.src = stories[prevIndex].image;
   }, [currentPanoIndex]);
+
+  // Smooth scroll to TOP 10 section when navigating via the Panorama's navbar link
+  useEffect(() => {
+    if (location.hash === '#panoramas' && top10Ref.current) {
+      top10Ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [location.hash]);
 
   // Cleanup effect for safeguard timers
   useEffect(() => {
@@ -231,20 +252,24 @@ export default function Home({ userLocation }) {
 
   return (
     <>
-      <div className={styles.navbarMobileTop}>
+      <header className={styles.navbarMobileTop}>
         <Link to="/" className={styles.mobileLogoLink} aria-label="Go to Homepage">
           <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.mobileLogoImg} />
         </Link>
         <div className={styles.navbarMobileTopRight}>
-          <Link to="/account" className="iconbutton"><PersonIcon /></Link>
+          <Link to="/account" className="iconbutton" aria-label="Account"><PersonIcon /></Link>
         </div>
-      </div>
+      </header>
       <div className={styles.homeContainer}>
         <div className={styles.homeLogoWrapper}>
           <LogoAS />
         </div>
 
-        <div className={styles.homePanoWrapper}>
+        <div 
+          className={styles.homePanoWrapper}
+          role="region"
+          aria-label={`360 degree panorama viewer displaying: ${activeStory.title}`}
+        >
           {prevPanoIndex !== null && (
             <div
               className={`${styles.homePanoImage} ${styles.staticSlide} ${transitionClassMap[prevTransitionClass]}`}
@@ -323,7 +348,7 @@ export default function Home({ userLocation }) {
           Radar <span className={styles.discoverSpotsButton__arrow || ''}>→</span>
         </Link>
 
-        <img src={backgroundMoments} alt="180° panorama moments" className={styles.homeBackgroundMoments} />
+        <img src={backgroundMoments} alt="" className={styles.homeBackgroundMoments} aria-hidden="true" />
 
         <div className={styles.homeScrollBanner}>
           <div className={styles.homeScrollBanner__track}>
@@ -375,7 +400,7 @@ export default function Home({ userLocation }) {
           </div>
         </div>
 
-        <div className={styles.homeTopStoriesTitleWrapper}>
+        <div id="top-10" ref={top10Ref} className={styles.homeTopStoriesTitleWrapper}>
           <h2 className={styles.homeTopStoriesTitle__top}>TOP 10</h2>
           <h3 className={styles.homeTopStoriesTitle__sub}>stories of the week</h3>
         </div>
@@ -391,12 +416,13 @@ export default function Home({ userLocation }) {
                   {index + 1}
                 </span>
                 <div className={styles.homeTopStoriesItem__card} style={{ backgroundImage: `url(${story.image})` }}>
-                  <div className={styles.homeTopStoriesItem__authorBadge}>
-                    <UserCircleIcon className={styles.homeTopStoriesItem__authorBadgeIcon} />
-                    <span>{story.author || 'Emma'}</span>
-                  </div>
+                  <AuthorBadge
+                    author={story.author || 'Emma'}
+                    colorIndex={index}
+                    className={styles.homeAuthorBadgeWrapper}
+                  />
                   <div className={styles.homeTopStoriesItem__gradient} />
-                  <h4 className={styles.homeTopStoriesItem__title}>{story.title}</h4>
+                  <h3 className={styles.homeTopStoriesItem__title}>{story.title}</h3>
                 </div>
               </div>
             ))}
@@ -417,6 +443,46 @@ export default function Home({ userLocation }) {
               <SearchIcon />
             </button>
           </div>
+        </div>
+
+        <div className={styles.homeStoriesGrid}>
+          {gridStories.map((story, i) => {
+            const isLarge = (i % 11 === 0 || i % 11 === 5 || i % 11 === 6);
+            return (
+              <div
+                key={i}
+                className={isLarge ? styles.homeStoryCardLarge : styles.homeStoryCardSmall}
+                style={{ backgroundImage: `url(${story.image})` }}
+              >
+                <AuthorBadge
+                  author="Emma"
+                  colorIndex={i + 1} // Offset by 1 to differentiate from Top Stories
+                  className={styles.homeAuthorBadgeWrapper}
+                />
+                {isLarge ? (
+                  <div className={styles.homeStoryCardBadge}>
+                    <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M4.5 0C5.69047 0 6.73798 0.422548 7.64258 1.2666C8.54718 2.11076 8.99994 3.24429 9 4.66699C9 5.61553 8.62709 6.64719 7.88184 7.76172C7.13656 8.87626 6.00929 10.0833 4.5 11.3828C2.99078 10.0834 1.86342 8.87623 1.11816 7.76172C0.37296 6.64723 0 5.6155 0 4.66699C6.49664e-05 3.24429 0.452824 2.11076 1.35742 1.2666C2.26202 0.422497 3.30952 2.80738e-05 4.5 0ZM4.54395 2.22852C3.37454 2.22858 2.42685 3.17623 2.42676 4.3457C2.42676 5.51525 3.37449 6.4638 4.54395 6.46387C5.71346 6.46387 6.66211 5.51529 6.66211 4.3457C6.66202 3.17619 5.7134 2.22852 4.54395 2.22852Z" fill="white" />
+                    </svg>
+                    <span>{story.distance}</span>
+                  </div>
+                ) : (
+                  <div className={styles.homeStoryCardBadgeSmall}>
+                    <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M4.5 0C5.69047 0 6.73798 0.422548 7.64258 1.2666C8.54718 2.11076 8.99994 3.24429 9 4.66699C9 5.61553 8.62709 6.64719 7.88184 7.76172C7.13656 8.87626 6.00929 10.0833 4.5 11.3828C2.99078 10.0834 1.86342 8.87623 1.11816 7.76172C0.37296 6.64723 0 5.6155 0 4.66699C6.49664e-05 3.24429 0.452824 2.11076 1.35742 1.2666C2.26202 0.422497 3.30952 2.80738e-05 4.5 0ZM4.54395 2.22852C3.37454 2.22858 2.42685 3.17623 2.42676 4.3457C2.42676 5.51525 3.37449 6.4638 4.54395 6.46387C5.71346 6.46387 6.66211 5.51529 6.66211 4.3457C6.66202 3.17619 5.7134 2.22852 4.54395 2.22852Z" fill="white" />
+                    </svg>
+                    <span>{story.distance}</span>
+                  </div>
+                )}
+                <div className={styles.homeStoryCardGradient} />
+                <h3 className={styles.homeStoryCardTitle}>{story.title}</h3>
+                <div className={styles.homeStoryCardHeart}>
+                  <HeartIcon />
+                </div>
+
+              </div>
+            );
+          })}
         </div>
 
         {userLocation && (
