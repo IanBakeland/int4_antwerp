@@ -50,6 +50,17 @@
 .tab:hover {
   cursor: pointer;
 }
+
+/* Scale icon up and tint label on hover */
+.tab:hover .iconContainer {
+  transform: scale(1.12);
+  transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.tab:hover p {
+  color: var(--color-primary);
+  transition: color 0.2s ease;
+}
 .tab.active {
   --active-anchor: --segmented-button-checked;
 }

@@ -1,10 +1,28 @@
 .navbarAntwerpLogo {
+  position: relative;
   width: 28rem;
   height: 4rem;
   background-image: url('../assets/images/antwerpLogo.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: left center;
+}
+
+/* Colour logo layered on top, hidden by default */
+.navbarAntwerpLogo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('../assets/images/antwerplogokleur.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.navbarAntwerpLogo:hover::before {
+  opacity: 1;
 }
 
 .navbarDesktopAnimation {
@@ -32,17 +50,42 @@
   color: var(--color-black);
   font-weight: 700;
   font-size: 1rem;
+  position: relative;
   transition: color 0.25s ease;
   anchor-name: var(--anchor-name-hover, --a), var(--anchor-name-active, --b);
 }
 
+/* Animated underline that grows from centre on hover */
+.navbarDesktopItem::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--color-primary);
+  transform: translateX(-50%);
+  transition: width 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
 .navbarDesktopItem:hover {
   --anchor-name-hover: --subnav-hover;
+  color: var(--color-primary);
   cursor: pointer;
+}
+
+.navbarDesktopItem:hover::after {
+  width: calc(100% - 1rem);
 }
 
 .navbarDesktopItem.navbarDesktopItemActive {
   --anchor-name-active: --subnav-checked;
   font-weight: bold;
   color: var(--color-primary);
+}
+
+/* Keep underline hidden for the active item (the sliding bar already handles it) */
+.navbarDesktopItem.navbarDesktopItemActive::after {
+  display: none;
 }

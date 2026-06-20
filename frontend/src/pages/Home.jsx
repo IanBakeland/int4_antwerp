@@ -124,6 +124,7 @@ export default function Home({ userLocation }) {
     return '-48px'; // Numbers 2 to 9
   };
 
+  const top10Ref = useRef(null);
   const [currentPanoIndex, setCurrentPanoIndex] = useState(0);
   const [prevPanoIndex, setPrevPanoIndex] = useState(null);
   const [transitionClass, setTransitionClass] = useState('slide-active');
@@ -147,6 +148,13 @@ export default function Home({ userLocation }) {
     const prevImg = new Image();
     prevImg.src = stories[prevIndex].image;
   }, [currentPanoIndex]);
+
+  // Smooth scroll to TOP 10 section when navigating via the Panorama's navbar link
+  useEffect(() => {
+    if (location.hash === '#panoramas' && top10Ref.current) {
+      top10Ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [location.hash]);
 
   // Cleanup effect for safeguard timers
   useEffect(() => {
@@ -392,7 +400,7 @@ export default function Home({ userLocation }) {
           </div>
         </div>
 
-        <div className={styles.homeTopStoriesTitleWrapper}>
+        <div id="top-10" ref={top10Ref} className={styles.homeTopStoriesTitleWrapper}>
           <h2 className={styles.homeTopStoriesTitle__top}>TOP 10</h2>
           <h3 className={styles.homeTopStoriesTitle__sub}>stories of the week</h3>
         </div>
