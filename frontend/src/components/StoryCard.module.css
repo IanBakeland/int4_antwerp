@@ -58,7 +58,7 @@
   padding: 0 0.75rem;
   max-width: 62%;
   height: 2rem;
-  border: rgba(255, 255, 255, 0.2) 2px solid;
+  border: rgba(255, 255, 255, 0.2) 1.75px solid;
 }
 
 .storyCard > div:first-child > div:first-child svg {
@@ -126,7 +126,7 @@
   border-radius: 50%;
   background: var(--color-white);
   color: var(--color-black);
-  border: rgba(255, 255, 255, 0.2) 2px solid;
+  border: rgba(255, 255, 255, 0.2) 1.75px solid;
   font-size: 0.8rem;
   font-weight: 600;
   -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
