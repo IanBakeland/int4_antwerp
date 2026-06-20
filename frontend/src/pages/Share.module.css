@@ -1,0 +1,90 @@
+.shareContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: var(--color-white);
+  width: 100%;
+}
+
+.shareContent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 0;
+}
+
+.shareContent h1 {
+  color: #000;
+  font-family: var(--font-antwerpen);
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 72.622px;
+  letter-spacing: -2.462px;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.shareContent h1 span {
+  color: var(--color-primary);
+}
+
+/* Mobile top navbar styles matching login/homepage layout */
+.navbarMobileTop {
+  position: fixed; /* Fixed at the top of the screen */
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem 0.1rem;
+  z-index: 1001;
+  box-sizing: border-box;
+  background-color: var(--color-white); /* Prevents scrolled content from clipping under logo text */
+}
+
+.mobileLogoLink {
+  display: flex;
+  align-items: center;
+}
+
+.mobileLogoImg {
+  height: 3.25rem;
+  width: auto;
+  object-fit: contain;
+}
+
+.navbarMobileTopRight {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.activeIconButton svg {
+  fill: var(--color-primary) !important;
+}
+
+@media (min-width: 801px) {
+  .navbarMobileTop {
+    display: none !important;
+  }
+  
+  .shareContent h1 {
+    font-size: 56px;
+    text-align: left;
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 800px) {
+  .shareContainer {
+    padding: 0;
+  }
+
+  .shareContent {
+    margin-top: 0.5rem; /* Small spacing below the header */
+  }
+}
