@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from './StoryCardSelected.module.css';
 
-import PersonIcon from '../assets/icons/Person'
-import PersonFilledIcon from '../assets/icons/PersonFilled';
+import PersonFilledIcon from '../assets/icons/PersonFilled'
+import StarFilledIcon from '../assets/icons/StarFilled';
 import RadarIcon from '../assets/icons/Radar';
 import RadarLocationIcon from '../assets/icons/RadarLocation';
 import HeartIcon from '../assets/icons/Heart';
@@ -59,17 +59,17 @@ export default function StoryCardSelected({ title, category, username, image, st
           <p>Currently locating</p>
         </div>
       )}
-      <div className='alignNext' style={{ gap: '1rem' }}>
-        <div className={styles.personTag}>
-          <PersonIcon />
+      <div className='alignNext' style={{ gap: '0.5rem' }}>
+        <div className={`${styles.personTag}`}>
+          <PersonFilledIcon />
           <p>{username}</p>
-        </div>
-        <div className={styles.filterButton}>
-          <PersonIcon />
-          <p className={`${styles.filterButton}`}>{hiddenSpots} hidden spots</p>
         </div>
         <div className={`${styles.categoryTag} ${styles[`${category}Tag`]}`}>
           <CategoryIcon />
+        </div>
+        <div className={`${styles.personTag} ${styles.dark}`}>
+          <StarFilledIcon />
+          <p>{hiddenSpots} hidden spots</p>
         </div>
       </div>
       <div>
