@@ -431,6 +431,100 @@
   transform: scale(0.98);
 }
 
+/* Panorama preview and dropzone styles */
+.hasPreview {
+  padding: 0 !important;
+  border-style: solid !important;
+  border-color: #00D77D !important;
+  overflow: hidden;
+}
+
+.previewContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.previewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.previewOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  color: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-spartan);
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none; /* Let clicks pass through to container */
+}
+
+.previewContainer:hover .previewOverlay {
+  opacity: 1;
+}
+
+.removePreviewButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: rgba(255, 59, 48, 0.9);
+  color: #FFF;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  z-index: 5;
+}
+
+.removePreviewButton:hover {
+  background-color: #FF3B30;
+  transform: scale(1.1);
+}
+
+.removePreviewButton:active {
+  transform: scale(0.9);
+}
+
+.errorBox {
+  border: 1.5px solid #FF3B30;
+  background-color: rgba(255, 59, 48, 0.03);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  box-sizing: border-box;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.errorText {
+  color: #FF3B30;
+  font-family: var(--font-spartan);
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.4;
+}
+
 .disclaimerText {
   font-family: var(--font-spartan);
   font-size: 12px;

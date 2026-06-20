@@ -58,8 +58,13 @@ export default function Share() {
   const [recognition, setRecognition] = useState(null);
   const [spots, setSpots] = useState([]);
   const [currentSpot, setCurrentSpot] = useState('');
+  const [panoramaFile, setPanoramaFile] = useState(null);
+  const [panoramaPreview, setPanoramaPreview] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [spotsError, setSpotsError] = useState('');
   const token = localStorage.getItem('token');
   const baseStoryRef = useRef('');
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (token) {
@@ -149,11 +154,18 @@ export default function Share() {
     if (currentSpot.trim()) {
       setSpots((prev) => [...prev, currentSpot.trim()]);
       setCurrentSpot('');
+      setSpotsError('');
     }
   };
 
   const handleRemoveSpot = (indexToRemove) => {
-    setSpots((prev) => prev.filter((_, index) => index !== indexToRemove));
+    setSpots((prev) => {
+      const updated = prev.filter((_, index) => index !== indexToRemove);
+      if (updated.length === 0) {
+        setSpotsError('Voeg ten minste één specifieke plek toe aan je verhaal.');
+      }
+      return updated;
+    });
   };
 
   const handleKeyDown = (e) => {
@@ -161,6 +173,123 @@ export default function Share() {
       e.preventDefault(); // Prevent accidental form submission
       handleAddSpot();
     }
+  };
+
+  const validateAndProcessFile = (file) => {
+    if (!file) return;
+
+    // Check file format (JPG, JPEG, PNG)
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    const fileType = file.type.toLowerCase();
+    const fileName = file.name.toLowerCase();
+    const isImage = validTypes.includes(fileType) || 
+                    fileName.endsWith('.jpg') || 
+                    fileName.endsWith('.jpeg') || 
+                    fileName.endsWith('.png');
+
+    if (!isImage) {
+      setErrorMessage('Ongeldig bestandsformaat. Upload alleen een JPG, JPEG of PNG bestand.');
+      handleRemovePreview();
+      return;
+    }
+
+    // Check file size (max 30MB)
+    const maxSizeBytes = 30 * 1024 * 1024;
+    if (file.size > maxSizeBytes) {
+      setErrorMessage('Bestand is te groot. Maximale bestandsgrootte is 30 MB.');
+      handleRemovePreview();
+      return;
+    }
+
+    // Resolution and aspect ratio check (min 4000x2000 and 2:1 ratio)
+    const img = new Image();
+    const objectUrl = URL.createObjectURL(file);
+    img.src = objectUrl;
+
+    img.onload = () => {
+      URL.revokeObjectURL(objectUrl); // Release temp object URL
+      const width = img.width;
+      const height = img.height;
+      const ratio = width / height;
+
+      if (width < 4000 || height < 2000) {
+        setErrorMessage(`De resolutie is te laag (${width} × ${height} px). De afbeelding moet minimaal 4000 × 2000 pixels zijn.`);
+        handleRemovePreview();
+        return;
+      }
+
+      if (ratio < 2.0) {
+        setErrorMessage(`De beeldverhouding is ongeldig (${ratio.toFixed(2)}:1). Een panorama moet een minimale verhouding van 2:1 hebben (breedte moet minstens twee keer de hoogte zijn).`);
+        handleRemovePreview();
+        return;
+      }
+
+      // Success
+      if (panoramaPreview) {
+        URL.revokeObjectURL(panoramaPreview);
+      }
+      setErrorMessage('');
+      setPanoramaFile(file);
+      setPanoramaPreview(URL.createObjectURL(file));
+    };
+
+    img.onerror = () => {
+      URL.revokeObjectURL(objectUrl);
+      setErrorMessage('Kon de afbeelding niet laden. Het bestand is mogelijk beschadigd.');
+      handleRemovePreview();
+    };
+  };
+
+  const handleRemovePreview = (e) => {
+    if (e) e.stopPropagation();
+    if (panoramaPreview) {
+      URL.revokeObjectURL(panoramaPreview);
+    }
+    setPanoramaFile(null);
+    setPanoramaPreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      validateAndProcessFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleDropzoneClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      validateAndProcessFile(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (spots.length === 0) {
+      setSpotsError('Voeg ten minste één specifieke plek toe aan je verhaal.');
+      return;
+    }
+    setSpotsError('');
+    alert('Je verhaal is succesvol verzonden!');
   };
 
   return (
@@ -182,7 +311,7 @@ export default function Share() {
           Share your own personal story about Antwerp and help others discover the city through your experience.
         </p>
 
-        <form className={styles.shareForm} onSubmit={(e) => e.preventDefault()}>
+        <form className={styles.shareForm} onSubmit={handleSubmit}>
           <div className={styles.formHeader}>
             <h2>Hey {username},</h2>
             <p>share your Antwerp story!</p>
@@ -277,6 +406,11 @@ export default function Share() {
                 ))}
               </div>
             )}
+            {spotsError && (
+              <div className={styles.errorBox}>
+                <p className={styles.errorText}>{spotsError}</p>
+              </div>
+            )}
           </div>
 
           {/* Panorama photo requirements and dropzone */}
@@ -295,13 +429,51 @@ export default function Share() {
               </ul>
             </div>
 
-            <div className={styles.uploadDropzone}>
-              <div className={styles.uploadIconContainer}>
-                <PhotoIcon />
-                <span className={styles.uploadPlusBadge}>+</span>
-              </div>
-              <span className={styles.uploadText}>Click to add your panorama</span>
+            <div 
+              className={`${styles.uploadDropzone} ${panoramaPreview ? styles.hasPreview : ''}`}
+              onClick={handleDropzoneClick}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+            >
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept="image/jpeg,image/png,image/jpg"
+                style={{ display: 'none' }}
+              />
+              {panoramaPreview ? (
+                <div className={styles.previewContainer}>
+                  <img src={panoramaPreview} alt="Panorama preview" className={styles.previewImage} />
+                  <div className={styles.previewOverlay}>
+                    <span>Click to change panorama</span>
+                  </div>
+                  <button 
+                    type="button" 
+                    className={styles.removePreviewButton} 
+                    onClick={handleRemovePreview}
+                    aria-label="Remove panorama"
+                  >
+                    &times;
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className={styles.uploadIconContainer}>
+                    <PhotoIcon />
+                    <span className={styles.uploadPlusBadge}>+</span>
+                  </div>
+                  <span className={styles.uploadText}>Click to add your panorama</span>
+                </>
+              )}
             </div>
+
+            {errorMessage && (
+              <div className={styles.errorBox}>
+                <p className={styles.errorText}>{errorMessage}</p>
+              </div>
+            )}
           </div>
 
           {/* Submit button */}
