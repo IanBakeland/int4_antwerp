@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './StoryCard.module.css';
 
 import PersonIcon from '../assets/icons/Person'
-import PersonFilledIcon from '../assets/icons/PersonFilled';
+import StarFilledIcon from '../assets/icons/StarFilled';
 import MagnifierIcon from '../assets/icons/Magnifier';
 import FilterIcon from '../assets/icons/Filter';
 import HeartIcon from '../assets/icons/Heart';
@@ -12,7 +12,7 @@ import PersonRunningIcon from '../assets/icons/PersonRunning';
 import MonumentIcon from '../assets/icons/Monument';
 import FolderIcon from '../assets/icons/Folder';
 import PersonDoubleIcon from '../assets/icons/PersonDouble';
-import CircleGridIcon from '../assets/icons/CircleGrid';
+import LocationFilledIcon from '../assets/icons/LocationFilled';
 import CircleGridFilledIcon from '../assets/icons/CircleGridFilled';
 
 export default function StoryCard({ id, title, category, username, image, hiddenSpots, distance, onSelect }) {
@@ -60,31 +60,30 @@ export default function StoryCard({ id, title, category, username, image, hidden
         cursor: "pointer"
       }}
     >
-      <div>
-        <div>
+      <div className='alignNext' style={{ gap: '0.5rem' }}>
+        <div class="iconTag">
           <PersonIcon />
           <p>{username}</p>
         </div>
-        <div className={`${styles.filterButton} ${styles[`${category}Tag`]}`}>
+        <div className={`categoryTag ${category}Tag`}>
           <CategoryIcon />
         </div>
-        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
-          {distance && hiddenSpots != null && (
-            <div className={styles.filterButton} style={{ width: "auto", padding: "0 0.8rem", borderRadius: "2rem" }}>
-              <p style={{ margin: 0, fontWeight: "bold" }}>{hiddenSpots}</p>
-            </div>
-          )}
-          
-
-
-
-        </div>
       </div>
-      {distance && (
-        <div className={styles.filterButton} style={{ width: "auto", padding: "0 0.8rem", borderRadius: "2rem", backgroundColor: "rgba(0,0,0,0.6)", color: "white" }}>
-          <p style={{ margin: 0, fontWeight: "bold", fontSize: "0.8rem" }}>{distance}</p>
-        </div>
-      )}
+
+      <div className='alignNext' style={{gap: "0.4rem", marginTop: "auto" }}>
+        {distance && (
+          <div className="iconTag dark flexcenter">
+            <LocationFilledIcon />
+            <p>{distance}</p>
+          </div>
+        )}
+        {distance && hiddenSpots != null && (
+          <div className="iconTag dark ">
+            <StarFilledIcon />
+            <p>{hiddenSpots}</p>
+          </div>
+        )}
+      </div>
       <div>
         <h3>{title}</h3>
         <HeartFilledIcon />
