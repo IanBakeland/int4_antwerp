@@ -37,7 +37,7 @@
 }
 
 .navbarMobile::after {
-  background-color: light-dark(var(--color-white), #333537);
+  background-color:  #ffffff;
   position-anchor: --segmented-button-checked;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 }

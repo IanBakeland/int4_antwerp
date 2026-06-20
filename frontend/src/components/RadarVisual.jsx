@@ -62,6 +62,7 @@ export default function RadarVisual({ distance, isRadarActive}) {
   }, [distance]);
 
   return (
+    <div className={styles.radarBackground}>
     <div className={styles.radarContainer} aria-hidden="true">
     {distance != null && isRadarActive && (
     <>
@@ -94,6 +95,7 @@ export default function RadarVisual({ distance, isRadarActive}) {
         className={styles.radarInner} 
         style={{ transform: `scale(${innerScale})`, opacity: innerOpacity }}
       ></div>
+    </div>
     </div>
   );
 }

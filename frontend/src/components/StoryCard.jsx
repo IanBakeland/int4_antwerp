@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './StoryCard.module.css';
 
-//icons
 import PersonIcon from '../assets/icons/Person'
-import PersonFilledIcon from '../assets/icons/PersonFilled';
+import StarFilledIcon from '../assets/icons/StarFilled';
 import MagnifierIcon from '../assets/icons/Magnifier';
 import FilterIcon from '../assets/icons/Filter';
 import HeartIcon from '../assets/icons/Heart';
@@ -12,11 +12,11 @@ import PersonRunningIcon from '../assets/icons/PersonRunning';
 import MonumentIcon from '../assets/icons/Monument';
 import FolderIcon from '../assets/icons/Folder';
 import PersonDoubleIcon from '../assets/icons/PersonDouble';
-import CircleGridIcon from '../assets/icons/CircleGrid';
+import LocationFilledIcon from '../assets/icons/LocationFilled';
 import CircleGridFilledIcon from '../assets/icons/CircleGridFilled';
 
-
-export default function StoryCard({ title, category, username, image }) {
+export default function StoryCard({ id, title, category, username, image, hiddenSpots, distance, onSelect }) {
+  const navigate = useNavigate();
   const previewImage = image?.formats?.large?.url;
   const originalImage = image?.url;
 
@@ -43,26 +43,49 @@ export default function StoryCard({ title, category, username, image }) {
 
   const CategoryIcon = categoryIcons[category] || HeartFilledIcon;
 
+  const handleClick = () => {
+    if (distance) {
+      if (onSelect) onSelect();
+    } else if (id) {
+      navigate(`/story?id=${id}`);
+    }
+  };
+
   return (
     <div
       className={`${styles.storyCard} alignUnder`}
-      style={
-        backgroundImage
-          ? { backgroundImage: `url(${backgroundImage})` }
-          : undefined
-      }
+      onClick={handleClick}
+      style={{
+        backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
+        cursor: "pointer"
+      }}
     >
-      <div>
-        <div>
+      <div className='alignNext' style={{ gap: '0.5rem' }}>
+        <div class="iconTag">
           <PersonIcon />
           <p>{username}</p>
         </div>
-        <div className={`${styles.filterButton} ${styles[`${category}Tag`]}`}>
+        <div className={`categoryTag ${category}Tag`}>
           <CategoryIcon />
         </div>
       </div>
+
+      <div className='alignNext' style={{gap: "0.4rem", marginTop: "auto" }}>
+        {distance && (
+          <div className="iconTag dark flexcenter">
+            <LocationFilledIcon />
+            <p>{distance}</p>
+          </div>
+        )}
+        {distance && hiddenSpots != null && (
+          <div className="iconTag dark ">
+            <StarFilledIcon />
+            <p>{hiddenSpots}</p>
+          </div>
+        )}
+      </div>
       <div>
-        <h2>{title}</h2>
+        <h3>{title}</h3>
         <HeartFilledIcon />
       </div>
     </div>

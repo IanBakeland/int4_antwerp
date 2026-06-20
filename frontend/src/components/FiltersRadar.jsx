@@ -52,12 +52,12 @@ export default function FiltersRadar({ activeFilters, setActiveFilters, selected
               </button>
 
               <button 
-                className={`${styles.filterButton} flexCenter dropdown-trigger ${styles.expand2} ${activeFilters.some(filter => filter !== 'Favourites') ? styles.filterActive : ''}`} 
+                className={`${styles.filterButton} ${styles.categories} flexCenter dropdown-trigger ${styles.expand2} ${activeFilters.some(filter => filter !== 'Favourites') ? styles.filterActive : ''}`} 
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 aria-haspopup="menu"
                 aria-expanded={isDropdownOpen}
               >
-                <FilterIcon />Categories
+                <FilterIcon /><span>Categories</span>
               </button>
             </div>
             <button className="iconbuttonSmall" aria-label="Search"><MagnifierIcon /></button>
