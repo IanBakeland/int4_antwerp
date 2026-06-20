@@ -24,6 +24,9 @@ export default function Share() {
 
       <div className={styles.shareContent}>
         <h1>Share your<span> story</span></h1>
+        <p className={styles.shareSubtitle}>
+          Share your own personal story about Antwerp and help others discover the city through your experience.
+        </p>
         {/* Hier komt de rest van de "Share your story" pagina */}
       </div>
     </div>
