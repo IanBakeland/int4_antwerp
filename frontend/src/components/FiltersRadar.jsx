@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import styles from './FiltersRadar.module.css';
 
-//icons
 import PersonIcon from '../assets/icons/Person';
 import PersonFilledIcon from '../assets/icons/PersonFilled';
 import MagnifierIcon from '../assets/icons/Magnifier';
@@ -15,12 +14,12 @@ import PersonDoubleIcon from '../assets/icons/PersonDouble';
 import CircleGridIcon from '../assets/icons/CircleGrid';
 import CircleGridFilledIcon from '../assets/icons/CircleGridFilled';
 
-export default function FiltersRadar() {
-  const [activeFilters, setActiveFilters] = useState([]);
+export default function FiltersRadar({ activeFilters, setActiveFilters, selectedStory, setSelectedStory }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // The toggle logic for adding/removing filters
   const handleFilterClick = (filterValue) => {
+    setSelectedStory(null);
     if (activeFilters.includes(filterValue)) {
       setActiveFilters(activeFilters.filter(item => item !== filterValue));
     } else {
@@ -32,31 +31,34 @@ export default function FiltersRadar() {
     <>
         <div className={`alignNext ${styles.filterBar}`}>
             <div className={styles.filters}>
-                <button 
-                  className={`${styles.filterButton} flexCenter ${styles.expand1} ${activeFilters.length === 0 ? styles.filterActive : ''}`}
-                  onClick={() => {
-                      setActiveFilters([]);
-                      setIsDropdownOpen(false);
-                  }}
-                  aria-pressed={activeFilters.length === 0}
-                >
-                  {activeFilters.length === 0 ? <CircleGridFilledIcon /> : <CircleGridIcon />}All
-                </button>
-                <button 
-                  className={`${styles.filterButton} flexCenter ${styles.expand2} ${activeFilters.includes('Favourites') ? styles.filterActive : ''}`} 
-                  onClick={() => handleFilterClick('Favourites')}
-                  aria-pressed={activeFilters.includes('Favourites')}
-                >
-                  {activeFilters.includes('Favourites') ? <HeartFilledIcon /> : <HeartIcon />}Favourites
-                </button>
-                <button 
-                  className={`${styles.filterButton} flexCenter dropdown-trigger ${styles.expand2} ${activeFilters.some(filter => filter !== 'Favourites') ? styles.filterActive : ''}`} 
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  aria-haspopup="menu"
-                  aria-expanded={isDropdownOpen}
-                >
-                  <FilterIcon />Categories
-                </button>
+              <button 
+                className={`${styles.filterButton} flexCenter ${styles.expand1} ${activeFilters.length === 0 && !selectedStory ? styles.filterActive : ''}`}
+                onClick={() => {
+                  setSelectedStory(null);
+                  setActiveFilters([]);
+                  setIsDropdownOpen(false);
+                }}
+                aria-pressed={activeFilters.length === 0}
+              >
+                {activeFilters.length === 0 && !selectedStory ? <CircleGridFilledIcon /> : <CircleGridIcon />}All
+              </button>
+
+              <button 
+                className={`${styles.filterButton} flexCenter ${styles.expand2} ${activeFilters.includes('Favourites') ? styles.filterActive : ''}`} 
+                onClick={() => handleFilterClick('Favourites')}
+                aria-pressed={activeFilters.includes('Favourites')}
+              >
+                {activeFilters.includes('Favourites') ? <HeartFilledIcon /> : <HeartIcon />}Favourites
+              </button>
+
+              <button 
+                className={`${styles.filterButton} flexCenter dropdown-trigger ${styles.expand2} ${activeFilters.some(filter => filter !== 'Favourites') ? styles.filterActive : ''}`} 
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                aria-haspopup="menu"
+                aria-expanded={isDropdownOpen}
+              >
+                <FilterIcon />Categories
+              </button>
             </div>
             <button className="iconbuttonSmall" aria-label="Search"><MagnifierIcon /></button>
         </div>
