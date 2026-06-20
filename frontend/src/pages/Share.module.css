@@ -7,7 +7,7 @@
   box-sizing: border-box;
   background-color: var(--color-white);
   width: 100%;
-  padding: 0; /* Default mobile container padding */
+  padding: 0;
 }
 
 .shareContent {
@@ -16,9 +16,9 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 800px;
+  max-width: 350px; /* Match form card width on mobile */
   margin: 0 auto;
-  margin-top: calc(115px - 5rem); /* Default mobile top margin (main is 5rem) */
+  margin-top: calc(115px - 5rem);
 }
 
 .shareContent h1 {
@@ -45,11 +45,333 @@
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
-  line-height: 150%; /* 27px */
-  margin-top: 1rem; /* Spacing below the title */
+  line-height: 150%;
+  margin-top: 1rem;
   margin-bottom: 2rem;
   width: 277px;
   height: 77px;
+}
+
+/* Card Container */
+.shareForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+  border: 1px solid #D9D9D9;
+  background: #FFF;
+  box-shadow: -5px 5px 40px 0 rgba(0, 0, 0, 0.15);
+  padding: 1.5rem 1.5rem;
+  box-sizing: border-box;
+  margin-bottom: 4rem;
+}
+
+.formHeader {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.25rem;
+}
+
+.formHeader h2 {
+  color: #0A0A0A;
+  font-family: var(--font-spartan);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  margin: 0;
+}
+
+.formHeader p {
+  color: #686868;
+  font-family: var(--font-spartan);
+  font-size: 16px;
+  font-weight: 400;
+  margin: 4px 0 0 0;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.inputLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #0A0A0A;
+  font-family: var(--font-spartan);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.inputLabel svg {
+  flex-shrink: 0;
+}
+
+.requiredAsterisk {
+  color: var(--color-primary);
+  margin-left: 2px;
+}
+
+.inputField {
+  width: 100%;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid #D9D9D9;
+  padding: 0 1rem;
+  font-family: var(--font-spartan);
+  font-size: 16px;
+  color: #000;
+  background: #FFF;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.inputField:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-secondary-light);
+}
+
+.textareaField {
+  width: 100%;
+  height: 150px;
+  border-radius: 12px;
+  border: 1px solid #D9D9D9;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-spartan);
+  font-size: 16px;
+  color: #000;
+  background: #FFF;
+  box-sizing: border-box;
+  outline: none;
+  resize: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.textareaField:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-secondary-light);
+}
+
+/* Transcribe button */
+.transcribeButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 15px;
+  border: 1px solid #D9D9D9;
+  background: #FFF;
+  font-family: var(--font-spartan);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.transcribeButton:hover {
+  background-color: var(--color-bg-light);
+  border-color: #A0A0A0;
+}
+
+.transcribeButton svg {
+  flex-shrink: 0;
+}
+
+/* Specific spots group and add button */
+.spotSublabel {
+  font-family: var(--font-spartan);
+  font-size: 13px;
+  color: #8A8A8A;
+  margin-top: -4px;
+  margin-bottom: 2px;
+  line-height: 1.4;
+}
+
+.spotInputRow {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.addSpotButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--color-primary);
+  color: #FFF;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  flex-shrink: 0;
+}
+
+.addSpotButton:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.addSpotButton:active {
+  transform: scale(0.95);
+}
+
+/* Panorama photo requirements */
+.requirementsBox {
+  border: 1.5px solid #00D77D;
+  background-color: rgba(0, 215, 125, 0.03);
+  border-radius: 12px;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.requirementsTitle {
+  color: #00D77D;
+  font-family: var(--font-spartan);
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.requirementsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.requirementItem {
+  font-family: var(--font-spartan);
+  font-size: 13px;
+  color: #4A4A4A;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1.4;
+}
+
+.requirementItem::before {
+  content: ">";
+  color: #00D77D;
+  font-weight: bold;
+  font-family: var(--font-spartan);
+}
+
+/* Upload dropzone */
+.uploadDropzone {
+  width: 100%;
+  height: 120px;
+  border: 1.5px dashed #D9D9D9;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #FCFCFC;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.uploadDropzone:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-bg-light);
+}
+
+.uploadIconContainer {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  background-color: rgba(0, 215, 125, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.uploadIconContainer svg {
+  flex-shrink: 0;
+}
+
+.uploadPlusBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 14px;
+  height: 14px;
+  background-color: #00D77D;
+  border-radius: 50%;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.uploadText {
+  font-family: var(--font-spartan);
+  font-size: 14px;
+  font-weight: 500;
+  color: #0A0A0A;
+}
+
+/* Submit and disclaimer */
+.submitStoryButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 44px;
+  border-radius: 25.5px;
+  border: none;
+  background-color: #FF7D3C;
+  color: #FFF;
+  font-family: var(--font-spartan);
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-top: 1rem;
+}
+
+.submitStoryButton:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.submitStoryButton:active {
+  transform: scale(0.98);
+}
+
+.disclaimerText {
+  font-family: var(--font-spartan);
+  font-size: 12px;
+  color: #8A8A8A;
+  text-align: center;
+  line-height: 1.4;
+  margin-top: 1rem;
+  padding: 0 0.5rem;
 }
 
 /* Mobile top navbar (visible on mobile by default) */
@@ -91,15 +413,16 @@
 /* 2. Desktop overrides (layered on top for larger screens) */
 @media (min-width: 801px) {
   .shareContainer {
-    padding: 1rem; /* Desktop container padding */
+    padding: 1rem;
   }
 
   .navbarMobileTop {
-    display: none !important; /* Hide mobile top header on desktop */
+    display: none !important;
   }
   
   .shareContent {
-    margin-top: calc(115px - 6.5rem); /* Desktop top margin (main is 6.5rem) */
+    max-width: 450px; /* Form sits nicely on desktop at this width */
+    margin-top: calc(115px - 6.5rem);
   }
 
   .shareContent h1 {
