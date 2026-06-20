@@ -39,10 +39,30 @@ export default function Radar({
           const userRes = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/users/me?populate=favourites", {
             headers: { Authorization: `Bearer ${token}` }
           });
+          
           if (userRes.ok) {
             const userData = await userRes.json();
-            if (userData.favourites) {
-              setUserFavourites(userData.favourites.map(f => f.documentId));
+            
+            if (userData.favourites && userData.favourites.length > 0) {
+              const inQuery = userData.favourites
+                .map((fav, index) => `filters[documentId][$in][${index}]=${fav.documentId}`)
+                .join('&');
+
+              const favRes = await fetch(`https://necessary-light-a082e19892.strapiapp.com/api/favourites?${inQuery}&populate=story`, {
+                headers: { Authorization: `Bearer ${token}` }
+              });
+
+              if (favRes.ok) {
+                const favData = await favRes.json();
+                
+                const favouritedStoryIds = favData.data
+                  .map(favItem => favItem.story?.documentId)
+                  .filter(Boolean);
+
+                setUserFavourites(favouritedStoryIds);
+              }
+            } else {
+              setUserFavourites([]);
             }
           }
         }
