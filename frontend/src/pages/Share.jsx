@@ -6,6 +6,7 @@ import styles from './Share.module.css';
 // images & icons
 import antwerpLogo from '../assets/images/antwerpLogo.png';
 import PersonFilledIcon from '../assets/icons/PersonFilled';
+import termsPdf from '../assets/files/termsandconditions.pdf';
 
 // SVGs provided by the user
 const PinIcon = () => (
@@ -310,7 +311,7 @@ export default function Share() {
 
           {/* Disclaimer */}
           <p className={styles.disclaimerText}>
-            Antwerp curates the stories featured on Antwerp Scenes. Your submission may be rewritten if it does not meet our quality standards. By submitting a story, you agree to our Terms and Conditions.
+            Antwerp curates the stories featured on Antwerp Scenes. Your submission may be rewritten if it does not meet our quality standards. By submitting a story, you agree to <a href={termsPdf} target="_blank" rel="noopener noreferrer">our Terms and conditions</a>.
           </p>
         </form>
       </div>
