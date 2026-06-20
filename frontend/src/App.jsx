@@ -13,7 +13,7 @@ import Footer from './components/Footer';
 
 export default function App() {
   const [userLocation, setUserLocation] = useState(null);
-  const [isRadarActive, setIsRadarActive] = useState(false);
+  const [isRadarActive, setIsRadarActive] = useState(true); 
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [selectedStory, setSelectedStory] = useState(null);
 
@@ -30,7 +30,8 @@ export default function App() {
         },
         (error) => {
           console.error(error.message);
-          setIsRadarActive(false);
+          // Automatically turn off the UI toggle if the user denies GPS permissions
+          if (error.code === 1) setIsRadarActive(false);
         },
         {
           enableHighAccuracy: true,
