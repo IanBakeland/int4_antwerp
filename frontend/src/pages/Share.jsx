@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import styles from './Share.module.css';
@@ -56,6 +56,7 @@ export default function Share() {
   const [isListening, setIsListening] = useState(false);
   const [recognition, setRecognition] = useState(null);
   const token = localStorage.getItem('token');
+  const baseStoryRef = useRef('');
 
   useEffect(() => {
     if (token) {
@@ -93,8 +94,8 @@ export default function Share() {
     if (SpeechRecognition) {
       const rec = new SpeechRecognition();
       rec.continuous = true;
-      rec.interimResults = false;
-      rec.lang = 'nl-BE'; // Optimized for local Dutch storytelling, but works for clean English speech too
+      rec.interimResults = true; // Enabled live transcription!
+      rec.lang = 'nl-BE';
 
       rec.onstart = () => {
         setIsListening(true);
@@ -110,8 +111,13 @@ export default function Share() {
       };
 
       rec.onresult = (event) => {
-        const transcript = event.results[event.results.length - 1][0].transcript;
-        setStory((prev) => prev ? `${prev} ${transcript}` : transcript);
+        let sessionTranscript = '';
+        for (let i = 0; i < event.results.length; ++i) {
+          sessionTranscript += event.results[i][0].transcript;
+        }
+
+        const prefix = baseStoryRef.current ? baseStoryRef.current + ' ' : '';
+        setStory(prefix + sessionTranscript);
       };
 
       setRecognition(rec);
@@ -127,6 +133,7 @@ export default function Share() {
     if (isListening) {
       recognition.stop();
     } else {
+      baseStoryRef.current = story; // Capture existing text to append to
       try {
         recognition.start();
       } catch (err) {
