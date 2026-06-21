@@ -1,0 +1,194 @@
+.fullScreenWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  /* Crucial for iOS Safari to handle the bottom address bar correctly */
+  height: 100dvh; 
+  overflow: hidden;
+  z-index: 9999;
+  background-color: #000;
+}
+
+.panoramaContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.panoGradientOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.gyroStartOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 11rem;
+  height: 2.7rem;
+  border-radius: 2.2rem;
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--color-white, #fff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  z-index: 20;
+  font-family: var(--font-spartan);
+  font-size: 1rem;
+  font-weight: 600;
+  pointer-events: auto;
+}
+
+.gyroStartOverlayIcon {
+  width: 0.75rem;
+  color: var(--color-white, #fff);
+  display: inline-block;
+}
+
+.uiOverlay {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* Let clicks pass through to the panorama behind the UI */
+  pointer-events: none; 
+}
+
+.topPadding {
+  padding-top: 1rem;
+}
+
+/* Reactivate pointer events just for the clickable items */
+.toolbarInteractive {
+  pointer-events: auto;
+}
+
+.backButtonCustom {
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--color-white, #fff);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-family: var(--font-spartan);
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+
+.storyInfoContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+  color: var(--color-white, #fff);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  padding-bottom: 2.5rem;
+}
+
+.storyTitle {
+  font-family: var(--font-antwerpen);
+  font-size: 2.2rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.storyAuthor {
+  font-family: var(--font-spartan);
+  font-size: 1rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.errorState {
+  flex: 1;
+  padding: 1.5rem;
+  color: var(--color-white, #fff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+/* Centers your custom <Loading /> component over the panorama */
+.viewerLoadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* --- THIRD PARTY OVERRIDES --- */
+
+/* Kills the native ugly PSV loader completely */
+:global(.psv-loader-container) {
+  display: none !important;
+}
+
+/* Photo Sphere Viewer overlay styles */
+:global(.psv-overlay) {
+  background: rgba(0, 0, 0, 0.75) !important;
+  position: absolute !important;
+  top: 3.5rem !important;
+  left: 1.375rem !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: calc(100% - 2rem) !important;
+  border-radius: 2rem !important;
+  padding: 0.5rem 1rem !important;
+  pointer-events: none !important;
+  box-sizing: border-box !important;
+  display: flex;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 0.375rem !important;
+  justify-content: flex-start !important;
+}
+
+:global(.psv-overlay-icon),
+:global(.psv-overlay) svg,
+:global(.psv-overlay) img,
+:global(.psv-overlay-image) {
+  display: none !important;
+}
+
+:global(.psv-overlay-text),
+:global(.psv-overlay-title),
+:global(.psv-overlay-sub),
+:global(.psv-overlay) p,
+:global(.psv-overlay) h3,
+:global(.psv-overlay-content) {
+  font-family: var(--font-spartan) !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  color: var(--color-white, #fff) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  line-height: normal !important;
+  white-space: nowrap !important;
+}
