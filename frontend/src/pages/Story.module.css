@@ -4,7 +4,6 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  /* Crucial for iOS Safari to handle the bottom address bar correctly */
   height: 100dvh; 
   overflow: hidden;
   z-index: 9999;
@@ -66,7 +65,6 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  /* Let clicks pass through to the panorama behind the UI */
   pointer-events: none; 
 }
 
@@ -74,7 +72,6 @@
   padding-top: 1rem;
 }
 
-/* Reactivate pointer events just for the clickable items */
 .toolbarInteractive {
   pointer-events: auto;
 }
@@ -128,7 +125,6 @@
   pointer-events: auto;
 }
 
-/* Centers your custom <Loading /> component over the panorama */
 .viewerLoadingOverlay {
   position: absolute;
   top: 0;
@@ -142,14 +138,10 @@
   align-items: center;
 }
 
-/* --- THIRD PARTY OVERRIDES --- */
-
-/* Kills the native ugly PSV loader completely */
 :global(.psv-loader-container) {
   display: none !important;
 }
 
-/* Photo Sphere Viewer overlay styles */
 :global(.psv-overlay) {
   background: rgba(0, 0, 0, 0.75) !important;
   position: absolute !important;
@@ -193,4 +185,44 @@
   text-align: left !important;
   line-height: normal !important;
   white-space: nowrap !important;
+}
+
+.feedContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh; 
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  background-color: #000;
+  z-index: 9999;
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+}
+
+.feedContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.slideContainer {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  position: relative;
+}
+
+.fixedToolbar {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.fixedToolbar button {
+  pointer-events: auto; 
 }
