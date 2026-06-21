@@ -23,6 +23,10 @@
   z-index: 0;
 }
 
+.passwordContainer {
+gap: 1.50rem;
+}
+
 .imageMobileContainerSignup {
   background-image: url('../assets/images/backgroundsignup.png');
   background-repeat: no-repeat;
@@ -153,7 +157,6 @@
   /* 87.5% */
   letter-spacing: -0.15px;
   text-decoration: underline;
-  margin-top: 30px;
   align-self: flex-end;
 }
 
@@ -378,12 +381,12 @@
 
   .loginForm {
     width: 19.75rem;
-    height: 25.0625rem;
+    height: 25.5rem;
   }
 
   .signupForm {
     width: 34.125rem;
-      height: 28.9375rem;
+      height: 27.5rem;
   }
 
   .welcomeText {
@@ -399,6 +402,7 @@
   }
 
   .cardTitle {
+    padding-top: 0.8rem;
     font-size: 1.375rem;
   }
 
@@ -437,4 +441,22 @@
     .signUpText {
       font-size: 0.875rem;
     }
+
+    .passwordContainer {
+      display: flex;
+      flex-direction: row;
+      gap: 1.50rem;
+}
+
+.inputGroupPassword {
+  width: 14.3125rem;
+}
+
+.inputGroupEmail, .inputGroupUsername {
+  width: 30rem;
+}
+
+.inputGroupPasswordLogin, .inputGroupUsernameLogin {
+  width: 15.6875rem;
+}
 }

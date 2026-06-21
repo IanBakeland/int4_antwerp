@@ -40,7 +40,7 @@ export default function Signup() {
           <h2 className={styles.cardTitle}>Create an account</h2>
 
           {/* Username Field */}
-          <div className={styles.inputGroup}>
+          <div className={styles.inputGroupUsername}>
             <label htmlFor="signup-username-input" className={styles.inputLabel}>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M2.66699 6H13.3337" stroke="#0A0A0A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
@@ -63,7 +63,7 @@ export default function Signup() {
           </div>
 
           {/* E-mail Field */}
-          <div className={styles.inputGroup}>
+          <div className={styles.inputGroupEmail}>
             <label htmlFor="signup-email-input" className={styles.inputLabel}>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M2.66667 3.33301H13.3333C14.0667 3.33301 14.6667 3.93301 14.6667 4.66634V11.333C14.6667 12.0663 14.0667 12.6663 13.3333 12.6663H2.66667C1.93333 12.6663 1.33333 12.0663 1.33333 11.333V4.66634C1.33333 3.93301 1.93333 3.33301 2.66667 3.33301Z" stroke="#0A0A0A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
@@ -83,8 +83,9 @@ export default function Signup() {
             />
           </div>
 
+            <div className={styles.passwordContainer}>
           {/* Password Field */}
-          <div className={styles.inputGroup}>
+          <div className={styles.inputGroupPassword}>
             <label htmlFor="signup-password-input" className={styles.inputLabel}>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12.6667 7.33301H3.33333C2.59695 7.33301 2 7.92996 2 8.66634V13.333C2 14.0694 2.59695 14.6663 3.33333 14.6663H12.6667C13.403 14.6663 14 14.0694 14 13.333V8.66634C14 7.92996 13.403 7.33301 12.6667 7.33301Z" stroke="#0A0A0A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
@@ -105,7 +106,7 @@ export default function Signup() {
           </div>
 
           {/* Confirm Password Field */}
-          <div className={styles.inputGroup}>
+              <div className={styles.inputGroupPassword}>
             <label htmlFor="signup-confirm-password-input" className={styles.inputLabel}>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12.6667 7.33301H3.33333C2.59695 7.33301 2 7.92996 2 8.66634V13.333C2 14.0694 2.59695 14.6663 3.33333 14.6663H12.6667C13.403 14.6663 14 14.0694 14 13.333V8.66634C14 7.92996 13.403 7.33301 12.6667 7.33301Z" stroke="#0A0A0A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
@@ -124,6 +125,7 @@ export default function Signup() {
               required
             />
           </div>
+            </div>
 
           <div className={styles.formFooter}>
               <button type="submit" className={`${styles.submitButton} ${styles.submitButtonDesktop}`}>
