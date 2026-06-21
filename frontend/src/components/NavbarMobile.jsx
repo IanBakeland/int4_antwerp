@@ -1,6 +1,5 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
-//icons
 import HomeIcon from '../assets/icons/Home';
 import HomeFilledIcon from '../assets/icons/HomeFilled';
 import RadarIcon from '../assets/icons/Radar';
@@ -10,23 +9,23 @@ import PlusCircleIcon from '../assets/icons/PlusCircle';
 import PlusCircleFilledIcon from '../assets/icons/PlusCircleFilled';
 
 export default function NavbarMobile() {
+  const location = useLocation();
+  const isHomeOrStoryActive = location.pathname === '/' || location.pathname.startsWith('/story');
+
   return (
     <>
-        <NavLink to="/" className={({ isActive }) => `tab flexCenter alignUnder ${isActive ? 'active' : ''}`}>
-            {({ isActive }) => (
-                <>
-                    <div className="iconContainer">
-                        <div className={`fadeIcon ${isActive ? 'iconHidden' : 'iconVisible'}`}>
-                            <HomeIcon />
-                        </div>
-                        <div className={`active fadeIcon ${isActive ? 'iconVisible' : 'iconHidden'}`}>
-                            <HomeFilledIcon />
-                        </div>
-                    </div>
-                    <p className={isActive ? 'active' : ''}>Stories</p>
-                </>
-            )}
+        <NavLink to="/" className={`tab flexCenter alignUnder ${isHomeOrStoryActive ? 'active' : ''}`}>
+            <div className="iconContainer">
+                <div className={`fadeIcon ${isHomeOrStoryActive ? 'iconHidden' : 'iconVisible'}`}>
+                    <HomeIcon />
+                </div>
+                <div className={`active fadeIcon ${isHomeOrStoryActive ? 'iconVisible' : 'iconHidden'}`}>
+                    <HomeFilledIcon />
+                </div>
+            </div>
+            <p className={isHomeOrStoryActive ? 'active' : ''}>Stories</p>
         </NavLink>
+
         <NavLink to="/radar" className={({ isActive }) => `tab flexCenter alignUnder ${isActive ? 'active' : ''}`}>
             {({ isActive }) => (
                 <>
@@ -42,6 +41,7 @@ export default function NavbarMobile() {
                 </>
             )}
         </NavLink>
+
         <NavLink to="/favourites" className={({ isActive }) => `tab flexCenter alignUnder ${isActive ? 'active' : ''}`}>
             {({ isActive }) => (
                 <>
@@ -57,6 +57,7 @@ export default function NavbarMobile() {
                 </>
             )}
         </NavLink>
+
         <NavLink to="/share" className={({ isActive }) => `tab flexCenter alignUnder ${isActive ? 'active' : ''}`}>
             {({ isActive }) => (
                 <>
