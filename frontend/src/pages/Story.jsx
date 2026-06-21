@@ -5,6 +5,16 @@ import { GyroscopePlugin } from '@photo-sphere-viewer/gyroscope-plugin';
 import '@photo-sphere-viewer/core/index.css';
 
 import ChevronIcon from '../assets/icons/Chevron';
+import PersonIcon from '../assets/icons/Person';
+import LocationFilledIcon from '../assets/icons/LocationFilled';
+import StarFilledIcon from '../assets/icons/StarFilled';
+
+import HeartFilledIcon from '../assets/icons/HeartFilled';
+import PersonRunningIcon from '../assets/icons/PersonRunning';
+import MonumentIcon from '../assets/icons/Monument';
+import FolderIcon from '../assets/icons/Folder';
+import PersonDoubleIcon from '../assets/icons/PersonDouble';
+
 import Loading from '../components/Loading';
 import styles from './Story.module.css';
 
@@ -19,6 +29,8 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance }) => {
   const panoramaImage = story?.panorama?.url;
   const plugins = isMobile ? [[GyroscopePlugin, { absolutePosition: true, moveMode: 'fast' }]] : [];
   const isNearActive = distance <= 2;
+
+  
 
   useEffect(() => {
     if (isActive) setViewerLoading(true);
@@ -63,7 +75,15 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance }) => {
       if (onReady) onReady();
     });
   };
+  const categoryIcons = {
+    action: PersonRunningIcon,
+    culture: MonumentIcon,
+    social: PersonDoubleIcon,
+    romantic: HeartFilledIcon,
+    business: FolderIcon,
+  };
 
+  const CategoryIcon = categoryIcons[story?.category] || HeartFilledIcon;
   return (
     <div className={styles.slideContainer}>
       {isNearActive && panoramaImage ? (
@@ -107,9 +127,51 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance }) => {
 
           <div className={styles.uiOverlay}>
             <div className={styles.panoGradientOverlay}></div>
-            <div className={styles.storyInfoContainer}>
-              <h1 className={styles.storyTitle}>{story?.title}</h1>
-              <p className={styles.storyAuthor}>By {story?.user?.username}</p>
+            
+            <div className={styles.contentContainer}>
+              <div className={styles.leftColumn}>
+                
+                <div className={styles.tagRow}>
+                  <div className="iconTag">
+                    <PersonIcon />
+                    <p>{story?.user?.username}</p>
+                  </div>
+                  <div className={`categoryTag ${story?.category}Tag`}>
+                    <CategoryIcon />
+                  </div>
+                </div>
+
+                <div className={styles.tagRow}>
+                  <div className="iconTag dark flexcenter">
+                    <LocationFilledIcon />
+                    <p>{story?.distance}</p>
+                  </div>
+                  <div className="iconTag dark ">
+                    <StarFilledIcon />
+                    <p>{story?.hiddenSpots} Hidden spots</p>
+                  </div>
+                </div>
+
+                <h1 className={styles.storyTitle}>{story?.title}</h1>
+                <p className={styles.storyPreview}>
+                  {story?.preview}
+                </p>
+              </div>
+
+              <div className={styles.rightColumn}>
+                <button className="iconbutton dark">
+                  <ChevronIcon/>
+                </button>
+                <button className="iconbutton dark">
+                  <ChevronIcon/>
+                </button>
+                <button className="iconbutton dark">
+                  <ChevronIcon/>
+                </button>
+                <button className="iconbutton dark">
+                  <ChevronIcon/>
+                </button>
+              </div>
             </div>
           </div>
         </>
