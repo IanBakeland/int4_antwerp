@@ -1,6 +1,6 @@
 import styles from './Loading.module.css';
 
-export default function Loading({ message = 'Loading...' }) {
+export default function Loading({ message = '' }) {
   return (
     <div className={`${styles.loading} flexCenter alignUnder`}>
       <svg className={styles.spinner} viewBox="0 0 50 50">
@@ -13,7 +13,7 @@ export default function Loading({ message = 'Loading...' }) {
           strokeWidth="5"
         />
       </svg>
-      <p>{message}</p>
+      {message && <p>{message}</p>}
     </div>
   );
 }

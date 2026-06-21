@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Radar.module.css';
 
 import useDocumentTitle from '../hooks/useDocumentTitle';
@@ -25,6 +25,7 @@ export default function Radar({
 }) {
   useDocumentTitle('Radar');
 
+  const navigate = useNavigate();
   const [stories, setStories] = useState([]);
   const [userFavourites, setUserFavourites] = useState({});
 
@@ -209,7 +210,7 @@ export default function Radar({
             state={selectedStory ? "selected" : "closest"}
             hiddenSpots={activeStory.hiddenSpots}
             onSelect={() => {
-              setSelectedStory(activeStory);
+              navigate(`/story?id=${activeStory.documentId}`);
             }}
           />
       )}
@@ -230,7 +231,7 @@ export default function Radar({
                 favouriteDocId={userFavourites[story.documentId] || null}
                 distance={formatDistance(story.calculatedDistance)}
                 onSelect={() => {
-                  setSelectedStory(story);
+                  navigate(`/story?id=${story.documentId}`);
                 }}
               />
             ))}
