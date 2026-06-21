@@ -14,6 +14,7 @@ import MonumentIcon from '../assets/icons/Monument';
 import FolderIcon from '../assets/icons/Folder';
 import PersonDoubleIcon from '../assets/icons/PersonDouble';
 import RadarLocationIcon from '../assets/icons/RadarLocation';
+import ShareFilledIcon from '../assets/icons/ShareFilled';
 
 import Loading from '../components/Loading';
 import FavouriteButton from '../components/FavouriteButton';
@@ -186,7 +187,7 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDis
                   <RadarLocationIcon />
                 </button>
                 <button className="iconbutton dark">
-                  <ChevronIcon/>
+                  <ShareFilledIcon/>
                 </button>
               </div>
             </div>
