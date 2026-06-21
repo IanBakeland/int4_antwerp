@@ -126,11 +126,11 @@ export default function Signup() {
           </div>
 
           <div className={styles.formFooter}>
-            <button type="submit" className={styles.submitButton}>
+              <button type="submit" className={`${styles.submitButton} ${styles.submitButtonDesktop}`}>
               Create account
             </button>
 
-            <div className={styles.divider}></div>
+              <div className={`${styles.divider} ${styles.dividerDesktop}`}></div>
 
             <p className={styles.signUpText}>
               Do you already have an account?
