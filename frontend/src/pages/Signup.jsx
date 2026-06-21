@@ -96,7 +96,7 @@ export default function Signup() {
               id="signup-password-input"
               type="password"
               className={styles.inputField}
-              placeholder="••••••••••••••••"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="new-password"
@@ -117,7 +117,7 @@ export default function Signup() {
               id="signup-confirm-password-input"
               type="password"
               className={styles.inputField}
-              placeholder="••••••••••••••••"
+              placeholder="Confirm your password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               autoComplete="new-password"
