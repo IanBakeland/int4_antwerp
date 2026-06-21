@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './StoryCard.module.css';
 
+import FavouriteButton from '../components/FavouriteButton';
+
 import PersonIcon from '../assets/icons/Person'
 import StarFilledIcon from '../assets/icons/StarFilled';
 import MagnifierIcon from '../assets/icons/Magnifier';
@@ -15,7 +17,7 @@ import PersonDoubleIcon from '../assets/icons/PersonDouble';
 import LocationFilledIcon from '../assets/icons/LocationFilled';
 import CircleGridFilledIcon from '../assets/icons/CircleGridFilled';
 
-export default function StoryCard({ id, title, category, username, image, hiddenSpots, distance, onSelect }) {
+export default function StoryCard({ id, title, category, username, image, hiddenSpots, distance, favouriteDocId, onSelect }) {
   const navigate = useNavigate();
   const previewImage = image?.formats?.large?.url;
   const originalImage = image?.url;
@@ -86,7 +88,10 @@ export default function StoryCard({ id, title, category, username, image, hidden
       </div>
       <div>
         <h3>{title}</h3>
-        <HeartFilledIcon />
+        <FavouriteButton 
+          storyId={id} 
+          initialFavouriteDocId={favouriteDocId} 
+        />
       </div>
     </div>
   );

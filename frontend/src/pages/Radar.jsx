@@ -26,7 +26,7 @@ export default function Radar({
   useDocumentTitle('Radar');
 
   const [stories, setStories] = useState([]);
-  const [userFavourites, setUserFavourites] = useState([]);
+  const [userFavourites, setUserFavourites] = useState({});
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -56,14 +56,17 @@ export default function Radar({
               if (favRes.ok) {
                 const favData = await favRes.json();
                 
-                const favouritedStoryIds = favData.data
-                  .map(favItem => favItem.story?.documentId)
-                  .filter(Boolean);
+                const favMapping = {};
+                favData.data.forEach(favItem => {
+                  if (favItem.story?.documentId) {
+                    favMapping[favItem.story.documentId] = favItem.documentId;
+                  }
+                });
 
-                setUserFavourites(favouritedStoryIds);
+                setUserFavourites(favMapping);
               }
             } else {
-              setUserFavourites([]);
+              setUserFavourites({});
             }
           }
         }
@@ -78,7 +81,7 @@ export default function Radar({
     let filteredStories = stories;
 
     if (activeFilters.includes('Favourites')) {
-      filteredStories = filteredStories.filter(story => userFavourites.includes(story.documentId));
+      filteredStories = filteredStories.filter(story => Boolean(userFavourites[story.documentId]));
     }
 
     const categoryFilters = activeFilters.filter(f => f !== 'Favourites').map(f => f.toLowerCase());
@@ -197,10 +200,12 @@ export default function Radar({
       {activeStory && isRadarActive && (
           <StoryCardSelected 
             key={activeStory.documentId}
+            id={activeStory.documentId}
             title={activeStory.title}
             category={activeStory.category}
             username={activeStory.user?.username}
             image={activeStory.panorama}
+            favouriteDocId={userFavourites[activeStory.documentId] || null}
             state={selectedStory ? "selected" : "closest"}
             hiddenSpots={activeStory.hiddenSpots}
             onSelect={() => {
@@ -216,11 +221,13 @@ export default function Radar({
             {nearbyStories.map((story) => (
               <StoryCard 
                 key={story.documentId}
+                id={story.documentId}
                 title={story.title}
                 category={story.category}
                 username={story.user?.username}
                 hiddenSpots={story.hiddenSpots}
                 image={story.panorama}
+                favouriteDocId={userFavourites[story.documentId] || null}
                 distance={formatDistance(story.calculatedDistance)}
                 onSelect={() => {
                   setSelectedStory(story);
