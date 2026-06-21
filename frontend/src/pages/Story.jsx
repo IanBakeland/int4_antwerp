@@ -13,6 +13,7 @@ import PersonRunningIcon from '../assets/icons/PersonRunning';
 import MonumentIcon from '../assets/icons/Monument';
 import FolderIcon from '../assets/icons/Folder';
 import PersonDoubleIcon from '../assets/icons/PersonDouble';
+import RadarLocationIcon from '../assets/icons/RadarLocation';
 
 import Loading from '../components/Loading';
 import FavouriteButton from '../components/FavouriteButton';
@@ -25,6 +26,7 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDis
   });
   const [gyroStarted, setGyroStarted] = useState(hasPermission);
   const viewerRef = useRef(null);
+  const navigate = useNavigate();
   
   const panoramaImage = story?.panorama?.url;
   const plugins = isMobile ? [[GyroscopePlugin, { absolutePosition: true, moveMode: 'fast' }]] : [];
@@ -169,12 +171,19 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDis
                 <FavouriteButton 
                   storyId={story?.documentId} 
                   initialFavouriteDocId={favouriteDocId} 
+                  iconButton={true}
                 />
                 <button className="iconbutton dark">
                   <ChevronIcon/>
                 </button>
-                <button className="iconbutton dark">
-                  <ChevronIcon/>
+                <button 
+                  className="iconbutton dark"
+                  onClick={() => {
+                    setSelectedStory(story);
+                    navigate('/radar');
+                  }}
+                >
+                  <RadarLocationIcon />
                 </button>
                 <button className="iconbutton dark">
                   <ChevronIcon/>

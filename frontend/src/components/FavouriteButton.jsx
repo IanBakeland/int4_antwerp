@@ -6,7 +6,7 @@ import styles from './FavouriteButton.module.css';
 import HeartIcon from '../assets/icons/Heart';
 import HeartFilledIcon from '../assets/icons/HeartFilled';
 
-export default function FavouriteButton({ storyId, initialFavouriteDocId }) {
+export default function FavouriteButton({ storyId, initialFavouriteDocId, iconButton }) {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   
@@ -75,8 +75,8 @@ export default function FavouriteButton({ storyId, initialFavouriteDocId }) {
   return (
     <button 
       onClick={handleToggle} 
-      className={styles.favIcon}
-      style={{ background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', display: 'flex' }}
+      className={iconButton ? "iconbutton dark" : styles.favIcon}
+      style={iconButton ? {} : { background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', display: 'flex' }}
     >
       {favDocId ? <HeartFilledIcon /> : <HeartIcon />}
     </button>
