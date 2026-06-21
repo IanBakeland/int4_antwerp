@@ -186,7 +186,30 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDis
                 >
                   <RadarLocationIcon />
                 </button>
-                <button className="iconbutton dark">
+                <button 
+                  className="iconbutton dark"
+                  onClick={async () => {
+                    const shareUrl = `${window.location.origin}${window.location.pathname}#/story?id=${story?.documentId}`;
+                    if (navigator.share) {
+                      try {
+                        await navigator.share({
+                          title: story?.title || 'Check out this spot!',
+                          text: story?.preview || 'I found this hidden spot on Radar.',
+                          url: shareUrl
+                        });
+                      } catch (error) {
+                        console.log('Sharing was cancelled or failed.', error);
+                      }
+                    } else {
+                      try {
+                        await navigator.clipboard.writeText(shareUrl);
+                        alert('Link copied to clipboard!');
+                      } catch (error) {
+                        console.error('Failed to copy link', error);
+                      }
+                    }
+                  }}
+                >
                   <ShareFilledIcon/>
                 </button>
               </div>
