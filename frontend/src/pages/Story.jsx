@@ -181,7 +181,7 @@ export default function Story({ setToken }) {
 
   if (apiLoaded && stories.length === 0) {
     return (
-      <div className={`${styles.fullScreenWrapper} ${styles.noStoriesState}`}>
+      <div className={`${styles.fullScreenWrapper} ${styles.noStoriesState} flexCenter`}>
         <h2>No stories found.</h2>
         <button onClick={() => navigate('/')} className={styles.backButtonCustom}>Return Home</button>
       </div>
