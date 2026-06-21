@@ -15,6 +15,7 @@ import FolderIcon from '../assets/icons/Folder';
 import PersonDoubleIcon from '../assets/icons/PersonDouble';
 
 import Loading from '../components/Loading';
+import FavouriteButton from '../components/FavouriteButton';
 import styles from './Story.module.css';
 
 const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDistance }) => {
@@ -28,6 +29,9 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDis
   const panoramaImage = story?.panorama?.url;
   const plugins = isMobile ? [[GyroscopePlugin, { absolutePosition: true, moveMode: 'fast' }]] : [];
   const isNearActive = distance <= 2;
+  
+  const favouriteArray = story?.favourites?.data || story?.favourites;
+  const favouriteDocId = favouriteArray?.[0]?.documentId;
 
   useEffect(() => {
     if (isActive) setViewerLoading(true);
@@ -162,9 +166,10 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDis
               </div>
 
               <div className={styles.rightColumn}>
-                <button className="iconbutton dark">
-                  <ChevronIcon/>
-                </button>
+                <FavouriteButton 
+                  storyId={story?.documentId} 
+                  initialFavouriteDocId={favouriteDocId} 
+                />
                 <button className="iconbutton dark">
                   <ChevronIcon/>
                 </button>
@@ -202,7 +207,10 @@ export default function Story({ setToken, userLocation, formatDistance }) {
   useEffect(() => {
     const fetchStories = async () => {
       try {
-        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user");
+        const token = localStorage.getItem("token");
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user&populate[2]=favourites", { headers });
         if (!res.ok) throw new Error("Failed to fetch stories");
         const data = await res.json();
         
