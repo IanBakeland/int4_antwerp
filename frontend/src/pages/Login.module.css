@@ -338,6 +338,9 @@
   .loginContent {
     margin-top: 0;
     max-width: 50rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .imageDesktopContainer {
