@@ -34,7 +34,7 @@ export default function Signup() {
         <h1>Welcome!</h1>
         <p className={styles.loginSubtitle}>Create a new account to get started</p>
 
-        <form onSubmit={handleSubmit} className={styles.loginForm}>
+        <form onSubmit={handleSubmit} className={styles.signupForm}>
           <h2 className={styles.cardTitle}>Create an account</h2>
 
           {/* Username Field */}
@@ -137,6 +137,8 @@ export default function Signup() {
           </div>
         </form>
       </div>
+       <div className={styles.imageMobileContainerSignup}></div>
+      <div className={styles.imageDesktopContainerSignup}></div>
     </div>
   );
 }

@@ -8,6 +8,7 @@
   box-sizing: border-box;
   /* size on desktop */
   background-color: var(--color-white);
+  z-index: 1;
 }
 
 .imageMobileContainer {
@@ -19,19 +20,30 @@
   bottom: 0;
   width: 1200px;
   height: 600px;
+  z-index: 0;
 }
 
-.signupContainer {
+.imageMobileContainerSignup {
   background-image: url('../assets/images/backgroundsignup.png');
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 1200px;
+  height: 600px;
+  z-index: 0;
 }
 
 .loginContent {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
   max-width: 350px;
   /* Match form card width */
   margin-top: 1.5rem;
+  z-index: 1;
 }
 
 .loginContent h1 {
@@ -57,7 +69,7 @@
   margin-bottom: 13px;
 }
 
-.loginForm {
+.loginForm, .signupForm {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -302,18 +314,69 @@
 }
 
 @media (min-width: 1024px) {
-  .imageMobileContainer {
+  .loginContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    background-color: red;
+    z-index: 1;
+    padding: 0;
+    margin: 0;
+  }
+
+  .imageMobileContainer,
+  .imageMobileContainerSignup {
     display: none;
+  }
+
+  .loginContent {
+    margin-top: 0;
+    max-width: 50rem;
   }
 
   .imageDesktopContainer {
     background-image: url('../assets/images/background-login-desktop.png');
+    background-size: 80rem;
     background-repeat: no-repeat;
     background-position: right bottom;
     position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 600px;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .imageDesktopContainerSignup {
+    background-image: url('../assets/images/background-signup-desktop.png');
+    background-size: 80rem;
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .loginContent h1 {
+    font-size: 3.5rem;
+  }
+
+  .loginSubtitle {
+    font-size: 1.4rem;
+  }
+
+  .loginForm {
+    width: 19.75rem;
+  }
+
+  .signupForm {
+    width: 34.125rem;
   }
 }
