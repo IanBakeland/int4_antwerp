@@ -54,8 +54,10 @@ export default function Login({ setToken }) {
       </header>
 
       <div className={styles.loginContent}>
+        <div className={styles.welcomeText}>
         <h1>Welcome!</h1>
         <p className={styles.loginSubtitle}>Log in to your account</p>
+        </div>
         {error && <p style={{ color: "red" }} role="alert">{error}</p>}
       <form onSubmit={handleLogin} className={styles.loginForm}>
         <h2 className={styles.cardTitle}>Sign in</h2>

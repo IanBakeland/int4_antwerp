@@ -31,9 +31,10 @@ export default function Signup() {
       </header>
 
       <div className={styles.loginContent}>
+        <div className={styles.welcomeText}>
         <h1>Welcome!</h1>
         <p className={styles.loginSubtitle}>Create a new account to get started</p>
-
+        </div>
         <form onSubmit={handleSubmit} className={styles.signupForm}>
           <h2 className={styles.cardTitle}>Create an account</h2>
 
