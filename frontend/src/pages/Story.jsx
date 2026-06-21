@@ -19,7 +19,7 @@ import Loading from '../components/Loading';
 import FavouriteButton from '../components/FavouriteButton';
 import styles from './Story.module.css';
 
-const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDistance }) => {
+const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDistance, setSelectedStory }) => {
   const [viewerLoading, setViewerLoading] = useState(true);
   const [hasPermission, setHasPermission] = useState(() => {
     return localStorage.getItem('gyroPermission') === 'granted';
@@ -199,7 +199,7 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDis
   );
 };
 
-export default function Story({ setToken, userLocation, formatDistance }) {
+export default function Story({ setToken, userLocation, formatDistance, setSelectedStory }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -313,6 +313,7 @@ export default function Story({ setToken, userLocation, formatDistance }) {
               isMobile={isMobile}
               formattedDistance={formattedDistance}
               onReady={index === 0 ? () => setFirstPanoReady(true) : null}
+              setSelectedStory={setSelectedStory}
             />
           );
         })}
