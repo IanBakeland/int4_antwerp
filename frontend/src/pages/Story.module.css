@@ -6,7 +6,57 @@
   height: 100vh;
   height: 100dvh; 
   overflow: hidden;
-  z-index: 9999;
+  z-index: 9000; /* Lowered to allow Navbar on top */
+  background-color: #000;
+}
+
+.masterLoader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9500; /* Sits above the feed, but below Navbar */
+  background-color: #000;
+}
+
+.noStoriesState {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-white, #fff);
+}
+
+.feedContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh; 
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  background-color: #000;
+  z-index: 9000; /* Aligned with wrapper */
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+}
+
+.feedContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.slideContainer {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  position: relative;
+}
+
+.emptySlide {
+  width: 100%;
+  height: 100%;
   background-color: #000;
 }
 
@@ -17,6 +67,29 @@
   width: 100%;
   height: 100%;
   z-index: 0;
+}
+
+.preloaderOverlay {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%; 
+  z-index: 15; 
+  transition: opacity 0.6s ease-out;
+  pointer-events: none;
+  background-color: #000;
+  opacity: 1;
+}
+
+.preloaderHidden {
+  opacity: 0;
+}
+
+.preloaderImage {
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover;
 }
 
 .panoGradientOverlay {
@@ -68,26 +141,6 @@
   pointer-events: none; 
 }
 
-.topPadding {
-  padding-top: 1rem;
-}
-
-.toolbarInteractive {
-  pointer-events: auto;
-}
-
-.backButtonCustom {
-  background: rgba(0, 0, 0, 0.5);
-  color: var(--color-white, #fff);
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
-  cursor: pointer;
-  font-family: var(--font-spartan);
-  font-weight: 600;
-  backdrop-filter: blur(4px);
-}
-
 .storyInfoContainer {
   position: relative;
   z-index: 10;
@@ -98,7 +151,7 @@
   padding: 1.5rem;
   color: var(--color-white, #fff);
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-  padding-bottom: 2.5rem;
+  padding-bottom: 2.5rem; /* Desktop padding */
 }
 
 .storyTitle {
@@ -114,28 +167,28 @@
   opacity: 0.9;
 }
 
-.errorState {
-  flex: 1;
-  padding: 1.5rem;
-  color: var(--color-white, #fff);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  pointer-events: auto;
+.fixedToolbar {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 9500;
+  pointer-events: none;
 }
 
-.viewerLoadingOverlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #000;
-  z-index: 15;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.fixedToolbar button {
+  pointer-events: auto; 
+}
+
+.backButtonCustom {
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--color-white, #fff);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-family: var(--font-spartan);
+  font-weight: 600;
+  backdrop-filter: blur(4px);
 }
 
 :global(.psv-loader-container) {
@@ -187,42 +240,10 @@
   white-space: nowrap !important;
 }
 
-.feedContainer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh; 
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  background-color: #000;
-  z-index: 9999;
-  scrollbar-width: none; 
-  -ms-overflow-style: none;
-}
-
-.feedContainer::-webkit-scrollbar {
-  display: none;
-}
-
-.slideContainer {
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  position: relative;
-}
-
-.fixedToolbar {
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  z-index: 10000;
-  pointer-events: none;
-}
-
-.fixedToolbar button {
-  pointer-events: auto; 
+/* --- MOBILE SPECIFIC OVERRIDES --- */
+@media (max-width: 800px) {
+  .storyInfoContainer {
+    /* Pushes the text up to clear the mobile tab bar */
+    padding-bottom: 6.5rem; 
+  }
 }
