@@ -1,3 +1,6 @@
+h1{
+    white-space: wrap;
+}
 .fullScreenWrapper {
   position: fixed;
   top: 0;
@@ -249,7 +252,7 @@
   align-items: flex-end;
   padding: 1.5rem;
   padding-bottom: 2.5rem;
-  pointer-events: auto;
+  pointer-events: none; 
   gap: 1rem;
   color: var(--color-white, #fff);
 }
