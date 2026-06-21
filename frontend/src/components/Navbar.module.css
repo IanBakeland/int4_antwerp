@@ -1,7 +1,4 @@
 .glass {
-  background: rgba(227, 227, 227, 0.6);
-  backdrop-filter: blur(6px);
-  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .navbarMobile {
@@ -19,6 +16,9 @@
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   anchor-name: --segmented-button-hover;
+  background: rgba(227, 227, 227, 0.6);
+  backdrop-filter: blur(6px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .navbarMobile::before,

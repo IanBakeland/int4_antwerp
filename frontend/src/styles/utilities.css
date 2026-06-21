@@ -68,6 +68,18 @@
   height: 21px;
 }
 
+.darkNav {
+  background: rgba(119, 119, 119, 0.2)!important;
+  backdrop-filter: blur(6px)!important;
+  border: 2px solid rgba(255, 255, 255, 0.05)!important;
+}
+.darkNav svg{
+  fill: white;
+}
+.darkNav p{
+  color: white;
+}
+
 .iconContainer {
   margin-top: 4px;
   position: relative;
