@@ -382,4 +382,10 @@
   .signupForm {
     width: 34.125rem;
   }
+
+  .welcomeText {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

@@ -31,6 +31,7 @@ export default function Signup() {
       </header>
 
       <div className={styles.loginContent}>
+       < div className={styles.welcomeTextContainer}>
         <div className={styles.welcomeText}>
         <h1>Welcome!</h1>
         <p className={styles.loginSubtitle}>Create a new account to get started</p>
@@ -137,6 +138,7 @@ export default function Signup() {
             </p>
           </div>
         </form>
+        </div>
       </div>
        <div className={styles.imageMobileContainerSignup}></div>
       <div className={styles.imageDesktopContainerSignup}></div>

@@ -54,6 +54,7 @@ export default function Login({ setToken }) {
       </header>
 
       <div className={styles.loginContent}>
+        < div className={styles.welcomeTextContainer}>
         <div className={styles.welcomeText}>
         <h1>Welcome!</h1>
         <p className={styles.loginSubtitle}>Log in to your account</p>
@@ -118,6 +119,7 @@ export default function Login({ setToken }) {
           </p>
         </div>
       </form>
+      </div>
       </div>
       <div className={styles.imageMobileContainer}></div>
       <div className={styles.imageDesktopContainer}></div>
