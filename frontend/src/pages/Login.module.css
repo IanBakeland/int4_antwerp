@@ -1,16 +1,24 @@
 .loginContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   /* Center content horizontally */
   min-height: 100vh;
   box-sizing: border-box;
-  background-image: url('../assets/images/backgroundlogin.png');
-  background-position: right bottom;
-  background-repeat: no-repeat;
-  background-size: 800px;
   /* size on desktop */
   background-color: var(--color-white);
+}
+
+.imageMobileContainer {
+  background-image: url('../assets/images/backgroundlogin.png');
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 1200px;
+  height: 600px;
 }
 
 .signupContainer {
@@ -290,5 +298,22 @@
   .loginContent {
     margin-top: 6.5rem;
     /* Pushes content down below the absolute mobile top navbar */
+  }
+}
+
+@media (min-width: 1024px) {
+  .imageMobileContainer {
+    display: none;
+  }
+
+  .imageDesktopContainer {
+    background-image: url('../assets/images/background-login-desktop.png');
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 600px;
   }
 }

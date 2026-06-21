@@ -117,6 +117,8 @@ export default function Login({ setToken }) {
         </div>
       </form>
       </div>
+      <div className={styles.imageMobileContainer}></div>
+      <div className={styles.imageDesktopContainer}></div>
     </div>
   );
 }
