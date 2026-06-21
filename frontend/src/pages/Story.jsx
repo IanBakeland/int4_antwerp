@@ -8,7 +8,6 @@ import ChevronIcon from '../assets/icons/Chevron';
 import PersonIcon from '../assets/icons/Person';
 import LocationFilledIcon from '../assets/icons/LocationFilled';
 import StarFilledIcon from '../assets/icons/StarFilled';
-
 import HeartFilledIcon from '../assets/icons/HeartFilled';
 import PersonRunningIcon from '../assets/icons/PersonRunning';
 import MonumentIcon from '../assets/icons/Monument';
@@ -18,7 +17,7 @@ import PersonDoubleIcon from '../assets/icons/PersonDouble';
 import Loading from '../components/Loading';
 import styles from './Story.module.css';
 
-const StorySlide = ({ story, isActive, isMobile, onReady, distance }) => {
+const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDistance }) => {
   const [viewerLoading, setViewerLoading] = useState(true);
   const [hasPermission, setHasPermission] = useState(() => {
     return localStorage.getItem('gyroPermission') === 'granted';
@@ -29,8 +28,6 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance }) => {
   const panoramaImage = story?.panorama?.url;
   const plugins = isMobile ? [[GyroscopePlugin, { absolutePosition: true, moveMode: 'fast' }]] : [];
   const isNearActive = distance <= 2;
-
-  
 
   useEffect(() => {
     if (isActive) setViewerLoading(true);
@@ -75,6 +72,7 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance }) => {
       if (onReady) onReady();
     });
   };
+
   const categoryIcons = {
     action: PersonRunningIcon,
     culture: MonumentIcon,
@@ -84,6 +82,7 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance }) => {
   };
 
   const CategoryIcon = categoryIcons[story?.category] || HeartFilledIcon;
+
   return (
     <div className={styles.slideContainer}>
       {isNearActive && panoramaImage ? (
@@ -142,19 +141,23 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance }) => {
                 </div>
 
                 <div className={styles.tagRow}>
-                  <div className="iconTag dark flexcenter">
-                    <LocationFilledIcon />
-                    <p>{story?.distance}</p>
-                  </div>
-                  <div className="iconTag dark ">
-                    <StarFilledIcon />
-                    <p>{story?.hiddenSpots} Hidden spots</p>
-                  </div>
+                  {formattedDistance && (
+                    <div className="iconTag dark flexcenter">
+                      <LocationFilledIcon />
+                      <p>{formattedDistance}</p>
+                    </div>
+                  )}
+                  {story?.hiddenSpots != null && (
+                    <div className="iconTag dark ">
+                      <StarFilledIcon />
+                      <p>{story?.hiddenSpots} Hidden spots</p>
+                    </div>
+                  )}
                 </div>
 
                 <h1 className={styles.storyTitle}>{story?.title}</h1>
                 <p className={styles.storyPreview}>
-                  {story?.preview}
+                  {story?.preview || "qmskdjfqmlskdf qsmdlfksdf qsdf qsdfq sqd q sd qs d sd sq  qsd sq qs  qs sq d  qsd  sqd sqdqs d qs d qsd qs d s sq  qs sqd"}
                 </p>
               </div>
 
@@ -182,9 +185,8 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance }) => {
   );
 };
 
-export default function Story({ setToken }) {
+export default function Story({ setToken, userLocation, formatDistance }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const storyId = searchParams.get("id");
   const navigate = useNavigate();
 
   const [stories, setStories] = useState([]);
@@ -205,9 +207,11 @@ export default function Story({ setToken }) {
         const data = await res.json();
         
         let fetchedStories = data.data || [];
+        
+        const initialStoryId = searchParams.get("id");
 
-        if (storyId) {
-          const targetIndex = fetchedStories.findIndex(s => s.documentId === storyId);
+        if (initialStoryId) {
+          const targetIndex = fetchedStories.findIndex(s => s.documentId === initialStoryId);
           if (targetIndex !== -1) {
             const targetStory = fetchedStories.splice(targetIndex, 1)[0];
             fetchedStories.unshift(targetStory);
@@ -216,7 +220,7 @@ export default function Story({ setToken }) {
         
         setStories(fetchedStories);
         
-        if (fetchedStories.length > 0 && !storyId) {
+        if (fetchedStories.length > 0 && !initialStoryId) {
           setSearchParams({ id: fetchedStories[0].documentId }, { replace: true });
         }
       } catch (error) {
@@ -227,7 +231,7 @@ export default function Story({ setToken }) {
     };
 
     fetchStories();
-  }, []);
+  }, []); 
 
   const handleScroll = useCallback((e) => {
     const container = e.target;
@@ -240,6 +244,19 @@ export default function Story({ setToken }) {
       }
     }
   }, [activeIndex, stories, setSearchParams]);
+
+  const getDistanceStr = (story) => {
+    if (!userLocation || !story.latitude || !story.longitude || !formatDistance) return "";
+    const R = 6371000;
+    const dLat = (story.latitude - userLocation.lat) * (Math.PI / 180);
+    const dLng = (story.longitude - userLocation.lng) * (Math.PI / 180);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(userLocation.lat * (Math.PI / 180)) * Math.cos(story.latitude * (Math.PI / 180)) *
+      Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return formatDistance(R * c);
+  };
 
   if (apiLoaded && stories.length === 0) {
     return (
@@ -268,6 +285,7 @@ export default function Story({ setToken }) {
         {stories.map((story, index) => {
           const distance = Math.abs(index - activeIndex);
           const isActive = index === activeIndex;
+          const formattedDistance = getDistanceStr(story);
 
           return (
             <StorySlide 
@@ -276,6 +294,7 @@ export default function Story({ setToken }) {
               isActive={isActive} 
               distance={distance}
               isMobile={isMobile}
+              formattedDistance={formattedDistance}
               onReady={index === 0 ? () => setFirstPanoReady(true) : null}
             />
           );

@@ -221,6 +221,7 @@
   margin-top: 4.5px;
   text-transform: capitalize;
   font-weight: 400;
+  color: black;
 }
 .iconTag svg {
   width: 14px;
@@ -231,7 +232,9 @@
 .iconTag.dark {
   background: rgba(46, 46, 46, 0.7);
   border: rgba(255, 255, 255, 0.1) 1.75px solid;
-  color: white;
+}
+.iconTag.dark p{
+  color: rgb(255, 255, 255);
 }
 .iconTag.dark svg {
   fill: #ffffff;
