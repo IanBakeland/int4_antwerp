@@ -88,7 +88,10 @@ export default function StoryCard({ id, title, category, username, image, hidden
       </div>
       <div>
         <h3>{title}</h3>
-        <FavouriteButton storyId={id} initialFavouriteDocId={favouriteDocId} />
+        <FavouriteButton 
+          storyId={id} 
+          initialFavouriteDocId={favouriteDocId} 
+        />
       </div>
     </div>
   );

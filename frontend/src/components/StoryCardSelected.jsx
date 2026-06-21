@@ -14,7 +14,7 @@ import MonumentIcon from '../assets/icons/Monument';
 import FolderIcon from '../assets/icons/Folder';
 import PersonDoubleIcon from '../assets/icons/PersonDouble';
 
-export default function StoryCardSelected({ id, title, category, username, image, state, hiddenSpots, isFavorited, onSelect }) {
+export default function StoryCardSelected({ id, title, category, username, image, state, hiddenSpots, favouriteDocId, onSelect }) {
   const previewImage = image?.formats?.large?.url;
   const originalImage = image?.url;
 
@@ -77,7 +77,7 @@ export default function StoryCardSelected({ id, title, category, username, image
         <h3>{title}</h3>
         <FavouriteButton 
           storyId={id} 
-          initialIsFavorited={isFavorited} 
+          initialFavouriteDocId={favouriteDocId} 
         />
       </div>
     </div>
