@@ -39,7 +39,7 @@ export default function Radar({
   useEffect(() => {
     const fetchStories = async () => {
       try {
-        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user&populate[2]=speach");
+        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user&populate[2]=speach&pagination[limit]=100");
         if (!res.ok) throw new Error("Failed to fetch stories");
         const data = await res.json();
         setStories(data.data || []);
@@ -130,8 +130,9 @@ export default function Radar({
     let currentActiveDistance = null;
 
     if (selectedStory) {
-      currentActiveStory = selectedStory;
-      currentActiveDistance = getDistance(selectedStory.latitude, selectedStory.longitude);
+      const fullStoryData = stories.find(s => s.documentId === selectedStory.documentId) || selectedStory;
+      currentActiveStory = fullStoryData;
+      currentActiveDistance = getDistance(fullStoryData.latitude, fullStoryData.longitude);
     } else if (storiesWithDistance.length > 0) {
       currentActiveStory = storiesWithDistance[0];
       currentActiveDistance = storiesWithDistance[0].calculatedDistance;
