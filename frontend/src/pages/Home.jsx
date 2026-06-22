@@ -11,7 +11,7 @@ import pano4 from '../assets/images/pano4.jpeg';
 
 //icons
 import antwerpLogo from '../assets/images/antwerpLogo.png';
-import LogoAS from '../assets/icons/Logo';
+import logoAntwerpScenes from '../assets/images/logoantwerpscenes.png';
 import backgroundMoments from '../assets/images/backgroundmoments.png';
 import HeartIcon from '../assets/icons/Heart';
 import PersonIcon from '../assets/icons/Person';
@@ -262,7 +262,7 @@ export default function Home({ userLocation }) {
       </header>
       <div className={styles.home}>
         <div className={styles['home__logo-wrapper']}>
-          <LogoAS />
+          <img src={logoAntwerpScenes} alt="Antwerp Scenes" className={styles['home__logo-image']} />
         </div>
 
         <div 
@@ -495,7 +495,7 @@ export default function Home({ userLocation }) {
               <path d="M 0,0 C 0.5,0.04 0.5,0.04 1,0 L 1,1 C 0.5,0.96 0.5,0.96 0,1 Z" />
             </clipPath>
             <clipPath id="pano-clip-desktop" clipPathUnits="objectBoundingBox">
-              <path d="M 0,0 C 0.5,0.12 0.5,0.12 1,0 L 1,1 C 0.5,0.88 0.5,0.88 0,1 Z" />
+              <path d="M 0,0 C 0.5,0.10 0.5,0.10 1,0 L 1,1 C 0.5,0.90 0.5,0.90 0,1 Z" />
             </clipPath>
           </defs>
         </svg>
