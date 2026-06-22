@@ -85,18 +85,6 @@ export default function Share() {
     }
   }, [token]);
 
-  // Dynamically reduce the main container's bottom margin for this page
-  useEffect(() => {
-    const mainEl = document.getElementById('main-content');
-    if (mainEl) {
-      const originalMarginBottom = mainEl.style.marginBottom;
-      mainEl.style.marginBottom = '0px';
-      return () => {
-        mainEl.style.marginBottom = originalMarginBottom;
-      };
-    }
-  }, []);
-
   // Initialize Speech Recognition
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
