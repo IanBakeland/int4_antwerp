@@ -19,6 +19,7 @@ import ReactionFilledIcon from '../assets/icons/ReactionFilled';
 
 import Loading from '../components/Loading';
 import FavouriteButton from '../components/FavouriteButton';
+import ReactionButton from '../components/ReactionButton';
 import styles from './Story.module.css';
 
 const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDistance, setSelectedStory }) => {
@@ -175,9 +176,7 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDis
                   initialFavouriteDocId={favouriteDocId} 
                   iconButton={true}
                 />
-                <button className="iconbutton dark">
-                  <ReactionFilledIcon/>
-                </button>
+                <ReactionButton storyId={story?.documentId} />
                 <button 
                   className="iconbutton dark"
                   onClick={() => {

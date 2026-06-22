@@ -30,6 +30,9 @@
     "title": {
       "type": "string"
     },
+    "preview": {
+      "type": "text"
+    },
     "story": {
       "type": "richtext"
     },
