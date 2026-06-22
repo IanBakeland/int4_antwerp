@@ -6,12 +6,12 @@ Welkom bij de repository van het **INT4 Antwerp** project! Hierbij staan de bela
 
 ## 👥 Team & Rollen
 
-| Naam       | Rol               |
-| :--------- | :---------------- |
-| **Emelie** | Specialist        |
-| **Sarah**  | Monitor Evaluator |
-| **Mathis** | Project Manager   |
-| **Ian**    | Implementer       |
+| Naam       | Rol                       |
+| :--------- | :------------------------ |
+| **Emelie** | Specialist - Design lead  |
+| **Sarah**  | Monitor Evaluator         |
+| **Mathis** | Project Manager           |
+| **Ian**    | Implementer               |
 
 ---
 
@@ -30,4 +30,4 @@ Welkom bij de repository van het **INT4 Antwerp** project! Hierbij staan de bela
   - Onderlinge deadlines
   - Fysieke samenkomsten op school (inclusief exacte tijdstippen)
 - 💬 **Communicatie:** Alle dagelijkse en overige online communicatie verloopt via onze **iMessage groepschat**.
-- 🏫 **Aanwezigheid:** Het is de afspraak dat **iedereen altijd** aanwezig is op de geplande consults..
+- 🏫 **Aanwezigheid:** Het is de afspraak dat **iedereen altijd** aanwezig is op de geplande consults.

@@ -1,0 +1,157 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--color-white);
+}
+
+.illustrationBackground {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 70vw;
+  height: 80vh;
+  background-image: url('../assets/images/backgroundexplanation.png');
+  background-size: contain;
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.contentCol {
+  flex: 0 0 50%;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 2;
+  padding-top: 1.5rem;
+  padding-bottom: 3rem;
+  padding-left: 8rem;
+  /* 8rem + 1rem main padding = 9rem (144px) */
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.liveBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  background: rgba(255, 125, 60, 0.08);
+  border: 1.5px solid rgba(255, 125, 60, 0.25);
+  border-radius: 50px;
+  color: var(--color-primary);
+  font-family: var(--font-spartan);
+  font-size: 0.85rem;
+  font-weight: 600;
+  width: max-content;
+  margin-bottom: 2rem;
+  line-height: 1;
+}
+
+.liveDot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+}
+
+.title {
+  font-family: var(--font-antwerpen);
+  font-size: 4.2rem;
+  font-weight: 500;
+  line-height: 1.1;
+  margin-top: 0;
+  margin-bottom: 3rem;
+  letter-spacing: -2px;
+  color: var(--color-black);
+  white-space: normal !important;
+  /* Overrides the nowrap default from typography.css */
+}
+
+.title span {
+  color: var(--color-primary);
+  text-transform: uppercase;
+  margin-left: 0.5rem;
+}
+
+.stepsList {
+  display: flex;
+  flex-direction: column;
+  gap: 2.2rem;
+  margin-bottom: 3.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.stepItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.8rem;
+}
+
+.stepNumber {
+  font-family: var(--font-antwerpen);
+  font-size: 4.8rem;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 2.5px var(--color-primary);
+  user-select: none;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stepTitle {
+  font-family: var(--font-spartan);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--color-black);
+  margin: 0;
+}
+
+.stepTitle span {
+  color: var(--color-primary);
+}
+
+.stepDescription {
+  font-family: var(--font-spartan);
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: #666666;
+  margin: 0;
+}
+
+.stepDescription strong {
+  font-weight: 700;
+  color: #333333;
+}
