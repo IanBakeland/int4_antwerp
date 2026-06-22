@@ -21,7 +21,14 @@
 }
 
 .auth__password-container {
-  gap: 1.50rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.auth__input-group--password {
+  display: flex;
+  flex-direction: column;
 }
 
 .auth__image-mobile-container--signup {
@@ -271,28 +278,11 @@
 }
 
 .auth__background {
-  background-image: url('../assets/images/background-login-desktop.png');
-  background-repeat: no-repeat;
-  position: fixed;
-  inset: 0;
-  height: 100dvh;
-  width: 100vw;
-  overflow: hidden;
-  z-index: -1;
-  background-position: right bottom;
-  background-size: 800px;
+  display: none;
 }
 
 .auth__background--signup {
-  background-image: url('../assets/images/background-signup-desktop.png');
-  background-repeat: no-repeat;
-  position: fixed;
-  inset: 0;
-  height: 100dvh;
-  overflow: hidden;
-  z-index: -1;
-  background-position: right bottom;
-  background-size: 800px;
+  display: none;
 }
 
 @media (max-width: 800px) {
@@ -313,9 +303,44 @@
   .auth--signup .auth__content {
     padding-bottom: 5rem;
   }
+
+  .auth__image-mobile-container,
+  .auth__image-mobile-container--signup {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+  }
 }
 
 @media (min-width: 800px) {
+  .auth__background {
+    display: block;
+    background-image: url('../assets/images/background-login-desktop.png');
+    background-repeat: no-repeat;
+    position: fixed;
+    inset: 0;
+    height: 100dvh;
+    width: 100vw;
+    overflow: hidden;
+    z-index: -1;
+    background-position: right bottom;
+    background-size: 800px;
+  }
+
+  .auth__background--signup {
+    display: block;
+    background-image: url('../assets/images/background-signup-desktop.png');
+    background-repeat: no-repeat;
+    position: fixed;
+    inset: 0;
+    height: 100dvh;
+    overflow: hidden;
+    z-index: -1;
+    background-position: right bottom;
+    background-size: 800px;
+  }
+
   .auth {
     position: relative;
     display: flex;
