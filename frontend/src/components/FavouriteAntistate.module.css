@@ -4,35 +4,230 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 2rem 1.25rem;
+  padding: 2.5rem 1.25rem 4rem 1.25rem;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: var(--color-white);
 }
 
 .cardsPile {
   position: relative;
   width: 100%;
   max-width: 320px;
-  height: 280px;
-  margin-bottom: 2rem;
+  height: 320px;
+  margin-top: 1rem;
+  margin-bottom: 3.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .mockCard {
   position: absolute;
-  width: 140px;
-  height: 180px;
-  border-radius: 12px;
+  width: 175px;
+  height: 233px;
+  border-radius: 16px;
   background-size: cover;
   background-position: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  background-repeat: no-repeat;
+  box-shadow: -5px 10px 25px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.8rem;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-.cardJonas {
-  z-index: 3;
+.mockCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(0, 0, 0, 0) 60%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
 }
 
-.cardElise {
-  z-index: 2;
+.cardHeader,
+.cardFooter {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: auto;
+}
+
+.cardFooter h3 {
+  margin: 0;
+  color: var(--color-white);
+  font-family: var(--font-spartan);
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.heartIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+}
+
+.heartIcon svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--color-white);
+  fill: none;
 }
 
 .cardLouis {
   z-index: 1;
+  transform: rotate(-12deg) translate(-40px, -15px);
+}
+
+.cardElise {
+  z-index: 2;
+  transform: rotate(12deg) translate(40px, -10px);
+}
+
+.cardJonas {
+  z-index: 3;
+  transform: rotate(-3deg) translate(-5px, 30px);
+}
+
+.title {
+  color: var(--color-black);
+  font-family: var(--font-spartan);
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0 0 1rem 0;
+  max-width: 290px;
+  text-align: center;
+}
+
+.subtitle {
+  color: #7A7A7A;
+  font-family: var(--font-spartan);
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0 0 2.5rem 0;
+  max-width: 290px;
+  text-align: center;
+}
+
+.exploreButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  font-family: var(--font-spartan);
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 24px;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(255, 125, 60, 0.35);
+  transition: background-color 0.25s ease, transform 0.15s ease;
+  height: 48px;
+  box-sizing: border-box;
+}
+
+.exploreButton:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+}
+
+.exploreButton:active {
+  transform: translateY(0);
+}
+
+.buttonArrow {
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.exploreButton:hover .buttonArrow {
+  transform: translateX(4px);
+}
+
+@media (min-width: 1024px) {
+  .antistateContainer {
+    padding: 5rem 2rem 6rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .cardsPile {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 3.5rem;
+    max-width: 800px;
+    height: auto;
+    min-height: 320px;
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .mockCard {
+    position: relative;
+    width: 200px;
+    height: 266px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .cardLouis {
+    transform: rotate(-5deg) translateY(10px);
+  }
+
+  .cardElise {
+    transform: rotate(4deg) translateY(-8px);
+  }
+
+  .cardJonas {
+    transform: rotate(-2deg) translateY(12px);
+  }
+
+  .title {
+    font-size: 1.85rem;
+    max-width: 600px;
+    margin-bottom: 1.25rem;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    max-width: 550px;
+    margin-bottom: 3rem;
+  }
+
+  .exploreButton {
+    height: 52px;
+    padding: 0 2.5rem;
+    font-size: 1.1rem;
+    border-radius: 26px;
+  }
 }
