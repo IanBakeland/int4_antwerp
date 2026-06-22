@@ -117,6 +117,15 @@ export default function Share() {
       rec.onerror = (event) => {
         console.error('Speech recognition error:', event.error);
         setIsListening(false);
+        if (event.error === 'not-allowed') {
+          alert('Microfoontoegang is geweigerd. Geef deze site toestemming om je microfoon te gebruiken.');
+        } else if (event.error === 'no-speech') {
+          // 'no-speech' is triggered when the microphone doesn't detect sound after a while.
+          // We don't want to show an alert for this to keep it user-friendly.
+          console.warn('Geen spraak gedetecteerd.');
+        } else {
+          alert('Spraakherkenning fout: ' + event.error);
+        }
       };
 
       rec.onresult = (event) => {
@@ -133,7 +142,11 @@ export default function Share() {
     }
   }, []);
 
-  const handleTranscribeClick = () => {
+  const handleTranscribeClick = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (!recognition) {
       alert('Spraakherkenning wordt niet ondersteund in deze browser. Probeer Google Chrome of Safari.');
       return;
