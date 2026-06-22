@@ -127,6 +127,19 @@ export default function Home({ userLocation }) {
   };
 
   const top10Ref = useRef(null);
+  const top10ScrollRef = useRef(null);
+
+  const handleScrollPrev = () => {
+    if (top10ScrollRef.current) {
+      top10ScrollRef.current.scrollBy({ left: -530, behavior: 'smooth' });
+    }
+  };
+
+  const handleScrollNext = () => {
+    if (top10ScrollRef.current) {
+      top10ScrollRef.current.scrollBy({ left: 530, behavior: 'smooth' });
+    }
+  };
   const [currentPanoIndex, setCurrentPanoIndex] = useState(0);
   const [prevPanoIndex, setPrevPanoIndex] = useState(null);
   const [transitionClass, setTransitionClass] = useState('slide-active');
@@ -453,28 +466,49 @@ export default function Home({ userLocation }) {
           <h3 className={styles['home__top-stories-title-sub']}>stories of the week</h3>
         </div>
 
-        <div className={styles['home__top-stories-container']}>
-          <div className={styles['home__top-stories-list']}>
-            {topStories.map((story, index) => (
-              <div key={index} className={styles['home__top-stories-item']} style={{ zIndex: (index + 1) * 10 }}>
-                <span className={styles['home__top-stories-item-number']} style={{
-                  WebkitTextStrokeColor: strokeColors[index % strokeColors.length],
-                  left: getLeftOffset(index)
-                }}>
-                  {index + 1}
-                </span>
-                <div className={styles['home__top-stories-item-card']} style={{ backgroundImage: `url(${story.image})` }}>
-                  <AuthorBadge
-                    author={story.author || 'Emma'}
-                    colorIndex={index}
-                    className={styles['home__author-badge-wrapper']}
-                  />
-                  <div className={styles['home__top-stories-item-gradient']} />
-                  <h3 className={styles['home__top-stories-item-title']}>{story.title}</h3>
+        <div className={styles['home__top-stories-wrapper']}>
+          <div className={styles['home__top-stories-container']} ref={top10ScrollRef}>
+            <div className={styles['home__top-stories-list']}>
+              {topStories.map((story, index) => (
+                <div key={index} className={styles['home__top-stories-item']} style={{ zIndex: (index + 1) * 10 }}>
+                  <span className={styles['home__top-stories-item-number']} style={{
+                    WebkitTextStrokeColor: strokeColors[index % strokeColors.length],
+                    left: getLeftOffset(index)
+                  }}>
+                    {index + 1}
+                  </span>
+                  <div className={styles['home__top-stories-item-card']} style={{ backgroundImage: `url(${story.image})` }}>
+                    <AuthorBadge
+                      author={story.author || 'Emma'}
+                      colorIndex={index}
+                      className={styles['home__author-badge-wrapper']}
+                    />
+                    <div className={styles['home__top-stories-item-gradient']} />
+                    <h3 className={styles['home__top-stories-item-title']}>{story.title}</h3>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+          {/* Scroll navigation buttons */}
+          <button
+            className={`${styles['home__top-stories-nav-btn']} ${styles['home__top-stories-nav-btn--prev']}`}
+            onClick={handleScrollPrev}
+            aria-label="Previous Stories"
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11.25 13.5L6.75 9L11.25 4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+          <button
+            className={`${styles['home__top-stories-nav-btn']} ${styles['home__top-stories-nav-btn--next']}`}
+            onClick={handleScrollNext}
+            aria-label="Next Stories"
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6.75 13.5L11.25 9L6.75 4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
         </div>
 
         <div className={styles['home__actions-row']}>
