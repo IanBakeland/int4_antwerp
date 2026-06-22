@@ -16,7 +16,7 @@
 }
 
 .auth__image-mobile-container {
-  background-image: url('../assets/images/backgroundlogin.png');
+  background-image: url('../assets/images/backgroundsignup.png');
   background-repeat: no-repeat;
   background-position: right bottom;
   position: fixed;
@@ -150,7 +150,7 @@
 
   .auth__background {
     display: block;
-    background-image: url('../assets/images/background-login-desktop.png');
+    background-image: url('../assets/images/background-signup-desktop.png');
     background-repeat: no-repeat;
     position: fixed;
     inset: 0;
@@ -168,7 +168,7 @@
 
   .auth__content {
     margin-top: 0;
-    width: 34.125rem;
+    width: 28rem;
     max-width: none;
     display: flex;
     flex-direction: column;
