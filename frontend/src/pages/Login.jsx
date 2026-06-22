@@ -54,13 +54,16 @@ export default function Login({ setToken }) {
       </header>
 
       <div className={styles.loginContent}>
+        < div className={styles.welcomeTextContainer}>
+        <div className={styles.welcomeText}>
         <h1>Welcome!</h1>
         <p className={styles.loginSubtitle}>Log in to your account</p>
+        </div>
         {error && <p style={{ color: "red" }} role="alert">{error}</p>}
       <form onSubmit={handleLogin} className={styles.loginForm}>
         <h2 className={styles.cardTitle}>Sign in</h2>
         
-        <div className={styles.inputGroup}>
+        <div className={styles.inputGroupUsernameLogin}>
           <label htmlFor="login-username-input" className={styles.inputLabel}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2.66699 6H13.3337" stroke="#0A0A0A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
@@ -82,7 +85,7 @@ export default function Login({ setToken }) {
           />
         </div>
         
-        <div className={styles.inputGroup}>
+        <div className={styles.inputGroupPasswordLogin}>
           <label htmlFor="login-password-input" className={styles.inputLabel}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12.6667 7.33301H3.33333C2.59695 7.33301 2 7.92996 2 8.66634V13.333C2 14.0694 2.59695 14.6663 3.33333 14.6663H12.6667C13.403 14.6663 14 14.0694 14 13.333V8.66634C14 7.92996 13.403 7.33301 12.6667 7.33301Z" stroke="#0A0A0A" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
@@ -94,14 +97,14 @@ export default function Login({ setToken }) {
             id="login-password-input"
             type="password"
             className={styles.inputField}
-            placeholder="••••••••••••••••"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
             required
           />
-          <Link to="/login" className={styles.forgotLink}>Forgot password?</Link>
         </div>
+            <Link to="/login" className={styles.forgotLink}>Forgot password?</Link>
         
         <div className={styles.formFooter}>
           <button type="submit" disabled={loading} className={styles.submitButton}>
@@ -117,6 +120,9 @@ export default function Login({ setToken }) {
         </div>
       </form>
       </div>
+      </div>
+      <div className={styles.imageMobileContainer}></div>
+      <div className={styles.imageDesktopContainer}></div>
     </div>
   );
 }
