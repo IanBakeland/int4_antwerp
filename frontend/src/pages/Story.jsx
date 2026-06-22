@@ -31,7 +31,6 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDis
   const panoramaImage = story?.panorama?.url;
   const plugins = isMobile ? [[GyroscopePlugin, { absolutePosition: true, moveMode: 'fast' }]] : [];
   
-  // Adjusted to 1 to only load 3 panoramas at a time
   const isNearActive = distance <= 1; 
   
   const favouriteArray = story?.favourites?.data || story?.favourites;
@@ -41,7 +40,6 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDis
     if (isActive) setViewerLoading(true);
   }, [isActive]);
 
-  // SILENT AUTO-START: If the global state says 'granted', start silently on this slide
   useEffect(() => {
     if (isActive && isMobile && gyroPermission === 'granted' && viewerRef.current && !gyroStarted) {
       const gyroPlugin = viewerRef.current.getPlugin(GyroscopePlugin);
@@ -59,9 +57,9 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDis
       if (gyroPlugin) {
         gyroPlugin.start().then(() => {
           setGyroStarted(true);
-          setGyroPermission('granted'); // Saves permission for the rest of the visit
+          setGyroPermission('granted');
         }).catch(() => {
-          setGyroPermission('denied'); // Hides button and stops asking for this visit
+          setGyroPermission('denied');
         });
       }
     }
@@ -122,7 +120,6 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDis
               />
             )}
 
-            {/* Only shows if global state is exactly 'prompt' */}
             {isActive && isMobile && gyroPermission === 'prompt' && !viewerLoading && (
               <button className={styles.gyroStartOverlay} onClick={handleStartGyro}>
                 <svg viewBox="0 0 12 15" fill="none" className={styles.gyroStartOverlayIcon}>
@@ -236,12 +233,19 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
   const [apiLoaded, setApiLoaded] = useState(false);
   const [firstPanoReady, setFirstPanoReady] = useState(false);
 
-  // Global Session State for Gyroscope ('prompt', 'granted', or 'denied')
   const [gyroPermission, setGyroPermission] = useState('prompt');
 
-  const [isMobile] = useState(() => {
-    return typeof window !== 'undefined' && (window.innerWidth <= 768 || /Mobi|Android/i.test(navigator.userAgent));
+  const [isMobile, setIsMobile] = useState(() => {
+    return typeof window !== 'undefined' && window.innerWidth <= 800;
   });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 800);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -282,7 +286,14 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
 
   const handleScroll = useCallback((e) => {
     const container = e.target;
-    const newIndex = Math.round(container.scrollTop / window.innerHeight);
+    const isDesktop = window.innerWidth > 800;
+    
+    let newIndex;
+    if (isDesktop) {
+      newIndex = Math.round(container.scrollLeft / window.innerWidth);
+    } else {
+      newIndex = Math.round(container.scrollTop / window.innerHeight);
+    }
     
     if (newIndex !== activeIndex) {
       setActiveIndex(newIndex);
@@ -291,6 +302,12 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
       }
     }
   }, [activeIndex, stories, setSearchParams]);
+
+  const handleWheel = (e) => {
+    if (window.innerWidth > 800 && e.deltaY !== 0 && e.deltaX === 0) {
+      e.currentTarget.scrollBy({ left: e.deltaY });
+    }
+  };
 
   const getDistanceStr = (story) => {
     if (!userLocation || !story.latitude || !story.longitude || !formatDistance) return "";
@@ -328,7 +345,11 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
         </button>
       </div>
 
-      <div className={styles.feedContainer} onScroll={handleScroll}>
+      <div 
+        className={styles.feedContainer} 
+        onScroll={handleScroll}
+        onWheel={handleWheel}
+      >
         {stories.map((story, index) => {
           const distance = Math.abs(index - activeIndex);
           const isActive = index === activeIndex;
@@ -344,8 +365,6 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
               formattedDistance={formattedDistance}
               onReady={index === 0 ? () => setFirstPanoReady(true) : null}
               setSelectedStory={setSelectedStory}
-              
-              // Passing global permission state down
               gyroPermission={gyroPermission}
               setGyroPermission={setGyroPermission}
             />
