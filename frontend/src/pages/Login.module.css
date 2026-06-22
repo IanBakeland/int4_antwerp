@@ -325,7 +325,7 @@
     overflow: hidden;
     z-index: -1;
     background-position: right bottom;
-    background-size: 800px;
+    background-size: 1000px;
   }
 
   .auth__background--signup {
@@ -338,7 +338,7 @@
     overflow: hidden;
     z-index: -1;
     background-position: right bottom;
-    background-size: 800px;
+    background-size: 1000px;
   }
 
   .auth {
