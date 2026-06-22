@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Radar.module.css';
 
@@ -10,7 +10,10 @@ import StoryCard from '../components/StoryCard';
 
 import PersonIcon from '../assets/icons/Person';
 import MuteIcon from '../assets/icons/Mute';
+import SpeakerIcon from '../assets/icons/Speaker';
 import LocationFilledIcon from '../assets/icons/LocationFilled';
+
+import whiteNoiseFile from '../assets/sounds/whiteNoise.mp3';
 
 export default function Radar({ 
   userLocation, 
@@ -28,11 +31,15 @@ export default function Radar({
   const navigate = useNavigate();
   const [stories, setStories] = useState([]);
   const [userFavourites, setUserFavourites] = useState({});
+  const [isMuted, setIsMuted] = useState(true);
+
+  const noiseAudioRef = useRef(null);
+  const speechAudioRef = useRef(null);
 
   useEffect(() => {
     const fetchStories = async () => {
       try {
-        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user");
+        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user&populate[2]=speach");
         if (!res.ok) throw new Error("Failed to fetch stories");
         const data = await res.json();
         setStories(data.data || []);
@@ -144,6 +151,49 @@ export default function Radar({
     };
   }, [userLocation, stories, selectedStory, activeFilters, userFavourites]);
 
+  const hasSpeech = Boolean(activeStory?.speach?.url);
+
+  useEffect(() => {
+    const noise = noiseAudioRef.current;
+    const speech = speechAudioRef.current;
+
+    if (!noise || !speech) return;
+
+    if (!isRadarActive || isMuted || !hasSpeech || activeDistance === null || activeDistance > 500) {
+      noise.pause();
+      speech.pause();
+      return;
+    }
+
+    let noiseVol = 0;
+    let speechVol = 0;
+
+    if (activeDistance > 150 && activeDistance <= 500) {
+      const linearProgress = (500 - activeDistance) / 350;
+      const curvedProgress = Math.pow(linearProgress, 4);
+      
+      noiseVol = 1 - curvedProgress;
+      speechVol = curvedProgress;
+    } else if (activeDistance <= 150) {
+      noiseVol = 0;
+      speechVol = 1;
+    }
+
+    noise.volume = Math.max(0, Math.min(1, noiseVol));
+    speech.volume = Math.max(0, Math.min(1, speechVol));
+
+    if (noise.paused && noiseVol > 0) {
+      noise.play().catch(() => {});
+    }
+    if (speech.paused && speechVol > 0) {
+      speech.play().catch(() => {});
+    }
+
+    if (noiseVol <= 0.01 && !noise.paused) noise.pause();
+    if (speechVol <= 0.01 && !speech.paused) speech.pause();
+
+  }, [activeDistance, isRadarActive, isMuted, activeStory, hasSpeech]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
@@ -174,7 +224,19 @@ export default function Radar({
       <div className={`toolbar noDesktop noTablet`}>
         <div className="alignNext">
           <h1>The <span>radar</span></h1>
-          <Link to="#" className="iconbutton" aria-label="Mute sounds"><MuteIcon /></Link>
+          <button 
+            onClick={() => {
+              if (hasSpeech) setIsMuted(!isMuted);
+            }} 
+            className="iconbutton" 
+            aria-label="Toggle sound"
+            style={{ 
+              opacity: hasSpeech ? 1 : 0.5,
+              cursor: hasSpeech ? 'pointer' : 'default'
+            }}
+          >
+            {isMuted ? <MuteIcon /> : <SpeakerIcon />}
+          </button>
           <Link to="/account" className="iconbutton" aria-label="Account"><PersonIcon /></Link>
         </div>
       </div>
@@ -238,6 +300,9 @@ export default function Radar({
           </div>
         </>
       )}
+
+      <audio ref={noiseAudioRef} src={whiteNoiseFile} loop playsInline />
+      <audio ref={speechAudioRef} src={activeStory?.speach?.url} loop playsInline />
 
       <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
