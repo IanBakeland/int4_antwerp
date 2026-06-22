@@ -1,4 +1,4 @@
-.loginContainer {
+.auth {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -11,7 +11,7 @@
   z-index: 1;
 }
 
-.imageMobileContainer {
+.auth__image-mobile-container {
   background-image: url('../assets/images/backgroundlogin.png');
   background-repeat: no-repeat;
   background-position: right bottom;
@@ -23,11 +23,11 @@
   z-index: 0;
 }
 
-.passwordContainer {
-gap: 1.50rem;
+.auth__password-container {
+  gap: 1.50rem;
 }
 
-.imageMobileContainerSignup {
+.auth__image-mobile-container--signup {
   background-image: url('../assets/images/backgroundsignup.png');
   background-repeat: no-repeat;
   background-position: right bottom;
@@ -39,7 +39,7 @@ gap: 1.50rem;
   z-index: 0;
 }
 
-.loginContent {
+.auth__content {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -50,7 +50,7 @@ gap: 1.50rem;
   z-index: 1;
 }
 
-.loginContent h1 {
+.auth__content h1 {
   color: #000;
   font-family: var(--font-antwerpen);
   font-size: 40px;
@@ -62,7 +62,7 @@ gap: 1.50rem;
   margin-bottom: 0.5rem;
 }
 
-.loginSubtitle {
+.auth__subtitle {
   color: #8A8A8A;
   font-family: var(--font-spartan);
   font-size: 18px;
@@ -73,8 +73,8 @@ gap: 1.50rem;
   margin-bottom: 13px;
 }
 
-.loginForm,
-.signupForm {
+.auth__form,
+.auth__form--signup {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -87,9 +87,10 @@ gap: 1.50rem;
   box-shadow: -5px 5px 40px 0 rgba(0, 0, 0, 0.15);
   padding: 1.5rem 1.5rem;
   box-sizing: border-box;
+  margin-bottom: 4rem;
 }
 
-.cardTitle {
+.auth__card-title {
   color: #0A0A0A;
   font-family: var(--font-spartan);
   font-size: 20px;
@@ -101,12 +102,12 @@ gap: 1.50rem;
   margin: 0 0 0.25rem 0;
 }
 
-.inputGroup {
+.auth__input-group {
   display: flex;
   flex-direction: column;
 }
 
-.inputLabel {
+.auth__input-label {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -121,11 +122,11 @@ gap: 1.50rem;
   margin-bottom: 10px;
 }
 
-.inputLabel svg {
+.auth__input-label svg {
   flex-shrink: 0;
 }
 
-.inputField {
+.auth__input-field {
   width: 100%;
   height: 44px;
   border-radius: 12px;
@@ -141,12 +142,12 @@ gap: 1.50rem;
   flex-shrink: 0;
 }
 
-.inputField:focus {
+.auth__input-field:focus {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px var(--color-secondary-light);
 }
 
-.forgotLink {
+.auth__forgot-link {
   color: #686868;
   text-align: right;
   font-family: var(--font-spartan);
@@ -160,13 +161,13 @@ gap: 1.50rem;
   align-self: flex-end;
 }
 
-.passwordContainer {
+.auth__password-container {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
 }
 
-.submitButton {
+.auth__submit-button {
   width: 307.487px;
   height: 43px;
   border-radius: 25.5px;
@@ -189,7 +190,7 @@ gap: 1.50rem;
   flex-shrink: 0;
 }
 
-.formFooter {
+.auth__form-footer {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -197,7 +198,7 @@ gap: 1.50rem;
   flex-shrink: 0;
 }
 
-.divider {
+.auth__divider {
   width: 310px;
   max-width: 100%;
   height: 1px;
@@ -207,7 +208,7 @@ gap: 1.50rem;
   align-self: center;
 }
 
-.signUpText {
+.auth__signup-text {
   color: #717182;
   text-align: center;
   font-family: var(--font-spartan);
@@ -221,7 +222,7 @@ gap: 1.50rem;
   align-self: center;
 }
 
-.signUpLink {
+.auth__signup-link {
   color: #030213;
   font-family: var(--font-spartan);
   font-size: 16px;
@@ -234,15 +235,15 @@ gap: 1.50rem;
   margin-left: 0.25rem;
 }
 
-.submitButton:hover {
+.auth__submit-button:hover {
   background-color: var(--color-primary-dark);
 }
 
-.submitButton:active {
+.auth__submit-button:active {
   transform: scale(0.98);
 }
 
-.submitButton:disabled {
+.auth__submit-button:disabled {
   background-color: var(--color-light-gray);
   color: var(--color-dark-gray);
   cursor: not-allowed;
@@ -250,7 +251,7 @@ gap: 1.50rem;
 
 
 /* Mobile top navbar styles matching homepage */
-.navbarMobileTop {
+.auth__mobile-nav {
   position: absolute;
   top: 0;
   left: 0;
@@ -263,35 +264,35 @@ gap: 1.50rem;
   box-sizing: border-box;
 }
 
-.mobileLogoLink {
+.auth__mobile-logo-link {
   display: flex;
   align-items: center;
 }
 
-.mobileLogoImg {
+.auth__mobile-logo-image {
   height: 3.25rem;
   width: auto;
   object-fit: contain;
 }
 
-.navbarMobileTopRight {
+.auth__mobile-nav-right {
   display: flex;
   gap: 1.25rem;
   align-items: center;
 }
 
-.activeIconButton svg {
+.auth__active-icon-button svg {
   fill: var(--color-primary) !important;
 }
 
 @media (min-width: 801px) {
-  .navbarMobileTop {
+  .auth__mobile-nav {
     display: none !important;
   }
 }
 
 @media (max-width: 800px) {
-  .loginContainer {
+  .auth {
     position: fixed;
     inset: 0;
     height: 100dvh;
@@ -305,26 +306,26 @@ gap: 1.50rem;
     /* size on mobile */
   }
 
-  .signupContainer {
+  .auth--signup {
     position: absolute;
     height: auto;
     min-height: 100dvh;
     overflow-y: visible;
   }
 
-  .signupContainer :global(.loginContent),
-  .signupContainer .loginContent {
+  .auth--signup :global(.auth__content),
+  .auth--signup .auth__content {
     padding-bottom: 5rem;
   }
 
-  .loginContent {
+  .auth__content {
     margin-top: 6.5rem;
     /* Pushes content down below the absolute mobile top navbar */
   }
 }
 
 @media (min-width: 1024px) {
-  .loginContainer {
+  .auth {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -339,12 +340,12 @@ gap: 1.50rem;
     margin: 0;
   }
 
-  .imageMobileContainer,
-  .imageMobileContainerSignup {
+  .auth__image-mobile-container,
+  .auth__image-mobile-container--signup {
     display: none;
   }
 
-  .loginContent {
+  .auth__content {
     margin-top: 0;
     max-width: 50rem;
     display: flex;
@@ -352,7 +353,7 @@ gap: 1.50rem;
     align-items: center;
   }
 
-  .imageDesktopContainer {
+  .auth__image-desktop-container {
     background-image: url('../assets/images/background-login-desktop.png');
     background-size: 80rem;
     background-repeat: no-repeat;
@@ -364,7 +365,7 @@ gap: 1.50rem;
     z-index: 0;
   }
 
-  .imageDesktopContainerSignup {
+  .auth__image-desktop-container--signup {
     background-image: url('../assets/images/background-signup-desktop.png');
     background-size: 80rem;
     background-repeat: no-repeat;
@@ -376,92 +377,91 @@ gap: 1.50rem;
     z-index: 0;
   }
 
-  .loginContent h1 {
+  .auth__content h1 {
     font-size: 3.5rem;
   }
 
-  .loginSubtitle {
+  .auth__subtitle {
     font-size: 1.4rem;
   }
 
-  .loginForm {
+  .auth__form {
     width: 19.75rem;
     height: 25rem;
   }
 
-  .signupForm {
+  .auth__form--signup {
     width: 34.125rem;
-      height: 27.5rem;
+    height: 27.5rem;
   }
 
-  .welcomeText {
+  .auth__welcome-text {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .welcomeTextContainer {
+  .auth__welcome-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .cardTitle {
+  .auth__card-title {
     padding-top: 0.8rem;
     font-size: 1.375rem;
   }
 
-    .inputLabel {
-      font-size: 1.125rem;
-    }
+  .auth__input-label {
+    font-size: 1.125rem;
+  }
 
-.inputField {
-  font-size: 1rem;
-  height: 1.9375rem;
+  .auth__input-field {
+    font-size: 1rem;
+    height: 1.9375rem;
+  }
 
-}
+  .auth__forgot-link, .auth__signup-link {
+    font-size: 1rem;
+  }
 
-    .forgotLink, .signUpLink {
-      font-size: 1rem;
-    }
+  .auth__submit-button {
+    font-size: 1.125rem;
+    width: 15.6875rem;
+    height: 3.1875rem;
+  }
 
-    .submitButton {
-      font-size: 1.125rem;
-      width: 15.6875rem;
-      height: 3.1875rem;
-    }
+  .auth__submit-button--desktop {
+    width: 30rem;
+  }
 
-    .submitButtonDesktop {
-      width: 30rem;
-    }
+  .auth__divider {
+    width: 15.6875rem;
+  }
 
-    .divider {
-      width: 15.6875rem;
-    }
+  .auth__divider--desktop {
+    width: 30rem;
+  }
 
-    .dividerDesktop {
-      width: 30rem;
-    }
+  .auth__signup-text {
+    font-size: 0.875rem;
+  }
 
-    .signUpText {
-      font-size: 0.875rem;
-    }
+  .auth__password-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1.50rem;
+  }
 
-    .passwordContainer {
-      display: flex;
-      flex-direction: row;
-      gap: 1.50rem;
-}
+  .auth__input-group--password {
+    width: 14.3125rem;
+  }
 
-.inputGroupPassword {
-  width: 14.3125rem;
-}
+  .auth__input-group--email, .auth__input-group--username {
+    width: 30rem;
+  }
 
-.inputGroupEmail, .inputGroupUsername {
-  width: 30rem;
-}
-
-.inputGroupPasswordLogin, .inputGroupUsernameLogin {
-  width: 15.6875rem;
-}
+  .auth__input-group--password-login, .auth__input-group--username-login {
+    width: 15.6875rem;
+  }
 }
