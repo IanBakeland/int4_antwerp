@@ -4,6 +4,8 @@ import Loading from '../components/Loading';
 import styles from "./Account.module.css";
 import antwerpLogo from "../assets/images/antwerpLogo.png";
 import PersonFilledIcon from "../assets/icons/PersonFilled";
+import HeartIcon from "../assets/icons/Heart";
+import LogoutIcon from "../assets/icons/Logout";
 
 const HashtagIcon = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -230,17 +232,11 @@ export default function Account({ setToken }) {
               <div className={styles['auth__account-right']}>
                 <div className={styles['auth__actions-card']}>
                   <Link to="/favourites" className={styles['auth__action-button']}>
-                    <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M8.00033 13.877C8.00033 13.877 1.4834 10.2051 1.4834 5.72168C1.4834 4.09375 2.68555 2.84375 4.21094 2.84375C5.12793 2.84375 5.92285 3.28418 6.44434 3.96875L8.00033 6.00977L9.55633 3.96875C10.0778 3.28418 10.8727 2.84375 11.7897 2.84375C13.3151 2.84375 14.5173 4.09375 14.5173 5.72168C14.5173 10.2051 8.00033 13.877 8.00033 13.877Z" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    <HeartIcon />
                     <span>My favourites</span>
                   </Link>
                   <button type="button" onClick={handleLogout} className={styles['auth__action-button--logout']}>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M6 14H3C2.46957 14 1.96086 13.7893 1.58579 13.4142C1.21071 13.0391 1 12.5304 1 12V4C1 3.46957 1.21071 2.96086 1.58579 2.58579C1.96086 2.21071 2.46957 2 3 2H6" stroke="#FF3B30" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M11 11L15 8L11 5" stroke="#FF3B30" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M15 8H6" stroke="#FF3B30" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    <LogoutIcon />
                     <span>Log out</span>
                   </button>
                 </div>

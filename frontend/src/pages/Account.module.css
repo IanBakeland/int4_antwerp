@@ -146,6 +146,16 @@
   box-shadow: 0 0 0 3px var(--color-secondary-light);
 }
 
+.auth__input-field::placeholder {
+  color: #A9A9A9;
+  font-family: var(--font-spartan);
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 0.875rem;
+  letter-spacing: -0.00938rem;
+}
+
 .auth__form-actions {
   display: flex;
   flex-direction: column;
@@ -223,31 +233,46 @@
 }
 
 .auth__delete-title {
-  color: #FF3B30;
+  color: #000;
   font-family: var(--font-spartan);
   font-size: 1.125rem;
-  font-weight: 600;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 0.875rem;
+  letter-spacing: -0.00938rem;
   margin: 0;
 }
 
 .auth__delete-subtitle {
-  color: #717182;
+  color: #767676;
   font-family: var(--font-spartan);
   font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
   margin: 0;
 }
 
 .auth__delete-link {
-  color: #FF3B30;
+  color: #F00;
+  font-family: var(--font-spartan);
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 0.875rem;
+  letter-spacing: -0.00938rem;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
   background: none;
   border: none;
   padding: 0;
-  font-family: var(--font-spartan);
-  font-size: 1rem;
-  font-weight: 500;
-  text-decoration: underline;
   cursor: pointer;
   align-self: flex-start;
+  margin-top: 1.25rem;
 }
 
 .auth__actions-card {
@@ -288,6 +313,20 @@
   background-color: #F6F6F6;
 }
 
+.auth__action-button svg {
+  color: #000;
+  text-align: center;
+  font-family: "SF Pro", sans-serif;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  width: 1.05rem;
+  height: 1rem;
+  fill: currentColor;
+  stroke: none;
+}
+
 .auth__action-button--logout {
   display: inline-flex;
   align-items: center;
@@ -309,6 +348,14 @@
 
 .auth__action-button--logout:hover {
   background-color: #FFD6D6;
+}
+
+.auth__action-button--logout svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
 }
 
 .auth__background--account {
@@ -380,21 +427,24 @@
   .auth__welcome-text {
     align-items: flex-start;
     text-align: left;
+    margin-top: 2rem;
   }
 
   .auth__welcome-text h1 {
     font-size: 3.5rem;
+    margin-bottom: 1.75rem;
   }
 
   .auth__subtitle {
     font-size: 1.4rem;
+    margin-bottom: 0.25rem;
   }
 
   .auth__account-layout {
     flex-direction: row;
     align-items: flex-start;
     gap: 2rem;
-    margin-top: 1rem;
+    margin-top: 0.25rem;
   }
 
   .auth__account-left {
@@ -429,7 +479,7 @@
 
   .auth__save-button,
   .auth__cancel-button {
-    width: 13.0625rem;
+    width: calc(50% - 0.5rem);
     height: 3.1875rem;
     font-size: 1.125rem;
   }
@@ -439,22 +489,28 @@
     padding: 2rem;
   }
 
-  .auth__delete-title {
-    font-size: 1.375rem;
-  }
-
-  .auth__delete-subtitle {
-    font-size: 1rem;
-  }
-
   .auth__actions-card {
-    width: 16.5rem;
-    padding: 2rem;
+    width: 17.125rem;
+    height: 10.5625rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    box-sizing: border-box;
+  }
+
+  .auth__action-button,
+  .auth__action-button--logout {
+    width: 14.3125rem;
+    height: 3.1875rem;
+    font-size: 1.125rem;
   }
 
   .auth__background--account {
     display: block;
-    background-image: url('../assets/images/background-login-desktop.png');
+    background-image: url('../assets/images/background-account-desktop.png');
     background-repeat: no-repeat;
     position: fixed;
     inset: 0;
