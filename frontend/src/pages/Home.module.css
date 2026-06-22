@@ -230,6 +230,32 @@
   padding: 1rem 0.5rem;
 }
 
+@media (min-width: 801px) {
+  .home__pano-info-grid {
+    grid-template-columns: repeat(4, auto);
+    justify-content: center;
+    max-width: 1420px;
+    margin: 3.5rem auto 2.5rem;
+    gap: 1.25rem;
+  }
+  .home__pano-info-card {
+    width: 340px;
+    height: 204px;
+    padding: 2rem 1rem;
+  }
+  .home__pano-info-card-number {
+    font-size: 64px;
+  }
+  .home__pano-info-card-unit {
+    font-size: 20px;
+  }
+  .home__pano-info-card-label {
+    font-size: 18px;
+    line-height: normal;
+    margin-top: 0.5rem;
+  }
+}
+
 .home__pano-info-card--orange {
   background: var(--color-primary);
   color: #622400;
