@@ -32,11 +32,6 @@
   pointer-events: none;
   z-index: 0;
 }
-
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0) 30%,
-    rgba(0, 0, 0, 0.4) 55%,
-    rgba(0, 0, 0, 0.60) 100%
 .storyCard.selected {
   border:  rgb(255, 125, 60, 0.8) 3px solid;
 }
