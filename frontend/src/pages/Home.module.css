@@ -1436,4 +1436,36 @@
     transform: translate(-50%);
     margin-top: -60px;
   }
+
+  .home__top-stories-title-wrapper {
+    margin-top: 117px;
+    margin-left: 79px;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 12px;
+    text-align: left;
+  }
+
+  .home__top-stories-title-top {
+    color: #FF7D3C;
+    font-family: var(--font-antwerpen);
+    font-size: 55.39px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 72.622px;
+    letter-spacing: -2.462px;
+    margin: 0;
+  }
+
+  .home__top-stories-title-sub {
+    color: #000;
+    font-family: var(--font-antwerpen);
+    font-size: 55.39px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 72.622px;
+    letter-spacing: -2.462px;
+    margin: 0;
+  }
 }
