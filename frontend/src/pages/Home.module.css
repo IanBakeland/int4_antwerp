@@ -1487,7 +1487,7 @@
     width: 720.7px;
     height: 362.957px;
     aspect-ratio: auto;
-    margin-left: -50px;
+    margin-left: -190px;
   }
 
   .home__top-stories-item:first-child {
@@ -1495,7 +1495,7 @@
   }
 
   .home__top-stories-item-card {
-    clip-path: url(#pano-clip-desktop);
+    clip-path: url(#top10-card-clip-desktop);
     border-radius: 0;
     border: none;
   }
@@ -1505,6 +1505,11 @@
     line-height: 0.8;
     bottom: 30px;
     -webkit-text-stroke-width: 4px;
+    left: -70px !important;
+  }
+
+  .home__top-stories-item:nth-child(10) .home__top-stories-item-number {
+    left: -130px !important;
   }
 
   .home__top-stories-item-title {

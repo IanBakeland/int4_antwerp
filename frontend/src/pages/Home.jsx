@@ -545,6 +545,9 @@ export default function Home({ userLocation }) {
             <clipPath id="pano-clip-desktop" clipPathUnits="objectBoundingBox">
               <path d="M 0,0 C 0.5,0.10 0.5,0.10 1,0 L 1,1 C 0.5,0.90 0.5,0.90 0,1 Z" />
             </clipPath>
+            <clipPath id="top10-card-clip-desktop" clipPathUnits="objectBoundingBox">
+              <path d="M 0,0 C 0.5,0.16 0.5,0.16 1,0.08 L 1,0.92 C 0.5,0.84 0.5,0.84 0,1 Z" />
+            </clipPath>
           </defs>
         </svg>
       </div>
