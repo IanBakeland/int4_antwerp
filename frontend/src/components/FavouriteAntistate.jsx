@@ -5,18 +5,20 @@ import PersonIcon from '../assets/icons/Person';
 import HeartIcon from '../assets/icons/Heart';
 import PersonRunningIcon from '../assets/icons/PersonRunning';
 import MonumentIcon from '../assets/icons/Monument';
+import FolderIcon from '../assets/icons/Folder';
 
 import pano1 from '../assets/images/pano.jpeg';
 import pano2 from '../assets/images/pano2.jpeg';
 import pano3 from '../assets/images/pano3.jpeg';
+import pano4 from '../assets/images/pano4.jpeg';
 
 export default function FavouriteAntistate() {
   return (
     <div className={styles.antistateContainer}>
       <div className={styles.cardsPile}>
-        
+    
         <div 
-          className={`${styles.mockCard} ${styles.cardLouis}`}
+          className={`${styles.mockCard} ${styles.cardBack}`}
           style={{ backgroundImage: `url(${pano3})` }}
         >
           <div className={styles.cardHeader}>
@@ -36,8 +38,8 @@ export default function FavouriteAntistate() {
         </div>
 
         <div 
-          className={`${styles.mockCard} ${styles.cardElise}`}
-          style={{ backgroundImage: `url(${pano2})` }}
+          className={`${styles.mockCard} ${styles.cardLeft}`}
+          style={{ backgroundImage: `url(${pano4})` }}
         >
           <div className={styles.cardHeader}>
             <div className="iconTag">
@@ -45,10 +47,11 @@ export default function FavouriteAntistate() {
               <p>Elise</p>
             </div>
             <div className="categoryTag businessTag">
-              <MonumentIcon />
+              <FolderIcon />
             </div>
           </div>
           <div className={styles.cardFooter}>
+            <h3>Where we met</h3>
             <div className={styles.heartIcon}>
               <HeartIcon />
             </div>
@@ -56,7 +59,7 @@ export default function FavouriteAntistate() {
         </div>
 
         <div 
-          className={`${styles.mockCard} ${styles.cardJonas}`}
+          className={`${styles.mockCard} ${styles.cardRight}`}
           style={{ backgroundImage: `url(${pano1})` }}
         >
           <div className={styles.cardHeader}>
@@ -69,7 +72,7 @@ export default function FavouriteAntistate() {
             </div>
           </div>
           <div className={styles.cardFooter}>
-            <h3>A wild <br /> night out</h3>
+            <h3>A sudden <br /> adventure</h3>
             <div className={styles.heartIcon}>
               <HeartIcon />
             </div>
