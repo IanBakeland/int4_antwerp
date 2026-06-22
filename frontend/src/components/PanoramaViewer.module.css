@@ -162,7 +162,7 @@
 @media (min-width: 801px) {
   .panoContentWrapper {
     bottom: 4.75rem;
-    left: clamp(2rem, 6vw, 6rem);
+    left: 135px;
     right: auto;
     max-width: min(38rem, 48vw);
   }
