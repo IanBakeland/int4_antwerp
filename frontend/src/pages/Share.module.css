@@ -1,5 +1,5 @@
 /* 1. Base styles (Mobile First - default for mobile screens) */
-.shareContainer {
+.share {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,7 +12,7 @@
   z-index: 20;
 }
 
-.shareContent {
+.share__content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,7 +23,7 @@
   margin-top: calc(115px - 5rem);
 }
 
-.shareContent h1 {
+.share__content h1 {
   color: #000;
   font-family: var(--font-antwerpen);
   font-size: 40px;
@@ -36,11 +36,11 @@
   width: 100%;
 }
 
-.shareContent h1 span {
+.share__content h1 span {
   color: var(--color-primary);
 }
 
-.shareSubtitle {
+.share__subtitle {
   color: #8A8A8A;
   text-align: center;
   font-family: var(--font-spartan);
@@ -55,7 +55,7 @@
 }
 
 /* Card Container */
-.shareForm {
+.share__form {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -70,13 +70,13 @@
   margin-bottom: 4rem;
 }
 
-.formHeader {
+.share__form-header {
   display: flex;
   flex-direction: column;
   margin-bottom: 0.25rem;
 }
 
-.formHeader h2 {
+.share__form-header h2 {
   color: #0A0A0A;
   font-family: var(--font-spartan);
   font-size: 20px;
@@ -85,7 +85,7 @@
   margin: 0;
 }
 
-.formHeader p {
+.share__form-header p {
   color: #686868;
   font-family: var(--font-spartan);
   font-size: 16px;
@@ -93,20 +93,20 @@
   margin: 4px 0 0 0;
 }
 
-.inputGroup {
+.share__input-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.labelRow {
+.share__label-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 }
 
-.inputLabel {
+.share__input-label {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -117,16 +117,16 @@
   line-height: 18px;
 }
 
-.inputLabel svg {
+.share__input-label svg {
   flex-shrink: 0;
 }
 
-.requiredAsterisk {
+.share__required-asterisk {
   color: var(--color-primary);
   margin-left: 2px;
 }
 
-.inputField {
+.share__input-field {
   width: 100%;
   height: 44px;
   border-radius: 12px;
@@ -141,12 +141,12 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.inputField:focus {
+.share__input-field:focus {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px var(--color-secondary-light);
 }
 
-.textareaField {
+.share__textarea-field {
   width: 100%;
   height: 150px;
   border-radius: 12px;
@@ -162,13 +162,13 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.textareaField:focus {
+.share__textarea-field:focus {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px var(--color-secondary-light);
 }
 
 /* Transcribe button */
-.transcribeButton {
+.share__transcribe-button {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -183,19 +183,19 @@
   transition: all 0.2s ease;
 }
 
-.transcribeButton:hover {
+.share__transcribe-button:hover {
   background-color: var(--color-bg-light);
   border-color: #A0A0A0;
 }
 
-.transcribeButtonActive {
+.share__transcribe-button.share__transcribe-button--active {
   background-color: rgba(255, 59, 48, 0.08) !important;
   border-color: #FF3B30 !important;
   color: #FF3B30 !important;
   animation: mic-pulse 1.5s infinite ease-in-out;
 }
 
-.transcribeButtonActive svg {
+.share__transcribe-button.share__transcribe-button--active svg {
   fill: #FF3B30 !important;
 }
 
@@ -211,12 +211,12 @@
   }
 }
 
-.transcribeButton svg {
+.share__transcribe-button svg {
   flex-shrink: 0;
 }
 
 /* Specific spots group and add button */
-.spotSublabel {
+.share__spot-sublabel {
   font-family: var(--font-spartan);
   font-size: 13px;
   color: #8A8A8A;
@@ -225,13 +225,13 @@
   line-height: 1.4;
 }
 
-.spotInputRow {
+.share__spot-input-row {
   display: flex;
   gap: 8px;
   width: 100%;
 }
 
-.addSpotButton {
+.share__add-spot-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -248,16 +248,16 @@
   flex-shrink: 0;
 }
 
-.addSpotButton:hover {
+.share__add-spot-button:hover {
   background-color: var(--color-primary-dark);
 }
 
-.addSpotButton:active {
+.share__add-spot-button:active {
   transform: scale(0.95);
 }
 
 /* Spots List tags */
-.spotsList {
+.share__spots-list {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -265,7 +265,7 @@
   width: 100%;
 }
 
-.spotTag {
+.share__spot-tag {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -279,7 +279,7 @@
   box-sizing: border-box;
 }
 
-.removeSpotButton {
+.share__remove-spot-button {
   background: none;
   border: none;
   padding: 0;
@@ -294,12 +294,12 @@
   transition: color 0.2s ease;
 }
 
-.removeSpotButton:hover {
+.share__remove-spot-button:hover {
   color: #FF3B30;
 }
 
 /* Panorama photo requirements */
-.requirementsBox {
+.share__requirements-box {
   border: 1.5px solid #00D77D;
   background-color: rgba(0, 215, 125, 0.03);
   border-radius: 12px;
@@ -307,7 +307,7 @@
   box-sizing: border-box;
 }
 
-.requirementsTitle {
+.share__requirements-title {
   color: #00D77D;
   font-family: var(--font-spartan);
   font-size: 14px;
@@ -315,7 +315,7 @@
   margin: 0 0 8px 0;
 }
 
-.requirementsList {
+.share__requirements-list {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -324,7 +324,7 @@
   gap: 6px;
 }
 
-.requirementItem {
+.share__requirement-item {
   font-family: var(--font-spartan);
   font-size: 13px;
   color: #4A4A4A;
@@ -334,7 +334,7 @@
   line-height: 1.4;
 }
 
-.requirementItem::before {
+.share__requirement-item::before {
   content: ">";
   color: #00D77D;
   font-weight: bold;
@@ -342,7 +342,7 @@
 }
 
 /* Upload dropzone */
-.uploadDropzone {
+.share__upload-dropzone {
   width: 100%;
   height: 120px;
   border: 1.5px dashed #D9D9D9;
@@ -358,12 +358,12 @@
   box-sizing: border-box;
 }
 
-.uploadDropzone:hover {
+.share__upload-dropzone:hover {
   border-color: var(--color-primary);
   background-color: var(--color-bg-light);
 }
 
-.uploadIconContainer {
+.share__upload-icon-container {
   position: relative;
   width: 44px;
   height: 44px;
@@ -375,11 +375,11 @@
   margin-bottom: 8px;
 }
 
-.uploadIconContainer svg {
+.share__upload-icon-container svg {
   flex-shrink: 0;
 }
 
-.uploadPlusBadge {
+.share__upload-plus-badge {
   position: absolute;
   top: -4px;
   right: -4px;
@@ -396,7 +396,7 @@
   line-height: 1;
 }
 
-.uploadText {
+.share__upload-text {
   font-family: var(--font-spartan);
   font-size: 14px;
   font-weight: 500;
@@ -412,7 +412,7 @@
 }
 
 /* Submit and disclaimer */
-.submitStoryButton {
+.share__submit-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -431,23 +431,23 @@
   margin-top: 1rem;
 }
 
-.submitStoryButton:hover {
+.share__submit-button:hover {
   background-color: var(--color-primary-dark);
 }
 
-.submitStoryButton:active {
+.share__submit-button:active {
   transform: scale(0.98);
 }
 
 /* Panorama preview and dropzone styles */
-.hasPreview {
+.share__upload-dropzone.share__upload-dropzone--has-preview {
   padding: 0 !important;
   border-style: solid !important;
   border-color: #00D77D !important;
   overflow: hidden;
 }
 
-.previewContainer {
+.share__preview-container {
   position: relative;
   width: 100%;
   height: 100%;
@@ -456,13 +456,13 @@
   justify-content: center;
 }
 
-.previewImage {
+.share__preview-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.previewOverlay {
+.share__preview-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -481,11 +481,11 @@
   pointer-events: none; /* Let clicks pass through to container */
 }
 
-.previewContainer:hover .previewOverlay {
+.share__preview-container:hover .share__preview-overlay {
   opacity: 1;
 }
 
-.removePreviewButton {
+.share__remove-preview-button {
   position: absolute;
   top: 8px;
   right: 8px;
@@ -505,16 +505,16 @@
   z-index: 5;
 }
 
-.removePreviewButton:hover {
+.share__remove-preview-button:hover {
   background-color: #FF3B30;
   transform: scale(1.1);
 }
 
-.removePreviewButton:active {
+.share__remove-preview-button:active {
   transform: scale(0.9);
 }
 
-.errorBox {
+.share__error-box {
   border: 1.5px solid #FF3B30;
   background-color: rgba(255, 59, 48, 0.03);
   border-radius: 12px;
@@ -524,7 +524,7 @@
   width: 100%;
 }
 
-.errorText {
+.share__error-text {
   color: #FF3B30;
   font-family: var(--font-spartan);
   font-size: 13px;
@@ -533,7 +533,7 @@
   line-height: 1.4;
 }
 
-.disclaimerText {
+.share__disclaimer-text {
   font-family: var(--font-spartan);
   font-size: 12px;
   color: #8A8A8A;
@@ -543,18 +543,18 @@
   padding: 0 0.5rem;
 }
 
-.disclaimerText a {
+.share__disclaimer-text a {
   color: #8A8A8A;
   text-decoration: underline;
   transition: color 0.2s ease;
 }
 
-.disclaimerText a:hover {
+.share__disclaimer-text a:hover {
   color: var(--color-primary);
 }
 
 /* Mobile top navbar (visible on mobile by default) */
-.navbarMobileTop {
+.share__mobile-nav {
   position: fixed;
   top: 0;
   left: 0;
@@ -568,50 +568,51 @@
   background-color: var(--color-white);
 }
 
-.mobileLogoLink {
+.share__mobile-logo-link {
   display: flex;
   align-items: center;
 }
 
-.mobileLogoImg {
+.share__mobile-logo-image {
   height: 3.25rem;
   width: auto;
   object-fit: contain;
 }
 
-.navbarMobileTopRight {
+.share__mobile-nav-right {
   display: flex;
   gap: 1.25rem;
   align-items: center;
 }
 
-.activeIconButton svg {
+.share__active-icon-button svg {
   fill: var(--color-primary) !important;
 }
 
+/* 2. Desktop overrides (layered on top for larger screens) */
 @media (min-width: 1024px) {
-  .shareContainer {
+  .share {
     padding: 0 1.25rem 2rem 1.25rem;
     background-color: var(--color-white);
   }
 
-  .navbarMobileTop {
+  .share__mobile-nav {
     display: none !important;
   }
   
-  .shareContent {
+  .share__content {
     max-width: 650px;
     margin-top: 2rem;
   }
 
-  .shareContent h1 {
+  .share__content h1 {
     font-size: 56px;
     line-height: 1.2;
     letter-spacing: -2px;
     margin-bottom: 0.5rem;
   }
 
-  .shareSubtitle {
+  .share__subtitle {
     width: 34.25rem;
     height: 4.0625rem;
     margin: 1rem auto 2.5rem auto;
@@ -619,53 +620,53 @@
     line-height: 1.5;
   }
 
-  .shareForm {
+  .share__form {
     padding: 2.5rem;
     gap: 1.75rem;
     border-radius: 20px;
     margin-bottom: 1rem;
   }
 
-  .formHeader {
+  .share__form-header {
     flex-direction: row;
     align-items: baseline;
     gap: 6px;
     margin-bottom: 0.5rem;
   }
 
-  .formHeader h2 {
+  .share__form-header h2 {
     font-size: 22px;
   }
 
-  .formHeader p {
+  .share__form-header p {
     font-size: 18px;
     margin: 0;
   }
 
-  .inputField {
+  .share__input-field {
     height: 48px;
     font-size: 16px;
   }
 
-  .textareaField {
+  .share__textarea-field {
     height: 180px;
     font-size: 16px;
   }
 
-  .spotInputRow {
+  .share__spot-input-row {
     gap: 12px;
   }
 
-  .addSpotButton {
+  .share__add-spot-button {
     width: 48px;
     height: 48px;
   }
 
-  .uploadDropzone {
+  .share__upload-dropzone {
     height: 150px;
   }
 
-  .submitStoryButton {
+  .share__submit-button {
     height: 52px;
     font-size: 18px;
     font-weight: 600;
@@ -673,29 +674,29 @@
     margin-top: 1.5rem;
   }
 
-  .successContent {
+  .share__success-content {
     max-width: 600px;
     margin-top: 4rem;
     padding: 6rem 2.5rem;
   }
 
-  .successTitle {
+  .share__success-title {
     font-size: 56px;
     line-height: 1.1;
   }
 
-  .successTitleOrange {
+  .share__success-title-orange {
     font-size: 56px;
     line-height: 1.1;
   }
 
-  .successMessage {
+  .share__success-message {
     font-size: 18px;
     max-width: 400px;
     margin: 3rem auto;
   }
 
-  .successButton {
+  .share__success-button {
     height: 52px;
     padding: 0 2.5rem;
     font-size: 18px;
@@ -712,7 +713,7 @@
 }
 
 /* 3. Success page layout styling */
-.successContent {
+.share__success-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -726,7 +727,7 @@
   text-align: center;
 }
 
-.successCheckCircle {
+.share__success-check-circle {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -749,7 +750,7 @@
   }
 }
 
-.successTitle {
+.share__success-title {
   color: #000;
   text-align: center;
   font-family: var(--font-antwerpen);
@@ -761,7 +762,7 @@
   margin: 0;
 }
 
-.successTitleOrange {
+.share__success-title-orange {
   color: #FF7D3C;
   font-family: var(--font-antwerpen);
   font-size: 40px;
@@ -772,7 +773,7 @@
   text-transform: uppercase;
 }
 
-.successMessage {
+.share__success-message {
   color: #8A8A8A;
   text-align: center;
   font-family: var(--font-spartan);
@@ -784,7 +785,7 @@
   max-width: 320px;
 }
 
-.successButton {
+.share__success-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -803,19 +804,18 @@
   border: none;
 }
 
-.successButton:hover {
+.share__success-button:hover {
   background-color: var(--color-primary-dark);
 }
 
-.successButton:active {
+.share__success-button:active {
   transform: scale(0.98);
 }
 
-.successButton svg {
+.share__success-button svg {
   transition: transform 0.2s ease;
 }
 
-.successButton:hover svg {
+.share__success-button:hover svg {
   transform: translateX(4px);
 }
-

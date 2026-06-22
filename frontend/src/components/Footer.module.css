@@ -9,7 +9,7 @@
   box-sizing: border-box;
 }
 
-.footerBg {
+.footer__bg {
   position: absolute;
   top: 0;
   left: 0;
@@ -19,7 +19,15 @@
   z-index: 1;
 }
 
-.footerContent {
+.footer__bg--mobile {
+  display: block;
+}
+
+.footer__bg--desktop {
+  display: none;
+}
+
+.footer__content {
   position: relative;
   z-index: 2;
   width: 100%;
@@ -32,7 +40,7 @@
   align-items: center;
 }
 
-.footerLogoWrapper {
+.footer__logo-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -40,30 +48,43 @@
   width: 100%;
 }
 
-.footerLogoWrapper svg {
+.footer__logo-wrapper svg {
   width: 8.66425rem;
   height: 3.63381rem;
 }
 
-.footerLogoImg {
+.footer__logo-image {
   width: 8.66425rem;
   height: auto;
   object-fit: contain;
   transition: filter 0.25s ease;
 }
 
-.footerLogoWrapper:hover .footerLogoImg {
+.footer__logo-wrapper:hover .footer__logo-image {
   filter: brightness(0);
 }
 
-.footerNav {
+.footer__links-group {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
 }
 
-.footerLink {
+.footer__right-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer__nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer__link {
   color: var(--color-white);
   font-family: var(--font-spartan);
   font-size: 1rem;
@@ -86,16 +107,16 @@
   transition: color 0.2s ease;
 }
 
-.footerLink:hover {
+.footer__link:hover {
   color: var(--color-dark-gray);
 }
 
-.footerLinkSpecial {
+.footer__link--special {
   margin-top: 1.5rem;
   /* Creates the blank line spacing before VISIT ANTWERP */
 }
 
-.footerSocials {
+.footer__socials {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -106,14 +127,14 @@
   /* space under Visit Antwerp */
 }
 
-.footerSocialLink {
+.footer__social-link {
   display: flex;
   justify-content: center;
   align-items: center;
   text-decoration: none;
 }
 
-.footerSocialIcon {
+.footer__social-icon {
   width: 1.875rem;
   height: 1.875rem;
   object-fit: contain;
@@ -121,7 +142,7 @@
   transition: filter 0.2s ease, transform 0.2s ease;
 }
 
-.footerSocialLink:hover .footerSocialIcon {
+.footer__social-link:hover .footer__social-icon {
   filter: brightness(0);
   transform: translateY(-2px);
 }
@@ -129,16 +150,20 @@
 @media (min-width: 801px) {
   .footer {
     height: auto;
-    min-height: 18rem;
-    background: var(--color-primary);
-    margin-top: 3rem;
+    min-height: 25rem;
+    background: transparent;
+    margin-top: 8rem;
   }
 
-  .footerBg {
+  .footer__bg--mobile {
     display: none;
   }
 
-  .footerContent {
+  .footer__bg--desktop {
+    display: block;
+  }
+
+  .footer__content {
     max-width: 106.25rem;
     /* 1700px */
     margin: 0 auto;
@@ -146,25 +171,60 @@
     align-items: center;
   }
 
-  .footerNav {
+  .footer__nav {
+    position: relative;
+    width: 100%;
     flex-direction: row;
     justify-content: center;
-    flex-wrap: wrap;
+    align-items: center;
     gap: 1.5rem;
   }
 
-  .footerLinkSpecial {
-    margin-top: 0;
-    /* Resets the blank line margin on desktop */
+  .footer__links-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: absolute;
+    left: 115px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
-  .footerSocials {
+  .footer__right-group {
+    position: absolute;
+    right: 115px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 9.5rem;
+    display: block;
+  }
+
+  .footer__link--special {
     margin-top: 0;
-    /* Resets the top margin on desktop */
+    position: absolute;
+    right: 0;
+    top: 4.75rem;
+    transform: translateY(-50%);
+    white-space: nowrap;
+  }
+
+  .footer__socials {
+    position: absolute;
+    right: 0;
+    top: 8.75rem;
+    transform: translateY(-50%);
+  }
+
+  .footer__copyright {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 0;
   }
 }
 
-.footerCopyright {
+.footer__copyright {
   color: var(--color-white);
   text-align: center;
   font-family: var(--font-spartan);
