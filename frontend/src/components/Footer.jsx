@@ -96,17 +96,17 @@ export default function Footer() {
         preserveAspectRatio="none"
       >
         <g filter="url(#filter0_d_1542_9468)">
-          <path d="M-96 40C-96 40 241.463 94.4558 851 94.4558C1460.54 94.4558 1798 40 1798 40V703C1798 703 1440.24 648.544 851 648.544C261.756 648.544 -96 703 -96 703V40Z" fill="#FF7D3C"/>
+          <path d="M-96 40C-96 40 241.463 94.4558 851 94.4558C1460.54 94.4558 1798 40 1798 40V703C1798 703 1440.24 648.544 851 648.544C261.756 648.544 -96 703 -96 703V40Z" fill="#FF7D3C" />
         </g>
         <defs>
           <filter id="filter0_d_1542_9468" x="-166" y="0" width="2034" height="803" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-            <feFlood floodOpacity="0" result="BackgroundImageFix"/>
-            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-            <feOffset dy="30"/>
-            <feGaussianBlur stdDeviation="35"/>
-            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
-            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1542_9468"/>
-            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1542_9468" result="shape"/>
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+            <feOffset dy="30" />
+            <feGaussianBlur stdDeviation="35" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" />
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1542_9468" />
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1542_9468" result="shape" />
           </filter>
         </defs>
       </svg>
@@ -120,7 +120,8 @@ export default function Footer() {
           <div className={styles['footer__links-group']}>
             <Link to="/" className={styles.footer__link}>Home</Link>
             <Link to="/#panoramas" className={styles.footer__link}>Panorama's</Link>
-            <Link to="/radar" className={styles.footer__link}>Radar</Link>
+            <Link to="/radar" className={`${styles.footer__link} ${styles['footer__link--mobile-only']}`}>Radar</Link>
+            <Link to="/radar-explained" className={`${styles.footer__link} ${styles['footer__link--desktop-only']}`}>Radar</Link>
             <Link to="/favourites" className={styles.footer__link}>Favourites</Link>
             <Link to="/account" className={styles.footer__link}>Account</Link>
           </div>
@@ -133,21 +134,21 @@ export default function Footer() {
             >
               Visit Antwerp
             </a>
-            
+
             <div className={styles.footer__socials}>
-              <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer" className={styles['footer__social-link']}>
+              <a href="https://www.pinterest.com/visitantwerp/" target="_blank" rel="noopener noreferrer" className={styles['footer__social-link']}>
                 <img src={pinterestIcon} alt="Pinterest" className={styles['footer__social-icon']} />
               </a>
-              <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className={styles['footer__social-link']}>
+              <a href="https://www.tiktok.com/@visit.antwerp" target="_blank" rel="noopener noreferrer" className={styles['footer__social-link']}>
                 <img src={tiktokIcon} alt="TikTok" className={styles['footer__social-icon']} />
               </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className={styles['footer__social-link']}>
+              <a href="https://www.facebook.com/visitantwerp/?locale=nl_BE" target="_blank" rel="noopener noreferrer" className={styles['footer__social-link']}>
                 <img src={facebookIcon} alt="Facebook" className={styles['footer__social-icon']} />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className={styles['footer__social-link']}>
+              <a href="https://www.instagram.com/antwerpen/" target="_blank" rel="noopener noreferrer" className={styles['footer__social-link']}>
                 <img src={instagramIcon} alt="Instagram" className={styles['footer__social-icon']} />
               </a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className={styles['footer__social-link']}>
+              <a href="https://www.youtube.com/c/VisitAntwerp" target="_blank" rel="noopener noreferrer" className={styles['footer__social-link']}>
                 <img src={youtubeIcon} alt="YouTube" className={styles['footer__social-icon']} />
               </a>
             </div>

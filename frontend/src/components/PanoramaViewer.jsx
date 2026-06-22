@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ReactPhotoSphereViewer } from 'react-photo-sphere-viewer';
 import { GyroscopePlugin } from '@photo-sphere-viewer/gyroscope-plugin';
 import { Link } from 'react-router-dom';
@@ -21,9 +21,29 @@ export default function PanoramaViewer({
   const [gyroStarted, setGyroStarted] = useState(false);
   const [gyroFailed, setGyroFailed] = useState(false);
   const [viewerLoading, setViewerLoading] = useState(true);
+  const [showHint, setShowHint] = useState(false);
   const viewerRef = useRef(null);
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
+
+  // Desktop mouse-position panning refs
+  const containerRef = useRef(null);
+  const mouseOffsetRef = useRef(0); // -1 (left edge) to +1 (right edge), 0 = center
+  const isHoveringRef = useRef(false);
+  const animFrameRef = useRef(null);
+
+  // Show hint for 3 seconds when loading finishes on desktop
+  useEffect(() => {
+    if (!isMobile && !viewerLoading) {
+      setShowHint(true);
+      const timer = setTimeout(() => {
+        setShowHint(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    } else if (viewerLoading) {
+      setShowHint(false);
+    }
+  }, [viewerLoading, isMobile]);
 
   // Keep track of the freshest onLoaded callback to prevent stale closures in event listeners
   const onLoadedRef = useRef(onLoaded);
@@ -98,12 +118,80 @@ export default function PanoramaViewer({
     }
   };
 
+  // Desktop: mouse-position-based panning
+  const handleMouseMove = useCallback((e) => {
+    if (!containerRef.current || isMobile) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const normalised = (x / rect.width) * 2 - 1; // -1 to +1
+    mouseOffsetRef.current = normalised;
+  }, [isMobile]);
+
+  const handleMouseEnter = useCallback(() => {
+    if (isMobile) return;
+    isHoveringRef.current = true;
+  }, [isMobile]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (isMobile) return;
+    isHoveringRef.current = false;
+    mouseOffsetRef.current = 0;
+  }, [isMobile]);
+
+  // Animation loop: continuously rotate based on mouse offset
+  useEffect(() => {
+    if (isMobile) return;
+
+    const maxSpeed = 0.015; // radians per frame at the edges
+    const deadZone = 0.1; // no movement in the center 10%
+
+    const tick = () => {
+      if (isHoveringRef.current && viewerRef.current) {
+        let offset = mouseOffsetRef.current;
+
+        // Apply dead zone
+        if (Math.abs(offset) < deadZone) {
+          offset = 0;
+        } else {
+          // Remap so the edge of the dead zone starts at 0
+          offset = offset > 0
+            ? (offset - deadZone) / (1 - deadZone)
+            : (offset + deadZone) / (1 - deadZone);
+        }
+
+        if (offset !== 0) {
+          try {
+            const pos = viewerRef.current.getPosition();
+            viewerRef.current.rotate({
+              yaw: pos.yaw + offset * maxSpeed,
+              pitch: pos.pitch,
+            });
+          } catch (err) {
+            // Viewer might not be fully ready yet, ignore
+          }
+        }
+      }
+      animFrameRef.current = requestAnimationFrame(tick);
+    };
+
+    animFrameRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (animFrameRef.current) {
+        cancelAnimationFrame(animFrameRef.current);
+      }
+    };
+  }, [isMobile]);
+
   return (
     <div
+      ref={containerRef}
       className={className}
       style={{ position: 'relative' }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      onMouseMove={!isMobile ? handleMouseMove : undefined}
+      onMouseEnter={!isMobile ? handleMouseEnter : undefined}
+      onMouseLeave={!isMobile ? handleMouseLeave : undefined}
     >
       <ReactPhotoSphereViewer
         ref={viewerRef}
@@ -111,8 +199,8 @@ export default function PanoramaViewer({
         height={"100%"}
         width={"100%"}
         plugins={plugins}
-        mousemove={true}
-        mousewheel={true}
+        mousemove={isMobile}
+        mousewheel={isMobile}
         // In development, if the gyroscope fails (e.g. on a desktop emulator), we disable the 
         // two-finger requirement so the developer can easily drag using a single mouse click.
         // In production, we keep it true on mobile so that if the user rejects the gyroscope, 
@@ -134,54 +222,59 @@ export default function PanoramaViewer({
         </div>
       </div>
 
-      {isMobile && (
-        <>
-          <div className={styles.panoGradientOverlay} />
-          <div className={styles.panoContentWrapper}>
-            <p className={styles.panoContent__storyCount}>{storyCount}</p>
-            <h2 className={styles.panoContent__title}>{title}</h2>
-            <p className={styles.panoContent__description}>{description}</p>
-            <div className={styles.exploreActionsContainer}>
-              <Link
-                to="#"
-                onClick={(e) => e.preventDefault()}
-                className={styles.exploreSceneButton}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={styles.exploreSceneButton__icon}
-                  viewBox="0 0 16 12"
-                  fill="none"
-                >
-                  <path
-                    d="M0.7942 5.45344C0.735267 5.61221 0.735267 5.78685 0.7942 5.94561C1.36818 7.33736 2.34249 8.52735 3.5936 9.3647C4.8447 10.202 6.31627 10.6491 7.82174 10.6491C9.3272 10.6491 10.7988 10.202 12.0499 9.3647C13.301 8.52735 14.2753 7.33736 14.8493 5.94561C14.9082 5.78685 14.9082 5.61221 14.8493 5.45344C14.2753 4.06169 13.301 2.87171 12.0499 2.03436C10.7988 1.19701 9.3272 0.75 7.82174 0.75C6.31627 0.75 4.8447 1.19701 3.5936 2.03436C2.34249 2.87171 1.36818 4.06169 0.7942 5.45344Z"
-                    stroke="white"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M7.82234 7.81998C8.99397 7.81998 9.94376 6.87019 9.94376 5.69856C9.94376 4.52694 8.99397 3.57715 7.82234 3.57715C6.65072 3.57715 5.70093 4.52694 5.70093 5.69856C5.70093 6.87019 6.65072 7.81998 7.82234 7.81998Z"
-                    stroke="white"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                Explore Scene
-              </Link>
-              <Link
-                to="#"
-                onClick={(e) => e.preventDefault()}
-                className={styles.discoverSpotsButton}
-              >
-                Discover spots
-                <span className={styles.discoverSpotsButton__arrow}>→</span>
-              </Link>
-            </div>
-          </div>
-        </>
+      {!isMobile && (
+        <div className={`${styles.moveMouseHint} ${!showHint ? styles.moveMouseHintHidden : ''}`}>
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.785365 1.35533C0.75116 1.27563 0.741479 1.18739 0.75758 1.10207C0.77368 1.01674 0.814818 0.938278 0.875652 0.87686C0.936485 0.815441 1.0142 0.773908 1.09871 0.757653C1.18323 0.741397 1.27063 0.751171 1.34957 0.785705L15.2162 6.4732C15.3005 6.50789 15.3719 6.5685 15.4202 6.64644C15.4684 6.72438 15.4912 6.81569 15.4851 6.90741C15.4791 6.99913 15.4446 7.08659 15.3865 7.15739C15.3284 7.22819 15.2498 7.27873 15.1616 7.30183L9.85417 8.68433C9.55429 8.76216 9.28054 8.91968 9.06137 9.14049C8.8422 9.3613 8.68562 9.63736 8.6079 9.93995L7.23943 15.3002C7.21655 15.3892 7.1665 15.4686 7.09637 15.5272C7.02625 15.5859 6.93961 15.6207 6.84877 15.6268C6.75792 15.6329 6.66748 15.61 6.59028 15.5612C6.51309 15.5125 6.45305 15.4405 6.4187 15.3553L0.785365 1.35533Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Move your mouse</span>
+        </div>
       )}
+
+      <div className={styles.panoGradientOverlay} />
+      <div className={styles.panoContentWrapper}>
+        <p className={styles.panoContent__storyCount}>{storyCount}</p>
+        <h2 className={styles.panoContent__title}>{title}</h2>
+        <p className={styles.panoContent__description}>{description}</p>
+        <div className={styles.exploreActionsContainer}>
+          <Link
+            to="#"
+            onClick={(e) => e.preventDefault()}
+            className={styles.exploreSceneButton}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={styles.exploreSceneButton__icon}
+              viewBox="0 0 16 12"
+              fill="none"
+            >
+              <path
+                d="M0.7942 5.45344C0.735267 5.61221 0.735267 5.78685 0.7942 5.94561C1.36818 7.33736 2.34249 8.52735 3.5936 9.3647C4.8447 10.202 6.31627 10.6491 7.82174 10.6491C9.3272 10.6491 10.7988 10.202 12.0499 9.3647C13.301 8.52735 14.2753 7.33736 14.8493 5.94561C14.9082 5.78685 14.9082 5.61221 14.8493 5.45344C14.2753 4.06169 13.301 2.87171 12.0499 2.03436C10.7988 1.19701 9.3272 0.75 7.82174 0.75C6.31627 0.75 4.8447 1.19701 3.5936 2.03436C2.34249 2.87171 1.36818 4.06169 0.7942 5.45344Z"
+                stroke="white"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M7.82234 7.81998C8.99397 7.81998 9.94376 6.87019 9.94376 5.69856C9.94376 4.52694 8.99397 3.57715 7.82234 3.57715C6.65072 3.57715 5.70093 4.52694 5.70093 5.69856C5.70093 6.87019 6.65072 7.81998 7.82234 7.81998Z"
+                stroke="white"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Explore Scene
+          </Link>
+          <Link
+            to="#"
+            onClick={(e) => e.preventDefault()}
+            className={styles.discoverSpotsButton}
+          >
+            Discover spots
+            <span className={styles.discoverSpotsButton__arrow}>→</span>
+          </Link>
+        </div>
+      </div>
 
       {isMobile && !gyroStarted && (
         <button
