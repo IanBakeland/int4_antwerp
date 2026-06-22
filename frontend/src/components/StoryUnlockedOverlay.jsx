@@ -106,7 +106,7 @@ export default function StoryUnlockedOverlay({ story, isMuted, setIsMuted, hasSp
 
   const getTransformStyle = () => {
     if (isDragging) {
-      if (sheetState === 'hidden') return `translateY(calc(100% - 9rem + ${dragOffset}px))`;
+      if (sheetState === 'hidden') return `translateY(calc(100% - 11rem + ${dragOffset}px))`; // <-- Updated to 11rem
       if (sheetState === 'half') return `translateY(calc(45vh + ${dragOffset}px))`;
       if (sheetState === 'full') return `translateY(calc(5vh + ${dragOffset}px))`;
     }
@@ -219,14 +219,14 @@ export default function StoryUnlockedOverlay({ story, isMuted, setIsMuted, hasSp
               iconButton={true}
             />
             
-            <button className="iconbutton" onClick={handleShare}>
+            <button className="iconbutton dark" onClick={handleShare}>
               <ShareFilledIcon />
             </button>
             <button 
               onClick={() => {
                 if (hasSpeech) setIsMuted(!isMuted);
               }} 
-              className="iconButton dark"
+              className="iconbutton dark"
               style={{ 
                 opacity: hasSpeech ? 1 : 0.5,
                 cursor: hasSpeech ? 'pointer' : 'default'
