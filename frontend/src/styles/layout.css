@@ -16,6 +16,12 @@ main {
   }
 }
 
+@media (max-width: 800px) {
+  main:has(.emptyStateActive) {
+    margin-bottom: -5rem;
+  }
+}
+
 /* Custom Scrollbars */
 * {
   scrollbar-color: var(--color-primary) #ECECE7;

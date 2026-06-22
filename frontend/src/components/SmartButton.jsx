@@ -6,7 +6,7 @@ export default function SmartButton({ children, to, onClick, type = 'button', ic
     return (
       <Link to={to} className={styles.button}>
         {icon && <span className={styles.buttonIcon}>{icon}</span>}
-        {children}
+        <span className={styles.buttonText}>{children}</span>
       </Link>
     );
   }
@@ -14,7 +14,7 @@ export default function SmartButton({ children, to, onClick, type = 'button', ic
   return (
     <button type={type} onClick={onClick} className={styles.button}>
       {icon && <span className={styles.buttonIcon}>{icon}</span>}
-      {children}
+      <span className={styles.buttonText}>{children}</span>
     </button>
   );
 }
