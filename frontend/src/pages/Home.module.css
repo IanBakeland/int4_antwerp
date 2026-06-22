@@ -1395,4 +1395,45 @@
   .home__radar-button {
     display: none;
   }
+
+  .home__background-moments {
+    margin-top: -550px;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    display: block;
+    height: auto;
+  }
+
+  .home__scroll-banner-content span {
+    color: #000;
+    text-align: center;
+    font-family: "Rotunda Variable", sans-serif;
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 97.276%;
+    letter-spacing: -4.2px;
+    text-transform: uppercase;
+  }
+
+  .home__scroll-banner:not(.home__scroll-banner--horizontal) {
+    width: 110vw;
+    max-width: 110vw;
+    height: 127.765px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%) rotate(-2.043deg);
+    margin-top: -120px;
+  }
+
+  .home__scroll-banner.home__scroll-banner--horizontal {
+    width: 110vw;
+    max-width: 110vw;
+    height: 127.77px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    margin-top: -60px;
+  }
 }
