@@ -3,7 +3,9 @@ import { useState, useEffect } from 'react';
 import Home from './pages/Home';
 import Radar from './pages/Radar';
 import Favourites from './pages/Favourites';
+import FavouritesNotLoggedIn from './pages/FavouritesNotLoggedIn';
 import Share from './pages/Share';
+import ShareNotLoggedIn from './pages/ShareNotLoggedIn';
 import RadarExplained from './pages/RadarExplained';
 import Account from './pages/Account';
 import Login from './pages/Login';
@@ -97,7 +99,7 @@ export default function App() {
           <Route 
             path="/share" 
             element={
-              token ? <Share /> : <Navigate to="/login" replace />
+              token ? <Share /> : <ShareNotLoggedIn />
             } 
           />
           <Route path="/radar-explained" element={<RadarExplained />} />
@@ -113,7 +115,7 @@ export default function App() {
                   selectedStory={selectedStory} 
                   setSelectedStory={setSelectedStory} 
                 />
-              ) : <Navigate to="/login" replace />
+              ) : <FavouritesNotLoggedIn />
             } 
           />
           
