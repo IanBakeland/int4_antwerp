@@ -161,27 +161,34 @@
 
 @media (min-width: 801px) {
   .panoContentWrapper {
-    bottom: 4.75rem;
+    top: 50%;
+    transform: translateY(-20px);
+    bottom: auto;
     left: 135px;
     right: auto;
     max-width: min(38rem, 48vw);
   }
 
   .panoContent__storyCount {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
+    color: rgba(255, 255, 255, 0.80);
+    font-family: "League Spartan", var(--font-spartan);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px;
+    text-transform: uppercase;
   }
 
   .panoContent__title {
-    font-size: clamp(3rem, 5vw, 4.75rem);
-    line-height: 0.95;
+    font-size: 55px;
+    line-height: 1.1;
     white-space: normal;
   }
 
   .panoContent__description {
     max-width: 34rem;
-    font-size: 1.25rem;
-    line-height: 1.75rem;
+    font-size: 22px;
+    line-height: 1.6;
   }
 
   .exploreActionsContainer {

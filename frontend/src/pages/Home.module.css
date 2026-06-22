@@ -1199,5 +1199,30 @@
   .home__pano-content-wrapper {
     left: 135px;
     right: 135px;
+    top: 50%;
+    transform: translateY(-20px);
+    bottom: auto;
+  }
+
+  .home__pano-content-story-count {
+    color: rgba(255, 255, 255, 0.80);
+    font-family: "League Spartan", var(--font-spartan);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px;
+    text-transform: uppercase;
+  }
+
+  .home__pano-content-title {
+    font-size: 55px;
+    line-height: 1.1;
+    white-space: normal;
+    overflow: visible;
+  }
+
+  .home__pano-content-description {
+    font-size: 22px;
+    line-height: 1.6;
   }
 }
