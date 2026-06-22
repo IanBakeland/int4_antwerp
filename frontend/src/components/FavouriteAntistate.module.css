@@ -77,11 +77,12 @@
 
 .cardFooter h3 {
   margin: 0;
-  color: var(--color-white);
-  font-family: var(--font-spartan);
-  font-size: 1.1rem;
-  font-weight: 700;
-  line-height: 1.25;
+  color: #FFF;
+  font-family: var(--font-antwerpen);
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
   text-align: left;
 }
 
@@ -89,14 +90,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: auto;
+  color: #FFF;
+  text-align: center;
+  font-family: "SF Pro Rounded", sans-serif;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-left: auto; 
 }
 
 .heartIcon svg {
-  width: 18px;
-  height: 18px;
-  stroke: var(--color-white);
-  fill: none;
+  width: 1.375rem;
+  height: 1.3125rem;
+  fill: currentColor; 
+  stroke: none;
 }
 
 .cardLouis {

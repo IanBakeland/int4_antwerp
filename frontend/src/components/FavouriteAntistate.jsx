@@ -69,7 +69,7 @@ export default function FavouriteAntistate() {
             </div>
           </div>
           <div className={styles.cardFooter}>
-            <h3>A wild night out</h3>
+            <h3>A wild <br /> night out</h3>
             <div className={styles.heartIcon}>
               <HeartIcon />
             </div>
