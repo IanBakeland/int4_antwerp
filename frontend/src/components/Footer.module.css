@@ -116,6 +116,14 @@
   /* Creates the blank line spacing before VISIT ANTWERP */
 }
 
+.footer__link--mobile-only {
+  display: block;
+}
+
+.footer__link--desktop-only {
+  display: none;
+}
+
 .footer__socials {
   display: flex;
   flex-direction: row;
@@ -221,6 +229,14 @@
     left: 50%;
     transform: translateX(-50%);
     margin-top: 0;
+  }
+
+  .footer__link--mobile-only {
+    display: none;
+  }
+
+  .footer__link--desktop-only {
+    display: block;
   }
 }
 

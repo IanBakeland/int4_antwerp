@@ -120,7 +120,8 @@ export default function Footer() {
           <div className={styles['footer__links-group']}>
             <Link to="/" className={styles.footer__link}>Home</Link>
             <Link to="/#panoramas" className={styles.footer__link}>Panorama's</Link>
-            <Link to="/radar" className={styles.footer__link}>Radar</Link>
+            <Link to="/radar" className={`${styles.footer__link} ${styles['footer__link--mobile-only']}`}>Radar</Link>
+            <Link to="/radar-explained" className={`${styles.footer__link} ${styles['footer__link--desktop-only']}`}>Radar</Link>
             <Link to="/favourites" className={styles.footer__link}>Favourites</Link>
             <Link to="/account" className={styles.footer__link}>Account</Link>
           </div>
