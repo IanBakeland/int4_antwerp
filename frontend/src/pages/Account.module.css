@@ -407,21 +407,22 @@
     box-sizing: border-box;
     z-index: 1;
     padding: 0;
-    margin: 12rem 0 0 0;
+    margin: 6rem 0 0 0;
   }
 
   .auth__content {
     margin-top: 0;
-    max-width: 60rem;
+    width: 34.125rem;
+    max-width: none;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
   }
 
   .auth__welcome-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 100%;
   }
 
   .auth__welcome-text {
@@ -432,7 +433,7 @@
 
   .auth__welcome-text h1 {
     font-size: 3.5rem;
-    margin-bottom: 1.75rem;
+    margin-bottom: 1rem;
   }
 
   .auth__subtitle {
@@ -441,18 +442,23 @@
   }
 
   .auth__account-layout {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 2rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     margin-top: 0.25rem;
   }
 
   .auth__account-left {
     width: 34.125rem;
+    gap: 1rem;
   }
 
   .auth__account-right {
-    width: 16.5rem;
+    position: absolute;
+    left: calc(100% + 1rem);
+    top: 0;
+    width: 17.125rem;
   }
 
   .auth__form {
