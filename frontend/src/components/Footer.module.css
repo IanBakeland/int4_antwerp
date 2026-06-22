@@ -129,10 +129,9 @@
 @media (min-width: 801px) {
   .footer {
     height: auto;
-    min-height: 15rem;
-    /* 240px */
+    min-height: 18rem;
     background: var(--color-primary);
-    margin-top: 8rem;
+    margin-top: 3rem;
   }
 
   .footerBg {
