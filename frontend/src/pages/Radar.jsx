@@ -7,6 +7,7 @@ import FiltersRadar from '../components/FiltersRadar';
 import RadarVisual from '../components/RadarVisual';
 import StoryCardSelected from '../components/StoryCardSelected';
 import StoryCard from '../components/StoryCard';
+import StoryUnlockedOverlay from '../components/StoryUnlockedOverlay';
 
 import PersonIcon from '../assets/icons/Person';
 import MuteIcon from '../assets/icons/Mute';
@@ -39,7 +40,9 @@ export default function Radar({
   useEffect(() => {
     const fetchStories = async () => {
       try {
-        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user&populate[2]=speach&pagination[limit]=100");
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user&populate[2]=speach&pagination[limit]=100", { headers });
+        
         if (!res.ok) throw new Error("Failed to fetch stories");
         const data = await res.json();
         setStories(data.data || []);
@@ -300,6 +303,16 @@ export default function Radar({
             ))}
           </div>
         </>
+      )}
+
+      {activeDistance !== null && activeDistance <= 150 && isRadarActive && activeStory && (
+        <StoryUnlockedOverlay 
+          story={activeStory}
+          isMuted={isMuted}
+          setIsMuted={setIsMuted}
+          hasSpeech={hasSpeech}
+          favouriteDocId={userFavourites[activeStory.documentId] || null}
+        />
       )}
 
       <audio ref={noiseAudioRef} src={whiteNoiseFile} loop playsInline />
