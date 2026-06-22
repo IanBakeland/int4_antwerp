@@ -166,16 +166,16 @@ export default function Home({ userLocation }) {
   }, []);
 
   const transitionClassMap = {
-    'slide-active': styles.slideActive,
-    'slide-leave-left': styles.slideLeaveLeft,
-    'slide-leave-right': styles.slideLeaveRight,
-    'slide-enter-left': styles.slideEnterLeft,
-    'slide-enter-right': styles.slideEnterRight,
-    'static-active': styles.staticActive,
-    'static-leave-prep-left': styles.staticLeavePrepLeft,
-    'static-leave-prep-right': styles.staticLeavePrepRight,
-    'slide-enter-prep-left': styles.slideEnterPrepLeft,
-    'slide-enter-prep-right': styles.slideEnterPrepRight,
+    'slide-active': styles['home__pano-image--slide-active'],
+    'slide-leave-left': styles['home__pano-image--slide-leave-left'],
+    'slide-leave-right': styles['home__pano-image--slide-leave-right'],
+    'slide-enter-left': styles['home__pano-image--slide-enter-left'],
+    'slide-enter-right': styles['home__pano-image--slide-enter-right'],
+    'static-active': styles['home__pano-image--static-active'],
+    'static-leave-prep-left': styles['home__pano-image--static-leave-prep-left'],
+    'static-leave-prep-right': styles['home__pano-image--static-leave-prep-right'],
+    'slide-enter-prep-left': styles['home__pano-image--slide-enter-prep-left'],
+    'slide-enter-prep-right': styles['home__pano-image--slide-enter-prep-right'],
   };
 
   const navigateToPano = (newIndex, forcedDirection) => {
@@ -252,35 +252,35 @@ export default function Home({ userLocation }) {
 
   return (
     <>
-      <header className={styles.navbarMobileTop}>
-        <Link to="/" className={styles.mobileLogoLink} aria-label="Go to Homepage">
-          <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.mobileLogoImg} />
+      <header className={styles['home__mobile-nav']}>
+        <Link to="/" className={styles['home__mobile-logo-link']} aria-label="Go to Homepage">
+          <img src={antwerpLogo} alt="Antwerpen Logo" className={styles['home__mobile-logo-image']} />
         </Link>
-        <div className={styles.navbarMobileTopRight}>
+        <div className={styles['home__mobile-nav-right']}>
           <Link to="/account" className="iconbutton" aria-label="Account"><PersonIcon /></Link>
         </div>
       </header>
-      <div className={styles.homeContainer}>
-        <div className={styles.homeLogoWrapper}>
+      <div className={styles.home}>
+        <div className={styles['home__logo-wrapper']}>
           <LogoAS />
         </div>
 
         <div 
-          className={styles.homePanoWrapper}
+          className={styles['home__pano-wrapper']}
           role="region"
           aria-label={`360 degree panorama viewer displaying: ${activeStory.title}`}
         >
           {prevPanoIndex !== null && (
             <div
-              className={`${styles.homePanoImage} ${styles.staticSlide} ${transitionClassMap[prevTransitionClass]}`}
+              className={`${styles['home__pano-image']} ${styles['home__static-slide']} ${transitionClassMap[prevTransitionClass]}`}
               onTransitionEnd={handleTransitionEnd}
             >
-              <img src={stories[prevPanoIndex].image} alt="" className={styles.staticSlideImage} />
-              <div className={styles.panoGradientOverlay} />
-              <div className={styles.panoContentWrapper}>
-                <p className={styles.panoContent__storyCount}>{stories[prevPanoIndex].storyCount}</p>
-                <h2 className={styles.panoContent__title}>{stories[prevPanoIndex].title}</h2>
-                <p className={styles.panoContent__description}>{stories[prevPanoIndex].description}</p>
+              <img src={stories[prevPanoIndex].image} alt="" className={styles['home__static-slide-image']} />
+              <div className={styles['home__pano-gradient-overlay']} />
+              <div className={styles['home__pano-content-wrapper']}>
+                <p className={styles['home__pano-content-story-count']}>{stories[prevPanoIndex].storyCount}</p>
+                <h2 className={styles['home__pano-content-title']}>{stories[prevPanoIndex].title}</h2>
+                <p className={styles['home__pano-content-description']}>{stories[prevPanoIndex].description}</p>
               </div>
             </div>
           )}
@@ -298,16 +298,16 @@ export default function Home({ userLocation }) {
             onNext={handleNext}
             onPrev={handlePrev}
             onLoaded={handlePanoLoaded}
-            className={`${styles.homePanoImage} ${transitionClassMap[transitionClass]}`}
+            className={`${styles['home__pano-image']} ${transitionClassMap[transitionClass]}`}
           />
         </div>
 
         {/* Pagination Indicators */}
-        <div className={styles.panoPagination}>
+        <div className={styles['home__pano-pagination']}>
           {stories.map((_, index) => (
             <button
               key={index}
-              className={`${styles.panoPagination__dot} ${index === displayIndex ? styles.panoPagination__dotActive : ''}`}
+              className={`${styles['home__pano-pagination-dot']} ${index === displayIndex ? styles['home__pano-pagination-dot--active'] : ''}`}
               onClick={() => navigateToPano(index)}
               aria-label={`Go to slide ${index + 1}`}
             />
@@ -315,44 +315,44 @@ export default function Home({ userLocation }) {
         </div>
 
         {/* Info Cards Grid */}
-        <div className={styles.panoInfoGrid}>
-          <div className={`${styles.panoInfoCard} ${styles['panoInfoCard--orange']}`}>
-            <span className={styles.panoInfoCard__number}>
-              50+<span className={styles.panoInfoCard__unit}>KM</span>
+        <div className={styles['home__pano-info-grid']}>
+          <div className={`${styles['home__pano-info-card']} ${styles['home__pano-info-card--orange']}`}>
+            <span className={styles['home__pano-info-card-number']}>
+              50+<span className={styles['home__pano-info-card-unit']}>KM</span>
             </span>
-            <span className={styles.panoInfoCard__label}>Across Antwerp</span>
+            <span className={styles['home__pano-info-card-label']}>Across Antwerp</span>
           </div>
-          <div className={`${styles.panoInfoCard} ${styles['panoInfoCard--blue']}`}>
-            <span className={styles.panoInfoCard__number}>40+</span>
-            <span className={styles.panoInfoCard__label}>Stories</span>
+          <div className={`${styles['home__pano-info-card']} ${styles['home__pano-info-card--blue']}`}>
+            <span className={styles['home__pano-info-card-number']}>40+</span>
+            <span className={styles['home__pano-info-card-label']}>Stories</span>
           </div>
-          <div className={`${styles.panoInfoCard} ${styles['panoInfoCard--pink']}`}>
-            <span className={styles.panoInfoCard__number}>63</span>
-            <span className={styles.panoInfoCard__label}>Hidden spots</span>
+          <div className={`${styles['home__pano-info-card']} ${styles['home__pano-info-card--pink']}`}>
+            <span className={styles['home__pano-info-card-number']}>63</span>
+            <span className={styles['home__pano-info-card-label']}>Hidden spots</span>
           </div>
-          <div className={`${styles.panoInfoCard} ${styles['panoInfoCard--lime']}`}>
-            <span className={styles.panoInfoCard__number}>10</span>
-            <span className={styles.panoInfoCard__label}>Weekly stories</span>
+          <div className={`${styles['home__pano-info-card']} ${styles['home__pano-info-card--lime']}`}>
+            <span className={styles['home__pano-info-card-number']}>10</span>
+            <span className={styles['home__pano-info-card-label']}>Weekly stories</span>
           </div>
         </div>
 
-        <h2 className={styles.homePanoramaTitle}>
+        <h2 className={styles['home__panorama-title']}>
           180° panorama <br /> moments
         </h2>
 
-        <p className={styles.homePanoramaDescription}>
-          Discover Antwerp through the eyes of locals and visitors. Experience immersive <span className={styles['homePanoramaDescription--bold']}>panorama stories</span> with real images and sound, then continue the story in the city itself using our interactive <span className={styles['homePanoramaDescription--bold']}>radar</span>.
+        <p className={styles['home__panorama-description']}>
+          Discover Antwerp through the eyes of locals and visitors. Experience immersive <span className={styles['home__panorama-description--bold']}>panorama stories</span> with real images and sound, then continue the story in the city itself using our interactive <span className={styles['home__panorama-description--bold']}>radar</span>.
         </p>
 
-        <Link to="/radar" className={styles.homeRadarButton}>
+        <Link to="/radar" className={styles['home__radar-button']}>
           Radar <span className={styles.discoverSpotsButton__arrow || ''}>→</span>
         </Link>
 
-        <img src={backgroundMoments} alt="" className={styles.homeBackgroundMoments} aria-hidden="true" />
+        <img src={backgroundMoments} alt="" className={styles['home__background-moments']} aria-hidden="true" />
 
-        <div className={styles.homeScrollBanner}>
-          <div className={styles.homeScrollBanner__track}>
-            <div className={styles.homeScrollBanner__content}>
+        <div className={styles['home__scroll-banner']}>
+          <div className={styles['home__scroll-banner-track']}>
+            <div className={styles['home__scroll-banner-content']}>
               <span>RADAR</span>
               <DividerSVG color="#66A0FF" />
               <span>PANORAMIC SCENES</span>
@@ -362,32 +362,7 @@ export default function Home({ userLocation }) {
               <span>LOCAL LIFE</span>
               <DividerSVG color="#66A0FF" />
             </div>
-            <div className={styles.homeScrollBanner__content} aria-hidden="true">
-              <span>RADAR</span>
-              <DividerSVG color="#66A0FF" />
-              <span>PANORAMIC SCENES</span>
-              <DividerSVG color="#FF82DC" />
-              <span>RELIVE MOMENTS</span>
-              <DividerSVG color="#D2FF4B" />
-              <span>LOCAL LIFE</span>
-              <DividerSVG color="#66A0FF" />
-            </div>
-          </div>
-        </div>
-
-        <div className={`${styles.homeScrollBanner} ${styles['homeScrollBanner--horizontal']}`}>
-          <div className={styles.homeScrollBanner__track}>
-            <div className={styles.homeScrollBanner__content}>
-              <span>RADAR</span>
-              <DividerSVG color="#66A0FF" />
-              <span>PANORAMIC SCENES</span>
-              <DividerSVG color="#FF82DC" />
-              <span>RELIVE MOMENTS</span>
-              <DividerSVG color="#D2FF4B" />
-              <span>LOCAL LIFE</span>
-              <DividerSVG color="#66A0FF" />
-            </div>
-            <div className={styles.homeScrollBanner__content} aria-hidden="true">
+            <div className={styles['home__scroll-banner-content']} aria-hidden="true">
               <span>RADAR</span>
               <DividerSVG color="#66A0FF" />
               <span>PANORAMIC SCENES</span>
@@ -400,83 +375,108 @@ export default function Home({ userLocation }) {
           </div>
         </div>
 
-        <div id="top-10" ref={top10Ref} className={styles.homeTopStoriesTitleWrapper}>
-          <h2 className={styles.homeTopStoriesTitle__top}>TOP 10</h2>
-          <h3 className={styles.homeTopStoriesTitle__sub}>stories of the week</h3>
+        <div className={`${styles['home__scroll-banner']} ${styles['home__scroll-banner--horizontal']}`}>
+          <div className={styles['home__scroll-banner-track']}>
+            <div className={styles['home__scroll-banner-content']}>
+              <span>RADAR</span>
+              <DividerSVG color="#66A0FF" />
+              <span>PANORAMIC SCENES</span>
+              <DividerSVG color="#FF82DC" />
+              <span>RELIVE MOMENTS</span>
+              <DividerSVG color="#D2FF4B" />
+              <span>LOCAL LIFE</span>
+              <DividerSVG color="#66A0FF" />
+            </div>
+            <div className={styles['home__scroll-banner-content']} aria-hidden="true">
+              <span>RADAR</span>
+              <DividerSVG color="#66A0FF" />
+              <span>PANORAMIC SCENES</span>
+              <DividerSVG color="#FF82DC" />
+              <span>RELIVE MOMENTS</span>
+              <DividerSVG color="#D2FF4B" />
+              <span>LOCAL LIFE</span>
+              <DividerSVG color="#66A0FF" />
+            </div>
+          </div>
         </div>
 
-        <div className={styles.homeTopStoriesContainer}>
-          <div className={styles.homeTopStoriesList}>
+        <div id="top-10" ref={top10Ref} className={styles['home__top-stories-title-wrapper']}>
+          <h2 className={styles['home__top-stories-title-top']}>TOP 10</h2>
+          <h3 className={styles['home__top-stories-title-sub']}>stories of the week</h3>
+        </div>
+
+        <div className={styles['home__top-stories-container']}>
+          <div className={styles['home__top-stories-list']}>
             {topStories.map((story, index) => (
-              <div key={index} className={styles.homeTopStoriesItem} style={{ zIndex: (index + 1) * 10 }}>
-                <span className={styles.homeTopStoriesItem__number} style={{
+              <div key={index} className={styles['home__top-stories-item']} style={{ zIndex: (index + 1) * 10 }}>
+                <span className={styles['home__top-stories-item-number']} style={{
                   WebkitTextStrokeColor: strokeColors[index % strokeColors.length],
                   left: getLeftOffset(index)
                 }}>
                   {index + 1}
                 </span>
-                <div className={styles.homeTopStoriesItem__card} style={{ backgroundImage: `url(${story.image})` }}>
+                <div className={styles['home__top-stories-item-card']} style={{ backgroundImage: `url(${story.image})` }}>
                   <AuthorBadge
                     author={story.author || 'Emma'}
                     colorIndex={index}
-                    className={styles.homeAuthorBadgeWrapper}
+                    className={styles['home__author-badge-wrapper']}
                   />
-                  <div className={styles.homeTopStoriesItem__gradient} />
-                  <h3 className={styles.homeTopStoriesItem__title}>{story.title}</h3>
+                  <div className={styles['home__top-stories-item-gradient']} />
+                  <h3 className={styles['home__top-stories-item-title']}>{story.title}</h3>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className={styles.homeActionsRow}>
-          <Link to="/share" className={styles.homeShareStoryButton}>
-            <AddCircleIcon className={styles.homeShareStoryButton__icon} />
+        <div className={styles['home__actions-row']}>
+          <Link to="/share" className={styles['home__share-story-button']}>
+            <AddCircleIcon className={styles['home__share-story-button-icon']} />
             Share your story
           </Link>
 
-          <div className={styles.homeToolsContainer}>
-            <button className={styles.homeToolCircle} aria-label="Filter stories">
+          <div className={styles['home__tools-container']}>
+            <button className={styles['home__tool-circle']} aria-label="Filter stories">
               <FilterIcon />
             </button>
-            <button className={styles.homeToolCircle} aria-label="Search stories">
+            <button className={styles['home__tool-circle']} aria-label="Search stories">
               <SearchIcon />
             </button>
           </div>
         </div>
 
-        <div className={styles.homeStoriesGrid}>
+        <div className={styles['home__stories-grid']}>
           {gridStories.map((story, i) => {
             const isLarge = (i % 11 === 0 || i % 11 === 5 || i % 11 === 6);
             return (
               <div
                 key={i}
-                className={isLarge ? styles.homeStoryCardLarge : styles.homeStoryCardSmall}
+                className={isLarge ? styles['home__story-card-large'] : styles['home__story-card-small']}
                 style={{ backgroundImage: `url(${story.image})` }}
               >
                 <AuthorBadge
                   author="Emma"
                   colorIndex={i + 1} // Offset by 1 to differentiate from Top Stories
-                  className={styles.homeAuthorBadgeWrapper}
+                  className={styles['home__author-badge-wrapper']}
                 />
                 {isLarge ? (
-                  <div className={styles.homeStoryCardBadge}>
+                  <div className={styles['home__story-card-badge']}>
                     <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M4.5 0C5.69047 0 6.73798 0.422548 7.64258 1.2666C8.54718 2.11076 8.99994 3.24429 9 4.66699C9 5.61553 8.62709 6.64719 7.88184 7.76172C7.13656 8.87626 6.00929 10.0833 4.5 11.3828C2.99078 10.0834 1.86342 8.87623 1.11816 7.76172C0.37296 6.64723 0 5.6155 0 4.66699C6.49664e-05 3.24429 0.452824 2.11076 1.35742 1.2666C2.26202 0.422497 3.30952 2.80738e-05 4.5 0ZM4.54395 2.22852C3.37454 2.22858 2.42685 3.17623 2.42676 4.3457C2.42676 5.51525 3.37449 6.4638 4.54395 6.46387C5.71346 6.46387 6.66211 5.51529 6.66211 4.3457C6.66202 3.17619 5.7134 2.22852 4.54395 2.22852Z" fill="white" />
                     </svg>
                     <span>{story.distance}</span>
                   </div>
                 ) : (
-                  <div className={styles.homeStoryCardBadgeSmall}>
+                  <div className={styles['home__story-card-badge-small']}>
                     <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M4.5 0C5.69047 0 6.73798 0.422548 7.64258 1.2666C8.54718 2.11076 8.99994 3.24429 9 4.66699C9 5.61553 8.62709 6.64719 7.88184 7.76172C7.13656 8.87626 6.00929 10.0833 4.5 11.3828C2.99078 10.0834 1.86342 8.87623 1.11816 7.76172C0.37296 6.64723 0 5.6155 0 4.66699C6.49664e-05 3.24429 0.452824 2.11076 1.35742 1.2666C2.26202 0.422497 3.30952 2.80738e-05 4.5 0ZM4.54395 2.22852C3.37454 2.22858 2.42685 3.17623 2.42676 4.3457C2.42676 5.51525 3.37449 6.4638 4.54395 6.46387C5.71346 6.46387 6.66211 5.51529 6.66211 4.3457C6.66202 3.17619 5.7134 2.22852 4.54395 2.22852Z" fill="white" />
                     </svg>
                     <span>{story.distance}</span>
                   </div>
                 )}
-                <div className={styles.homeStoryCardGradient} />
-                <h3 className={styles.homeStoryCardTitle}>{story.title}</h3>
-                <div className={styles.homeStoryCardHeart}>
+                <div className={styles['home__story-card-gradient']} />
+                <h3 className={styles['home__story-card-title']}>{story.title}</h3>
+                <div className={styles['home__story-card-heart']}>
                   <HeartIcon />
                 </div>
 
