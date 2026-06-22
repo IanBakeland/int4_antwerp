@@ -403,6 +403,14 @@
   color: #0A0A0A;
 }
 
+.desktopOnly {
+  display: none !important;
+}
+
+.mobileOnly {
+  display: inline-block !important;
+}
+
 /* Submit and disclaimer */
 .submitStoryButton {
   display: flex;
@@ -581,10 +589,10 @@
   fill: var(--color-primary) !important;
 }
 
-/* 2. Desktop overrides (layered on top for larger screens) */
-@media (min-width: 801px) {
+@media (min-width: 1024px) {
   .shareContainer {
-    padding: 1rem;
+    padding: 2rem 1.25rem;
+    background-color: var(--color-white);
   }
 
   .navbarMobileTop {
@@ -592,12 +600,113 @@
   }
   
   .shareContent {
-    max-width: 500px; /* Form sits nicely on desktop at this width */
-    margin-top: calc(115px - 6.5rem);
+    max-width: 650px;
+    margin-top: 4rem;
   }
 
   .shareContent h1 {
     font-size: 56px;
+    line-height: 1.2;
+    letter-spacing: -2px;
+    margin-bottom: 0.5rem;
+  }
+
+  .shareSubtitle {
+    width: 34.25rem;
+    height: 4.0625rem;
+    margin: 1rem auto 2.5rem auto;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .shareForm {
+    padding: 2.5rem;
+    gap: 1.75rem;
+    border-radius: 20px;
+  }
+
+  .formHeader {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 0.5rem;
+  }
+
+  .formHeader h2 {
+    font-size: 22px;
+  }
+
+  .formHeader p {
+    font-size: 18px;
+    margin: 0;
+  }
+
+  .inputField {
+    height: 48px;
+    font-size: 16px;
+  }
+
+  .textareaField {
+    height: 180px;
+    font-size: 16px;
+  }
+
+  .spotInputRow {
+    gap: 12px;
+  }
+
+  .addSpotButton {
+    width: 48px;
+    height: 48px;
+  }
+
+  .uploadDropzone {
+    height: 150px;
+  }
+
+  .submitStoryButton {
+    height: 52px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 26px;
+    margin-top: 1.5rem;
+  }
+
+  .successContent {
+    max-width: 600px;
+    margin-top: 4rem;
+    padding: 6rem 2.5rem;
+  }
+
+  .successTitle {
+    font-size: 56px;
+    line-height: 1.1;
+  }
+
+  .successTitleOrange {
+    font-size: 56px;
+    line-height: 1.1;
+  }
+
+  .successMessage {
+    font-size: 18px;
+    max-width: 400px;
+    margin: 3rem auto;
+  }
+
+  .successButton {
+    height: 52px;
+    padding: 0 2.5rem;
+    font-size: 18px;
+    border-radius: 26px;
+  }
+
+  .desktopOnly {
+    display: inline-block !important;
+  }
+
+  .mobileOnly {
+    display: none !important;
   }
 }
 
