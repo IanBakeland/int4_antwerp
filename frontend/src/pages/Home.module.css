@@ -317,6 +317,22 @@
   margin-top: -4px;
 }
 
+@media (min-width: 801px) {
+  .home__pano-info-card-number {
+    font-size: 64px;
+  }
+
+  .home__pano-info-card-unit {
+    font-size: 15px;
+  }
+
+  .home__pano-info-card-label {
+    font-size: 18px;
+    line-height: normal;
+    margin-top: 0.5rem;
+  }
+}
+
 .home__panorama-title {
   margin-top: 43px;
   color: var(--color-primary);
