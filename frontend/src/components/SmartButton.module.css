@@ -10,6 +10,7 @@
   margin: 0.5rem 1.5rem;
   border-radius: 50px;
   font-size: 1rem;
+  line-height: 1;
   text-decoration: none;
   border: none;
   white-space: nowrap;
@@ -37,4 +38,11 @@
   width: 18px;
   height: 18px;
   fill: currentColor;
+}
+
+.buttonText {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  transform: translateY(1px);
 }
