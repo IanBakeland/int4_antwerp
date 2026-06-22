@@ -214,6 +214,10 @@
   box-sizing: border-box;
 }
 
+.home__pano-extra-box {
+  display: none;
+}
+
 .home__pano-info-card {
   width: 10.8125rem;
   /* 173px */
@@ -235,8 +239,33 @@
     grid-template-columns: repeat(4, auto);
     justify-content: center;
     max-width: 1420px;
-    margin: 3.5rem auto 2.5rem;
+    margin: 3.5rem auto 0;
     gap: 1.25rem;
+  }
+
+  .home__pano-extra-box {
+    display: block;
+    width: 100%;
+    max-width: 1420px;
+    height: 129px;
+    margin: 25px auto 2.5rem;
+    border-radius: 15px;
+    border: 1px solid #CBCBCB;
+    background: #FFF;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  .home__pano-extra-box-square {
+    position: absolute;
+    left: 26.67px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 84.652px;
+    height: 84.652px;
+    border-radius: 15px;
+    background: #FF82DC;
+    box-sizing: border-box;
   }
 
   .home__pano-info-card {

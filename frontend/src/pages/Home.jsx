@@ -356,6 +356,11 @@ export default function Home({ userLocation }) {
           </div>
         </div>
 
+        {/* Desktop-only extra box */}
+        <div className={styles['home__pano-extra-box']}>
+          <div className={styles['home__pano-extra-box-square']} />
+        </div>
+
         <h2 className={styles['home__panorama-title']}>
           180° panorama <br /> moments
         </h2>
