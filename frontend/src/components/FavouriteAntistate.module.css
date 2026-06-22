@@ -114,26 +114,17 @@
   transform: rotate(-3deg) translate(-5px, 30px);
 }
 
-.title {
-  color: var(--color-black);
-  font-family: var(--font-spartan);
-  font-size: 1.25rem;
-  font-weight: 500;
-  line-height: 1.4;
-  margin: 0 0 1rem 0;
-  max-width: 290px;
+.emptyText {
+  width: 19.625rem;
+  height: 5.6875rem;
+  color: #000;
   text-align: center;
-}
-
-.subtitle {
-  color: #7A7A7A;
   font-family: var(--font-spartan);
-  font-size: 0.95rem;
+  font-size: 1.125rem;
+  font-style: normal;
   font-weight: 400;
-  line-height: 1.5;
-  margin: 0 0 2.5rem 0;
-  max-width: 290px;
-  text-align: center;
+  line-height: 1.6875rem; /* 150% */
+  margin: 0 auto 2.5rem auto;
 }
 
 .exploreButton {
@@ -212,15 +203,12 @@
     transform: rotate(-2deg) translateY(12px);
   }
 
-  .title {
-    font-size: 1.85rem;
-    max-width: 600px;
-    margin-bottom: 1.25rem;
-  }
-
-  .subtitle {
-    font-size: 1.1rem;
-    max-width: 550px;
+  .emptyText {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    font-size: 1.25rem;
+    line-height: 1.5;
     margin-bottom: 3rem;
   }
 

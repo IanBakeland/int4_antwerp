@@ -57,15 +57,19 @@ export default function Favourites() {
 
   return (
     <div>
-      <div className="toolbar noDesktop noTablet">
-        <div className="alignNext">
-          <h1>Your <span>favourites</span></h1>
-          <Link to="/account" className="iconbutton"><PersonIcon /></Link>
-        </div>
-      </div>
-      <div className="noMobile">
-        <h1>Your <span>favourites</span></h1>
-      </div>
+      {!loading && favourites.length > 0 && (
+        <>
+          <div className="toolbar noDesktop noTablet">
+            <div className="alignNext">
+              <h1>Your <span>favourites</span></h1>
+              <Link to="/account" className="iconbutton"><PersonIcon /></Link>
+            </div>
+          </div>
+          <div className="noMobile">
+            <h1>Your <span>favourites</span></h1>
+          </div>
+        </>
+      )}
       
       <div className="favouritesContainer">
         {loading ? (

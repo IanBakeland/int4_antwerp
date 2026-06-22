@@ -78,9 +78,8 @@ export default function FavouriteAntistate() {
 
       </div>
 
-      <h2 className={styles.title}>You do not have any favourite stories yet.</h2>
-      <p className={styles.subtitle}>
-        Just tap the heart by the panorama’s to add your favourite items to the list!
+      <p className={styles.emptyText}>
+        You do not have any favourite stories yet. Just tap the heart by the panorama’s to add your favourite items to the list!
       </p>
 
       <Link to="/" className={styles.exploreButton}>
