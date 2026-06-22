@@ -52,7 +52,7 @@
         "images"
       ]
     },
-    "Speach": {
+    "speach": {
       "type": "media",
       "multiple": false,
       "allowedTypes": [
