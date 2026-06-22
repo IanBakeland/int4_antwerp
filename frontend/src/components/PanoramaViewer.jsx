@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ReactPhotoSphereViewer } from 'react-photo-sphere-viewer';
 import { GyroscopePlugin } from '@photo-sphere-viewer/gyroscope-plugin';
 import { Link } from 'react-router-dom';
@@ -24,6 +24,12 @@ export default function PanoramaViewer({
   const viewerRef = useRef(null);
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
+
+  // Desktop mouse-position panning refs
+  const containerRef = useRef(null);
+  const mouseOffsetRef = useRef(0); // -1 (left edge) to +1 (right edge), 0 = center
+  const isHoveringRef = useRef(false);
+  const animFrameRef = useRef(null);
 
   // Keep track of the freshest onLoaded callback to prevent stale closures in event listeners
   const onLoadedRef = useRef(onLoaded);
@@ -98,12 +104,80 @@ export default function PanoramaViewer({
     }
   };
 
+  // Desktop: mouse-position-based panning
+  const handleMouseMove = useCallback((e) => {
+    if (!containerRef.current || isMobile) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const normalised = (x / rect.width) * 2 - 1; // -1 to +1
+    mouseOffsetRef.current = normalised;
+  }, [isMobile]);
+
+  const handleMouseEnter = useCallback(() => {
+    if (isMobile) return;
+    isHoveringRef.current = true;
+  }, [isMobile]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (isMobile) return;
+    isHoveringRef.current = false;
+    mouseOffsetRef.current = 0;
+  }, [isMobile]);
+
+  // Animation loop: continuously rotate based on mouse offset
+  useEffect(() => {
+    if (isMobile) return;
+
+    const maxSpeed = 0.015; // radians per frame at the edges
+    const deadZone = 0.1; // no movement in the center 10%
+
+    const tick = () => {
+      if (isHoveringRef.current && viewerRef.current) {
+        let offset = mouseOffsetRef.current;
+
+        // Apply dead zone
+        if (Math.abs(offset) < deadZone) {
+          offset = 0;
+        } else {
+          // Remap so the edge of the dead zone starts at 0
+          offset = offset > 0
+            ? (offset - deadZone) / (1 - deadZone)
+            : (offset + deadZone) / (1 - deadZone);
+        }
+
+        if (offset !== 0) {
+          try {
+            const pos = viewerRef.current.getPosition();
+            viewerRef.current.rotate({
+              yaw: pos.yaw + offset * maxSpeed,
+              pitch: pos.pitch,
+            });
+          } catch (err) {
+            // Viewer might not be fully ready yet, ignore
+          }
+        }
+      }
+      animFrameRef.current = requestAnimationFrame(tick);
+    };
+
+    animFrameRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (animFrameRef.current) {
+        cancelAnimationFrame(animFrameRef.current);
+      }
+    };
+  }, [isMobile]);
+
   return (
     <div
+      ref={containerRef}
       className={className}
       style={{ position: 'relative' }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      onMouseMove={!isMobile ? handleMouseMove : undefined}
+      onMouseEnter={!isMobile ? handleMouseEnter : undefined}
+      onMouseLeave={!isMobile ? handleMouseLeave : undefined}
     >
       <ReactPhotoSphereViewer
         ref={viewerRef}
@@ -111,8 +185,8 @@ export default function PanoramaViewer({
         height={"100%"}
         width={"100%"}
         plugins={plugins}
-        mousemove={true}
-        mousewheel={true}
+        mousemove={isMobile}
+        mousewheel={isMobile}
         // In development, if the gyroscope fails (e.g. on a desktop emulator), we disable the 
         // two-finger requirement so the developer can easily drag using a single mouse click.
         // In production, we keep it true on mobile so that if the user rejects the gyroscope, 
