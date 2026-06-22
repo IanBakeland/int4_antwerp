@@ -2,7 +2,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px; /* 10px spacing between name tag and circle */
+  gap: 10px;
+  /* 10px spacing between name tag and circle */
   pointer-events: none;
   box-sizing: border-box;
 }
@@ -55,3 +56,22 @@
   justify-content: center;
 }
 
+@media (min-width: 801px) {
+  .authorBadge {
+    width: 73px;
+    height: 33px;
+    border-radius: 16.412px;
+    font-family: "League Spartan", var(--font-spartan), sans-serif;
+    font-size: 16px;
+  }
+
+  .badgeCircle {
+    width: 33px;
+    height: 33px;
+    border-radius: 50%;
+  }
+
+  .badgeCircle svg {
+    transform: scale(1.3);
+  }
+}
