@@ -6,6 +6,7 @@ export default function RadarExplained() {
 
   return (
     <section className={styles.container} id="radar-explained-page">
+      <div className={styles.illustrationBackground} aria-hidden="true" />
       <div className={styles.contentCol}>
         {/* Live Status Badge */}
         <div className={styles.liveBadge}>
@@ -20,8 +21,8 @@ export default function RadarExplained() {
         </h1>
 
         {/* Dynamic Numbered Steps */}
-        <div className={styles.stepsList}>
-          <div className={styles.stepItem}>
+        <ol className={styles.stepsList}>
+          <li className={styles.stepItem}>
             <span className={styles.stepNumber}>1</span>
             <div className={styles.stepContent}>
               <h2 className={styles.stepTitle}>Use radar on your phone</h2>
@@ -29,9 +30,9 @@ export default function RadarExplained() {
                 Scan the QR-code below to easily acces this website on your phone and explore the radar.
               </p>
             </div>
-          </div>
+          </li>
 
-          <div className={styles.stepItem}>
+          <li className={styles.stepItem}>
             <span className={styles.stepNumber}>2</span>
             <div className={styles.stepContent}>
               <h2 className={styles.stepTitle}>
@@ -41,8 +42,8 @@ export default function RadarExplained() {
                 Follow the pulse to unlock the full story. Listen carefully, as there are <strong>hidden local spots</strong> tucked away in the story!
               </p>
             </div>
-          </div>
-        </div>
+          </li>
+        </ol>
       </div>
     </section>
   );
