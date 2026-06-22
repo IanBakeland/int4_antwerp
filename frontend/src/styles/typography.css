@@ -1,9 +1,39 @@
 @font-face {
   font-family: 'Leaguespartan';
-  src: url("../assets/fonts/League_Spartan/LeagueSpartan-VariableFont_wght.ttf"),
-    url("../assets/fonts/League_Spartan/static");
-  font-weight: 100 900;
-  font-stretch: 75% 125%;
+  src: url("../assets/fonts/League_Spartan/static/LeagueSpartan-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Leaguespartan';
+  src: url("../assets/fonts/League_Spartan/static/LeagueSpartan-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Leaguespartan';
+  src: url("../assets/fonts/League_Spartan/static/LeagueSpartan-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Leaguespartan';
+  src: url("../assets/fonts/League_Spartan/static/LeagueSpartan-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Leaguespartan';
+  src: url("../assets/fonts/League_Spartan/static/LeagueSpartan-Black.ttf") format("truetype");
+  font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
