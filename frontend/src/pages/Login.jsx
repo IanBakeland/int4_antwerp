@@ -43,6 +43,9 @@ export default function Login({ setToken }) {
   };
 
   return (
+    <>
+    <div className={styles.loginBackground}>
+    </div>
     <div className={styles.loginContainer}>
       <header className={styles.navbarMobileTop}>
         <Link to="/" className={styles.mobileLogoLink} aria-label="Go to Homepage">
@@ -118,5 +121,6 @@ export default function Login({ setToken }) {
       </form>
       </div>
     </div>
+    </>
   );
 }

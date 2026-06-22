@@ -2,19 +2,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Center content horizontally */
-  min-height: 100vh;
   box-sizing: border-box;
-  background-image: url('../assets/images/backgroundlogin.png');
   background-position: right bottom;
   background-repeat: no-repeat;
   background-size: 800px;
   /* size on desktop */
-  background-color: var(--color-white);
 }
 
 .signupContainer {
-  background-image: url('../assets/images/backgroundsignup.png');
 }
 
 .loginContent {
@@ -260,13 +255,39 @@
   }
 }
 
-@media (max-width: 800px) {
-  .loginContainer {
+.loginBackground{
+  background-image: url('../assets/images/backgroundlogin.png');
+  background-repeat: no-repeat;
     position: fixed;
     inset: 0;
     height: 100dvh;
     width: 100vw;
     overflow: hidden;
+    padding: 1.5rem 1.375rem;
+    /* 1.375rem is exactly 22px */
+    z-index: -1;
+    background-position: right bottom;
+    background-size: 800px;
+}
+
+.signupBackground{
+  background-image: url('../assets/images/backgroundsignup.png');
+  background-repeat: no-repeat;
+    position: fixed;
+    inset: 0;
+    height: 100dvh;
+    width: 100vw;
+    overflow: hidden;
+    padding: 1.5rem 1.375rem;
+    z-index: -1;
+    background-position: right bottom;
+    background-size: 800px;
+}
+
+@media (max-width: 800px) {
+  .loginContainer {
+    position: fixed;
+    width: 100vw;
     padding: 1.5rem 1.375rem;
     /* 1.375rem is exactly 22px */
     z-index: 5;

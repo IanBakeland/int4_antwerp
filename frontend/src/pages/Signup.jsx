@@ -18,6 +18,9 @@ export default function Signup() {
   const asterisk = <span style={{ color: "#FF7D3C", marginLeft: "4px" }}>*</span>;
 
   return (
+    <>
+    <div className={styles.signupBackground}>
+    </div>
     <div className={`${styles.loginContainer} ${styles.signupContainer}`}>
       <header className={styles.navbarMobileTop}>
         <Link to="/" className={styles.mobileLogoLink} aria-label="Go to Homepage">
@@ -138,5 +141,6 @@ export default function Signup() {
         </form>
       </div>
     </div>
+    </>
   );
 }
