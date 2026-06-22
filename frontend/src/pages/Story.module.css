@@ -36,12 +36,13 @@ h1{
   width: 100vw;
   height: 100vh;
   height: 100dvh; 
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
   background-color: #000;
   z-index: 9000;
   scrollbar-width: none; 
   -ms-overflow-style: none;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
 }
 
 .feedContainer::-webkit-scrollbar {
@@ -252,7 +253,7 @@ h1{
   align-items: flex-end;
   padding: 1.5rem;
   padding-bottom: 2.5rem;
-  pointer-events: none; 
+  pointer-events: none;
   gap: 1rem;
   color: var(--color-white, #fff);
 }
@@ -261,7 +262,33 @@ h1{
   flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 0.75rem;
+}
+
+@media (min-width: 801px) {
+  .leftColumn {
+    align-items: center;
+    margin-left: 60px;
+  }
+}
+
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  pointer-events: auto;
+}
+
+
+@media (min-width: 801px) {
+  .rightColumn {
+    display: flex;
+    gap: 2rem;
+    align-self: center;
+    margin-top: 10rem;
+  }
 }
 
 .tagRow {
@@ -283,18 +310,22 @@ h1{
   margin: 0;
 }
 
-.rightColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center;
-}
 @media (max-width: 800px) {
   .contentContainer {
     margin-bottom: 4rem; 
   }
 }
-.rightColumn * {
-  pointer-events: auto !important;
-  cursor: pointer;
+
+@media (min-width: 801px) {
+  .feedContainer {
+    display: flex;
+    flex-direction: row;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .slideContainer {
+    flex-shrink: 0;
+  }
 }
