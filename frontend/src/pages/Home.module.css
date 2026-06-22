@@ -279,6 +279,71 @@
     box-sizing: border-box;
   }
 
+  .home__pano-extra-box-content {
+    position: absolute;
+    left: 147.322px;
+    top: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .home__pano-extra-box-title {
+    color: #000;
+    font-family: "League Spartan", var(--font-spartan);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0;
+  }
+
+  .home__pano-extra-box-desc {
+    max-width: 882px;
+    color: #404040;
+    font-family: "League Spartan", var(--font-spartan);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 25px;
+    margin: 0;
+  }
+
+  .home__pano-extra-box-info-btn {
+    position: absolute;
+    right: 44px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    width: 163px;
+    height: 51px;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    border-radius: 25.5px;
+    border: 2px solid #FF82DC;
+    background: #FFF;
+    box-sizing: border-box;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    color: #FF82DC;
+    font-family: "League Spartan", var(--font-spartan);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .home__pano-extra-box-info-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-50%) scale(1.02);
+  }
+
+  .home__pano-extra-box-info-btn svg {
+    flex-shrink: 0;
+  }
+
   .home__pano-info-card {
     width: 340px;
     height: 204px;
@@ -375,6 +440,11 @@
     line-height: normal;
     margin-top: 0.5rem;
   }
+}
+
+.home__panorama-intro-group {
+  display: block;
+  width: 100%;
 }
 
 .home__panorama-title {
@@ -1268,5 +1338,57 @@
     font-size: 22px;
     line-height: 1.6;
     margin-top: 1rem;
+  }
+
+  .home__panorama-intro-group {
+    margin-top: 112px;
+    margin-left: 166px;
+    width: 587px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .home__panorama-title {
+    margin-top: 0;
+    margin-left: 0;
+    width: 100%;
+    color: #FF7D3C;
+    text-align: center;
+    font-family: var(--font-antwerpen);
+    font-size: 55.39px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 72.622px;
+    letter-spacing: -2.462px;
+  }
+
+  .home__panorama-title br {
+    display: none;
+  }
+
+  .home__panorama-description {
+    margin-top: 20px;
+    margin-left: 0;
+    width: 532px;
+    height: 143px;
+    color: #000;
+    text-align: center;
+    font-family: "League Spartan", var(--font-spartan);
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 34px;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .home__panorama-description--bold {
+    color: #000;
+    font-family: "League Spartan", var(--font-spartan);
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 34px;
   }
 }
