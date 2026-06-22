@@ -160,13 +160,7 @@ export default function Share() {
   };
 
   const handleRemoveSpot = (indexToRemove) => {
-    setSpots((prev) => {
-      const updated = prev.filter((_, index) => index !== indexToRemove);
-      if (updated.length === 0) {
-        setSpotsError('Voeg ten minste één specifieke plek toe aan je verhaal.');
-      }
-      return updated;
-    });
+    setSpots((prev) => prev.filter((_, index) => index !== indexToRemove));
   };
 
   const handleKeyDown = (e) => {
@@ -285,21 +279,16 @@ export default function Share() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (spots.length === 0) {
-      setSpotsError('Voeg ten minste één specifieke plek toe aan je verhaal.');
-      return;
-    }
-    setSpotsError('');
     setIsSubmitted(true);
   };
 
   return (
-    <div className={styles.shareContainer}>
-      <header className={styles.navbarMobileTop}>
-        <Link to="/" className={styles.mobileLogoLink} aria-label="Go to Homepage">
-          <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.mobileLogoImg} />
+    <div className={styles.share}>
+      <header className={styles['share__mobile-nav']}>
+        <Link to="/" className={styles['share__mobile-logo-link']} aria-label="Go to Homepage">
+          <img src={antwerpLogo} alt="Antwerpen Logo" className={styles['share__mobile-logo-image']} />
         </Link>
-        <div className={styles.navbarMobileTopRight}>
+        <div className={styles['share__mobile-nav-right']}>
           <Link to="/account" className="iconbutton" aria-label="Account">
             <PersonIcon />
           </Link>
@@ -307,19 +296,19 @@ export default function Share() {
       </header>
 
       {isSubmitted ? (
-        <div className={styles.successContent}>
-          <div className={styles.successCheckCircle}>
+        <div className={styles['share__success-content']}>
+          <div className={styles['share__success-check-circle']}>
             <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M35.8327 10.75L16.1243 30.4583L7.16602 21.5" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
-          <h1 className={styles.successTitle}>
-            Story <br /><span className={styles.successTitleOrange}>SHARED</span>!
+          <h1 className={styles['share__success-title']}>
+            Story <br /><span className={styles['share__success-title-orange']}>SHARED</span>!
           </h1>
-          <p className={styles.successMessage}>
+          <p className={styles['share__success-message']}>
             Thank you, {username}. Your story has been received and will be checked soon.
           </p>
-          <Link to="/" className={styles.successButton}>
+          <Link to="/" className={styles['share__success-button']}>
             Back to home
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -327,45 +316,45 @@ export default function Share() {
           </Link>
         </div>
       ) : (
-        <div className={styles.shareContent}>
-          <h1>Share your<span> story</span></h1>
-          <p className={styles.shareSubtitle}>
+        <div className={styles['share__content']}>
+          <h1>Share your <span>story</span></h1>
+          <p className={styles['share__subtitle']}>
             Share your own personal story about Antwerp and help others discover the city through your experience.
           </p>
 
-          <form className={styles.shareForm} onSubmit={handleSubmit}>
-            <div className={styles.formHeader}>
+          <form className={styles.share__form} onSubmit={handleSubmit}>
+            <div className={styles['share__form-header']}>
               <h2>Hey {username},</h2>
               <p>share your Antwerp story!</p>
             </div>
 
             {/* Location Field */}
-            <div className={styles.inputGroup}>
-              <label htmlFor="location-input" className={styles.inputLabel}>
+            <div className={styles['share__input-group']}>
+              <label htmlFor="location-input" className={styles['share__input-label']}>
                 <PinIcon />
                 Location in Antwerp
-                <span className={styles.requiredAsterisk}>*</span>
+                <span className={styles['share__required-asterisk']}>*</span>
               </label>
               <input
                 id="location-input"
                 type="text"
-                className={styles.inputField}
+                className={styles['share__input-field']}
                 placeholder="e.g. Leopoldstraat, Grote Markt, ..."
                 required
               />
             </div>
 
             {/* Story Field */}
-            <div className={styles.inputGroup}>
-              <div className={styles.labelRow}>
-                <label htmlFor="story-input" className={styles.inputLabel}>
+            <div className={styles['share__input-group']}>
+              <div className={styles['share__label-row']}>
+                <label htmlFor="story-input" className={styles['share__input-label']}>
                   <PencilIcon />
                   Your story
-                  <span className={styles.requiredAsterisk}>*</span>
+                  <span className={styles['share__required-asterisk']}>*</span>
                 </label>
                 <button 
                   type="button" 
-                  className={`${styles.transcribeButton} ${isListening ? styles.transcribeButtonActive : ''}`}
+                  className={`${styles['share__transcribe-button']} ${isListening ? styles['share__transcribe-button--active'] : ''}`}
                   onClick={handleTranscribeClick}
                 >
                   {isListening ? <StopIcon /> : <MicIcon />}
@@ -374,7 +363,7 @@ export default function Share() {
               </div>
               <textarea
                 id="story-input"
-                className={styles.textareaField}
+                className={styles['share__textarea-field']}
                 placeholder="Type your story here, or use the microphone to record it..."
                 value={story}
                 onChange={(e) => setStory(e.target.value)}
@@ -383,20 +372,20 @@ export default function Share() {
             </div>
 
             {/* Specific Spots Field */}
-            <div className={styles.inputGroup}>
-              <label htmlFor="spots-input" className={styles.inputLabel}>
+            <div className={styles['share__input-group']}>
+              <label htmlFor="spots-input" className={styles['share__input-label']}>
                 <SpotIcon />
                 Specific spots in your story
-                <span className={styles.requiredAsterisk}>*</span>
+                <span className={styles['share__required-asterisk']}>*</span>
               </label>
-              <p className={styles.spotSublabel}>
+              <p className={styles['share__spot-sublabel']}>
                 Tag the exact places you mention. Streets, squares, buildings, cafés, etc.
               </p>
-              <div className={styles.spotInputRow}>
+              <div className={styles['share__spot-input-row']}>
                 <input
                   id="spots-input"
                   type="text"
-                  className={styles.inputField}
+                  className={styles['share__input-field']}
                   placeholder="e.g. Café Den Engel, Handelsbeurs..."
                   value={currentSpot}
                   onChange={(e) => setCurrentSpot(e.target.value)}
@@ -404,7 +393,7 @@ export default function Share() {
                 />
                 <button 
                   type="button" 
-                  className={styles.addSpotButton} 
+                  className={styles['share__add-spot-button']} 
                   onClick={handleAddSpot}
                   aria-label="Add spot"
                 >
@@ -412,13 +401,13 @@ export default function Share() {
                 </button>
               </div>
               {spots.length > 0 && (
-                <div className={styles.spotsList}>
+                <div className={styles['share__spots-list']}>
                   {spots.map((spot, index) => (
-                    <span key={index} className={styles.spotTag}>
+                    <span key={index} className={styles['share__spot-tag']}>
                       {spot}
                       <button 
                         type="button" 
-                        className={styles.removeSpotButton} 
+                        className={styles['share__remove-spot-button']} 
                         onClick={() => handleRemoveSpot(index)}
                         aria-label={`Remove ${spot}`}
                       >
@@ -429,30 +418,30 @@ export default function Share() {
                 </div>
               )}
               {spotsError && (
-                <div className={styles.errorBox}>
-                  <p className={styles.errorText}>{spotsError}</p>
+                <div className={styles['share__error-box']}>
+                  <p className={styles['share__error-text']}>{spotsError}</p>
                 </div>
               )}
             </div>
 
             {/* Panorama photo requirements and dropzone */}
-            <div className={styles.inputGroup}>
-              <label className={styles.inputLabel}>
+            <div className={styles['share__input-group']}>
+              <label className={styles['share__input-label']}>
                 <PhotoIcon />
                 Panorama photo
               </label>
               
-              <div className={styles.requirementsBox}>
-                <h3 className={styles.requirementsTitle}>Panorama requirements</h3>
-                <ul className={styles.requirementsList}>
-                  <li className={styles.requirementItem}>Minimum aspect ratio 2:1 wide (e.g. 4000 × 2000 px)</li>
-                  <li className={styles.requirementItem}>Format: JPG or PNG, maximum 30 MB</li>
-                  <li className={styles.requirementItem}>Must be a true panorama, not a cropped landscape photo</li>
+              <div className={styles['share__requirements-box']}>
+                <h3 className={styles['share__requirements-title']}>Panorama requirements</h3>
+                <ul className={styles['share__requirements-list']}>
+                  <li className={styles['share__requirement-item']}>Minimum aspect ratio 2:1 wide (e.g. 4000 × 2000 px)</li>
+                  <li className={styles['share__requirement-item']}>Format: JPG or PNG, maximum 30 MB</li>
+                  <li className={styles['share__requirement-item']}>Must be a true panorama, not a cropped landscape photo</li>
                 </ul>
               </div>
 
               <div 
-                className={`${styles.uploadDropzone} ${panoramaPreview ? styles.hasPreview : ''}`}
+                className={`${styles['share__upload-dropzone']} ${panoramaPreview ? styles['share__upload-dropzone--has-preview'] : ''}`}
                 onClick={handleDropzoneClick}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
@@ -466,14 +455,14 @@ export default function Share() {
                   style={{ display: 'none' }}
                 />
                 {panoramaPreview ? (
-                  <div className={styles.previewContainer}>
-                    <img src={panoramaPreview} alt="Panorama preview" className={styles.previewImage} />
-                    <div className={styles.previewOverlay}>
+                  <div className={styles['share__preview-container']}>
+                    <img src={panoramaPreview} alt="Panorama preview" className={styles['share__preview-image']} />
+                    <div className={styles['share__preview-overlay']}>
                       <span>Click to change panorama</span>
                     </div>
                     <button 
                       type="button" 
-                      className={styles.removePreviewButton} 
+                      className={styles['share__remove-preview-button']} 
                       onClick={handleRemovePreview}
                       aria-label="Remove panorama"
                     >
@@ -482,30 +471,31 @@ export default function Share() {
                   </div>
                 ) : (
                   <>
-                    <div className={styles.uploadIconContainer}>
+                    <div className={styles['share__upload-icon-container']}>
                       <PhotoIcon />
-                      <span className={styles.uploadPlusBadge}>+</span>
+                      <span className={styles['share__upload-plus-badge']}>+</span>
                     </div>
-                    <span className={styles.uploadText}>Click to add your panorama</span>
+                    <span className={`${styles['share__upload-text']} ${styles.desktopOnly}`}>Click or drag & drop your panorama</span>
+                    <span className={`${styles['share__upload-text']} ${styles.mobileOnly}`}>Click to add your panorama</span>
                   </>
                 )}
               </div>
 
               {errorMessage && (
-                <div className={styles.errorBox}>
-                  <p className={styles.errorText}>{errorMessage}</p>
+                <div className={styles['share__error-box']}>
+                  <p className={styles['share__error-text']}>{errorMessage}</p>
                 </div>
               )}
             </div>
 
             {/* Submit button */}
-            <button type="submit" className={styles.submitStoryButton}>
+            <button type="submit" className={styles['share__submit-button']}>
               Submit story &rarr;
             </button>
 
             {/* Disclaimer */}
-            <p className={styles.disclaimerText}>
-              Antwerp curates the stories featured on Antwerp Scenes. Your submission may be rewritten if it does not meet our quality standards. By submitting a story, you agree to <a href={termsPdf} target="_blank" rel="noopener noreferrer">our Terms and Conditions</a>.
+            <p className={styles['share__disclaimer-text']}>
+              Antwerp curates the stories featured on Antwerp Scenes. Your submission may be rewritten if it does not meet our quality standards. By submitting a story, you agree to our <a href={termsPdf} target="_blank" rel="noopener noreferrer">Terms and Conditions</a>.
             </p>
           </form>
         </div>

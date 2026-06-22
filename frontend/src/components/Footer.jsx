@@ -21,7 +21,7 @@ export default function Footer() {
     <footer className={styles.footer}>
       {/* Background SVG decoration for mobile */}
       <svg
-        className={styles.footerBg}
+        className={`${styles.footer__bg} ${styles['footer__bg--mobile']}`}
         viewBox="0 0 393 715"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -87,46 +87,74 @@ export default function Footer() {
         </defs>
       </svg>
 
+      {/* Background SVG decoration for desktop */}
+      <svg
+        className={`${styles.footer__bg} ${styles['footer__bg--desktop']}`}
+        viewBox="0 0 1707 536"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+      >
+        <g filter="url(#filter0_d_1542_9468)">
+          <path d="M-96 40C-96 40 241.463 94.4558 851 94.4558C1460.54 94.4558 1798 40 1798 40V703C1798 703 1440.24 648.544 851 648.544C261.756 648.544 -96 703 -96 703V40Z" fill="#FF7D3C"/>
+        </g>
+        <defs>
+          <filter id="filter0_d_1542_9468" x="-166" y="0" width="2034" height="803" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+            <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+            <feOffset dy="30"/>
+            <feGaussianBlur stdDeviation="35"/>
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1542_9468"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1542_9468" result="shape"/>
+          </filter>
+        </defs>
+      </svg>
+
       {/* Footer Content Area */}
-      <div className={styles.footerContent}>
-        <div className={styles.footerLogoWrapper}>
-          <img src={logoAntwerpFooter} alt="Antwerp Stories" className={styles.footerLogoImg} />
+      <div className={styles.footer__content}>
+        <div className={styles['footer__logo-wrapper']}>
+          <img src={logoAntwerpFooter} alt="Antwerp Stories" className={styles['footer__logo-image']} />
         </div>
-        <nav className={styles.footerNav}>
-          <Link to="/" className={styles.footerLink}>Home</Link>
-          <Link to="/#panoramas" className={styles.footerLink}>Panorama's</Link>
-          <Link to="/radar" className={styles.footerLink}>Radar</Link>
-          <Link to="/favourites" className={styles.footerLink}>Favourites</Link>
-          <Link to="/account" className={styles.footerLink}>Account</Link>
-          <a
-            href="https://www.visitantwerpen.be"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${styles.footerLink} ${styles.footerLinkSpecial}`}
-          >
-            Visit Antwerp
-          </a>
-          
-          <div className={styles.footerSocials}>
-            <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer" className={styles.footerSocialLink}>
-              <img src={pinterestIcon} alt="Pinterest" className={styles.footerSocialIcon} />
+        <nav className={styles.footer__nav}>
+          <div className={styles['footer__links-group']}>
+            <Link to="/" className={styles.footer__link}>Home</Link>
+            <Link to="/#panoramas" className={styles.footer__link}>Panorama's</Link>
+            <Link to="/radar" className={styles.footer__link}>Radar</Link>
+            <Link to="/favourites" className={styles.footer__link}>Favourites</Link>
+            <Link to="/account" className={styles.footer__link}>Account</Link>
+          </div>
+          <div className={styles['footer__right-group']}>
+            <a
+              href="https://www.visitantwerpen.be"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${styles.footer__link} ${styles['footer__link--special']}`}
+            >
+              Visit Antwerp
             </a>
-            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className={styles.footerSocialLink}>
-              <img src={tiktokIcon} alt="TikTok" className={styles.footerSocialIcon} />
-            </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className={styles.footerSocialLink}>
-              <img src={facebookIcon} alt="Facebook" className={styles.footerSocialIcon} />
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className={styles.footerSocialLink}>
-              <img src={instagramIcon} alt="Instagram" className={styles.footerSocialIcon} />
-            </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className={styles.footerSocialLink}>
-              <img src={youtubeIcon} alt="YouTube" className={styles.footerSocialIcon} />
-            </a>
+            
+            <div className={styles.footer__socials}>
+              <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer" className={styles['footer__social-link']}>
+                <img src={pinterestIcon} alt="Pinterest" className={styles['footer__social-icon']} />
+              </a>
+              <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className={styles['footer__social-link']}>
+                <img src={tiktokIcon} alt="TikTok" className={styles['footer__social-icon']} />
+              </a>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className={styles['footer__social-link']}>
+                <img src={facebookIcon} alt="Facebook" className={styles['footer__social-icon']} />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className={styles['footer__social-link']}>
+                <img src={instagramIcon} alt="Instagram" className={styles['footer__social-icon']} />
+              </a>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className={styles['footer__social-link']}>
+                <img src={youtubeIcon} alt="YouTube" className={styles['footer__social-icon']} />
+              </a>
+            </div>
           </div>
         </nav>
 
-        <p className={styles.footerCopyright}>
+        <p className={styles.footer__copyright}>
           © All rights reserved 2026
         </p>
       </div>
