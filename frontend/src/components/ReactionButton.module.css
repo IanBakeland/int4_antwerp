@@ -79,14 +79,9 @@ span{
   border-radius: 50%;
   width: 28px;
   height: 28px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   color: white;
-  font-size: 1.2rem;
   cursor: pointer;
   padding: 0;
-  line-height: 1;
 }
 
 .addEmojiButton svg{
