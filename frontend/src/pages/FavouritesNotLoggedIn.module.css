@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  min-height: 80vh;
   box-sizing: border-box;
   z-index: 1;
   width: calc(100% - 2rem);
@@ -19,8 +21,8 @@
   flex-direction: column;
   width: 100%;
   max-width: 360px;
-  margin-top: 4rem;
-  margin-bottom: 4rem;
+  margin-top: 0;
+  margin-bottom: 0;
   z-index: 1;
 }
 
@@ -108,14 +110,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    min-height: 70vh;
+    justify-content: center;
+    min-height: 75vh;
     width: 100%;
     overflow: hidden;
     box-sizing: border-box;
     z-index: 1;
     padding: 0;
-    margin: 12rem 0 0 0;
+    margin: 0;
   }
 
   .auth__background {

@@ -22,7 +22,7 @@ export default function FavouritesNotLoggedIn() {
               To view your favourite stories and moments, you must first log in.
             </p>
             <Link to="/login">
-              <button className={styles['auth__login-button']}>Log in now</button>
+              <button className={styles['auth__login-button']}>Log in</button>
             </Link>
           </div>
         </div>
