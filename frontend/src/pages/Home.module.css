@@ -1202,7 +1202,7 @@
     left: 135px;
     right: 135px;
     top: 50%;
-    transform: translateY(-20px);
+    transform: translateY(calc(-30% + 37px));
     bottom: auto;
   }
 
