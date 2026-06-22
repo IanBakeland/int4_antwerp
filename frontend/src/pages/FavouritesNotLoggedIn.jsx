@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styles from "./FavouritesNotLoggedIn.module.css";
 import antwerpLogo from "../assets/images/antwerpLogo.png";
-import PersonFilledIcon from "../assets/icons/PersonFilled";
+import PersonIcon from "../assets/icons/Person";
 
 export default function FavouritesNotLoggedIn() {
   return (
@@ -9,10 +9,11 @@ export default function FavouritesNotLoggedIn() {
       <div className="toolbar noDesktop noTablet">
         <div className="alignNext">
           <img src={antwerpLogo} alt="Antwerpen Logo" className={styles['auth__mobile-logo-image']} />
-          <Link to="/account" className={`${styles['auth__active-icon-button']} iconbutton`} aria-label="Account"><PersonFilledIcon /></Link>
+          <Link to="/account" className="iconbutton" aria-label="Account"><PersonIcon /></Link>
         </div>
       </div>
       <div className={styles.auth__background}></div>
+      <div className={styles['auth__image-mobile-container']}></div>
       <div className={styles.auth}>
         <div className={styles.auth__content}>
           <div className={styles.auth__card}>
@@ -22,7 +23,9 @@ export default function FavouritesNotLoggedIn() {
               To view your favourite stories and moments, you must first log in.
             </p>
             <Link to="/login">
-              <button className={styles['auth__login-button']}>Log in</button>
+              <button className={styles['auth__login-button']}>
+                Log in<span className={styles['auth__button-arrow']}>→</span>
+              </button>
             </Link>
           </div>
         </div>
