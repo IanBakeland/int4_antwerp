@@ -10,7 +10,7 @@ import StoryCard from '../components/StoryCard';
 
 import PersonIcon from '../assets/icons/Person';
 import MuteIcon from '../assets/icons/Mute';
-import SpeakerIcon from '../assets/icons/Speakerr';
+import SpeakerIcon from '../assets/icons/Speaker';
 import LocationFilledIcon from '../assets/icons/LocationFilled';
 
 import whiteNoiseFile from '../assets/sounds/whiteNoise.mp3';
