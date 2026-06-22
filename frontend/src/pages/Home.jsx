@@ -13,6 +13,7 @@ import pano4 from '../assets/images/pano4.jpeg';
 import antwerpLogo from '../assets/images/antwerpLogo.png';
 import logoAntwerpScenes from '../assets/images/logoantwerpscenes.png';
 import backgroundMoments from '../assets/images/backgroundmoments.png';
+import backgroundMomentsDesktop from '../assets/images/backgroundmoments-desktop.png';
 import qrCodeImg from '../assets/images/qrradar.png';
 import HeartIcon from '../assets/icons/Heart';
 import PersonIcon from '../assets/icons/Person';
@@ -392,7 +393,10 @@ export default function Home({ userLocation }) {
           </Link>
         </div>
 
-        <img src={backgroundMoments} alt="" className={styles['home__background-moments']} aria-hidden="true" />
+        <picture>
+          <source media="(min-width: 801px)" srcSet={backgroundMomentsDesktop} />
+          <img src={backgroundMoments} alt="" className={styles['home__background-moments']} aria-hidden="true" />
+        </picture>
 
         <div className={styles['home__scroll-banner']}>
           <div className={styles['home__scroll-banner-track']}>
