@@ -488,7 +488,6 @@ export interface ApiReactionReaction extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     emoji: Schema.Attribute.String &
       Schema.Attribute.SetMinMaxLength<{
-        maxLength: 1;
         minLength: 1;
       }>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -537,6 +536,7 @@ export interface ApiStoryStory extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     longitude: Schema.Attribute.Decimal;
     panorama: Schema.Attribute.Media<'images'>;
+    preview: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
     reactions: Schema.Attribute.Relation<'oneToMany', 'api::reaction.reaction'>;
     state: Schema.Attribute.Enumeration<['pending', 'approved', 'deleted']>;

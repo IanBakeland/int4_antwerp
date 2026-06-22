@@ -13,21 +13,30 @@ import PersonRunningIcon from '../assets/icons/PersonRunning';
 import MonumentIcon from '../assets/icons/Monument';
 import FolderIcon from '../assets/icons/Folder';
 import PersonDoubleIcon from '../assets/icons/PersonDouble';
+import RadarLocationIcon from '../assets/icons/RadarLocation';
+import ShareFilledIcon from '../assets/icons/ShareFilled';
+import ReactionFilledIcon from '../assets/icons/ReactionFilled';
 
 import Loading from '../components/Loading';
+import FavouriteButton from '../components/FavouriteButton';
+import ReactionButton from '../components/ReactionButton';
 import styles from './Story.module.css';
 
-const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDistance }) => {
+const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDistance, setSelectedStory }) => {
   const [viewerLoading, setViewerLoading] = useState(true);
   const [hasPermission, setHasPermission] = useState(() => {
     return localStorage.getItem('gyroPermission') === 'granted';
   });
   const [gyroStarted, setGyroStarted] = useState(hasPermission);
   const viewerRef = useRef(null);
+  const navigate = useNavigate();
   
   const panoramaImage = story?.panorama?.url;
   const plugins = isMobile ? [[GyroscopePlugin, { absolutePosition: true, moveMode: 'fast' }]] : [];
   const isNearActive = distance <= 2;
+  
+  const favouriteArray = story?.favourites?.data || story?.favourites;
+  const favouriteDocId = favouriteArray?.[0]?.documentId;
 
   useEffect(() => {
     if (isActive) setViewerLoading(true);
@@ -162,17 +171,46 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDis
               </div>
 
               <div className={styles.rightColumn}>
-                <button className="iconbutton dark">
-                  <ChevronIcon/>
+                <FavouriteButton 
+                  storyId={story?.documentId} 
+                  initialFavouriteDocId={favouriteDocId} 
+                  iconButton={true}
+                />
+                <ReactionButton storyId={story?.documentId} />
+                <button 
+                  className="iconbutton dark"
+                  onClick={() => {
+                    setSelectedStory(story);
+                    navigate('/radar');
+                  }}
+                >
+                  <RadarLocationIcon />
                 </button>
-                <button className="iconbutton dark">
-                  <ChevronIcon/>
-                </button>
-                <button className="iconbutton dark">
-                  <ChevronIcon/>
-                </button>
-                <button className="iconbutton dark">
-                  <ChevronIcon/>
+                <button 
+                  className="iconbutton dark"
+                  onClick={async () => {
+                    const shareUrl = `${window.location.origin}${window.location.pathname}#/story?id=${story?.documentId}`;
+                    if (navigator.share) {
+                      try {
+                        await navigator.share({
+                          title: story?.title || 'Check out this spot!',
+                          text: story?.preview || 'I found this hidden spot on Radar.',
+                          url: shareUrl
+                        });
+                      } catch (error) {
+                        console.log('Sharing was cancelled or failed.', error);
+                      }
+                    } else {
+                      try {
+                        await navigator.clipboard.writeText(shareUrl);
+                        alert('Link copied to clipboard!');
+                      } catch (error) {
+                        console.error('Failed to copy link', error);
+                      }
+                    }
+                  }}
+                >
+                  <ShareFilledIcon/>
                 </button>
               </div>
             </div>
@@ -185,7 +223,7 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDis
   );
 };
 
-export default function Story({ setToken, userLocation, formatDistance }) {
+export default function Story({ setToken, userLocation, formatDistance, setSelectedStory }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -202,7 +240,10 @@ export default function Story({ setToken, userLocation, formatDistance }) {
   useEffect(() => {
     const fetchStories = async () => {
       try {
-        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user");
+        const token = localStorage.getItem("token");
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user&populate[2]=favourites", { headers });
         if (!res.ok) throw new Error("Failed to fetch stories");
         const data = await res.json();
         
@@ -296,6 +337,7 @@ export default function Story({ setToken, userLocation, formatDistance }) {
               isMobile={isMobile}
               formattedDistance={formattedDistance}
               onReady={index === 0 ? () => setFirstPanoReady(true) : null}
+              setSelectedStory={setSelectedStory}
             />
           );
         })}

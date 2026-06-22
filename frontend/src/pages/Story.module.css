@@ -294,3 +294,7 @@ h1{
     margin-bottom: 4rem; 
   }
 }
+.rightColumn * {
+  pointer-events: auto !important;
+  cursor: pointer;
+}

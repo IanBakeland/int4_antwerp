@@ -103,8 +103,8 @@ export default function App() {
           <Route path="/radar-explained" element={<RadarExplained />} />
           <Route 
             path="/story" 
-              element={<Story setToken={setToken} userLocation={userLocation} formatDistance={formatDistance} />} 
-            />
+            element={<Story setToken={setToken} userLocation={userLocation} formatDistance={formatDistance} setSelectedStory={setSelectedStory} />} 
+          />
           <Route 
             path="/favourites" 
             element={

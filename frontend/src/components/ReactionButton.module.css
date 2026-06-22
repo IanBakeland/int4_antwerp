@@ -1,0 +1,92 @@
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.floatingBar {
+  position: absolute;
+  right: calc(100%);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+    border: 0.15rem solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+  padding: 8px 16px;
+  border-radius: 40px;
+  white-space: nowrap;
+  z-index: 50;
+  
+  animation: slideIn 0.2s ease-out;
+  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.floatingBar:hover {
+    background: rgba(0, 0, 0, 0.65);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translate(10px, -50%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+}
+
+.emojiItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.emojiItem:active {
+  transform: scale(0.9);
+}
+
+.emojiCount {
+  color: white;
+  font-family: var(--font-spartan);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.emojiChar {
+  font-size: 1.2rem;
+}
+
+.addEmojiButton {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.pickerContainer {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  z-index: 100;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+}
