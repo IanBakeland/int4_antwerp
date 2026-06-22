@@ -5,6 +5,8 @@ import PersonIcon from '../assets/icons/Person';
 import FavouriteAntistate from '../components/FavouriteAntistate';
 import Loading from '../components/Loading';
 import StoryCard from '../components/StoryCard';
+import antwerpLogo from '../assets/images/antwerpLogo.png';
+import styles from './Favourites.module.css';
 
 export default function Favourites() {
   useDocumentTitle('Favourites');
@@ -58,14 +60,23 @@ export default function Favourites() {
   return (
     <div>
       <div className="toolbar noDesktop noTablet">
-        <div className="alignNext">
-          <h1>Your <span>favourites</span></h1>
+        <div className={`alignNext ${styles.toolbarInner}`}>
+          {(!loading && favourites.length === 0) ? (
+            <Link to="/" className="mobileLogoLink" aria-label="Go to Homepage">
+              <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.mobileLogoImg} />
+            </Link>
+          ) : (
+            <h1>Your <span>favourites</span></h1>
+          )}
           <Link to="/account" className="iconbutton"><PersonIcon /></Link>
         </div>
       </div>
-      <div className="noMobile">
-        <h1>Your <span>favourites</span></h1>
-      </div>
+      
+      {(loading || favourites.length > 0) && (
+        <div className="noMobile">
+          <h1>Your <span>favourites</span></h1>
+        </div>
+      )}
       
       <div className="favouritesContainer">
         {loading ? (
