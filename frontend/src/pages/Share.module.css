@@ -411,7 +411,6 @@
   display: inline-block !important;
 }
 
-/* Submit and disclaimer */
 .share__submit-button {
   display: flex;
   align-items: center;
@@ -437,6 +436,23 @@
 
 .share__submit-button:active {
   transform: scale(0.98);
+}
+
+.share__submit-button svg {
+  transition: transform 0.2s ease;
+  color: #FFF;
+  text-align: center;
+  font-family: "SF Pro Rounded", sans-serif;
+  font-size: 1.375rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.share__submit-button:hover svg {
+  transform: translateX(4px);
 }
 
 /* Panorama preview and dropzone styles */
