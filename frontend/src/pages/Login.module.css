@@ -3,40 +3,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Center content horizontally */
-  min-height: 100vh;
   box-sizing: border-box;
-  /* size on desktop */
-  background-color: var(--color-white);
-  z-index: 1;
-}
-
-.imageMobileContainer {
-  background-image: url('../assets/images/backgroundlogin.png');
-  background-repeat: no-repeat;
   background-position: right bottom;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 1200px;
-  height: 600px;
-  z-index: 0;
-}
-
-.passwordContainer {
-gap: 1.50rem;
-}
-
-.imageMobileContainerSignup {
-  background-image: url('../assets/images/backgroundsignup.png');
   background-repeat: no-repeat;
-  background-position: right bottom;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 1200px;
-  height: 600px;
-  z-index: 0;
+  background-size: 800px;
+    width: calc(100% - 2rem);
 }
 
 .loginContent {
@@ -45,7 +16,6 @@ gap: 1.50rem;
   flex-direction: column;
   width: 100%;
   max-width: 350px;
-  /* Match form card width */
   margin-top: 1.5rem;
   z-index: 1;
 }
@@ -251,7 +221,7 @@ gap: 1.50rem;
 
 /* Mobile top navbar styles matching homepage */
 .navbarMobileTop {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -272,6 +242,7 @@ gap: 1.50rem;
   height: 3.25rem;
   width: auto;
   object-fit: contain;
+  margin-right: auto;
 }
 
 .navbarMobileTopRight {
@@ -290,25 +261,43 @@ gap: 1.50rem;
   }
 }
 
-@media (max-width: 800px) {
-  .loginContainer {
+.loginBackground{
+    background-image: url('../assets/images/background-login-desktop.png');
+  background-repeat: no-repeat;
     position: fixed;
     inset: 0;
     height: 100dvh;
     width: 100vw;
     overflow: hidden;
-    padding: 1.5rem 1.375rem;
-    /* 1.375rem is exactly 22px */
-    z-index: 5;
-    /* Lower than mobile navbar (1000) so the bottom navbar remains visible */
+    z-index: -1;
+    background-position: right bottom;
+    background-size: 800px;
+}
+
+.signupBackground{
+    background-image: url('../assets/images/background-signup-desktop.png');
+  background-repeat: no-repeat;
+    position: fixed;
+    inset: 0;
+    height: 100dvh;
+    overflow: hidden;
+    z-index: -1;
+    background-position: right bottom;
+    background-size: 800px;
+}
+
+@media (max-width: 800px) {
+  .loginContainer {
+    position: fixed;
+    z-index: 5;    
     background-size: 500px;
-    /* size on mobile */
   }
 
   .signupContainer {
     position: absolute;
     height: auto;
-    min-height: 100dvh;
+    height: 70vh;
+    width: calc(100% - 2rem);
     overflow-y: visible;
   }
 
@@ -316,22 +305,17 @@ gap: 1.50rem;
   .signupContainer .loginContent {
     padding-bottom: 5rem;
   }
-
-  .loginContent {
-    margin-top: 6.5rem;
-    /* Pushes content down below the absolute mobile top navbar */
-  }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 800px) {
   .loginContainer {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    width: 100%;
+    height: 70vh;
+    width: 100vw;
     overflow: hidden;
     box-sizing: border-box;
     z-index: 1;
@@ -353,7 +337,6 @@ gap: 1.50rem;
   }
 
   .imageDesktopContainer {
-    background-image: url('../assets/images/background-login-desktop.png');
     background-size: 80rem;
     background-repeat: no-repeat;
     background-position: right bottom;
@@ -365,7 +348,6 @@ gap: 1.50rem;
   }
 
   .imageDesktopContainerSignup {
-    background-image: url('../assets/images/background-signup-desktop.png');
     background-size: 80rem;
     background-repeat: no-repeat;
     background-position: right bottom;
@@ -385,8 +367,6 @@ gap: 1.50rem;
   }
 
   .loginForm {
-    width: 19.75rem;
-    height: 25rem;
   }
 
   .signupForm {
@@ -417,7 +397,6 @@ gap: 1.50rem;
 
 .inputField {
   font-size: 1rem;
-  height: 1.9375rem;
 
 }
 
@@ -462,6 +441,6 @@ gap: 1.50rem;
 }
 
 .inputGroupPasswordLogin, .inputGroupUsernameLogin {
-  width: 15.6875rem;
+  width: 19rem;
 }
 }

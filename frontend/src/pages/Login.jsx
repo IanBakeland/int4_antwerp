@@ -43,15 +43,17 @@ export default function Login({ setToken }) {
   };
 
   return (
+    <>
+    <div className={`toolbar noDesktop noTablet`}>
+      <div className="alignNext">
+        <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.mobileLogoImg} />
+        <Link to="/account" className={`${styles.activeIconButton} iconbutton`} aria-label="Account"><PersonFilledIcon /></Link>
+      </div>
+    </div>
+    <div className={styles.loginBackground}>
+    </div>
     <div className={styles.loginContainer}>
-      <header className={styles.navbarMobileTop}>
-        <Link to="/" className={styles.mobileLogoLink} aria-label="Go to Homepage">
-          <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.mobileLogoImg} />
-        </Link>
-        <div className={styles.navbarMobileTopRight}>
-          <Link to="/account" className={`${styles.activeIconButton} iconbutton`} aria-label="Account"><PersonFilledIcon /></Link>
-        </div>
-      </header>
+
 
       <div className={styles.loginContent}>
         < div className={styles.welcomeTextContainer}>
@@ -124,5 +126,6 @@ export default function Login({ setToken }) {
       <div className={styles.imageMobileContainer}></div>
       <div className={styles.imageDesktopContainer}></div>
     </div>
+    </>
   );
 }

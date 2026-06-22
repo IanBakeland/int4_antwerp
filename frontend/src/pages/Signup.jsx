@@ -18,18 +18,16 @@ export default function Signup() {
   const asterisk = <span style={{ color: "#FF7D3C", marginLeft: "4px" }}>*</span>;
 
   return (
+    <>
+    <div className={`toolbar noDesktop noTablet`}>
+      <div className="alignNext">
+        <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.mobileLogoImg} />
+        <Link to="/account" className={`${styles.activeIconButton} iconbutton`} aria-label="Account"><PersonFilledIcon /></Link>
+      </div>
+    </div>
+    <div className={styles.signupBackground}>
+    </div>
     <div className={`${styles.loginContainer} ${styles.signupContainer}`}>
-      <header className={styles.navbarMobileTop}>
-        <Link to="/" className={styles.mobileLogoLink} aria-label="Go to Homepage">
-          <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.mobileLogoImg} />
-        </Link>
-        <div className={styles.navbarMobileTopRight}>
-          <Link to="/account" className={`${styles.activeIconButton} iconbutton`} aria-label="Account">
-            <PersonFilledIcon />
-          </Link>
-        </div>
-      </header>
-
       <div className={styles.loginContent}>
        < div className={styles.welcomeTextContainer}>
         <div className={styles.welcomeText}>
@@ -145,5 +143,6 @@ export default function Signup() {
        <div className={styles.imageMobileContainerSignup}></div>
       <div className={styles.imageDesktopContainerSignup}></div>
     </div>
+    </>
   );
 }
