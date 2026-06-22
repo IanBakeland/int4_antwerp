@@ -238,17 +238,21 @@
     margin: 3.5rem auto 2.5rem;
     gap: 1.25rem;
   }
+
   .home__pano-info-card {
     width: 340px;
     height: 204px;
     padding: 2rem 1rem;
   }
+
   .home__pano-info-card-number {
     font-size: 64px;
   }
+
   .home__pano-info-card-unit {
     font-size: 20px;
   }
+
   .home__pano-info-card-label {
     font-size: 18px;
     line-height: normal;
@@ -732,12 +736,10 @@
 
   .home__pano-gradient-overlay {
     height: 65%;
-    background: linear-gradient(
-      0deg,
-      rgba(0, 0, 0, 0.78) 0%,
-      rgba(0, 0, 0, 0.5) 42%,
-      rgba(0, 0, 0, 0) 100%
-    );
+    background: linear-gradient(0deg,
+        rgba(0, 0, 0, 0.78) 0%,
+        rgba(0, 0, 0, 0.5) 42%,
+        rgba(0, 0, 0, 0) 100%);
   }
 }
 
@@ -1151,4 +1153,46 @@
   height: 26px;
   fill: var(--color-white);
   opacity: 0.85;
+}
+
+/* Panorama navigation buttons (mobile hidden, desktop styled) */
+.home__pano-nav-btn {
+  display: none;
+}
+
+@media (min-width: 801px) {
+  .home__pano-nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    border: 0.5px solid #BCBCBC;
+    background: rgba(0, 0, 0, 0.50);
+    z-index: 10;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    padding: 0;
+  }
+  
+  .home__pano-nav-btn:hover {
+    background: rgba(0, 0, 0, 0.70);
+  }
+  
+  .home__pano-nav-btn:focus-visible {
+    outline: 2px solid var(--color-white);
+    outline-offset: 2px;
+  }
+  
+  .home__pano-nav-btn--prev {
+    left: 40px;
+  }
+  
+  .home__pano-nav-btn--next {
+    right: 40px;
+  }
 }

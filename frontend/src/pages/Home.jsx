@@ -265,7 +265,7 @@ export default function Home({ userLocation }) {
           <img src={logoAntwerpScenes} alt="Antwerp Scenes" className={styles['home__logo-image']} />
         </div>
 
-        <div 
+        <div
           className={styles['home__pano-wrapper']}
           role="region"
           aria-label={`360 degree panorama viewer displaying: ${activeStory.title}`}
@@ -300,6 +300,26 @@ export default function Home({ userLocation }) {
             onLoaded={handlePanoLoaded}
             className={`${styles['home__pano-image']} ${transitionClassMap[transitionClass]}`}
           />
+
+          {/* Desktop navigation circles */}
+          <button
+            className={`${styles['home__pano-nav-btn']} ${styles['home__pano-nav-btn--prev']}`}
+            onClick={handlePrev}
+            aria-label="Previous Panorama"
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11.25 13.5L6.75 9L11.25 4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+          <button
+            className={`${styles['home__pano-nav-btn']} ${styles['home__pano-nav-btn--next']}`}
+            onClick={handleNext}
+            aria-label="Next Panorama"
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6.75 13.5L11.25 9L6.75 4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
         </div>
 
         {/* Pagination Indicators */}
