@@ -71,7 +71,7 @@ export default function Favourites() {
         {loading ? (
           <>
             <Loading message="Loading your favourite stories..." />
-          </>
+          </> 
         ) : favourites.length > 0 ? (
           <div className="storyCardContainer">
             {favourites.map((favItem) => {
@@ -82,10 +82,12 @@ export default function Favourites() {
               return (
                 <StoryCard 
                   key={favItem.documentId}
+                  id={story.documentId}
                   title={story.title}
                   category={story.category}
                   username={story.user?.username}
                   image={story.panorama}
+                  favouriteDocId={favItem.documentId}
                 />
               );
             })}

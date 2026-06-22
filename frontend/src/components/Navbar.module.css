@@ -1,7 +1,4 @@
 .glass {
-  background: rgba(227, 227, 227, 0.6);
-  backdrop-filter: blur(6px);
-  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .navbarMobile {
@@ -10,7 +7,7 @@
   bottom: 1rem;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 1000;
+  z-index: 10000;
   border-radius: 50px;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.10);
   --padding: 0.125rem;
@@ -19,6 +16,9 @@
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   anchor-name: --segmented-button-hover;
+  background: rgba(227, 227, 227, 0.6);
+  backdrop-filter: blur(6px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .navbarMobile::before,
@@ -56,6 +56,6 @@
 
 .navbarDesktop > div{
   width: 100%;
-      max-width: 1700px;
+      max-width: 1800px;
       margin: 0 1rem;
 }

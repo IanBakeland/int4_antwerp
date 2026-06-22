@@ -8,6 +8,7 @@ import RadarExplained from './pages/RadarExplained';
 import Account from './pages/Account';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Story from './pages/Story';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -100,7 +101,10 @@ export default function App() {
             } 
           />
           <Route path="/radar-explained" element={<RadarExplained />} />
-          
+          <Route 
+            path="/story" 
+            element={<Story setToken={setToken} userLocation={userLocation} formatDistance={formatDistance} setSelectedStory={setSelectedStory} />} 
+          />
           <Route 
             path="/favourites" 
             element={

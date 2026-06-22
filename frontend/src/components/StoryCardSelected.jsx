@@ -3,11 +3,11 @@ import styles from './StoryCardSelected.module.css';
 
 import FavouriteButton from '../components/FavouriteButton';
 
+//Icons
 import PersonIcon from '../assets/icons/Person'
 import StarFilledIcon from '../assets/icons/StarFilled';
 import RadarIcon from '../assets/icons/Radar';
 import RadarLocationIcon from '../assets/icons/RadarLocation';
-import HeartIcon from '../assets/icons/Heart';
 import HeartFilledIcon from '../assets/icons/HeartFilled';
 import PersonRunningIcon from '../assets/icons/PersonRunning';
 import MonumentIcon from '../assets/icons/Monument';
@@ -43,11 +43,12 @@ export default function StoryCardSelected({ id, title, category, username, image
 
   return (
     <div
-      className={`${styles.storyCard} alignUnder ${state === "selected" ? styles.selected : ""}`}       style={{
+      className={`${styles.storyCard} alignUnder ${state === "selected" ? styles.selected : ""}`}       
+      style={{
         backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
-        cursor: state === "closest" ? "pointer" : "default" 
+        cursor: "pointer"
       }}
-      onClick={state === "closest" ? onSelect : undefined}
+      onClick={onSelect}
     >
       {state === "selected" ? (
         <div className={`${styles.currentState} alignNext`}>
@@ -57,7 +58,7 @@ export default function StoryCardSelected({ id, title, category, username, image
       ) : (
         <div className={`${styles.currentState} alignNext`}>
           <RadarIcon />
-          <p>Currently locating</p>
+          <p>Closest story</p>
         </div>
       )}
       <div className='alignNext' style={{ gap: '0.4rem' }}>

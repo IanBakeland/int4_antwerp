@@ -488,7 +488,6 @@ export interface ApiReactionReaction extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     emoji: Schema.Attribute.String &
       Schema.Attribute.SetMinMaxLength<{
-        maxLength: 1;
         minLength: 1;
       }>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -531,14 +530,16 @@ export interface ApiStoryStory extends Struct.CollectionTypeSchema {
       'api::favourite.favourite'
     >;
     hiddenSpots: Schema.Attribute.Integer;
-    latitude: Schema.Attribute.Decimal;
+    latitude: Schema.Attribute.Float;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::story.story'> &
       Schema.Attribute.Private;
-    longitude: Schema.Attribute.Decimal;
+    longitude: Schema.Attribute.Float;
     panorama: Schema.Attribute.Media<'images'>;
+    preview: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
     reactions: Schema.Attribute.Relation<'oneToMany', 'api::reaction.reaction'>;
+    speach: Schema.Attribute.Media<'files' | 'audios'>;
     state: Schema.Attribute.Enumeration<['pending', 'approved', 'deleted']>;
     story: Schema.Attribute.RichText;
     title: Schema.Attribute.String;

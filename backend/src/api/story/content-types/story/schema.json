@@ -30,14 +30,17 @@
     "title": {
       "type": "string"
     },
+    "preview": {
+      "type": "text"
+    },
     "story": {
       "type": "richtext"
     },
     "latitude": {
-      "type": "decimal"
+      "type": "float"
     },
     "longitude": {
-      "type": "decimal"
+      "type": "float"
     },
     "hiddenSpots": {
       "type": "integer"
@@ -47,6 +50,14 @@
       "multiple": false,
       "allowedTypes": [
         "images"
+      ]
+    },
+    "speach": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "files",
+        "audios"
       ]
     },
     "state": {
