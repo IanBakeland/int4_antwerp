@@ -1391,4 +1391,8 @@
     font-weight: 600;
     line-height: 34px;
   }
+
+  .home__radar-button {
+    display: none;
+  }
 }
