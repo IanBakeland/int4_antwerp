@@ -52,6 +52,14 @@
         "images"
       ]
     },
+    "Speach": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "files",
+        "audios"
+      ]
+    },
     "state": {
       "type": "enumeration",
       "enum": [
