@@ -530,11 +530,11 @@ export interface ApiStoryStory extends Struct.CollectionTypeSchema {
       'api::favourite.favourite'
     >;
     hiddenSpots: Schema.Attribute.Integer;
-    latitude: Schema.Attribute.Decimal;
+    latitude: Schema.Attribute.Float;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::story.story'> &
       Schema.Attribute.Private;
-    longitude: Schema.Attribute.Decimal;
+    longitude: Schema.Attribute.Float;
     panorama: Schema.Attribute.Media<'images'>;
     preview: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;

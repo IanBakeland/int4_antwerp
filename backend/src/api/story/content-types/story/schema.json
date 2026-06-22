@@ -37,10 +37,10 @@
       "type": "richtext"
     },
     "latitude": {
-      "type": "decimal"
+      "type": "float"
     },
     "longitude": {
-      "type": "decimal"
+      "type": "float"
     },
     "hiddenSpots": {
       "type": "integer"
