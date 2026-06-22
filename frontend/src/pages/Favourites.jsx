@@ -78,7 +78,7 @@ export default function Favourites() {
         </div>
       )}
       
-      <div className="favouritesContainer">
+      <div className={`favouritesContainer ${(!loading && favourites.length === 0) ? 'emptyStateActive' : ''}`}>
         {loading ? (
           <>
             <Loading message="Loading your favourite stories..." />
