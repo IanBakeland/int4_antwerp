@@ -288,26 +288,28 @@
 @media (max-width: 800px) {
   .auth {
     position: fixed;
-    inset: 0;
-    height: 100dvh;
-    width: 100vw;
-    overflow: hidden;
-    padding: 1.5rem 1.375rem;
     z-index: 5;
     background-size: 500px;
   }
 
   .auth--signup {
     position: absolute;
-    height: auto;
-    min-height: 100dvh;
-    width: 100vw;
+    height: 70vh;
+    width: calc(100% - 2rem);
     overflow-y: visible;
   }
 
   .auth--signup :global(.auth__content),
   .auth--signup .auth__content {
     padding-bottom: 5rem;
+  }
+
+  .auth__image-mobile-container,
+  .auth__image-mobile-container--signup {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
   }
 }
 
