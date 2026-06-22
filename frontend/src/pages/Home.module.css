@@ -721,8 +721,8 @@
   line-height: 1.75rem;
   white-space: nowrap;
 
-  leading-trim: both;
-  text-edge: cap;
+  text-box-trim: both;
+  text-box-edge: cap;
 
   box-sizing: border-box;
   transition: opacity 0.25s ease, transform 0.25s ease;
@@ -839,8 +839,8 @@
 .home__story-card-badge span,
 .home__story-card-badge-small span {
   color: #FFF;
-  leading-trim: both;
-  text-edge: cap;
+  text-box-trim: both;
+  text-box-edge: cap;
   font-family: "League Spartan", var(--font-spartan);
   font-size: 0.875rem;
   font-style: normal;
@@ -1024,6 +1024,7 @@
   white-space: normal;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
