@@ -1561,4 +1561,9 @@
     bottom: 45px;
     font-size: 2.2rem;
   }
+
+  .home__author-badge-wrapper {
+    left: 2.25rem;
+    top: 2.75rem;
+  }
 }
