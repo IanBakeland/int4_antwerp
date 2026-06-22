@@ -4,17 +4,31 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 9000;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.backdropFull {
   background: rgba(0, 0, 0, 0.4);
-  transition: opacity 0.3s ease;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+h2{
+  font-size: ;
+}
+
+.backdropHalf {
+  background: transparent;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .backdropHidden {
+  background: transparent;
   opacity: 0;
   pointer-events: none;
 }
 
-/* 1. The Main Wrapper (Handles background and shadow ONLY) */
 .overlayWrapper {
   position: fixed;
   bottom: 0;
@@ -24,14 +38,13 @@
   background-color: var(--color-white, #fff);
   border-top-left-radius: 2.5rem;
   border-top-right-radius: 2.5rem;
-  box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.15); /* Shadow is safe here */
+  box-shadow: 0 -4px 60px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
   will-change: transform;
 }
 
-/* 2. The Glassy Frame (Sits absolutely positioned on top) */
 .overlayWrapper::after {
   content: '';
   position: absolute;
@@ -44,12 +57,10 @@
   border-top-left-radius: 2.5rem;
   border-top-right-radius: 2.5rem;
   box-sizing: border-box;
-  pointer-events: none; /* Lets you drag and click through the border */
-  z-index: 200; /* Forces the border to sit on top of the image */
+  pointer-events: none;
+  z-index: 200;
 }
 
-
-/* The 4 position states */
 .stateInitial {
   transform: translateY(100vh);
 }
@@ -91,7 +102,7 @@
   left: 0;
   width: 100%;
   height: 6rem;
-  z-index: 30;
+  z-index: 300;
   touch-action: none;
   cursor: grab;
 }
@@ -113,20 +124,19 @@
   background-color: var(--color-white, #fff);
   color: #000;
   font-family: var(--font-spartan);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 0.9rem;
-  padding: 0.5rem 1rem;
+  padding: 0.30rem 1rem;
   border-radius: 2rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   pointer-events: auto;
 }
 
 .unlockedBadge svg {
-  width: 1rem;
-  height: 1rem;
+  width: 0.8rem;
+  height: 0.8rem;
 }
 
 .unlockedBadge path {
@@ -142,8 +152,6 @@
   display: flex;
   flex-direction: column;
   -webkit-overflow-scrolling: touch;
-  
-  /* Forces the scrolling content to stay inside the curves */
   border-top-left-radius: 2.5rem;
   border-top-right-radius: 2.5rem;
   -webkit-mask-image: -webkit-radial-gradient(white, black);
@@ -155,21 +163,16 @@
 
 .scrollDisabled {
   overflow-y: hidden;
+  touch-action: pan-y;
 }
 
 .imageContainer {
   position: relative;
   width: 100%;
-  height: 45vh; /* Increased to account for the 8rem text overlap */
+  height: 45vh;
   flex-shrink: 0;
   background-size: cover;
   background-position: center;
-  touch-action: none;
-  cursor: grab;
-}
-
-.imageContainer:active {
-  cursor: grabbing;
 }
 
 .whiteGradient {
@@ -178,16 +181,13 @@
   left: 0;
   width: 100%;
   height: 60%;
-  background: linear-gradient(to bottom, 
-  rgba(255, 255, 255, 0) 0%,
-   rgba(255, 255, 255, 0.8) 60%,
-    rgba(255, 255, 255, 1) 100%); 
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 60%, rgba(255, 255, 255, 1) 100%); 
   pointer-events: none;
 }
 
 .textContent {
-  background: transparent; /* Removed white background */
-  margin-top: -10rem; /* Pulls the text up over the image */
+  background: transparent;
+  margin-top: -10rem;
   padding: 0 1.5rem 6rem 1.5rem; 
   flex-grow: 1;
   color: #000;
@@ -229,17 +229,16 @@
 
 .stickyActionRow {
   position: absolute;
-  bottom: 0;
+  bottom: 1.5rem;
   left: 0;
   width: 100%;
-  background: var(--color-white, #fff);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1.5rem;
   padding: 1rem 0 2rem 0;
   z-index: 100;
-  box-shadow: 0 -10px 20px rgba(255, 255, 255, 0.9);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 60%, rgba(255, 255, 255, 1) 100%); 
 }
 
 .stickyActionRow button {
