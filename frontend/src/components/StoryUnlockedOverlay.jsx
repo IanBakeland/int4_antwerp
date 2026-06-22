@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import styles from './StoryUnlockedOverlay.module.css';
 
 import FavouriteButton from './FavouriteButton';
@@ -37,8 +38,8 @@ export default function StoryUnlockedOverlay({ story, isMuted, setIsMuted, hasSp
     if (navigator.share) {
       try {
         await navigator.share({
-          title: story?.title || 'Check out this spot!',
-          text: story?.preview || 'I found this hidden spot on Radar.',
+          title: story?.title,
+          text: story?.preview,
           url: shareUrl
         });
       } catch (error) {
@@ -83,7 +84,10 @@ export default function StoryUnlockedOverlay({ story, isMuted, setIsMuted, hasSp
         </div>
 
         <h2 className={styles.storyTitle}>{story?.title}</h2>
-        <p className={styles.storyPreview}>{story?.preview}</p>
+        
+        <div className={styles.markdownContainer}>
+          <ReactMarkdown>{story?.story || story?.preview}</ReactMarkdown>
+        </div>
 
         <div className={styles.actionRow}>
           <FavouriteButton 
