@@ -1,0 +1,10 @@
+.toolbarInner {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.mobileLogoImg {
+  height: 3.25rem;
+  width: auto;
+  object-fit: contain;
+}
