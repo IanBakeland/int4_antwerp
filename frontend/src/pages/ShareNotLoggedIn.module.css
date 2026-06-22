@@ -1,0 +1,198 @@
+.auth {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  box-sizing: border-box;
+  z-index: 1;
+  width: calc(100% - 2rem);
+  margin: 0 auto;
+}
+
+.auth__background {
+  display: none;
+}
+
+.auth__image-mobile-container {
+  background-image: url('../assets/images/background-account.png');
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 1200px;
+  height: 600px;
+  z-index: 0;
+  background-size: 393px;
+}
+
+.auth__content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 360px;
+  margin-top: 0;
+  margin-bottom: 0;
+  z-index: 1;
+}
+
+.auth__card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+  border: 1px solid #D9D9D9;
+  background: #FFF;
+  box-shadow: -5px 5px 40px 0 rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.auth__card h1 {
+  color: #000;
+  font-family: var(--font-antwerpen);
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -1.5px;
+  margin: 0 0 1.5rem 0;
+}
+
+.auth__subtitle {
+  color: #8A8A8A;
+  font-family: var(--font-spartan);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.4;
+  margin: 0 0 1.5rem 0;
+}
+
+.auth__message {
+  color: #555;
+  font-family: var(--font-spartan);
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0 0 2rem 0;
+}
+
+.auth__login-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  border-radius: 50px;
+  font-family: var(--font-spartan);
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  height: 2.875rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.auth__login-button:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.auth__login-button:active {
+  transform: scale(0.98);
+}
+
+.auth__button-arrow {
+  margin-left: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+  font-size: 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transform: translateY(-0.0625rem);
+  transition: transform 0.2s ease;
+}
+
+.auth__login-button:hover .auth__button-arrow {
+  transform: translate(3px, -0.0625rem);
+}
+
+.auth__mobile-logo-image {
+  height: 3.25rem;
+  width: auto;
+  object-fit: contain;
+  margin-right: auto;
+}
+
+.auth__active-icon-button svg {
+  fill: var(--color-primary) !important;
+}
+
+@media (min-width: 800px) {
+  .auth {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 75vh;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    z-index: 1;
+    padding: 0;
+    margin: 0;
+  }
+
+  .auth__background {
+    display: block;
+    background-image: url('../assets/images/background-account-desktop.png');
+    background-repeat: no-repeat;
+    position: fixed;
+    inset: 0;
+    height: 100dvh;
+    width: 100vw;
+    overflow: hidden;
+    z-index: -1;
+    background-position: right bottom;
+    background-size: 1000px;
+  }
+
+  .auth__image-mobile-container {
+    display: none;
+  }
+
+  .auth__content {
+    margin-top: 0;
+    width: 28rem;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .auth__card {
+    padding: 3rem;
+  }
+
+  .auth__card h1 {
+    font-size: 44px;
+  }
+
+  .auth__subtitle {
+    font-size: 20px;
+  }
+
+  .auth__message {
+    font-size: 18px;
+  }
+
+  .auth__login-button {
+    height: 3.1875rem;
+    font-size: 1.125rem;
+  }
+}

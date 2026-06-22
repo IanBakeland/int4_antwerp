@@ -359,7 +359,16 @@
 }
 
 .auth__background--account {
-  display: none;
+  background-image: url('../assets/images/background-account.png');
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 1200px;
+  height: 600px;
+  z-index: -1;
+  background-size: 393px;
 }
 
 .auth__mobile-logo-image {

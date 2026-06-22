@@ -11,9 +11,12 @@ import youtubeIcon from '../assets/images/youtube.png';
 
 export default function Footer() {
   const location = useLocation();
-  const allowedPaths = ['/', '/favourites', '/share'];
+  const token = localStorage.getItem("token");
+  const isAllowed =
+    location.pathname === '/' ||
+    (token && (location.pathname === '/favourites' || location.pathname === '/share'));
 
-  if (!allowedPaths.includes(location.pathname)) {
+  if (!isAllowed) {
     return null;
   }
 
