@@ -218,9 +218,10 @@
 }
 
 .iconTag p {
-  margin-top: 4.5px;
+  margin-top: 3px;
   text-transform: capitalize;
   font-weight: 400;
+  font-size: 1rem;
   color: black;
 }
 .iconTag svg {

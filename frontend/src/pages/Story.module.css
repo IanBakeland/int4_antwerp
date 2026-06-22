@@ -270,6 +270,13 @@ h1{
   .leftColumn {
     align-items: center;
     margin-left: 60px;
+    text-align: center;
+  }
+}
+
+@media (min-width: 801px) {
+  p {
+    max-width: 60rem;
   }
 }
 

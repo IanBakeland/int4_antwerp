@@ -3,12 +3,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Center content horizontally */
-  min-height: 100vh;
   box-sizing: border-box;
-  /* size on desktop */
   background-color: var(--color-white);
   z-index: 1;
+  width: calc(100% - 2rem);
 }
 
 .auth__image-mobile-container {
@@ -45,7 +43,6 @@
   flex-direction: column;
   width: 100%;
   max-width: 350px;
-  /* Match form card width */
   margin-top: 1.5rem;
   z-index: 1;
 }
@@ -57,7 +54,6 @@
   font-style: normal;
   font-weight: 400;
   line-height: 72.622px;
-  /* 181.556% */
   letter-spacing: -2.462px;
   margin-bottom: 0.5rem;
 }
@@ -69,7 +65,6 @@
   font-style: normal;
   font-weight: 400;
   line-height: 150%;
-  /* 27px */
   margin-bottom: 13px;
 }
 
@@ -97,7 +92,6 @@
   font-style: normal;
   font-weight: 500;
   line-height: 16px;
-  /* 80% */
   letter-spacing: -0.312px;
   margin: 0 0 0.25rem 0;
 }
@@ -117,7 +111,6 @@
   font-style: normal;
   font-weight: 400;
   line-height: 14px;
-  /* 77.778% */
   letter-spacing: -0.15px;
   margin-bottom: 10px;
 }
@@ -155,16 +148,9 @@
   font-style: normal;
   font-weight: 400;
   line-height: 14px;
-  /* 87.5% */
   letter-spacing: -0.15px;
   text-decoration: underline;
   align-self: flex-end;
-}
-
-.auth__password-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
 }
 
 .auth__submit-button {
@@ -180,13 +166,11 @@
   font-style: normal;
   font-weight: 500;
   line-height: 14px;
-  /* 77.778% */
   letter-spacing: -0.15px;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
   margin-top: 0;
   align-self: center;
-  /* Center horizontally in the card */
   flex-shrink: 0;
 }
 
@@ -204,7 +188,6 @@
   height: 1px;
   background: #EAEAEA;
   margin: 18px 0 14px 0;
-  /* exactly 18px above, 14px below */
   align-self: center;
 }
 
@@ -216,7 +199,6 @@
   font-style: normal;
   font-weight: 400;
   line-height: 20px;
-  /* 142.857% */
   letter-spacing: -0.15px;
   margin-bottom: 4px;
   align-self: center;
@@ -229,7 +211,6 @@
   font-style: normal;
   font-weight: 500;
   line-height: 24px;
-  /* 150% */
   letter-spacing: -0.312px;
   text-decoration: underline;
   margin-left: 0.25rem;
@@ -249,10 +230,8 @@
   cursor: not-allowed;
 }
 
-
-/* Mobile top navbar styles matching homepage */
 .auth__mobile-nav {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -273,6 +252,7 @@
   height: 3.25rem;
   width: auto;
   object-fit: contain;
+  margin-right: auto;
 }
 
 .auth__mobile-nav-right {
@@ -291,25 +271,42 @@
   }
 }
 
+.auth__background {
+  background-image: url('../assets/images/background-login-desktop.png');
+  background-repeat: no-repeat;
+  position: fixed;
+  inset: 0;
+  height: 100dvh;
+  width: 100vw;
+  overflow: hidden;
+  z-index: -1;
+  background-position: right bottom;
+  background-size: 800px;
+}
+
+.auth__background--signup {
+  background-image: url('../assets/images/background-signup-desktop.png');
+  background-repeat: no-repeat;
+  position: fixed;
+  inset: 0;
+  height: 100dvh;
+  overflow: hidden;
+  z-index: -1;
+  background-position: right bottom;
+  background-size: 800px;
+}
+
 @media (max-width: 800px) {
   .auth {
     position: fixed;
-    inset: 0;
-    height: 100dvh;
-    width: 100vw;
-    overflow: hidden;
-    padding: 1.5rem 1.375rem;
-    /* 1.375rem is exactly 22px */
     z-index: 5;
-    /* Lower than mobile navbar (1000) so the bottom navbar remains visible */
     background-size: 500px;
-    /* size on mobile */
   }
 
   .auth--signup {
     position: absolute;
-    height: auto;
-    min-height: 100dvh;
+    height: 70vh;
+    width: calc(100% - 2rem);
     overflow-y: visible;
   }
 
@@ -317,22 +314,17 @@
   .auth--signup .auth__content {
     padding-bottom: 5rem;
   }
-
-  .auth__content {
-    margin-top: 6.5rem;
-    /* Pushes content down below the absolute mobile top navbar */
-  }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 800px) {
   .auth {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    width: 100%;
+    height: 70vh;
+    width: 100vw;
     overflow: hidden;
     box-sizing: border-box;
     z-index: 1;
@@ -354,7 +346,6 @@
   }
 
   .auth__image-desktop-container {
-    background-image: url('../assets/images/background-login-desktop.png');
     background-size: 80rem;
     background-repeat: no-repeat;
     background-position: right bottom;
@@ -366,7 +357,6 @@
   }
 
   .auth__image-desktop-container--signup {
-    background-image: url('../assets/images/background-signup-desktop.png');
     background-size: 80rem;
     background-repeat: no-repeat;
     background-position: right bottom;
@@ -386,8 +376,6 @@
   }
 
   .auth__form {
-    width: 19.75rem;
-    height: 25rem;
   }
 
   .auth__form--signup {
@@ -418,10 +406,10 @@
 
   .auth__input-field {
     font-size: 1rem;
-    height: 1.9375rem;
   }
 
-  .auth__forgot-link, .auth__signup-link {
+  .auth__forgot-link,
+  .auth__signup-link {
     font-size: 1rem;
   }
 
@@ -457,11 +445,13 @@
     width: 14.3125rem;
   }
 
-  .auth__input-group--email, .auth__input-group--username {
+  .auth__input-group--email,
+  .auth__input-group--username {
     width: 30rem;
   }
 
-  .auth__input-group--password-login, .auth__input-group--username-login {
-    width: 15.6875rem;
+  .auth__input-group--password-login,
+  .auth__input-group--username-login {
+    width: 19rem;
   }
 }

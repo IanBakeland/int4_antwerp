@@ -43,15 +43,16 @@ export default function Login({ setToken }) {
   };
 
   return (
+    <>
+    <div className="toolbar noDesktop noTablet">
+      <div className="alignNext">
+        <img src={antwerpLogo} alt="Antwerpen Logo" className={styles['auth__mobile-logo-image']} />
+        <Link to="/account" className={`${styles['auth__active-icon-button']} iconbutton`} aria-label="Account"><PersonFilledIcon /></Link>
+      </div>
+    </div>
+    <div className={styles.auth__background}>
+    </div>
     <div className={styles.auth}>
-      <header className={styles.auth__mobile-nav}>
-        <Link to="/" className={styles.auth__mobile-logo-link} aria-label="Go to Homepage">
-          <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.auth__mobile-logo-image} />
-        </Link>
-        <div className={styles.auth__mobile-nav-right}>
-          <Link to="/account" className={`${styles['auth__active-icon-button']} iconbutton`} aria-label="Account"><PersonFilledIcon /></Link>
-        </div>
-      </header>
 
       <div className={styles.auth__content}>
         <div className={styles['auth__welcome-container']}>
@@ -124,5 +125,6 @@ export default function Login({ setToken }) {
       <div className={styles['auth__image-mobile-container']}></div>
       <div className={styles['auth__image-desktop-container']}></div>
     </div>
+    </>
   );
 }

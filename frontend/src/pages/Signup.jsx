@@ -18,18 +18,16 @@ export default function Signup() {
   const asterisk = <span style={{ color: "#FF7D3C", marginLeft: "4px" }}>*</span>;
 
   return (
+    <>
+    <div className="toolbar noDesktop noTablet">
+      <div className="alignNext">
+        <img src={antwerpLogo} alt="Antwerpen Logo" className={styles['auth__mobile-logo-image']} />
+        <Link to="/account" className={`${styles['auth__active-icon-button']} iconbutton`} aria-label="Account"><PersonFilledIcon /></Link>
+      </div>
+    </div>
+    <div className={styles['auth__background--signup']}>
+    </div>
     <div className={`${styles.auth} ${styles['auth--signup']}`}>
-      <header className={styles.auth__mobile-nav}>
-        <Link to="/" className={styles.auth__mobile-logo-link} aria-label="Go to Homepage">
-          <img src={antwerpLogo} alt="Antwerpen Logo" className={styles.auth__mobile-logo-image} />
-        </Link>
-        <div className={styles.auth__mobile-nav-right}>
-          <Link to="/account" className={`${styles['auth__active-icon-button']} iconbutton`} aria-label="Account">
-            <PersonFilledIcon />
-          </Link>
-        </div>
-      </header>
-
       <div className={styles.auth__content}>
         <div className={styles['auth__welcome-container']}>
           <div className={styles['auth__welcome-text']}>
@@ -145,5 +143,6 @@ export default function Signup() {
       <div className={styles['auth__image-mobile-container--signup']}></div>
       <div className={styles['auth__image-desktop-container--signup']}></div>
     </div>
+    </>
   );
 }
