@@ -21,6 +21,7 @@ export default function PanoramaViewer({
   const [gyroStarted, setGyroStarted] = useState(false);
   const [gyroFailed, setGyroFailed] = useState(false);
   const [viewerLoading, setViewerLoading] = useState(true);
+  const [showHint, setShowHint] = useState(false);
   const viewerRef = useRef(null);
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
@@ -30,6 +31,19 @@ export default function PanoramaViewer({
   const mouseOffsetRef = useRef(0); // -1 (left edge) to +1 (right edge), 0 = center
   const isHoveringRef = useRef(false);
   const animFrameRef = useRef(null);
+
+  // Show hint for 3 seconds when loading finishes on desktop
+  useEffect(() => {
+    if (!isMobile && !viewerLoading) {
+      setShowHint(true);
+      const timer = setTimeout(() => {
+        setShowHint(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    } else if (viewerLoading) {
+      setShowHint(false);
+    }
+  }, [viewerLoading, isMobile]);
 
   // Keep track of the freshest onLoaded callback to prevent stale closures in event listeners
   const onLoadedRef = useRef(onLoaded);
@@ -207,6 +221,15 @@ export default function PanoramaViewer({
           <div className={styles.spinner} />
         </div>
       </div>
+
+      {!isMobile && (
+        <div className={`${styles.moveMouseHint} ${!showHint ? styles.moveMouseHintHidden : ''}`}>
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.785365 1.35533C0.75116 1.27563 0.741479 1.18739 0.75758 1.10207C0.77368 1.01674 0.814818 0.938278 0.875652 0.87686C0.936485 0.815441 1.0142 0.773908 1.09871 0.757653C1.18323 0.741397 1.27063 0.751171 1.34957 0.785705L15.2162 6.4732C15.3005 6.50789 15.3719 6.5685 15.4202 6.64644C15.4684 6.72438 15.4912 6.81569 15.4851 6.90741C15.4791 6.99913 15.4446 7.08659 15.3865 7.15739C15.3284 7.22819 15.2498 7.27873 15.1616 7.30183L9.85417 8.68433C9.55429 8.76216 9.28054 8.91968 9.06137 9.14049C8.8422 9.3613 8.68562 9.63736 8.6079 9.93995L7.23943 15.3002C7.21655 15.3892 7.1665 15.4686 7.09637 15.5272C7.02625 15.5859 6.93961 15.6207 6.84877 15.6268C6.75792 15.6329 6.66748 15.61 6.59028 15.5612C6.51309 15.5125 6.45305 15.4405 6.4187 15.3553L0.785365 1.35533Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Move your mouse</span>
+        </div>
+      )}
 
       <div className={styles.panoGradientOverlay} />
       <div className={styles.panoContentWrapper}>
