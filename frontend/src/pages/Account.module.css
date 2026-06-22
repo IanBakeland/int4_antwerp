@@ -16,6 +16,7 @@
   width: 100%;
   max-width: 360px;
   margin-top: 1.5rem;
+  margin-bottom: 4rem;
   z-index: 1;
 }
 
@@ -28,8 +29,8 @@
 .auth__welcome-text {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
 }
 
 .auth__welcome-text h1 {
@@ -40,7 +41,7 @@
   font-weight: 400;
   line-height: 72.622px;
   letter-spacing: -2.462px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .auth__welcome-text h1 span {
@@ -60,21 +61,19 @@
 .auth__account-layout {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
   width: 100%;
 }
 
 .auth__account-left {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  width: 100%;
+  display: contents;
 }
 
 .auth__account-right {
   display: flex;
   flex-direction: column;
   width: 100%;
+  order: 2;
 }
 
 .auth__form {
@@ -89,6 +88,7 @@
   box-shadow: -5px 5px 40px 0 rgba(0, 0, 0, 0.15);
   padding: 1.5rem;
   box-sizing: border-box;
+  order: 1;
 }
 
 .auth__card-title {
@@ -230,6 +230,7 @@
   background: #FFF0F0;
   padding: 1.5rem;
   box-sizing: border-box;
+  order: 3;
 }
 
 .auth__delete-title {
@@ -286,7 +287,6 @@
   box-shadow: -5px 5px 40px 0 rgba(0, 0, 0, 0.15);
   padding: 1.5rem;
   box-sizing: border-box;
-  margin-bottom: 4rem;
 }
 
 .auth__action-button {
@@ -450,6 +450,8 @@
   }
 
   .auth__account-left {
+    display: flex;
+    flex-direction: column;
     width: 34.125rem;
     gap: 1rem;
   }
