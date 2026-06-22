@@ -705,6 +705,42 @@
   z-index: 8;
 }
 
+@media (min-width: 801px) {
+  .home__pano-content-wrapper {
+    bottom: 4.75rem;
+    left: clamp(2rem, 6vw, 6rem);
+    right: auto;
+    max-width: min(38rem, 48vw);
+  }
+
+  .home__pano-content-story-count {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  .home__pano-content-title {
+    font-size: clamp(3rem, 5vw, 4.75rem);
+    line-height: 0.95;
+    white-space: normal;
+  }
+
+  .home__pano-content-description {
+    max-width: 34rem;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  .home__pano-gradient-overlay {
+    height: 65%;
+    background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.78) 0%,
+      rgba(0, 0, 0, 0.5) 42%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+}
+
 .transitionSpinnerWrapper {
   position: absolute;
   top: 50%;
