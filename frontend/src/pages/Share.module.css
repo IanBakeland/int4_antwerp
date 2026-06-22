@@ -403,6 +403,14 @@
   color: #0A0A0A;
 }
 
+.desktopOnly {
+  display: none !important;
+}
+
+.mobileOnly {
+  display: inline-block !important;
+}
+
 /* Submit and disclaimer */
 .share__submit-button {
   display: flex;
@@ -582,9 +590,10 @@
 }
 
 /* 2. Desktop overrides (layered on top for larger screens) */
-@media (min-width: 801px) {
+@media (min-width: 1024px) {
   .share {
-    padding: 1rem;
+    padding: 0 1.25rem 2rem 1.25rem;
+    background-color: var(--color-white);
   }
 
   .share__mobile-nav {
@@ -592,12 +601,114 @@
   }
   
   .share__content {
-    max-width: 500px; /* Form sits nicely on desktop at this width */
-    margin-top: calc(115px - 6.5rem);
+    max-width: 650px;
+    margin-top: 2rem;
   }
 
   .share__content h1 {
     font-size: 56px;
+    line-height: 1.2;
+    letter-spacing: -2px;
+    margin-bottom: 0.5rem;
+  }
+
+  .share__subtitle {
+    width: 34.25rem;
+    height: 4.0625rem;
+    margin: 1rem auto 2.5rem auto;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .share__form {
+    padding: 2.5rem;
+    gap: 1.75rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+
+  .share__form-header {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 0.5rem;
+  }
+
+  .share__form-header h2 {
+    font-size: 22px;
+  }
+
+  .share__form-header p {
+    font-size: 18px;
+    margin: 0;
+  }
+
+  .share__input-field {
+    height: 48px;
+    font-size: 16px;
+  }
+
+  .share__textarea-field {
+    height: 180px;
+    font-size: 16px;
+  }
+
+  .share__spot-input-row {
+    gap: 12px;
+  }
+
+  .share__add-spot-button {
+    width: 48px;
+    height: 48px;
+  }
+
+  .share__upload-dropzone {
+    height: 150px;
+  }
+
+  .share__submit-button {
+    height: 52px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 26px;
+    margin-top: 1.5rem;
+  }
+
+  .share__success-content {
+    max-width: 600px;
+    margin-top: 4rem;
+    padding: 6rem 2.5rem;
+  }
+
+  .share__success-title {
+    font-size: 56px;
+    line-height: 1.1;
+  }
+
+  .share__success-title-orange {
+    font-size: 56px;
+    line-height: 1.1;
+  }
+
+  .share__success-message {
+    font-size: 18px;
+    max-width: 400px;
+    margin: 3rem auto;
+  }
+
+  .share__success-button {
+    height: 52px;
+    padding: 0 2.5rem;
+    font-size: 18px;
+    border-radius: 26px;
+  }
+
+  .desktopOnly {
+    display: inline-block !important;
+  }
+
+  .mobileOnly {
+    display: none !important;
   }
 }
 

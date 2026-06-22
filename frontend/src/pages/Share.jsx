@@ -160,13 +160,7 @@ export default function Share() {
   };
 
   const handleRemoveSpot = (indexToRemove) => {
-    setSpots((prev) => {
-      const updated = prev.filter((_, index) => index !== indexToRemove);
-      if (updated.length === 0) {
-        setSpotsError('Voeg ten minste één specifieke plek toe aan je verhaal.');
-      }
-      return updated;
-    });
+    setSpots((prev) => prev.filter((_, index) => index !== indexToRemove));
   };
 
   const handleKeyDown = (e) => {
@@ -285,11 +279,6 @@ export default function Share() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (spots.length === 0) {
-      setSpotsError('Voeg ten minste één specifieke plek toe aan je verhaal.');
-      return;
-    }
-    setSpotsError('');
     setIsSubmitted(true);
   };
 
@@ -328,8 +317,8 @@ export default function Share() {
         </div>
       ) : (
         <div className={styles['share__content']}>
-          <h1>Share your<span> story</span></h1>
-          <p className={styles.share__subtitle}>
+          <h1>Share your <span>story</span></h1>
+          <p className={styles['share__subtitle']}>
             Share your own personal story about Antwerp and help others discover the city through your experience.
           </p>
 
@@ -486,7 +475,8 @@ export default function Share() {
                       <PhotoIcon />
                       <span className={styles['share__upload-plus-badge']}>+</span>
                     </div>
-                    <span className={styles['share__upload-text']}>Click to add your panorama</span>
+                    <span className={`${styles['share__upload-text']} ${styles.desktopOnly}`}>Click or drag & drop your panorama</span>
+                    <span className={`${styles['share__upload-text']} ${styles.mobileOnly}`}>Click to add your panorama</span>
                   </>
                 )}
               </div>
@@ -505,7 +495,7 @@ export default function Share() {
 
             {/* Disclaimer */}
             <p className={styles['share__disclaimer-text']}>
-              Antwerp curates the stories featured on Antwerp Scenes. Your submission may be rewritten if it does not meet our quality standards. By submitting a story, you agree to <a href={termsPdf} target="_blank" rel="noopener noreferrer">our Terms and Conditions</a>.
+              Antwerp curates the stories featured on Antwerp Scenes. Your submission may be rewritten if it does not meet our quality standards. By submitting a story, you agree to our <a href={termsPdf} target="_blank" rel="noopener noreferrer">Terms and Conditions</a>.
             </p>
           </form>
         </div>
