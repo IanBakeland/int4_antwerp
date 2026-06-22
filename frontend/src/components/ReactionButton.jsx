@@ -4,6 +4,7 @@ import EmojiPicker from 'emoji-picker-react';
 import styles from './ReactionButton.module.css';
 
 import ReactionFilledIcon from '../assets/icons/ReactionFilled';
+import PlusCircleFilledIcon from '../assets/icons/PlusCircleFilled';
 
 export default function ReactionButton({ storyId }) {
   const navigate = useNavigate();
@@ -106,28 +107,55 @@ export default function ReactionButton({ storyId }) {
     setIsBarOpen(false);
     setShowPicker(false);
 
-    const newReactionData = {
+    let updatedReactions = reactions;
+    if (myReaction) {
+      updatedReactions = reactions.filter(r => r.documentId !== myReaction.documentId);
+    }
+
+    const tempId = `temp-${Date.now()}`;
+    const optimisticReaction = {
+      documentId: tempId,
       emoji: emojiStr,
-      story: storyId,
-      user: userId
+      user: { id: userId }
     };
+    setReactions([...updatedReactions, optimisticReaction]);
 
     try {
+      if (myReaction) {
+        await fetch(`https://necessary-light-a082e19892.strapiapp.com/api/reactions/${myReaction.documentId}`, {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${token}` }
+        });
+      }
+
       const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/reactions", {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}` 
         },
-        body: JSON.stringify({ data: newReactionData })
+        body: JSON.stringify({ 
+          data: {
+            emoji: emojiStr,
+            story: storyId,
+            user: userId
+          } 
+        })
       });
 
       if (res.ok) {
         const newData = await res.json();
-        setReactions([...reactions, newData.data]);
+        
+        const finalReaction = {
+          ...newData.data,
+          user: { id: userId } 
+        };
+
+        setReactions(prev => prev.map(r => r.documentId === tempId ? finalReaction : r));
       }
     } catch (error) {
       console.error(error);
+      setReactions(reactions);
     }
   };
 
@@ -150,7 +178,7 @@ export default function ReactionButton({ storyId }) {
             className={styles.addEmojiButton}
             onClick={() => setShowPicker(!showPicker)}
           >
-            +
+            <PlusCircleFilledIcon />
           </button>
         </div>
       )}
@@ -162,6 +190,7 @@ export default function ReactionButton({ storyId }) {
             theme="dark"
             width={300}
             height={400}
+            searchDisabled={true}
           />
         </div>
       )}
