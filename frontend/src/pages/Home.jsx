@@ -13,6 +13,7 @@ import pano4 from '../assets/images/pano4.jpeg';
 import antwerpLogo from '../assets/images/antwerpLogo.png';
 import logoAntwerpScenes from '../assets/images/logoantwerpscenes.png';
 import backgroundMoments from '../assets/images/backgroundmoments.png';
+import qrCodeImg from '../assets/images/qrradar.png';
 import HeartIcon from '../assets/icons/Heart';
 import PersonIcon from '../assets/icons/Person';
 import AddCircleIcon from '../assets/icons/AddCircle';
@@ -358,7 +359,9 @@ export default function Home({ userLocation }) {
 
         {/* Desktop-only extra box */}
         <div className={styles['home__pano-extra-box']}>
-          <div className={styles['home__pano-extra-box-square']} />
+          <div className={styles['home__pano-extra-box-square']}>
+            <img src={qrCodeImg} alt="Radar QR Code" className={styles['home__pano-extra-box-qr-img']} />
+          </div>
         </div>
 
         <h2 className={styles['home__panorama-title']}>
