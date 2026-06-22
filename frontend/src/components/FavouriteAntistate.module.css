@@ -134,7 +134,7 @@
   font-size: 1.125rem;
   font-style: normal;
   font-weight: 400;
-  line-height: 1.6875rem; /* 150% */
+  line-height: 1.6875rem;
   margin: 0 auto 1.25rem auto;
 }
 
@@ -145,16 +145,18 @@
   justify-content: center;
   gap: 10px;
   background-color: var(--color-primary);
-  color: var(--color-white);
+  color: #FFF;
   font-family: var(--font-spartan);
-  font-size: 1.05rem;
-  font-weight: 600;
-  padding: 0.75rem 2rem;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.75rem;
+  width: 13.0625rem;
+  height: 3.1875rem;
   border-radius: 24px;
   text-decoration: none;
   box-shadow: 0 4px 15px rgba(255, 125, 60, 0.35);
   transition: background-color 0.25s ease, transform 0.15s ease;
-  height: 48px;
   box-sizing: border-box;
 }
 
@@ -170,6 +172,15 @@
 .buttonArrow {
   transition: transform 0.2s ease;
   flex-shrink: 0;
+  color: #FFF;
+  text-align: center;
+  font-family: "SF Pro", sans-serif;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .exploreButton:hover .buttonArrow {
@@ -233,10 +244,4 @@
     margin: 0 auto 3rem auto;
   }
 
-  .exploreButton {
-    height: 52px;
-    padding: 0 2.5rem;
-    font-size: 1.1rem;
-    border-radius: 26px;
-  }
 }
