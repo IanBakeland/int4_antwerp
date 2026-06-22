@@ -539,6 +539,7 @@ export interface ApiStoryStory extends Struct.CollectionTypeSchema {
     preview: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
     reactions: Schema.Attribute.Relation<'oneToMany', 'api::reaction.reaction'>;
+    Speach: Schema.Attribute.Media<'files' | 'audios'>;
     state: Schema.Attribute.Enumeration<['pending', 'approved', 'deleted']>;
     story: Schema.Attribute.RichText;
     title: Schema.Attribute.String;
