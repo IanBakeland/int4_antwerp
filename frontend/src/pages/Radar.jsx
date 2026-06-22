@@ -10,6 +10,7 @@ import StoryCard from '../components/StoryCard';
 
 import PersonIcon from '../assets/icons/Person';
 import MuteIcon from '../assets/icons/Mute';
+import SpeakerIcon from '../assets/icons/Speaker';
 import LocationFilledIcon from '../assets/icons/LocationFilled';
 
 import whiteNoiseFile from '../assets/sounds/whiteNoise.mp3';
@@ -150,13 +151,15 @@ export default function Radar({
     };
   }, [userLocation, stories, selectedStory, activeFilters, userFavourites]);
 
+  const hasSpeech = Boolean(activeStory?.speach?.url);
+
   useEffect(() => {
     const noise = noiseAudioRef.current;
     const speech = speechAudioRef.current;
 
     if (!noise || !speech) return;
 
-    if (!isRadarActive || isMuted || activeDistance === null || activeDistance > 500) {
+    if (!isRadarActive || isMuted || !hasSpeech || activeDistance === null || activeDistance > 500) {
       noise.pause();
       speech.pause();
       return;
@@ -166,16 +169,18 @@ export default function Radar({
     let speechVol = 0;
 
     if (activeDistance > 150 && activeDistance <= 500) {
-      const progress = (500 - activeDistance) / 350;
-      noiseVol = 1 - progress;
-      speechVol = progress;
+      const linearProgress = (500 - activeDistance) / 350;
+      const curvedProgress = Math.pow(linearProgress, 4);
+      
+      noiseVol = 1 - curvedProgress;
+      speechVol = curvedProgress;
     } else if (activeDistance <= 150) {
       noiseVol = 0;
       speechVol = 1;
     }
 
-    noise.volume = noiseVol;
-    speech.volume = speechVol;
+    noise.volume = Math.max(0, Math.min(1, noiseVol));
+    speech.volume = Math.max(0, Math.min(1, speechVol));
 
     if (noise.paused && noiseVol > 0) {
       noise.play().catch(() => {});
@@ -184,10 +189,10 @@ export default function Radar({
       speech.play().catch(() => {});
     }
 
-    if (noiseVol === 0 && !noise.paused) noise.pause();
-    if (speechVol === 0 && !speech.paused) speech.pause();
+    if (noiseVol <= 0.01 && !noise.paused) noise.pause();
+    if (speechVol <= 0.01 && !speech.paused) speech.pause();
 
-  }, [activeDistance, isRadarActive, isMuted, activeStory]);
+  }, [activeDistance, isRadarActive, isMuted, activeStory, hasSpeech]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -220,12 +225,17 @@ export default function Radar({
         <div className="alignNext">
           <h1>The <span>radar</span></h1>
           <button 
-            onClick={() => setIsMuted(!isMuted)} 
+            onClick={() => {
+              if (hasSpeech) setIsMuted(!isMuted);
+            }} 
             className="iconbutton" 
             aria-label="Toggle sound"
-            style={{ opacity: isMuted ? 0.5 : 1 }}
+            style={{ 
+              opacity: hasSpeech ? 1 : 0.5,
+              cursor: hasSpeech ? 'pointer' : 'default'
+            }}
           >
-            <MuteIcon />
+            {isMuted ? <MuteIcon /> : <SpeakerIcon />}
           </button>
           <Link to="/account" className="iconbutton" aria-label="Account"><PersonIcon /></Link>
         </div>
