@@ -234,6 +234,9 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
   const [firstPanoReady, setFirstPanoReady] = useState(false);
 
   const [gyroPermission, setGyroPermission] = useState('prompt');
+  
+  const scrollLockRef = useRef(false);
+  const wheelTimeoutRef = useRef(null);
 
   const [isMobile, setIsMobile] = useState(() => {
     return typeof window !== 'undefined' && window.innerWidth <= 800;
@@ -303,11 +306,28 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
     }
   }, [activeIndex, stories, setSearchParams]);
 
-  const handleWheel = (e) => {
-    if (window.innerWidth > 800 && e.deltaY !== 0 && e.deltaX === 0) {
-      e.currentTarget.scrollBy({ left: e.deltaY });
+  const handleWheel = useCallback((e) => {
+    if (window.innerWidth <= 800 || Math.abs(e.deltaX) >= Math.abs(e.deltaY)) return;
+
+    clearTimeout(wheelTimeoutRef.current);
+    wheelTimeoutRef.current = setTimeout(() => {
+      scrollLockRef.current = false;
+    }, 100);
+
+    if (scrollLockRef.current) return;
+
+    const direction = Math.sign(e.deltaY); 
+    const nextIndex = activeIndex + direction;
+
+    if (nextIndex >= 0 && nextIndex < stories.length) {
+      scrollLockRef.current = true;
+      
+      e.currentTarget.scrollTo({
+        left: nextIndex * window.innerWidth,
+        behavior: 'smooth'
+      });
     }
-  };
+  }, [activeIndex, stories.length]);
 
   const getDistanceStr = (story) => {
     if (!userLocation || !story.latitude || !story.longitude || !formatDistance) return "";
