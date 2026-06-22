@@ -57,7 +57,7 @@ export default function StoryCardSelected({ id, title, category, username, image
       ) : (
         <div className={`${styles.currentState} alignNext`}>
           <RadarIcon />
-          <p>Currently locating</p>
+          <p>Closest story</p>
         </div>
       )}
       <div className='alignNext' style={{ gap: '0.4rem' }}>
