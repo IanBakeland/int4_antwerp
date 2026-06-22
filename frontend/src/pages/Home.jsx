@@ -13,6 +13,8 @@ import pano4 from '../assets/images/pano4.jpeg';
 import antwerpLogo from '../assets/images/antwerpLogo.png';
 import logoAntwerpScenes from '../assets/images/logoantwerpscenes.png';
 import backgroundMoments from '../assets/images/backgroundmoments.png';
+import backgroundMomentsDesktop from '../assets/images/backgroundmoments-desktop.png';
+import qrCodeImg from '../assets/images/qrradar.png';
 import HeartIcon from '../assets/icons/Heart';
 import PersonIcon from '../assets/icons/Person';
 import AddCircleIcon from '../assets/icons/AddCircle';
@@ -356,19 +358,45 @@ export default function Home({ userLocation }) {
           </div>
         </div>
 
-        <h2 className={styles['home__panorama-title']}>
-          180° panorama <br /> moments
-        </h2>
+        {/* Desktop-only extra box */}
+        <div className={styles['home__pano-extra-box']}>
+          <div className={styles['home__pano-extra-box-square']}>
+            <img src={qrCodeImg} alt="Radar QR Code" className={styles['home__pano-extra-box-qr-img']} />
+          </div>
+          <div className={styles['home__pano-extra-box-content']}>
+            <h4 className={styles['home__pano-extra-box-title']}>
+              Best experienced on your phone
+            </h4>
+            <p className={styles['home__pano-extra-box-desc']}>
+              The Radar feature uses your location to guide you to hidden spots nearby. Scan the QR code on your phone to get started, no app download needed.
+            </p>
+          </div>
+          <Link to="/radar-explained" className={styles['home__pano-extra-box-info-btn']}>
+            <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11.2041 22.4082C5.0166 22.4082 0 17.3916 0 11.2041C0 5.0166 5.0166 0 11.2041 0C17.3916 0 22.4082 5.0166 22.4082 11.2041C22.4082 17.3916 17.3916 22.4082 11.2041 22.4082ZM11.2041 19.9482C16.0381 19.9482 19.9482 16.0381 19.9482 11.2041C19.9482 6.37012 16.0381 2.45996 11.2041 2.45996C6.37012 2.45996 2.45996 6.37012 2.45996 11.2041C2.45996 16.0381 6.37012 19.9482 11.2041 19.9482ZM11.1611 7.83105C10.3447 7.83105 9.66797 7.16504 9.66797 6.34863C9.66797 5.5 10.3447 4.84473 11.1611 4.84473C11.9883 4.84473 12.6543 5.5 12.6543 6.34863C12.6543 7.16504 11.9883 7.83105 11.1611 7.83105ZM9.32422 17.0371C8.83008 17.0371 8.43262 16.6719 8.43262 16.1562C8.43262 15.6836 8.83008 15.2969 9.32422 15.2969H10.5596V11.1396H9.51758C9.0127 11.1396 8.62598 10.7852 8.62598 10.2695C8.62598 9.78613 9.0127 9.41016 9.51758 9.41016H11.5479C12.1816 9.41016 12.5146 9.85059 12.5146 10.5273V15.2969H13.6211C14.1152 15.2969 14.5127 15.6836 14.5127 16.1562C14.5127 16.6719 14.1152 17.0371 13.6211 17.0371H9.32422Z" fill="#FF82DC"/>
+            </svg>
+            <span>More info</span>
+          </Link>
+        </div>
 
-        <p className={styles['home__panorama-description']}>
-          Discover Antwerp through the eyes of locals and visitors. Experience immersive <span className={styles['home__panorama-description--bold']}>panorama stories</span> with real images and sound, then continue the story in the city itself using our interactive <span className={styles['home__panorama-description--bold']}>radar</span>.
-        </p>
+        <div className={styles['home__panorama-intro-group']}>
+          <h2 className={styles['home__panorama-title']}>
+            180° panorama <br /> moments
+          </h2>
 
-        <Link to="/radar" className={styles['home__radar-button']}>
-          Radar <span className={styles.discoverSpotsButton__arrow || ''}>→</span>
-        </Link>
+          <p className={styles['home__panorama-description']}>
+            Discover Antwerp through the eyes of locals and visitors. Experience immersive <span className={styles['home__panorama-description--bold']}>panorama stories</span> with real images and sound, then continue the story in the city itself using our interactive <span className={styles['home__panorama-description--bold']}>radar</span>.
+          </p>
 
-        <img src={backgroundMoments} alt="" className={styles['home__background-moments']} aria-hidden="true" />
+          <Link to="/radar" className={styles['home__radar-button']}>
+            Radar <span className={styles.discoverSpotsButton__arrow || ''}>→</span>
+          </Link>
+        </div>
+
+        <picture>
+          <source media="(min-width: 801px)" srcSet={backgroundMomentsDesktop} />
+          <img src={backgroundMoments} alt="" className={styles['home__background-moments']} aria-hidden="true" />
+        </picture>
 
         <div className={styles['home__scroll-banner']}>
           <div className={styles['home__scroll-banner-track']}>
@@ -516,6 +544,9 @@ export default function Home({ userLocation }) {
             </clipPath>
             <clipPath id="pano-clip-desktop" clipPathUnits="objectBoundingBox">
               <path d="M 0,0 C 0.5,0.10 0.5,0.10 1,0 L 1,1 C 0.5,0.90 0.5,0.90 0,1 Z" />
+            </clipPath>
+            <clipPath id="top10-card-clip-desktop" clipPathUnits="objectBoundingBox">
+              <path d="M 0,0 C 0.5,0.16 0.5,0.16 1,0.08 L 1,0.92 C 0.5,0.84 0.5,0.84 0,1 Z" />
             </clipPath>
           </defs>
         </svg>
