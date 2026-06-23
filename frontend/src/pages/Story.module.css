@@ -336,3 +336,46 @@ h1{
     flex-shrink: 0;
   }
 }
+
+/* "Added to favourites" toast (mobile + desktop) */
+.favToast {
+  position: fixed;
+  left: 50%;
+  bottom: 2rem;
+  transform: translate(-50%, 1rem);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  background: rgba(20, 20, 20, 0.92);
+  color: #fff;
+  font-family: var(--font-spartan);
+  font-size: 0.95rem;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.favToastVisible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.favToast svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: var(--color-secondary);
+  flex: 0 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .favToast {
+    transition: opacity 0.25s ease;
+    transform: translate(-50%, 0);
+  }
+}

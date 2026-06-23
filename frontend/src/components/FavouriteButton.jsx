@@ -6,10 +6,18 @@ import styles from './FavouriteButton.module.css';
 import HeartIcon from '../assets/icons/Heart';
 import HeartFilledIcon from '../assets/icons/HeartFilled';
 
-export default function FavouriteButton({ storyId, initialFavouriteDocId, iconButton }) {
+export default function FavouriteButton({
+  storyId,
+  initialFavouriteDocId,
+  iconButton,
+  className,
+  activeClassName,
+  onAdded,
+  notLoggedInPath = '/login',
+}) {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  
+
   const [favDocId, setFavDocId] = useState(initialFavouriteDocId);
 
   useEffect(() => {
@@ -21,7 +29,7 @@ export default function FavouriteButton({ storyId, initialFavouriteDocId, iconBu
     e.preventDefault();
 
     if (!token) {
-      navigate('/login');
+      navigate(notLoggedInPath);
       return;
     }
 
@@ -65,6 +73,7 @@ export default function FavouriteButton({ storyId, initialFavouriteDocId, iconBu
         if (!res.ok) throw new Error("Failed to add favourite");
         const newData = await res.json();
         setFavDocId(newData.data.documentId);
+        if (onAdded) onAdded();
       } catch (error) {
         console.error(error);
         setFavDocId(null);
@@ -72,13 +81,25 @@ export default function FavouriteButton({ storyId, initialFavouriteDocId, iconBu
     }
   };
 
+  const isActive = Boolean(favDocId);
+
+  let computedClassName;
+  if (className) {
+    computedClassName = isActive && activeClassName ? `${className} ${activeClassName}` : className;
+  } else {
+    computedClassName = iconButton ? "iconbutton dark" : styles.favIcon;
+  }
+
   return (
-    <button 
-      onClick={handleToggle} 
-      className={iconButton ? "iconbutton dark" : styles.favIcon}
-      style={iconButton ? {} : { background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', display: 'flex' }}
+    <button
+      type="button"
+      onClick={handleToggle}
+      className={computedClassName}
+      aria-pressed={isActive}
+      aria-label={isActive ? "Remove from favourites" : "Add to favourites"}
+      style={className || iconButton ? undefined : { background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', display: 'flex' }}
     >
-      {favDocId ? <HeartFilledIcon /> : <HeartIcon />}
+      {isActive ? <HeartFilledIcon /> : <HeartIcon />}
     </button>
   );
 }
