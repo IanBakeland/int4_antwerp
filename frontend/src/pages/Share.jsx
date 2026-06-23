@@ -7,6 +7,14 @@ import antwerpLogo from '../assets/images/antwerpLogo.png';
 import PersonIcon from '../assets/icons/Person';
 import termsPdf from '../assets/files/termsandconditions.pdf';
 
+import HeartIcon from '../assets/icons/Heart';
+import PersonRunningIcon from '../assets/icons/PersonRunning';
+import MonumentIcon from '../assets/icons/Monument';
+import FolderIcon from '../assets/icons/Folder';
+import PersonDoubleIcon from '../assets/icons/PersonDouble';
+import FilterIcon from '../assets/icons/Filter';
+import SpeakerIcon from '../assets/icons/Speaker';
+
 const PinIcon = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M8.40197 14.5323C9.64197 13.4617 13.3346 9.99501 13.3346 6.66634C13.3346 5.25185 12.7727 3.8953 11.7725 2.89511C10.7723 1.89491 9.41579 1.33301 8.0013 1.33301C6.58681 1.33301 5.23026 1.89491 4.23007 2.89511C3.22987 3.8953 2.66797 5.25185 2.66797 6.66634C2.66797 9.99501 6.36064 13.4617 7.60064 14.5323C7.71615 14.6192 7.85677 14.6662 8.0013 14.6662C8.14583 14.6662 8.28645 14.6192 8.40197 14.5323Z" stroke="#5596FF" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
@@ -47,9 +55,6 @@ const SpotIcon = () => (
     <circle cx="8" cy="8" r="0.8" fill="#FF82DC"/>
   </svg>
 );
-
-const SOUND_OPTIONS = ['City', 'Rain', 'Café', 'Nature', 'Waves', 'Nightlife'];
-const CATEGORY_OPTIONS = ['romantic', 'action', 'culture', 'social', 'business'];
 
 export default function Share() {
   useDocumentTitle('Share your story');
@@ -398,20 +403,46 @@ export default function Share() {
 
             <div className={styles['share__input-group']}>
               <label className={styles['share__input-label']}>
+                <span className={styles.purpleIcon}><FilterIcon /></span>
                 Category
                 <span className={styles['share__required-asterisk']}>*</span>
               </label>
               <div className={styles['share__pill-group']}>
-                {CATEGORY_OPTIONS.map((cat) => (
-                  <button
-                    key={cat}
-                    type="button"
-                    className={`${styles['share__pill']} ${category === cat ? styles['share__pill--active'] : ''}`}
-                    onClick={() => setCategory(cat)}
-                  >
-                    {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                  </button>
-                ))}
+                <button 
+                  type="button"
+                  className={`${styles.filterButton} ${category === 'action' ? styles.limeTag : ''}`} 
+                  onClick={() => setCategory('action')}
+                >
+                  <PersonRunningIcon />Action
+                </button>
+                <button 
+                  type="button"
+                  className={`${styles.filterButton} ${category === 'culture' ? styles.orangeTag : ''}`} 
+                  onClick={() => setCategory('culture')}
+                >
+                  <MonumentIcon />Culture
+                </button>
+                <button 
+                  type="button"
+                  className={`${styles.filterButton} ${category === 'business' ? styles.blueTag : ''}`} 
+                  onClick={() => setCategory('business')}
+                >
+                  <FolderIcon />Business
+                </button>
+                <button 
+                  type="button"
+                  className={`${styles.filterButton} ${category === 'romantic' ? styles.pinkTag : ''}`} 
+                  onClick={() => setCategory('romantic')}
+                >
+                  <HeartIcon />Romantic
+                </button>
+                <button 
+                  type="button"
+                  className={`${styles.filterButton} ${category === 'social' ? styles.greenTag : ''}`} 
+                  onClick={() => setCategory('social')}
+                >
+                  <PersonDoubleIcon />Social
+                </button>
               </div>
             </div>
 
@@ -495,22 +526,31 @@ export default function Share() {
 
             <div className={styles['share__input-group']}>
               <label className={styles['share__input-label']}>
+                <span className={styles.bordeauxIcon}><SpeakerIcon /></span>
                 Sound Effects
               </label>
               <p className={styles['share__spot-sublabel']}>
                 Select the ambient sounds that fit your story.
               </p>
               <div className={styles['share__pill-group']}>
-                {SOUND_OPTIONS.map((sound) => (
-                  <button
-                    key={sound}
-                    type="button"
-                    className={`${styles['share__pill']} ${soundEffects.includes(sound) ? styles['share__pill--active'] : ''}`}
-                    onClick={() => toggleSound(sound)}
-                  >
-                    {sound}
-                  </button>
-                ))}
+                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('City') ? styles.orangeTag : ''}`} onClick={() => toggleSound('City')}>
+                  <SpeakerIcon />City
+                </button>
+                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Rain') ? styles.orangeTag : ''}`} onClick={() => toggleSound('Rain')}>
+                  <SpeakerIcon />Rain
+                </button>
+                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Café') ? styles.orangeTag : ''}`} onClick={() => toggleSound('Café')}>
+                  <SpeakerIcon />People
+                </button>
+                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Nature') ? styles.orangeTag : ''}`} onClick={() => toggleSound('Nature')}>
+                  <SpeakerIcon />Birds
+                </button>
+                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Waves') ? styles.orangeTag : ''}`} onClick={() => toggleSound('Waves')}>
+                  <SpeakerIcon />Tram
+                </button>
+                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Nightlife') ? styles.orangeTag : ''}`} onClick={() => toggleSound('Nightlife')}>
+                  <SpeakerIcon />Church
+                </button>
               </div>
             </div>
 
