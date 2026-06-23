@@ -80,7 +80,7 @@ export default function Login({ setToken }) {
                 className={styles['auth__input-field']}
                 placeholder="Emma"
                 value={identifier}
-                onChange={(e) => setIdentifier(e.target.value)}
+                onChange={(e) => setIdentifier(e.target.value.toLowerCase())}
                 autoComplete="username"
                 required
               />
