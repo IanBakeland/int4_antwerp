@@ -10,11 +10,33 @@ export default function ReactionButton({ storyId }) {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const containerRef = useRef(null);
+  const hasAnimatedRef = useRef(false);
 
   const [reactions, setReactions] = useState([]);
   const [userId, setUserId] = useState(null);
   const [isBarOpen, setIsBarOpen] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
+  const [flameParticles, setFlameParticles] = useState([]);
+  const [isVisible, setIsVisible] = useState(false);
+  const isPendingRef = useRef(false);
+
+  const fireParticles = (emojis) => {
+    const generatedParticles = [];
+    for (let i = 0; i < 7; i++) {
+      const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+      generatedParticles.push({
+        id: Date.now() + i,
+        emoji: randomEmoji,
+        spreadX: `${(Math.random() - 0.5) * 40}px`,
+        endY: `-${Math.random() * 50 + 50}px`,
+        duration: `${Math.random() * 1.0 + 1.5}s`,
+        delay: `${Math.random() * 0.3}s`,
+        rot: `${(Math.random() - 0.5) * 120}deg`
+      });
+    }
+    setFlameParticles(generatedParticles);
+    setTimeout(() => setFlameParticles([]), 3000);
+  };
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -45,6 +67,21 @@ export default function ReactionButton({ storyId }) {
   }, [storyId, token]);
 
   useEffect(() => {
+    if (reactions.length > 0 && !hasAnimatedRef.current && isVisible && !isPendingRef.current) {
+      const usedEmojis = reactions.map(r => r.emoji).filter(Boolean);
+
+      if (usedEmojis.length > 0) {
+        isPendingRef.current = true;
+
+        setTimeout(() => {
+          hasAnimatedRef.current = true;
+          fireParticles(usedEmojis);
+        }, 1000);
+      }
+    }
+  }, [reactions, isVisible]);
+
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (containerRef.current && !containerRef.current.contains(event.target)) {
         setIsBarOpen(false);
@@ -67,12 +104,30 @@ export default function ReactionButton({ storyId }) {
         counts[r.emoji] = (counts[r.emoji] || 0) + 1;
       }
     });
-    
+
     return Object.entries(counts)
       .map(([emoji, count]) => ({ emoji, count }))
       .sort((a, b) => b.count - a.count)
       .slice(0, 5);
   };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleMainClick = async (e) => {
     e.stopPropagation();
@@ -85,7 +140,7 @@ export default function ReactionButton({ storyId }) {
     if (myReaction) {
       const previousReactions = [...reactions];
       setReactions(reactions.filter(r => r.documentId !== myReaction.documentId));
-      
+
       try {
         await fetch(`https://necessary-light-a082e19892.strapiapp.com/api/reactions/${myReaction.documentId}`, {
           method: 'DELETE',
@@ -106,6 +161,8 @@ export default function ReactionButton({ storyId }) {
 
     setIsBarOpen(false);
     setShowPicker(false);
+
+    fireParticles([emojiStr]);
 
     let updatedReactions = reactions;
     if (myReaction) {
@@ -130,25 +187,25 @@ export default function ReactionButton({ storyId }) {
 
       const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/reactions", {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}` 
+          Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           data: {
             emoji: emojiStr,
             story: storyId,
             user: userId
-          } 
+          }
         })
       });
 
       if (res.ok) {
         const newData = await res.json();
-        
+
         const finalReaction = {
           ...newData.data,
-          user: { id: userId } 
+          user: { id: userId }
         };
 
         setReactions(prev => prev.map(r => r.documentId === tempId ? finalReaction : r));
@@ -161,12 +218,31 @@ export default function ReactionButton({ storyId }) {
 
   return (
     <div className={styles.container} ref={containerRef}>
-      
+      {flameParticles.length > 0 && (
+        <div className={styles.particleContainer}>
+          {flameParticles.map(p => (
+            <span
+              key={p.id}
+              className={styles.flameParticle}
+              style={{
+                '--spread-x': p.spreadX,
+                '--end-y': p.endY,
+                '--duration': p.duration,
+                '--delay': p.delay,
+                '--rot': p.rot
+              }}
+            >
+              {p.emoji}
+            </span>
+          ))}
+        </div>
+      )}
+
       {isBarOpen && (
         <div className={styles.floatingBar}>
           {topEmojis().map((item) => (
-            <div 
-              key={item.emoji} 
+            <div
+              key={item.emoji}
               className={styles.emojiItem}
               onClick={() => handleSelectEmoji(item.emoji)}
             >
@@ -174,7 +250,7 @@ export default function ReactionButton({ storyId }) {
               <span className={styles.emojiChar}>{item.emoji}</span>
             </div>
           ))}
-          <button 
+          <button
             className={styles.addEmojiButton}
             onClick={() => setShowPicker(!showPicker)}
           >
@@ -185,7 +261,7 @@ export default function ReactionButton({ storyId }) {
 
       {showPicker && (
         <div className={styles.pickerContainer}>
-          <EmojiPicker 
+          <EmojiPicker
             onEmojiClick={(emojiData) => handleSelectEmoji(emojiData.emoji)}
             theme="dark"
             width={300}
@@ -195,8 +271,8 @@ export default function ReactionButton({ storyId }) {
         </div>
       )}
 
-      <button 
-        className="iconbutton dark" 
+      <button
+        className="iconbutton dark"
         onClick={handleMainClick}
         style={{ fontSize: myReaction ? '1.5rem' : 'inherit', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >

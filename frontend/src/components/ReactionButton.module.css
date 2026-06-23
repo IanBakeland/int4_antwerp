@@ -1,14 +1,15 @@
-h2{
+h2 {
   letter-spacing: -0.5px;
 }
+
 .container {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-span{
-      margin-top: 3px;
+span {
+  margin-top: 3px;
 }
 
 .floatingBar {
@@ -20,23 +21,21 @@ span{
   align-items: center;
   justify-content: center;
   gap: 12px;
-
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(2px);
-    border: 0.15rem solid rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  border: 0.15rem solid rgba(255, 255, 255, 0.05);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-
   padding: 8px 16px;
   border-radius: 40px;
   white-space: nowrap;
   z-index: 50;
-  
   animation: slideIn 0.2s ease-out;
   -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
+
 .floatingBar:hover {
-    background: rgba(0, 0, 0, 0.65);
+  background: rgba(0, 0, 0, 0.65);
 }
 
 @keyframes slideIn {
@@ -84,7 +83,7 @@ span{
   padding: 0;
 }
 
-.addEmojiButton svg{
+.addEmojiButton svg {
   fill: rgb(255, 255, 255);
 }
 
@@ -96,4 +95,39 @@ span{
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   overflow: hidden;
+}
+
+.particleContainer {
+  position: absolute;
+  top: 80%; 
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 0; 
+  width: 0;
+  height: 0;
+}
+
+.flameParticle {
+  position: absolute;
+  bottom: 0;
+  left: -12px;
+  font-size: 1.5rem;
+  opacity: 0;
+  animation: flameUp var(--duration) ease-out var(--delay) forwards;
+}
+
+@keyframes flameUp {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.5) rotate(0deg);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(calc(var(--spread-x) * 0.3), -20px) scale(1.2) rotate(calc(var(--rot) * 0.3));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--spread-x), var(--end-y)) scale(0.8) rotate(var(--rot));
+  }
 }
