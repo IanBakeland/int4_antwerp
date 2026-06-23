@@ -1494,6 +1494,69 @@
   opacity: 0.85;
 }
 
+/* Hover overlay with the "Explore Scene" CTA. Hidden by default (so mobile is
+   unaffected) and revealed on hover on desktop further below. */
+.home__story-card-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  background: rgba(255, 130, 220, 0.20);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.home__story-card-explore {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 9.5625rem;
+  height: 2.6875rem;
+  border: none;
+  border-radius: 2.1875rem;
+  background: var(--color-secondary);
+  color: var(--color-white);
+  font-family: var(--font-spartan);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.75rem;
+  white-space: nowrap;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.home__story-card-explore:hover {
+  background-color: #ff5c9d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.home__story-card-explore:focus-visible {
+  outline: 0.1875rem solid var(--color-secondary-light);
+  outline-offset: 0.1875rem;
+}
+
+.home__story-card-explore-icon {
+  width: 1rem;
+  height: 1rem;
+  display: block;
+  flex: 0 0 auto;
+}
+
+/* Reveal the overlay only on hover-capable desktop pointers */
+@media (hover: hover) and (min-width: 801px) {
+  .home__stories-grid > *:hover .home__story-card-overlay {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
 /* Panorama navigation buttons (mobile hidden, desktop styled) */
 .home__pano-nav-btn {
   display: none;
