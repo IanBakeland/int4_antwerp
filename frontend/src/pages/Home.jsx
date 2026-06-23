@@ -745,7 +745,7 @@ export default function Home({ userLocation }) {
                 <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M11.5078 6.89062C9.60156 6.89062 8.0625 5.35156 8.0625 3.44531C8.0625 1.53906 9.60156 0 11.5078 0C13.4141 0 14.9531 1.53906 14.9531 3.44531C14.9531 5.35156 13.4141 6.89062 11.5078 6.89062ZM3.44531 6.89062C1.53906 6.89062 0 5.35156 0 3.44531C0 1.54688 1.53906 0 3.44531 0C5.35156 0 6.89062 1.54688 6.89062 3.44531C6.89062 5.35156 5.35156 6.89062 3.44531 6.89062ZM11.5078 14.9453C9.60156 14.9453 8.0625 13.4062 8.0625 11.5C8.0625 9.60156 9.60156 8.05469 11.5078 8.05469C13.4141 8.05469 14.9531 9.60156 14.9531 11.5C14.9531 13.4062 13.4141 14.9453 11.5078 14.9453ZM3.44531 14.9531C1.53906 14.9531 0 13.4062 0 11.5078C0 9.60156 1.53906 8.0625 3.44531 8.0625C5.35156 8.0625 6.89062 9.60156 6.89062 11.5078C6.89062 13.4062 5.35156 14.9531 3.44531 14.9531Z" fill="currentColor" />
                 </svg>
-                <span>ALL</span>
+                <span>All</span>
               </button>
               <button
                 className={`${styles['home__filter-btn-desktop']} ${homeFilter === 'Locals' ? styles['home__filter-btn-desktop--active'] : ''}`}
@@ -773,8 +773,16 @@ export default function Home({ userLocation }) {
               aria-expanded={isCategoryOpen}
               onClick={() => setIsCategoryOpen((prev) => !prev)}
             >
-              <svg width="2" height="4" viewBox="0 0 2 4" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0.583374 0.583008V3.41634" stroke="#141414" strokeWidth="1.16667" strokeLinecap="round" strokeLinejoin="round"/>
+              <svg width="13" height="15" viewBox="58 53 13 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M70.8743 54.833H65.916" stroke="currentColor" strokeWidth="1.16667" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M63.0833 54.833H58.125" stroke="currentColor" strokeWidth="1.16667" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M70.875 60.5H64.5" stroke="currentColor" strokeWidth="1.16667" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M61.6667 60.5H58.125" stroke="currentColor" strokeWidth="1.16667" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M70.8757 66.167H67.334" stroke="currentColor" strokeWidth="1.16667" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M64.5 66.167H58.125" stroke="currentColor" strokeWidth="1.16667" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M65.916 53.417V56.2503" stroke="currentColor" strokeWidth="1.16667" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M61.666 59.083V61.9163" stroke="currentColor" strokeWidth="1.16667" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M67.334 64.75V67.5833" stroke="currentColor" strokeWidth="1.16667" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
               <span>Category</span>
             </button>

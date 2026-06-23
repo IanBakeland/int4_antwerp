@@ -1469,7 +1469,18 @@
 
   /* Every desktop card defaults to the small footprint and simply fills its
      1x1 cell; no fixed widths/heights or aspect ratios are needed. */
-  .home__stories-grid > .home__story-card-large,
+  .home__stories-grid > .home__story-card-large {
+    width: auto;
+    height: auto;
+    aspect-ratio: auto;
+    border-radius: 10px;
+    grid-column: span 1;
+    grid-row: span 1;
+    /* Re-enable the mouse over the cards: scrolling here drives the internal
+       scroll, and the heart/links stay clickable. */
+    pointer-events: auto;
+  }
+
   .home__stories-grid > .home__story-card-small {
     width: auto;
     height: auto;
@@ -1489,7 +1500,7 @@
   .home__stories-grid > :nth-child(9n + 1),
   .home__stories-grid > :nth-child(9n + 8) {
     aspect-ratio: auto;
-    border-radius: 4px;
+    border-radius: 10px;
     grid-column: span 2;
     grid-row: span 2;
   }
