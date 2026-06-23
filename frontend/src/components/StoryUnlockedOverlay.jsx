@@ -220,7 +220,7 @@ const handleWheel = (e) => {
               </div>
               <div className="iconTag dark">
                 <StarFilledIcon />
-                <p>{story?.hiddenSpots} Hidden spots</p>
+                <p>{story?.hiddenSpots?.length || 0} Hidden spots</p>
               </div>
               <div className={`categoryTag ${story?.category}Tag`}>
                 <CategoryIcon />

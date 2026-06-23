@@ -82,7 +82,7 @@ export default function StoryCard({ id, title, category, username, image, hidden
         {distance && hiddenSpots != null && (
           <div className="iconTag dark ">
             <StarFilledIcon />
-            <p>{hiddenSpots}</p>
+            <p>{hiddenSpots?.length || 0}</p>
           </div>
         )}
       </div>

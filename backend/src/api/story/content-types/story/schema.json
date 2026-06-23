@@ -36,14 +36,20 @@
     "story": {
       "type": "richtext"
     },
+    "hiddenSpots": {
+      "type": "json"
+    },
+    "soundEffects": {
+      "type": "json"
+    },
+    "Location": {
+      "type": "text"
+    },
     "latitude": {
       "type": "float"
     },
     "longitude": {
       "type": "float"
-    },
-    "hiddenSpots": {
-      "type": "integer"
     },
     "panorama": {
       "type": "media",
