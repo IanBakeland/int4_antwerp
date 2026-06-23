@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { ReactPhotoSphereViewer } from 'react-photo-sphere-viewer';
 import { GyroscopePlugin } from '@photo-sphere-viewer/gyroscope-plugin';
@@ -234,9 +234,12 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
   const [firstPanoReady, setFirstPanoReady] = useState(false);
 
   const [gyroPermission, setGyroPermission] = useState('prompt');
-  
+
   const scrollLockRef = useRef(false);
   const wheelTimeoutRef = useRef(null);
+  const feedRef = useRef(null);
+  const scrollEndRef = useRef(null);
+  const didInitRef = useRef(false);
 
   const [isMobile, setIsMobile] = useState(() => {
     return typeof window !== 'undefined' && window.innerWidth <= 800;
@@ -287,24 +290,72 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
     fetchStories();
   }, []); 
 
+  // Infinite (TikTok-style) loop: clone the last slide before the first and the
+  // first slide after the last. The real slides live at display indices 1..N, so
+  // when you scroll onto a clone we instantly jump to its identical real twin.
+  const N = stories.length;
+  const hasLoop = N > 1;
+  const loopStories = useMemo(
+    () => (hasLoop ? [stories[N - 1], ...stories, stories[0]] : stories),
+    [stories, hasLoop, N]
+  );
+  const toRealIndex = useCallback(
+    (displayIndex) => (hasLoop ? (displayIndex - 1 + N) % N : displayIndex),
+    [hasLoop, N]
+  );
+
+  // Start the feed on the real first slide (display index 1) once the loop is ready.
+  useEffect(() => {
+    if (!hasLoop || didInitRef.current) return;
+    const container = feedRef.current;
+    if (!container) return;
+    const isDesktop = window.innerWidth > 800;
+    const size = isDesktop ? window.innerWidth : window.innerHeight;
+    if (isDesktop) container.scrollLeft = size;
+    else container.scrollTop = size;
+    setActiveIndex(1);
+    didInitRef.current = true;
+  }, [hasLoop]);
+
+  // Clean up pending timers on unmount.
+  useEffect(() => () => {
+    clearTimeout(scrollEndRef.current);
+    clearTimeout(wheelTimeoutRef.current);
+  }, []);
+
   const handleScroll = useCallback((e) => {
     const container = e.target;
     const isDesktop = window.innerWidth > 800;
-    
-    let newIndex;
-    if (isDesktop) {
-      newIndex = Math.round(container.scrollLeft / window.innerWidth);
-    } else {
-      newIndex = Math.round(container.scrollTop / window.innerHeight);
-    }
-    
+    const size = isDesktop ? window.innerWidth : window.innerHeight;
+    const pos = isDesktop ? container.scrollLeft : container.scrollTop;
+    const newIndex = Math.round(pos / size);
+
     if (newIndex !== activeIndex) {
       setActiveIndex(newIndex);
-      if (stories[newIndex]) {
-        setSearchParams({ id: stories[newIndex].documentId }, { replace: true });
+      const realIndex = toRealIndex(newIndex);
+      if (stories[realIndex]) {
+        setSearchParams({ id: stories[realIndex].documentId }, { replace: true });
       }
     }
-  }, [activeIndex, stories, setSearchParams]);
+
+    // After scrolling settles on a clone, snap instantly to the real twin so the
+    // loop is seamless (the clone shows the identical panorama, so the jump is invisible).
+    if (hasLoop) {
+      clearTimeout(scrollEndRef.current);
+      scrollEndRef.current = setTimeout(() => {
+        const settled = Math.round((isDesktop ? container.scrollLeft : container.scrollTop) / size);
+        if (settled === 0) {
+          if (isDesktop) container.scrollLeft = N * size;
+          else container.scrollTop = N * size;
+          setActiveIndex(N);
+        } else if (settled === N + 1) {
+          if (isDesktop) container.scrollLeft = size;
+          else container.scrollTop = size;
+          setActiveIndex(1);
+        }
+      }, 90);
+    }
+  }, [activeIndex, stories, hasLoop, N, toRealIndex, setSearchParams]);
 
   const handleWheel = useCallback((e) => {
     if (window.innerWidth <= 800 || Math.abs(e.deltaX) >= Math.abs(e.deltaY)) return;
@@ -316,18 +367,20 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
 
     if (scrollLockRef.current) return;
 
-    const direction = Math.sign(e.deltaY); 
+    const direction = Math.sign(e.deltaY);
     const nextIndex = activeIndex + direction;
 
-    if (nextIndex >= 0 && nextIndex < stories.length) {
+    // Clones at index 0 and loopStories.length-1 are valid wheel targets; handleScroll
+    // then seamlessly jumps from the clone to its real twin.
+    if (nextIndex >= 0 && nextIndex < loopStories.length) {
       scrollLockRef.current = true;
-      
+
       e.currentTarget.scrollTo({
         left: nextIndex * window.innerWidth,
         behavior: 'smooth'
       });
     }
-  }, [activeIndex, stories.length]);
+  }, [activeIndex, loopStories.length]);
 
   const getDistanceStr = (story) => {
     if (!userLocation || !story.latitude || !story.longitude || !formatDistance) return "";
@@ -365,25 +418,26 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
         </button>
       </div>
 
-      <div 
-        className={styles.feedContainer} 
+      <div
+        ref={feedRef}
+        className={styles.feedContainer}
         onScroll={handleScroll}
         onWheel={handleWheel}
       >
-        {stories.map((story, index) => {
+        {loopStories.map((story, index) => {
           const distance = Math.abs(index - activeIndex);
           const isActive = index === activeIndex;
           const formattedDistance = getDistanceStr(story);
 
           return (
-            <StorySlide 
-              key={story.documentId} 
-              story={story} 
-              isActive={isActive} 
+            <StorySlide
+              key={`${story.documentId}-${index}`}
+              story={story}
+              isActive={isActive}
               distance={distance}
               isMobile={isMobile}
               formattedDistance={formattedDistance}
-              onReady={index === 0 ? () => setFirstPanoReady(true) : null}
+              onReady={isActive ? () => setFirstPanoReady(true) : null}
               setSelectedStory={setSelectedStory}
               gyroPermission={gyroPermission}
               setGyroPermission={setGyroPermission}
