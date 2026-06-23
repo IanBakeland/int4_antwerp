@@ -256,7 +256,7 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
         const token = localStorage.getItem("token");
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user&populate[2]=favourites", { headers });
+        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user&populate[2]=favourites&filters[state][$eq]=approved", { headers });
         if (!res.ok) throw new Error("Failed to fetch stories");
         const data = await res.json();
         
