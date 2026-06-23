@@ -15,6 +15,13 @@ import PersonDoubleIcon from '../assets/icons/PersonDouble';
 import FilterIcon from '../assets/icons/Filter';
 import SpeakerIcon from '../assets/icons/Speaker';
 
+import BellIcon from '../assets/icons/Bell';
+import BirdsIcon from '../assets/icons/Birds';
+import CityIcon from '../assets/icons/City';
+import PeopleWaveIcon from '../assets/icons/PeopleWave';
+import RainIcon from '../assets/icons/Rain';
+import TramIcon from '../assets/icons/Tram';
+
 import birdsSound from '../assets/sounds/birds.mp3';
 import citySound from '../assets/sounds/city.mp3';
 import tramSound from '../assets/sounds/tram.mp3';
@@ -236,9 +243,11 @@ export default function Share() {
     }, 5000);
   };
 
-const handleSoundClick = (soundName) => {
+  const handleSoundClick = (soundName) => {
     const isTurningOff = soundEffects.includes(soundName);
+    
     toggleSound(soundName);
+
     if (isTurningOff) {
       if (playingSound === soundName && audioRef.current) {
         audioRef.current.pause();
@@ -604,22 +613,22 @@ const handleSoundClick = (soundName) => {
               </p>
               <div className={styles['share__pill-group']}>
                 <button type="button" className={`${styles.filterButton} ${soundEffects.includes('City') ? styles.orangeTag : ''}`} onClick={() => handleSoundClick('City')}>
-                  <SpeakerIcon />City
+                  <CityIcon />City
                 </button>
                 <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Rain') ? styles.orangeTag : ''}`} onClick={() => handleSoundClick('Rain')}>
-                  <SpeakerIcon />Rain
+                  <RainIcon />Rain
                 </button>
                 <button type="button" className={`${styles.filterButton} ${soundEffects.includes('People') ? styles.orangeTag : ''}`} onClick={() => handleSoundClick('People')}>
-                  <SpeakerIcon />People
+                  <PeopleWaveIcon />People
                 </button>
                 <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Birds') ? styles.orangeTag : ''}`} onClick={() => handleSoundClick('Birds')}>
-                  <SpeakerIcon />Birds
+                  <BirdsIcon />Birds
                 </button>
                 <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Tram') ? styles.orangeTag : ''}`} onClick={() => handleSoundClick('Tram')}>
-                  <SpeakerIcon />Tram
+                  <TramIcon />Tram
                 </button>
                 <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Church') ? styles.orangeTag : ''}`} onClick={() => handleSoundClick('Church')}>
-                  <SpeakerIcon />Church
+                  <BellIcon />Church
                 </button>
               </div>
             </div>
