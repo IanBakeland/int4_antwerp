@@ -15,12 +15,13 @@ import logoAntwerpScenes from '../assets/images/logoantwerpscenes.png';
 import backgroundMoments from '../assets/images/backgroundmoments.png';
 import backgroundMomentsDesktop from '../assets/images/cathedral_moments.png';
 import qrCodeImg from '../assets/images/qrradar.png';
-import HeartIcon from '../assets/icons/Heart';
+import HeartFilledIcon from '../assets/icons/HeartFilled';
 import PersonIcon from '../assets/icons/Person';
 import AddCircleIcon from '../assets/icons/AddCircle';
 import FilterIcon from '../assets/icons/Filter';
 import SearchIcon from '../assets/icons/Search';
 import AuthorBadge from '../components/AuthorBadge';
+import FavouriteButton from '../components/FavouriteButton';
 import styles from './Home.module.css';
 
 const STRAPI_URL = "https://necessary-light-a082e19892.strapiapp.com";
@@ -135,9 +136,22 @@ export default function Home({ userLocation }) {
   const [homeFilter, setHomeFilter] = useState('All');
   const [allStories, setAllStories] = useState([]);
   const [storiesLoaded, setStoriesLoaded] = useState(false);
+  // Map of storyDocumentId -> favourite documentId, for the CURRENT logged-in user only.
+  const [favMap, setFavMap] = useState({});
   const [isDesktop, setIsDesktop] = useState(() =>
     typeof window !== 'undefined' && window.matchMedia('(min-width: 801px)').matches
   );
+  const [favToastVisible, setFavToastVisible] = useState(false);
+  const favToastTimerRef = useRef(null);
+
+  // Briefly show an "Added to favourites" toast (auto-dismisses).
+  const showFavToast = () => {
+    setFavToastVisible(true);
+    clearTimeout(favToastTimerRef.current);
+    favToastTimerRef.current = setTimeout(() => setFavToastVisible(false), 2200);
+  };
+
+  useEffect(() => () => clearTimeout(favToastTimerRef.current), []);
   const [currentPanoIndex, setCurrentPanoIndex] = useState(0);
   const [prevPanoIndex, setPrevPanoIndex] = useState(null);
   const [transitionClass, setTransitionClass] = useState('slide-active');
@@ -199,6 +213,42 @@ export default function Home({ userLocation }) {
     };
 
     fetchStories();
+    return () => controller.abort();
+  }, []);
+
+  // Fetch ONLY the current user's favourites so a heart is filled solely when this
+  // specific user has favourited the story (not when anyone else has).
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    const controller = new AbortController();
+
+    const fetchFavourites = async () => {
+      try {
+        const headers = { Authorization: `Bearer ${token}` };
+        const meRes = await fetch(`${STRAPI_URL}/api/users/me`, { headers, signal: controller.signal });
+        if (!meRes.ok) throw new Error('Failed to fetch user');
+        const me = await meRes.json();
+
+        const favRes = await fetch(
+          `${STRAPI_URL}/api/favourites?filters[user][id][$eq]=${me.id}&populate=story&pagination[pageSize]=200`,
+          { headers, signal: controller.signal }
+        );
+        if (!favRes.ok) throw new Error('Failed to fetch favourites');
+        const favData = await favRes.json();
+
+        const map = {};
+        (favData.data || []).forEach((fav) => {
+          const storyDocId = fav.story?.documentId;
+          if (storyDocId) map[storyDocId] = fav.documentId;
+        });
+        setFavMap(map);
+      } catch (err) {
+        if (err.name !== 'AbortError') console.error(err);
+      }
+    };
+
+    fetchFavourites();
     return () => controller.abort();
   }, []);
 
@@ -658,9 +708,14 @@ export default function Home({ userLocation }) {
                 )}
                 <div className={styles['home__story-card-gradient']} />
                 <h3 className={styles['home__story-card-title']}>{story.title}</h3>
-                <div className={styles['home__story-card-heart']}>
-                  <HeartIcon />
-                </div>
+                <FavouriteButton
+                  storyId={story.documentId}
+                  initialFavouriteDocId={favMap[story.documentId]}
+                  className={styles['home__story-card-heart']}
+                  activeClassName={styles['home__story-card-heart--active']}
+                  notLoggedInPath="/favourites"
+                  onAdded={showFavToast}
+                />
 
                 <div className={styles['home__story-card-overlay']}>
                   <span className={styles['home__story-card-explore']}>
@@ -698,6 +753,15 @@ export default function Home({ userLocation }) {
             </clipPath>
           </defs>
         </svg>
+      </div>
+
+      <div
+        className={`${styles['home__toast']} ${favToastVisible ? styles['home__toast--visible'] : ''}`}
+        role="status"
+        aria-live="polite"
+      >
+        <HeartFilledIcon />
+        <span>Added to favourites</span>
       </div>
     </>
   );

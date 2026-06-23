@@ -21,7 +21,7 @@ import FavouriteButton from '../components/FavouriteButton';
 import ReactionButton from '../components/ReactionButton';
 import styles from './Story.module.css';
 
-const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDistance, setSelectedStory, gyroPermission, setGyroPermission }) => {
+const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDistance, setSelectedStory, gyroPermission, setGyroPermission, favouriteDocId, onFavouriteAdded }) => {
   const [viewerLoading, setViewerLoading] = useState(true);
   const [gyroStarted, setGyroStarted] = useState(false);
   
@@ -31,10 +31,7 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDis
   const panoramaImage = story?.panorama?.url;
   const plugins = isMobile ? [[GyroscopePlugin, { absolutePosition: true, moveMode: 'fast' }]] : [];
   
-  const isNearActive = distance <= 1; 
-  
-  const favouriteArray = story?.favourites?.data || story?.favourites;
-  const favouriteDocId = favouriteArray?.[0]?.documentId;
+  const isNearActive = distance <= 1;
 
   useEffect(() => {
     if (isActive) setViewerLoading(true);
@@ -168,10 +165,11 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDis
               </div>
 
               <div className={styles.rightColumn}>
-                <FavouriteButton 
-                  storyId={story?.documentId} 
-                  initialFavouriteDocId={favouriteDocId} 
+                <FavouriteButton
+                  storyId={story?.documentId}
+                  initialFavouriteDocId={favouriteDocId}
                   iconButton={true}
+                  onAdded={onFavouriteAdded}
                 />
                 
                 <ReactionButton storyId={story?.documentId} />
@@ -229,11 +227,24 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
 
   const [stories, setStories] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
+  // Map of storyDocumentId -> favourite documentId, for the CURRENT logged-in user only.
+  const [favMap, setFavMap] = useState({});
   
   const [apiLoaded, setApiLoaded] = useState(false);
   const [firstPanoReady, setFirstPanoReady] = useState(false);
 
   const [gyroPermission, setGyroPermission] = useState('prompt');
+  const [favToastVisible, setFavToastVisible] = useState(false);
+  const favToastTimerRef = useRef(null);
+
+  // Briefly show an "Added to favourites" toast (auto-dismisses).
+  const showFavToast = useCallback(() => {
+    setFavToastVisible(true);
+    clearTimeout(favToastTimerRef.current);
+    favToastTimerRef.current = setTimeout(() => setFavToastVisible(false), 2200);
+  }, []);
+
+  useEffect(() => () => clearTimeout(favToastTimerRef.current), []);
 
   const scrollLockRef = useRef(false);
   const wheelTimeoutRef = useRef(null);
@@ -259,7 +270,7 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
         const token = localStorage.getItem("token");
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user&populate[2]=favourites", { headers });
+        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user", { headers });
         if (!res.ok) throw new Error("Failed to fetch stories");
         const data = await res.json();
         
@@ -288,7 +299,43 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
     };
 
     fetchStories();
-  }, []); 
+  }, []);
+
+  // Fetch ONLY the current user's favourites so a heart is filled solely when this
+  // specific user has favourited the story (not when anyone else has).
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    const controller = new AbortController();
+
+    const fetchFavourites = async () => {
+      try {
+        const headers = { Authorization: `Bearer ${token}` };
+        const meRes = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/users/me", { headers, signal: controller.signal });
+        if (!meRes.ok) throw new Error('Failed to fetch user');
+        const me = await meRes.json();
+
+        const favRes = await fetch(
+          `https://necessary-light-a082e19892.strapiapp.com/api/favourites?filters[user][id][$eq]=${me.id}&populate=story&pagination[pageSize]=200`,
+          { headers, signal: controller.signal }
+        );
+        if (!favRes.ok) throw new Error('Failed to fetch favourites');
+        const favData = await favRes.json();
+
+        const map = {};
+        (favData.data || []).forEach((fav) => {
+          const storyDocId = fav.story?.documentId;
+          if (storyDocId) map[storyDocId] = fav.documentId;
+        });
+        setFavMap(map);
+      } catch (err) {
+        if (err.name !== 'AbortError') console.error(err);
+      }
+    };
+
+    fetchFavourites();
+    return () => controller.abort();
+  }, []);
 
   // Infinite (TikTok-style) loop: clone the last slide before the first and the
   // first slide after the last. The real slides live at display indices 1..N, so
@@ -441,9 +488,20 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
               setSelectedStory={setSelectedStory}
               gyroPermission={gyroPermission}
               setGyroPermission={setGyroPermission}
+              favouriteDocId={favMap[story.documentId]}
+              onFavouriteAdded={showFavToast}
             />
           );
         })}
+      </div>
+
+      <div
+        className={`${styles.favToast} ${favToastVisible ? styles.favToastVisible : ''}`}
+        role="status"
+        aria-live="polite"
+      >
+        <HeartFilledIcon />
+        <span>Added to favourites</span>
       </div>
     </>
   );

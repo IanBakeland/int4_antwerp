@@ -1479,12 +1479,18 @@
   bottom: 20px;
   right: 16px;
   /* exactly 16px from the right border */
-  z-index: 2;
+  z-index: 7;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-white);
   cursor: pointer;
+  /* button reset (this is a <button> for accessibility) */
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
@@ -1493,11 +1499,71 @@
   opacity: 0.9;
 }
 
+.home__story-card-heart:focus-visible {
+  outline: 0.1875rem solid var(--color-secondary-light);
+  outline-offset: 0.1875rem;
+  border-radius: 50%;
+}
+
 .home__story-card-heart svg {
   width: 26px;
   height: 26px;
   fill: var(--color-white);
   opacity: 0.85;
+  transition: fill 0.2s ease, opacity 0.2s ease;
+}
+
+/* Favourited state: filled pink heart */
+.home__story-card-heart--active svg {
+  fill: var(--color-secondary);
+  opacity: 1;
+}
+
+.home__story-card-heart--active:hover svg {
+  fill: #ff5c9d;
+}
+
+/* "Added to favourites" toast (mobile + desktop) */
+.home__toast {
+  position: fixed;
+  left: 50%;
+  bottom: 2rem;
+  transform: translate(-50%, 1rem);
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  background: rgba(20, 20, 20, 0.92);
+  color: var(--color-white);
+  font-family: var(--font-spartan);
+  font-size: 0.95rem;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.home__toast--visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.home__toast svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: var(--color-secondary);
+  flex: 0 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home__toast {
+    transition: opacity 0.25s ease;
+    transform: translate(-50%, 0);
+  }
 }
 
 /* Hover overlay with the "Explore Scene" CTA. Hidden by default (so mobile is
