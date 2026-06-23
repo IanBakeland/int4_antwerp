@@ -162,6 +162,16 @@ export default function Home({ userLocation }) {
   const [searchQuery, setSearchQuery] = useState('');
   const filterControlsRef = useRef(null);
 
+  // QR-code lightbox (desktop only)
+  const [qrExpanded, setQrExpanded] = useState(false);
+
+  useEffect(() => {
+    if (!qrExpanded) return;
+    const onKey = (e) => { if (e.key === 'Escape') setQrExpanded(false); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [qrExpanded]);
+
   const handleCategoryToggle = (value) => {
     setActiveFilters((prev) =>
       prev.includes(value) ? prev.filter((f) => f !== value) : [...prev, value]
@@ -551,9 +561,19 @@ export default function Home({ userLocation }) {
 
         {/* Desktop-only extra box */}
         <div className={styles['home__pano-extra-box']}>
-          <div className={styles['home__pano-extra-box-square']}>
-            <img src={qrCodeImg} alt="Radar QR Code" className={styles['home__pano-extra-box-qr-img']} />
-          </div>
+          <button
+            type="button"
+            className={styles['home__pano-extra-box-square']}
+            onClick={() => setQrExpanded(true)}
+            aria-label="Click to expand QR code"
+          >
+            <img src={qrCodeImg} alt="" className={styles['home__pano-extra-box-qr-img']} />
+            <span className={styles['home__pano-qr-expand-badge']} aria-hidden="true">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+              </svg>
+            </span>
+          </button>
           <div className={styles['home__pano-extra-box-content']}>
             <h4 className={styles['home__pano-extra-box-title']}>
               Best experienced on your phone
@@ -926,6 +946,39 @@ export default function Home({ userLocation }) {
         <HeartFilledIcon />
         <span>Added to favourites</span>
       </div>
+
+      {qrExpanded && (
+        <div
+          className={styles['home__qr-modal-overlay']}
+          onClick={() => setQrExpanded(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="QR Code"
+        >
+          <div
+            className={styles['home__qr-modal']}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              className={styles['home__qr-modal-close']}
+              onClick={() => setQrExpanded(false)}
+              aria-label="Close QR code"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 6L6 18M6 6l12 12"/>
+              </svg>
+            </button>
+            <p className={styles['home__qr-modal-label']}>Radar QR Code</p>
+            <div className={styles['home__qr-modal-img-wrap']}>
+              <img src={qrCodeImg} alt="Radar QR Code" className={styles['home__qr-modal-img']} />
+            </div>
+            <p className={styles['home__qr-modal-desc']}>
+              Open the camera app on your phone and point it at the QR code to open the radar on your phone.
+            </p>
+          </div>
+        </div>
+      )}
     </>
   );
 }
