@@ -1,4 +1,5 @@
 import useDocumentTitle from '../hooks/useDocumentTitle';
+import qrCodeImg from '../assets/images/qrradar.png';
 import styles from './RadarExplained.module.css';
 
 export default function RadarExplained() {
@@ -44,6 +45,11 @@ export default function RadarExplained() {
             </div>
           </li>
         </ol>
+
+        {/* Pink QR square (copied from the home page, static — no zoom) */}
+        <div className={styles['radar-explained__qr-square']}>
+          <img src={qrCodeImg} alt="QR code to open the radar on your phone" className={styles['radar-explained__qr-img']} />
+        </div>
       </div>
     </section>
   );
