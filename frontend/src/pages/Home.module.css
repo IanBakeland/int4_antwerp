@@ -984,6 +984,11 @@
   display: none;
 }
 
+.home__category-btn-desktop,
+.home__search-btn-desktop {
+  display: none;
+}
+
 @media (min-width: 801px) {
   .home__actions-row {
     width: 100%;
@@ -1238,41 +1243,105 @@
     width: 100%;
     margin-left: 0;
     margin-right: 0;
-    height: 70rem;
-    /* Taller on desktop but within viewport bounds */
+    margin-bottom: 0;
+    /* Tall internal scroll panel. Reaching the panel's top/bottom chains to the
+       page (overscroll-behavior: auto) so you are never trapped.
+       pointer-events: none makes the wheel "fall through" the empty padding/gap
+       areas to the page; only the cards (re-enabled below) drive the internal
+       scroll — so the page scrolls unless the cursor is over a card image. */
+    height: min(176vh, 136rem);
+    overflow-y: auto;
+    overscroll-behavior-y: auto;
+    scroll-behavior: smooth;
+    pointer-events: none;
     padding: 2rem 84px 4rem 79px;
-    overscroll-behavior: auto;
 
-    /* Top fade only on desktop */
-    mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 100%);
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 100%);
+    /* No edge-fade mask on desktop; the scrollbar stays hidden for a clean look */
+    mask-image: none;
+    -webkit-mask-image: none;
 
-    /* Desktop Grid layout based on mockup */
+    /* Desktop grid based on the mockup.
+       Columns are fluid (1fr) so every card scales with the viewport instead
+       of being pinned to the reference pixel sizes — this also guarantees no
+       horizontal overflow. Row tracks are an explicit fluid height that tracks
+       the column width through the reference aspect ratio (503.681 / 288.626 =>
+       row ~= column / 1.745). Cards fill their cell via grid stretch, so a
+       feature card spanning 2x2 is always exactly two rows + the row gap. */
     display: grid;
-    grid-template-columns: repeat(3, 503.681px);
-    grid-auto-rows: 288.626px;
-    gap: 23.748px 16.501px;
-    /* row-gap column-gap */
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: clamp(6.75rem, calc(19.1vw - 43px), 18.75rem);
+    column-gap: clamp(0.625rem, 0.97vw, 1.125rem);
+    row-gap: clamp(0.875rem, 1.39vw, 1.625rem);
     grid-auto-flow: dense;
-    justify-content: start;
   }
 
-  .home__story-card-large {
-    width: 1023.863px;
-    height: 601px;
-    border-radius: 4px;
-    grid-column: span 2;
-    grid-row: span 2;
+  /* Every desktop card defaults to the small footprint and simply fills its
+     1x1 cell; no fixed widths/heights or aspect ratios are needed. */
+  .home__stories-grid > .home__story-card-large,
+  .home__stories-grid > .home__story-card-small {
+    width: auto;
+    height: auto;
     aspect-ratio: auto;
-  }
-
-  .home__story-card-small {
-    width: 503.681px;
-    height: 288.626px;
     border-radius: 10px;
     grid-column: span 1;
     grid-row: span 1;
+    /* Re-enable the mouse over the cards: scrolling here drives the internal
+       scroll, and the heart/links stay clickable. */
+    pointer-events: auto;
+  }
+
+  /* Feature cards reproduce the mockup rhythm: the 1st and 8th card of every
+     group of nine span 2x2, which makes them alternate left/right through the
+     dense auto-flow. Driving this from grid position (rather than the JS class)
+     keeps the existing mobile markup and layout untouched. */
+  .home__stories-grid > :nth-child(9n + 1),
+  .home__stories-grid > :nth-child(9n + 8) {
     aspect-ratio: auto;
+    border-radius: 4px;
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  /* Distance badge sits top-right on every desktop card, as in the mockup,
+     regardless of which badge variant the markup rendered. */
+  .home__stories-grid .home__story-card-badge,
+  .home__stories-grid .home__story-card-badge-small {
+    top: 18px;
+    right: 18px;
+    bottom: auto;
+    left: auto;
+  }
+
+  /* Titles follow the card's desktop footprint instead of the mobile class. */
+  .home__stories-grid > :not(:nth-child(9n + 1)):not(:nth-child(9n + 8)) .home__story-card-title {
+    font-size: 1.125rem;
+    line-height: 1.2;
+    width: auto;
+    max-height: none;
+    left: 20px;
+    right: 56px;
+    bottom: 22px;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .home__stories-grid > :nth-child(9n + 1) .home__story-card-title,
+  .home__stories-grid > :nth-child(9n + 8) .home__story-card-title {
+    font-size: clamp(1.5rem, 1.9vw, 1.875rem);
+    line-height: 1.15;
+    width: auto;
+    max-height: none;
+    left: 28px;
+    right: 70px;
+    bottom: 28px;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 }
 
@@ -1423,6 +1492,69 @@
   height: 26px;
   fill: var(--color-white);
   opacity: 0.85;
+}
+
+/* Hover overlay with the "Explore Scene" CTA. Hidden by default (so mobile is
+   unaffected) and revealed on hover on desktop further below. */
+.home__story-card-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  background: rgba(255, 130, 220, 0.20);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.home__story-card-explore {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 9.5625rem;
+  height: 2.6875rem;
+  border: none;
+  border-radius: 2.1875rem;
+  background: var(--color-secondary);
+  color: var(--color-white);
+  font-family: var(--font-spartan);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.75rem;
+  white-space: nowrap;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.home__story-card-explore:hover {
+  background-color: #ff5c9d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.home__story-card-explore:focus-visible {
+  outline: 0.1875rem solid var(--color-secondary-light);
+  outline-offset: 0.1875rem;
+}
+
+.home__story-card-explore-icon {
+  width: 1rem;
+  height: 1rem;
+  display: block;
+  flex: 0 0 auto;
+}
+
+/* Reveal the overlay only on hover-capable desktop pointers */
+@media (hover: hover) and (min-width: 801px) {
+  .home__stories-grid > *:hover .home__story-card-overlay {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 /* Panorama navigation buttons (mobile hidden, desktop styled) */
