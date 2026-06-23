@@ -450,10 +450,12 @@
   width: 100%;
   position: relative;
   z-index: 2;
+  padding-top: 43px;
+  box-sizing: border-box;
 }
 
 .home__panorama-title {
-  margin-top: 43px;
+  margin-top: 0;
   color: var(--color-primary);
   text-align: center;
   font-family: var(--font-antwerpen);
@@ -517,7 +519,7 @@
 
 .home__background-moments {
   width: calc(100% + 2rem);
-  margin: -1rem -1rem 0 -1rem;
+  margin: -5rem -1rem 0 -1rem;
   display: block;
   height: auto;
   position: relative;
@@ -987,7 +989,7 @@
     width: 100%;
     margin-left: 0;
     margin-right: 0;
-    padding: 0 0.9375rem 0 78px;
+    padding: 0 84px 0 78px;
     flex-direction: row-reverse;
     margin-top: 130px;
   }
@@ -1053,6 +1055,50 @@
   .home__filter-btn-desktop--active {
     background: #000;
     color: #FFF;
+  }
+
+  .home__category-btn-desktop,
+  .home__search-btn-desktop {
+    display: flex;
+    height: 42px;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 50px;
+    background: #FFF;
+    border: 1px solid #E9E9E9;
+    cursor: pointer;
+
+    /* Typography settings requested by user */
+    color: #000;
+    font-family: var(--font-spartan);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 28px;
+    text-box-trim: both;
+    text-box-edge: cap;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .home__category-btn-desktop {
+    width: 132px;
+  }
+
+  .home__search-btn-desktop {
+    width: 113px;
+  }
+
+  .home__category-btn-desktop:hover,
+  .home__search-btn-desktop:hover {
+    background-color: #f7f7f7;
+  }
+
+  .home__category-btn-desktop svg,
+  .home__search-btn-desktop svg {
+    flex-shrink: 0;
   }
 }
 
@@ -1194,12 +1240,39 @@
     margin-right: 0;
     height: 70rem;
     /* Taller on desktop but within viewport bounds */
-    padding: 2rem 0.9375rem 4rem 0.9375rem;
+    padding: 2rem 84px 4rem 79px;
     overscroll-behavior: auto;
 
     /* Top fade only on desktop */
     mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 100%);
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 100%);
+
+    /* Desktop Grid layout based on mockup */
+    display: grid;
+    grid-template-columns: repeat(3, 503.681px);
+    grid-auto-rows: 288.626px;
+    gap: 23.748px 16.501px;
+    /* row-gap column-gap */
+    grid-auto-flow: dense;
+    justify-content: start;
+  }
+
+  .home__story-card-large {
+    width: 1023.863px;
+    height: 601px;
+    border-radius: 4px;
+    grid-column: span 2;
+    grid-row: span 2;
+    aspect-ratio: auto;
+  }
+
+  .home__story-card-small {
+    width: 503.681px;
+    height: 288.626px;
+    border-radius: 10px;
+    grid-column: span 1;
+    grid-row: span 1;
+    aspect-ratio: auto;
   }
 }
 

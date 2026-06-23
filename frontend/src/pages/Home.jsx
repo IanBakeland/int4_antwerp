@@ -558,6 +558,18 @@ export default function Home({ userLocation }) {
               </button>
             </div>
             <div className={styles['home__filters-divider-desktop']} />
+            <button className={styles['home__category-btn-desktop']}>
+              <svg width="2" height="4" viewBox="0 0 2 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.583374 0.583008V3.41634" stroke="#141414" strokeWidth="1.16667" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span>Category</span>
+            </button>
+            <button className={styles['home__search-btn-desktop']}>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 6.46094C0 2.89062 2.89062 0 6.45312 0C10.0156 0 12.9062 2.89062 12.9062 6.46094C12.9062 7.78906 12.5 9.01562 11.7969 10.0234L15.1641 13.4062C15.4141 13.6562 15.5469 13.9922 15.5469 14.3516C15.5469 15.1016 14.9844 15.6875 14.2188 15.6875C13.8594 15.6875 13.5156 15.5625 13.2578 15.3047L9.85938 11.9062C8.88281 12.5391 7.71875 12.9141 6.45312 12.9141C2.89062 12.9141 0 10.0234 0 6.46094ZM1.84375 6.46094C1.84375 9 3.91406 11.0703 6.45312 11.0703C9 11.0703 11.0625 9 11.0625 6.46094C11.0625 3.91406 9 1.85156 6.45312 1.85156C3.91406 1.85156 1.84375 3.91406 1.84375 6.46094Z" fill="currentColor"/>
+              </svg>
+              <span>Search</span>
+            </button>
           </div>
         </div>
 
