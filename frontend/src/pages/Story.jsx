@@ -15,11 +15,29 @@ import FolderIcon from '../assets/icons/Folder';
 import PersonDoubleIcon from '../assets/icons/PersonDouble';
 import RadarLocationIcon from '../assets/icons/RadarLocation';
 import ShareFilledIcon from '../assets/icons/ShareFilled';
+import MuteIcon from '../assets/icons/Mute';
+import SpeakerIcon from '../assets/icons/Speaker';
+
+import birdsSound from '../assets/sounds/birds.mp3';
+import citySound from '../assets/sounds/city.mp3';
+import tramSound from '../assets/sounds/tram.mp3';
+import churchSound from '../assets/sounds/church.mp3';
+import rainSound from '../assets/sounds/rain.mp3';
+import peopleSound from '../assets/sounds/people.mp3';
 
 import Loading from '../components/Loading';
 import FavouriteButton from '../components/FavouriteButton';
 import ReactionButton from '../components/ReactionButton';
 import styles from './Story.module.css';
+
+const SOUND_FILES = {
+  'birds.mp3': birdsSound,
+  'city.mp3': citySound,
+  'tram.mp3': tramSound,
+  'church.mp3': churchSound,
+  'rain.mp3': rainSound,
+  'people.mp3': peopleSound
+};
 
 const StorySlide = ({ 
   story, 
@@ -29,16 +47,20 @@ const StorySlide = ({
   distance, 
   formattedDistance, 
   setSelectedStory, 
+  gyroPermission, 
+  setGyroPermission, 
   favouriteDocId, 
   onFavouriteAdded,
   onNavigate,
   disablePrev,
-  disableNext
+  disableNext,
+  isSoundGlobalEnabled
 }) => {
   const [viewerLoading, setViewerLoading] = useState(true);
   const [gyroStarted, setGyroStarted] = useState(false);
   
   const viewerRef = useRef(null);
+  const audioRefs = useRef([]);
   const navigate = useNavigate();
   
   const panoramaImage = story?.panorama?.url;
@@ -50,8 +72,50 @@ const StorySlide = ({
     if (isActive) setViewerLoading(true);
   }, [isActive]);
 
+  useEffect(() => {
+    const audios = audioRefs.current.filter(Boolean);
+    if (isActive && isSoundGlobalEnabled) {
+      audios.forEach(a => {
+        a.dataset.playing = "true";
+        if (a.ended) {
+          a.currentTime = 0;
+        }
+        const playPromise = a.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(e => console.log("Audio play prevented/interrupted", e));
+        }
+      });
+    } else {
+      audios.forEach(a => {
+        a.dataset.playing = "false";
+        a.pause();
+      });
+    }
+  }, [isActive, isSoundGlobalEnabled]);
+
+  const handleAudioEnded = (e, fileName) => {
+    const audioEl = e.target;
+    const needsDelay = fileName === 'church.mp3' || fileName === 'tram.mp3';
+
+    if (needsDelay) {
+      setTimeout(() => {
+        // Ensure the slide is still active before playing the delayed sound
+        if (audioEl.dataset.playing === "true") {
+          audioEl.currentTime = 0;
+          audioEl.play().catch(err => console.log("Audio play prevented", err));
+        }
+      }, 5000);
+    } else {
+      // Loop immediately for other sounds
+      if (audioEl.dataset.playing === "true") {
+        audioEl.currentTime = 0;
+        audioEl.play().catch(err => console.log("Audio play prevented", err));
+      }
+    }
+  };
+
   const handleStartGyro = () => {
-    setGyroStarted(true); // Hide the prompt immediately
+    setGyroStarted(true);
     if (viewerRef.current) {
       const gyroPlugin = viewerRef.current.getPlugin(GyroscopePlugin);
       if (gyroPlugin) {
@@ -88,6 +152,21 @@ const StorySlide = ({
 
   return (
     <div className={styles.slideContainer}>
+      {story?.soundEffects && story.soundEffects.map((sound, i) => {
+        const exactFileName = `${sound.toLowerCase()}.mp3`;
+        
+        return (
+          <audio 
+            key={i} 
+            ref={el => audioRefs.current[i] = el} 
+            src={SOUND_FILES[exactFileName]} 
+            onEnded={(e) => handleAudioEnded(e, exactFileName)}
+            playsInline 
+            style={{ display: 'none' }}
+          />
+        );
+      })}
+
       {isNearActive && panoramaImage ? (
         <>
           <div className={styles.panoramaContainer}>
@@ -247,9 +326,12 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
   const [stories, setStories] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [favMap, setFavMap] = useState({});
+  const [isSoundGlobalEnabled, setIsSoundGlobalEnabled] = useState(false);
   
   const [apiLoaded, setApiLoaded] = useState(false);
   const [firstPanoReady, setFirstPanoReady] = useState(false);
+
+  const [gyroPermission, setGyroPermission] = useState('prompt');
   
   const [favToastVisible, setFavToastVisible] = useState(false);
   const favToastTimerRef = useRef(null);
@@ -480,6 +562,9 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
     );
   }
 
+  const activeStoryData = loopStories[activeIndex];
+  const activeStoryHasSounds = activeStoryData?.soundEffects?.length > 0;
+
   return (
     <>
       {(!apiLoaded || (stories.length > 0 && !firstPanoReady)) && (
@@ -491,6 +576,20 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
       <div className={` ${styles.fixedToolbar}`}>
         <button onClick={() => navigate(-1)} className="iconbutton dark">
           <ChevronIcon/>
+        </button>
+      </div>
+
+      <div className={styles.fixedToolbar} style={{ left: 'auto', right: '1rem' }}>
+        <button 
+          className={`iconbutton dark ${!activeStoryHasSounds ? styles.disabledNav : ''}`}
+          onClick={() => {
+            if (activeStoryHasSounds) {
+              setIsSoundGlobalEnabled(!isSoundGlobalEnabled);
+            }
+          }}
+          aria-label="Toggle ambient sound"
+        >
+          {isSoundGlobalEnabled ? <SpeakerIcon /> : <MuteIcon />}
         </button>
       </div>
 
@@ -519,11 +618,14 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
               formattedDistance={formattedDistance}
               onReady={isActive ? () => setFirstPanoReady(true) : null}
               setSelectedStory={setSelectedStory}
+              gyroPermission={gyroPermission}
+              setGyroPermission={setGyroPermission}
               favouriteDocId={favMap[story.documentId]}
               onFavouriteAdded={showFavToast}
               onNavigate={handleNavClick}
               disablePrev={disablePrev}
               disableNext={disableNext}
+              isSoundGlobalEnabled={isSoundGlobalEnabled}
             />
           );
         })}

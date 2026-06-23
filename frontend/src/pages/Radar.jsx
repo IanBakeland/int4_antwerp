@@ -216,8 +216,7 @@ export default function Radar({
           >
             {isMuted ? <MuteIcon /> : <SpeakerIcon />}
           </button>
-          <Link to="/account" className="iconbutton" aria-label="Account"><PersonIcon /></Link>
-        </div>
+          <Link to="/account" className="iconbutton" style={{ marginLeft: '0.6rem' }} aria-label="Account"><PersonIcon /></Link>        </div>
       </div>
       <div className="noMobile">
         <h1>The <span>radar</span></h1>
