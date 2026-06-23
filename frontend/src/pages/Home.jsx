@@ -1,7 +1,11 @@
 import { useLocation, Link } from 'react-router-dom';
 import { useState, useEffect, useRef, useMemo, Fragment } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import PanoramaViewer from '../components/PanoramaViewer';
+
+gsap.registerPlugin(ScrollTrigger);
 
 //icons
 import antwerpLogo from '../assets/images/antwerpLogo.png';
@@ -103,6 +107,15 @@ const CATEGORIES = [
 ];
 
 
+// The four stat blocks under the hero. `value` is the number that counts up; `suffix`
+// (e.g. "+") and `unit` (e.g. "KM") sit next to it without animating.
+const INFO_CARDS = [
+  { value: 50, suffix: '+', unit: 'KM', label: 'Across Antwerp', color: 'home__pano-info-card--orange' },
+  { value: 40, suffix: '+', unit: null, label: 'Stories', color: 'home__pano-info-card--blue' },
+  { value: 63, suffix: '', unit: null, label: 'Hidden spots', color: 'home__pano-info-card--pink' },
+  { value: 10, suffix: '', unit: null, label: 'Weekly stories', color: 'home__pano-info-card--lime' },
+];
+
 const strokeColors = ['#FD7C3F', '#66A0FF', '#FF82DC', '#D2FF4B'];
 
 const DividerSVG = ({ color }) => (
@@ -203,6 +216,7 @@ export default function Home({ userLocation }) {
 
   const top10Ref = useRef(null);
   const top10ScrollRef = useRef(null);
+  const infoGridRef = useRef(null);
 
   const handleScrollPrev = () => {
     if (top10ScrollRef.current) {
@@ -235,6 +249,10 @@ export default function Home({ userLocation }) {
 
   // QR-code lightbox (desktop only)
   const [qrExpanded, setQrExpanded] = useState(false);
+
+  // Becomes true once the hero panorama has loaded; gates the info-block animation so
+  // the panorama's layout shift can't disrupt it.
+  const [panoReady, setPanoReady] = useState(false);
 
   useEffect(() => {
     if (!qrExpanded) return;
@@ -360,6 +378,54 @@ export default function Home({ userLocation }) {
     mql.addEventListener('change', onChange);
     return () => mql.removeEventListener('change', onChange);
   }, []);
+
+  // Hide the info blocks (and zero their numbers) right away, before the pano-gated
+  // reveal, so there's no flash of the final state. Reduced-motion users keep them as-is.
+  useEffect(() => {
+    const grid = infoGridRef.current;
+    if (!grid || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    gsap.set(grid.children, { opacity: 0, y: 40, scale: 0.92 });
+    grid.querySelectorAll('[data-count]').forEach((el) => { el.textContent = '0'; });
+  }, []);
+
+  // Safety net: reveal anyway if the panorama never reports that it loaded.
+  useEffect(() => {
+    const t = setTimeout(() => setPanoReady(true), 4000);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Once the panorama has loaded (so its layout shift can't disrupt the timing), the
+  // info blocks rise/fade in and their numbers count up as the section scrolls into view.
+  useEffect(() => {
+    if (!panoReady) return;
+    const grid = infoGridRef.current;
+    if (!grid || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: grid, start: 'top 85%', once: true },
+      });
+      tl.to(grid.children, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.6,
+        ease: 'power3.out',
+        stagger: 0.12,
+      });
+      grid.querySelectorAll('[data-count]').forEach((el) => {
+        const counter = { value: 0 };
+        tl.to(counter, {
+          value: Number(el.dataset.count),
+          duration: 1,
+          ease: 'power1.out',
+          onUpdate: () => { el.textContent = String(Math.round(counter.value)); },
+        }, 0);
+      });
+    }, grid);
+
+    return () => ctx.revert();
+  }, [panoReady]);
 
   // Fetch all panoramas from Strapi (newest first) for both the hero carousel and the grid.
   useEffect(() => {
@@ -490,6 +556,7 @@ export default function Home({ userLocation }) {
   };
 
   const handlePanoLoaded = () => {
+    setPanoReady(true);
     if (prevPanoIndex !== null && isTransitionLoading) {
       setIsTransitionLoading(false);
       const direction = transitionDirectionRef.current;
@@ -626,25 +693,16 @@ export default function Home({ userLocation }) {
         </div>
 
         {/* Info Cards Grid */}
-        <div className={styles['home__pano-info-grid']}>
-          <div className={`${styles['home__pano-info-card']} ${styles['home__pano-info-card--orange']}`}>
-            <span className={styles['home__pano-info-card-number']}>
-              50+<span className={styles['home__pano-info-card-unit']}>KM</span>
-            </span>
-            <span className={styles['home__pano-info-card-label']}>Across Antwerp</span>
-          </div>
-          <div className={`${styles['home__pano-info-card']} ${styles['home__pano-info-card--blue']}`}>
-            <span className={styles['home__pano-info-card-number']}>40+</span>
-            <span className={styles['home__pano-info-card-label']}>Stories</span>
-          </div>
-          <div className={`${styles['home__pano-info-card']} ${styles['home__pano-info-card--pink']}`}>
-            <span className={styles['home__pano-info-card-number']}>63</span>
-            <span className={styles['home__pano-info-card-label']}>Hidden spots</span>
-          </div>
-          <div className={`${styles['home__pano-info-card']} ${styles['home__pano-info-card--lime']}`}>
-            <span className={styles['home__pano-info-card-number']}>10</span>
-            <span className={styles['home__pano-info-card-label']}>Weekly stories</span>
-          </div>
+        <div className={styles['home__pano-info-grid']} ref={infoGridRef}>
+          {INFO_CARDS.map(({ value, suffix, unit, label, color }) => (
+            <div key={label} className={`${styles['home__pano-info-card']} ${styles[color]}`}>
+              <span className={styles['home__pano-info-card-number']}>
+                <span data-count={value}>{value}</span>{suffix}
+                {unit && <span className={styles['home__pano-info-card-unit']}>{unit}</span>}
+              </span>
+              <span className={styles['home__pano-info-card-label']}>{label}</span>
+            </div>
+          ))}
         </div>
 
         {/* Desktop-only extra box */}
