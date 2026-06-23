@@ -15,13 +15,17 @@ import Story from './pages/Story';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import LocationPrompt from './components/LocationPrompt';
 
 export default function App() {
   const [userLocation, setUserLocation] = useState(null);
-  const [isRadarActive, setIsRadarActive] = useState(true); 
+  const [isRadarActive, setIsRadarActive] = useState(true);
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [selectedStory, setSelectedStory] = useState(null);
   const [activeFilters, setActiveFilters] = useState([]);
+  // Becomes true when the visitor blocks location access (error.code === 1), which
+  // surfaces the LocationPrompt explaining why the site needs location.
+  const [locationDenied, setLocationDenied] = useState(false);
 
   useEffect(() => {
     let watcherId;
@@ -36,7 +40,10 @@ export default function App() {
         },
         (error) => {
           console.error(error.message);
-          if (error.code === 1) setIsRadarActive(false);
+          if (error.code === 1) {
+            setIsRadarActive(false);
+            setLocationDenied(true);
+          }
         },
         {
           enableHighAccuracy: true,
@@ -142,6 +149,7 @@ export default function App() {
         </Routes>
       </main>
       <Footer />
+      <LocationPrompt open={locationDenied} onClose={() => setLocationDenied(false)} />
     </HashRouter>
   );
 }
