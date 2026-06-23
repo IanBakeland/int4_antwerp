@@ -21,7 +21,7 @@ import FavouriteButton from '../components/FavouriteButton';
 import ReactionButton from '../components/ReactionButton';
 import styles from './Story.module.css';
 
-const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDistance, setSelectedStory, gyroPermission, setGyroPermission, favouriteDocId, onFavouriteAdded }) => {
+const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDistance, setSelectedStory, gyroPermission, setGyroPermission, favouriteDocId, onFavouriteAdded, onNavigate, disablePrev, disableNext }) => {
   const [viewerLoading, setViewerLoading] = useState(true);
   const [gyroStarted, setGyroStarted] = useState(false);
   
@@ -158,7 +158,26 @@ const StorySlide = ({ story, isActive, isMobile, onReady, distance, formattedDis
                   )}
                 </div>
 
-                <h1 className={styles.storyTitle}>{story?.title}</h1>
+                <div className={styles.titleContainer}>
+                  <button 
+                    className={`iconbutton dark ${styles.desktopNavButton} ${disablePrev ? styles.disabledNav : ''}`} 
+                    onClick={() => !disablePrev && onNavigate(-1)}
+                    aria-label="Previous story"
+                  >
+                    <ChevronIcon />
+                  </button>
+
+                  <h1 className={styles.storyTitle}>{story?.title}</h1>
+
+                  <button 
+                    className={`iconbutton dark ${styles.desktopNavButton} ${styles.navRight} ${disableNext ? styles.disabledNav : ''}`} 
+                    onClick={() => !disableNext && onNavigate(1)}
+                    aria-label="Next story"
+                  >
+                    <ChevronIcon />
+                  </button>
+                </div>
+
                 <p className={styles.storyPreview}>
                   {story?.preview}
                 </p>
@@ -367,6 +386,25 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
     clearTimeout(wheelTimeoutRef.current);
   }, []);
 
+  const handleNavClick = useCallback((direction) => {
+    if (!feedRef.current || scrollLockRef.current) return;
+
+    const nextIndex = activeIndex + direction;
+    const isDesktop = window.innerWidth > 800;
+    const size = isDesktop ? window.innerWidth : window.innerHeight;
+
+    scrollLockRef.current = true;
+    feedRef.current.scrollTo({
+      left: isDesktop ? nextIndex * size : 0,
+      top: isDesktop ? 0 : nextIndex * size,
+      behavior: 'smooth'
+    });
+
+    setTimeout(() => {
+      scrollLockRef.current = false;
+    }, 600);
+  }, [activeIndex]);
+
   const handleScroll = useCallback((e) => {
     const container = e.target;
     const isDesktop = window.innerWidth > 800;
@@ -468,6 +506,10 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
           const distance = Math.abs(index - activeIndex);
           const isActive = index === activeIndex;
           const formattedDistance = getDistanceStr(story);
+          
+          const realIndex = toRealIndex(index);
+          const disablePrev = realIndex === 0;
+          const disableNext = realIndex === stories.length - 1;
 
           return (
             <StorySlide
@@ -483,6 +525,9 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
               setGyroPermission={setGyroPermission}
               favouriteDocId={favMap[story.documentId]}
               onFavouriteAdded={showFavToast}
+              onNavigate={handleNavClick}
+              disablePrev={disablePrev}
+              disableNext={disableNext}
             />
           );
         })}
