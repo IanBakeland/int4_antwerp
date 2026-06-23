@@ -106,7 +106,7 @@
 
 .gyroStartOverlay {
   position: absolute;
-  top: 50%;
+  top: 2.5rem;
   left: 50%;
   transform: translate(-50%, -50%);
   height: 2.7rem;
@@ -120,8 +120,6 @@
   font-size: 1rem;
   font-weight: 600;
   pointer-events: auto;
-
-
   gap: 0.6rem;
   background: rgba(46, 46, 46, 0.7);
   border: rgba(255, 255, 255, 0.1) 1.75px solid;
