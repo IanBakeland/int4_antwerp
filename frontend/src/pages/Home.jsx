@@ -1,11 +1,8 @@
 import { useLocation, Link } from 'react-router-dom';
 import { useState, useEffect, useRef, useMemo, Fragment } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import PanoramaViewer from '../components/PanoramaViewer';
-
-gsap.registerPlugin(ScrollTrigger);
 
 //icons
 import antwerpLogo from '../assets/images/antwerpLogo.png';
@@ -395,16 +392,14 @@ export default function Home({ userLocation }) {
   }, []);
 
   // Once the panorama has loaded (so its layout shift can't disrupt the timing), the
-  // info blocks rise/fade in and their numbers count up as the section scrolls into view.
+  // info blocks rise/fade in and their numbers count up straight away — no scroll needed.
   useEffect(() => {
     if (!panoReady) return;
     const grid = infoGridRef.current;
     if (!grid || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: { trigger: grid, start: 'top 85%', once: true },
-      });
+      const tl = gsap.timeline();
       tl.to(grid.children, {
         opacity: 1,
         y: 0,
