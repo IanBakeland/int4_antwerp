@@ -262,6 +262,11 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
         
         let fetchedStories = data.data || [];
         
+        for (let i = fetchedStories.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [fetchedStories[i], fetchedStories[j]] = [fetchedStories[j], fetchedStories[i]];
+        }
+        
         const initialStoryId = searchParams.get("id");
 
         if (initialStoryId) {
@@ -285,7 +290,7 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
     };
 
     fetchStories();
-  }, []); 
+  }, []);
 
   const handleScroll = useCallback((e) => {
     const container = e.target;
