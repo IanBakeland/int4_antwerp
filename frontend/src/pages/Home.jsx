@@ -3,12 +3,6 @@ import { useState, useEffect, useRef, useMemo, Fragment } from 'react';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import PanoramaViewer from '../components/PanoramaViewer';
 
-//panoramas (tijdelijk tot werking van database)
-import pano1 from '../assets/images/pano.jpeg';
-import pano2 from '../assets/images/pano2.jpeg';
-import pano3 from '../assets/images/pano3.jpeg';
-import pano4 from '../assets/images/pano4.jpeg';
-
 //icons
 import antwerpLogo from '../assets/images/antwerpLogo.png';
 import logoAntwerpScenes from '../assets/images/logoantwerpscenes.png';
@@ -40,18 +34,9 @@ const truncate = (text, max = 120) => {
   return text.length > max ? `${text.slice(0, max).trimEnd()}…` : text;
 };
 
-const topStories = [
-  { title: "My first kiss", image: pano1 },
-  { title: "The Silent Cathedral", image: pano2 },
-  { title: "The street that inspired my carreer for painting", image: pano3 },
-  { title: "Park Spoor Noord", image: pano4 },
-  { title: "The MAS Museum", image: pano1 },
-  { title: "Central Station Echo", image: pano2 },
-  { title: "Scheldt Sunset", image: pano3 },
-  { title: "Grote Markt Lights", image: pano4 },
-  { title: "Het Steen Castle", image: pano1 },
-  { title: "Zurenborg Beauty", image: pano2 }
-];
+// How many stories the TOP 10 strip shows. It just takes the newest from the database
+// (like the grid lists stories) — it isn't a ranked top 10.
+const TOP_STORIES_COUNT = 10;
 
 
 const GRID_MIN_CARDS = 20;
@@ -186,6 +171,25 @@ const ScrollBanner = ({ horizontal }) => (
   </div>
 );
 
+// Hover/tap CTA shared by the grid cards and the TOP 10 cards: a pink wash with an
+// "Explore Scene" button (revealed on hover on desktop, the card tap opens on mobile).
+const ExploreOverlay = () => (
+  <div className={styles['home__story-card-overlay']}>
+    <span className={styles['home__story-card-explore']}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className={styles['home__story-card-explore-icon']}
+        viewBox="0 0 16 12"
+        fill="none"
+      >
+        <path d="M0.7942 5.45344C0.735267 5.61221 0.735267 5.78685 0.7942 5.94561C1.36818 7.33736 2.34249 8.52735 3.5936 9.3647C4.8447 10.202 6.31627 10.6491 7.82174 10.6491C9.3272 10.6491 10.7988 10.202 12.0499 9.3647C13.301 8.52735 14.2753 7.33736 14.8493 5.94561C14.9082 5.78685 14.9082 5.61221 14.8493 5.45344C14.2753 4.06169 13.301 2.87171 12.0499 2.03436C10.7988 1.19701 9.3272 0.75 7.82174 0.75C6.31627 0.75 4.8447 1.19701 3.5936 2.03436C2.34249 2.87171 1.36818 4.06169 0.7942 5.45344Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M7.82234 7.81998C8.99397 7.81998 9.94376 6.87019 9.94376 5.69856C9.94376 4.52694 8.99397 3.57715 7.82234 3.57715C6.65072 3.57715 5.70093 4.52694 5.70093 5.69856C5.70093 6.87019 6.65072 7.81998 7.82234 7.81998Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+      Explore Scene
+    </span>
+  </div>
+);
+
 export default function Home({ userLocation }) {
   const location = useLocation();
   const title = location.hash === '#panoramas' ? 'Panoramas' : 'Home';
@@ -284,6 +288,9 @@ export default function Home({ userLocation }) {
 
   // The hero carousel shows the first 4 panoramas; the grid below shows them all.
   const stories = useMemo(() => allStories.slice(0, 4), [allStories]);
+
+  // The TOP 10 strip shows the newest stories straight from the database.
+  const topStories = useMemo(() => allStories.slice(0, TOP_STORIES_COUNT), [allStories]);
 
   // Apply the active category/favourites filters and the search query (same category
   // logic as the radar). Search matches the title or the category, case-insensitive.
@@ -698,22 +705,28 @@ export default function Home({ userLocation }) {
           <div className={styles['home__top-stories-container']} ref={top10ScrollRef}>
             <div className={styles['home__top-stories-list']}>
               {topStories.map((story, index) => (
-                <div key={index} className={styles['home__top-stories-item']} style={{ zIndex: (index + 1) * 10 }}>
+                <div key={story.documentId} className={styles['home__top-stories-item']} style={{ zIndex: (index + 1) * 10 }}>
                   <span className={styles['home__top-stories-item-number']} style={{
                     WebkitTextStrokeColor: strokeColors[index % strokeColors.length],
                     left: getLeftOffset(index)
                   }}>
                     {index + 1}
                   </span>
-                  <div className={styles['home__top-stories-item-card']} style={{ backgroundImage: `url(${story.image})` }}>
+                  <Link
+                    to={`/story?id=${story.documentId}`}
+                    className={styles['home__top-stories-item-card']}
+                    style={{ backgroundImage: `url(${gridImage(story)})` }}
+                  >
                     <AuthorBadge
-                      author={story.author || 'Emma'}
+                      author={story.user?.username || 'Emma'}
+                      color={CATEGORY_COLOR[story.category?.toLowerCase()]}
                       colorIndex={index}
                       className={styles['home__author-badge-wrapper']}
                     />
                     <div className={styles['home__top-stories-item-gradient']} />
                     <h3 className={styles['home__top-stories-item-title']}>{story.title}</h3>
-                  </div>
+                    <ExploreOverlay />
+                  </Link>
                 </div>
               ))}
             </div>
@@ -933,20 +946,7 @@ export default function Home({ userLocation }) {
                   onAdded={showFavToast}
                 />
 
-                <div className={styles['home__story-card-overlay']}>
-                  <span className={styles['home__story-card-explore']}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className={styles['home__story-card-explore-icon']}
-                      viewBox="0 0 16 12"
-                      fill="none"
-                    >
-                      <path d="M0.7942 5.45344C0.735267 5.61221 0.735267 5.78685 0.7942 5.94561C1.36818 7.33736 2.34249 8.52735 3.5936 9.3647C4.8447 10.202 6.31627 10.6491 7.82174 10.6491C9.3272 10.6491 10.7988 10.202 12.0499 9.3647C13.301 8.52735 14.2753 7.33736 14.8493 5.94561C14.9082 5.78685 14.9082 5.61221 14.8493 5.45344C14.2753 4.06169 13.301 2.87171 12.0499 2.03436C10.7988 1.19701 9.3272 0.75 7.82174 0.75C6.31627 0.75 4.8447 1.19701 3.5936 2.03436C2.34249 2.87171 1.36818 4.06169 0.7942 5.45344Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M7.82234 7.81998C8.99397 7.81998 9.94376 6.87019 9.94376 5.69856C9.94376 4.52694 8.99397 3.57715 7.82234 3.57715C6.65072 3.57715 5.70093 4.52694 5.70093 5.69856C5.70093 6.87019 6.65072 7.81998 7.82234 7.81998Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    Explore Scene
-                  </span>
-                </div>
+                <ExploreOverlay />
               </Link>
             );
           })}

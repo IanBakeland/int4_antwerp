@@ -711,6 +711,9 @@
 }
 
 .home__top-stories-item-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
   position: relative;
   width: 100%;
   height: 100%;
@@ -1814,7 +1817,8 @@
 
 /* Reveal the overlay only on hover-capable desktop pointers */
 @media (hover: hover) and (min-width: 801px) {
-  .home__stories-grid > *:hover .home__story-card-overlay {
+  .home__stories-grid > *:hover .home__story-card-overlay,
+  .home__top-stories-item-card:hover .home__story-card-overlay {
     opacity: 1;
     pointer-events: auto;
   }
