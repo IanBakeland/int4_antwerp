@@ -1,6 +1,3 @@
-h1{
-    white-space: wrap;
-}
 .fullScreenWrapper {
   position: fixed;
   top: 0;
@@ -109,29 +106,30 @@ h1{
 
 .gyroStartOverlay {
   position: absolute;
-  top: 50%;
+  top: 2.5rem;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 11rem;
   height: 2.7rem;
-  border-radius: 2.2rem;
-  background: rgba(0, 0, 0, 0.5);
   color: var(--color-white, #fff);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
   cursor: pointer;
   z-index: 20;
   font-family: var(--font-spartan);
   font-size: 1rem;
   font-weight: 600;
   pointer-events: auto;
+  gap: 0.7rem;
+  background: rgba(46, 46, 46, 0.7);
+  border: rgba(255, 255, 255, 0.1) 1.75px solid;
+  backdrop-filter: blur(4px);
+  border-radius: 999px;
+  padding: 0 1rem;
 }
 
-.gyroStartOverlayIcon {
-  width: 0.75rem;
+.gyroStartOverlay svg{
+  width: 1rem;
   color: var(--color-white, #fff);
   display: inline-block;
 }
@@ -157,11 +155,39 @@ h1{
   padding-bottom: 2.5rem;
 }
 
+.titleContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 0.5rem 0;
+}
+
 .storyTitle {
   font-family: var(--font-antwerpen);
   font-size: 2.2rem;
-  margin: 0 0 0.5rem 0;
+  margin: 0;
   color: var(--color-white, #fff);
+  white-space: normal;
+}
+
+.desktopNavButton {
+  display: none !important;
+}
+
+@media (min-width: 801px) {
+  .desktopNavButton {
+    display: flex !important;
+    pointer-events: auto;
+  }
+}
+
+.disabledNav {
+  opacity: 0.3 !important;
+  cursor: not-allowed !important;
+}
+
+.navRight svg {
+  transform: rotate(180deg);
 }
 
 .storyAuthor {
@@ -288,7 +314,6 @@ h1{
   pointer-events: auto;
 }
 
-
 @media (min-width: 801px) {
   .rightColumn {
     display: flex;
@@ -337,7 +362,6 @@ h1{
   }
 }
 
-/* "Added to favourites" toast (mobile + desktop) */
 .favToast {
   position: fixed;
   left: 50%;
