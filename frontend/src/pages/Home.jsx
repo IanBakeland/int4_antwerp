@@ -289,8 +289,12 @@ export default function Home({ userLocation }) {
   // The hero carousel shows the first 4 panoramas; the grid below shows them all.
   const stories = useMemo(() => allStories.slice(0, 4), [allStories]);
 
-  // The TOP 10 strip shows the newest stories straight from the database.
-  const topStories = useMemo(() => allStories.slice(0, TOP_STORIES_COUNT), [allStories]);
+  // The TOP 10 strip always shows 10 cards straight from the database, repeating the
+  // stories to fill when there are fewer than 10 (same idea as the grid).
+  const topStories = useMemo(() => {
+    if (allStories.length === 0) return [];
+    return Array.from({ length: TOP_STORIES_COUNT }, (_, i) => allStories[i % allStories.length]);
+  }, [allStories]);
 
   // Apply the active category/favourites filters and the search query (same category
   // logic as the radar). Search matches the title or the category, case-insensitive.
@@ -705,7 +709,7 @@ export default function Home({ userLocation }) {
           <div className={styles['home__top-stories-container']} ref={top10ScrollRef}>
             <div className={styles['home__top-stories-list']}>
               {topStories.map((story, index) => (
-                <div key={story.documentId} className={styles['home__top-stories-item']} style={{ zIndex: (index + 1) * 10 }}>
+                <div key={`${story.documentId}-${index}`} className={styles['home__top-stories-item']} style={{ zIndex: (index + 1) * 10 }}>
                   <span className={styles['home__top-stories-item-number']} style={{
                     WebkitTextStrokeColor: strokeColors[index % strokeColors.length],
                     left: getLeftOffset(index)
