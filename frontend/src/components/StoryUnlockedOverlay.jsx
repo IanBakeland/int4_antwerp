@@ -105,8 +105,9 @@ export default function StoryUnlockedOverlay({ story, isMuted, setIsMuted, hasSp
     if (sheetState === 'full' && contentRef.current?.scrollTop <= 0 && e.deltaY < 0) {
       setSheetState('half');
     } else if (sheetState === 'half') {
-      if (e.deltaY < 0) setSheetState('full');
-      else if (e.deltaY > 0) setSheetState('hidden');
+      // FIXED: Scrolling down (> 0) expands to full, Scrolling up (< 0) hides it.
+      if (e.deltaY > 0) setSheetState('full');
+      else if (e.deltaY < 0) setSheetState('hidden');
     }
   };
 
