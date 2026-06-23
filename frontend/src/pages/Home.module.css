@@ -1446,7 +1446,8 @@
     overscroll-behavior-y: auto;
     scroll-behavior: smooth;
     pointer-events: none;
-    padding: 2rem 84px 4rem 79px;
+    margin-top: 0;
+    padding: 0.75rem 84px 4rem 79px;
 
     /* No edge-fade mask on desktop; the scrollbar stays hidden for a clean look */
     mask-image: none;
