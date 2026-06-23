@@ -175,7 +175,7 @@
 @media (min-width: 801px) {
   .panoContentWrapper {
     top: 50%;
-    transform: translateY(calc(-30% + 37px));
+    transform: translateY(calc(-30% + 5px));
     bottom: auto;
     left: 135px;
     right: auto;
@@ -197,6 +197,7 @@
     line-height: 1.1;
     white-space: normal;
     margin-top: 0.5rem;
+    max-width: 450px;
   }
 
   .panoContent__description {
