@@ -39,7 +39,7 @@ export default function Favourites() {
           .map((fav, index) => `filters[documentId][$in][${index}]=${fav.documentId}`)
           .join('&');
         
-        const favRes = await fetch(`https://necessary-light-a082e19892.strapiapp.com/api/favourites?${inQuery}&populate[story][populate][0]=panorama&populate[story][populate][1]=user`, {
+        const favRes = await fetch(`https://necessary-light-a082e19892.strapiapp.com/api/favourites?${inQuery}&filters[story][state][$eq]=approved&populate[story][populate][0]=panorama&populate[story][populate][1]=user`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
