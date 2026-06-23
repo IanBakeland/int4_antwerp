@@ -227,17 +227,16 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
 
   const [stories, setStories] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  // Map of storyDocumentId -> favourite documentId, for the CURRENT logged-in user only.
   const [favMap, setFavMap] = useState({});
   
   const [apiLoaded, setApiLoaded] = useState(false);
   const [firstPanoReady, setFirstPanoReady] = useState(false);
 
   const [gyroPermission, setGyroPermission] = useState('prompt');
+  
   const [favToastVisible, setFavToastVisible] = useState(false);
   const favToastTimerRef = useRef(null);
 
-  // Briefly show an "Added to favourites" toast (auto-dismisses).
   const showFavToast = useCallback(() => {
     setFavToastVisible(true);
     clearTimeout(favToastTimerRef.current);
@@ -270,11 +269,16 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
         const token = localStorage.getItem("token");
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user", { headers });
+        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user&populate[2]=favourites&filters[state][$eq]=approved", { headers });
         if (!res.ok) throw new Error("Failed to fetch stories");
         const data = await res.json();
         
         let fetchedStories = data.data || [];
+        
+        for (let i = fetchedStories.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [fetchedStories[i], fetchedStories[j]] = [fetchedStories[j], fetchedStories[i]];
+        }
         
         const initialStoryId = searchParams.get("id");
 
@@ -287,7 +291,7 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
         } 
         
         setStories(fetchedStories);
-        
+
         if (fetchedStories.length > 0 && !initialStoryId) {
           setSearchParams({ id: fetchedStories[0].documentId }, { replace: true });
         }
@@ -301,8 +305,6 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
     fetchStories();
   }, []);
 
-  // Fetch ONLY the current user's favourites so a heart is filled solely when this
-  // specific user has favourited the story (not when anyone else has).
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) return;
@@ -337,9 +339,6 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
     return () => controller.abort();
   }, []);
 
-  // Infinite (TikTok-style) loop: clone the last slide before the first and the
-  // first slide after the last. The real slides live at display indices 1..N, so
-  // when you scroll onto a clone we instantly jump to its identical real twin.
   const N = stories.length;
   const hasLoop = N > 1;
   const loopStories = useMemo(
@@ -351,7 +350,6 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
     [hasLoop, N]
   );
 
-  // Start the feed on the real first slide (display index 1) once the loop is ready.
   useEffect(() => {
     if (!hasLoop || didInitRef.current) return;
     const container = feedRef.current;
@@ -364,7 +362,6 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
     didInitRef.current = true;
   }, [hasLoop]);
 
-  // Clean up pending timers on unmount.
   useEffect(() => () => {
     clearTimeout(scrollEndRef.current);
     clearTimeout(wheelTimeoutRef.current);
@@ -385,8 +382,6 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
       }
     }
 
-    // After scrolling settles on a clone, snap instantly to the real twin so the
-    // loop is seamless (the clone shows the identical panorama, so the jump is invisible).
     if (hasLoop) {
       clearTimeout(scrollEndRef.current);
       scrollEndRef.current = setTimeout(() => {
@@ -417,8 +412,6 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
     const direction = Math.sign(e.deltaY);
     const nextIndex = activeIndex + direction;
 
-    // Clones at index 0 and loopStories.length-1 are valid wheel targets; handleScroll
-    // then seamlessly jumps from the clone to its real twin.
     if (nextIndex >= 0 && nextIndex < loopStories.length) {
       scrollLockRef.current = true;
 
