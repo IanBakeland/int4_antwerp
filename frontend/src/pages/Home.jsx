@@ -54,12 +54,9 @@ const topStories = [
 // once there are more stories than this, all of them are shown.
 const GRID_MIN_CARDS = 20;
 
-// Prefer a smaller image format for the grid thumbnails (the full panorama is huge),
-// falling back to progressively larger sizes and finally the original.
-const gridImage = (story) =>
-  story?.panorama?.formats?.small?.url ||
-  story?.panorama?.formats?.medium?.url ||
-  story?.panorama?.url;
+// Use the original panorama image for the grid thumbnails so they stay full quality.
+// (The smaller Strapi formats looked blurry on the cards, especially the large ones.)
+const gridImage = (story) => story?.panorama?.url;
 
 // Deterministic placeholder distance (1.0–5.0 km) derived from the card index, so it
 // stays stable across renders. (Real per-user distances need the visitor's location.)
