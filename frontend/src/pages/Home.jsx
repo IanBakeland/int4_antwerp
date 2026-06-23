@@ -15,11 +15,16 @@ import logoAntwerpScenes from '../assets/images/logoantwerpscenes.png';
 import backgroundMoments from '../assets/images/backgroundmoments.png';
 import backgroundMomentsDesktop from '../assets/images/cathedral_moments.png';
 import qrCodeImg from '../assets/images/qrradar.png';
+import HeartIcon from '../assets/icons/Heart';
 import HeartFilledIcon from '../assets/icons/HeartFilled';
 import PersonIcon from '../assets/icons/Person';
 import AddCircleIcon from '../assets/icons/AddCircle';
 import FilterIcon from '../assets/icons/Filter';
 import SearchIcon from '../assets/icons/Search';
+import PersonRunningIcon from '../assets/icons/PersonRunning';
+import MonumentIcon from '../assets/icons/Monument';
+import FolderIcon from '../assets/icons/Folder';
+import PersonDoubleIcon from '../assets/icons/PersonDouble';
 import AuthorBadge from '../components/AuthorBadge';
 import FavouriteButton from '../components/FavouriteButton';
 import styles from './Home.module.css';
@@ -64,6 +69,15 @@ const pseudoDistance = (seed) => {
   const n = ((seed * 9301 + 49297) % 233280) / 233280; // 0..1, stable per seed
   return `${(1 + n * 4).toFixed(1)} km`;
 };
+
+// Category filter options for the homepage grid (same categories as the radar).
+const CATEGORIES = [
+  { label: 'Action', Icon: PersonRunningIcon, colorClass: 'home__filter-chip--lime' },
+  { label: 'Culture', Icon: MonumentIcon, colorClass: 'home__filter-chip--orange' },
+  { label: 'Business', Icon: FolderIcon, colorClass: 'home__filter-chip--blue' },
+  { label: 'Romantic', Icon: HeartIcon, colorClass: 'home__filter-chip--pink' },
+  { label: 'Social', Icon: PersonDoubleIcon, colorClass: 'home__filter-chip--green' },
+];
 
 
 const strokeColors = ['#FD7C3F', '#66A0FF', '#FF82DC', '#D2FF4B'];
@@ -141,6 +155,38 @@ export default function Home({ userLocation }) {
   const [favToastVisible, setFavToastVisible] = useState(false);
   const favToastTimerRef = useRef(null);
 
+  // Search + category filtering (same category logic as the radar).
+  const [activeFilters, setActiveFilters] = useState([]);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const filterControlsRef = useRef(null);
+
+  const handleCategoryToggle = (value) => {
+    setActiveFilters((prev) =>
+      prev.includes(value) ? prev.filter((f) => f !== value) : [...prev, value]
+    );
+  };
+
+  const toggleSearch = () => {
+    setSearchOpen((prev) => {
+      if (prev) setSearchQuery('');
+      return !prev;
+    });
+  };
+
+  // Close the category dropdown when clicking outside the filter controls.
+  useEffect(() => {
+    if (!isCategoryOpen) return;
+    const onPointerDown = (e) => {
+      if (filterControlsRef.current && !filterControlsRef.current.contains(e.target)) {
+        setIsCategoryOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', onPointerDown);
+    return () => document.removeEventListener('mousedown', onPointerDown);
+  }, [isCategoryOpen]);
+
   // Briefly show an "Added to favourites" toast (auto-dismisses).
   const showFavToast = () => {
     setFavToastVisible(true);
@@ -162,17 +208,48 @@ export default function Home({ userLocation }) {
   // The hero carousel shows the first 4 panoramas; the grid below shows them all.
   const stories = useMemo(() => allStories.slice(0, 4), [allStories]);
 
-  // Build the grid: repeat real stories until the grid looks full, but show every
-  // story once there are more than the minimum. A stable random distance is attached
-  // here (inside useMemo) so it doesn't change on every render.
+  // Apply the active category/favourites filters and the search query (same category
+  // logic as the radar). Search matches the title or the category, case-insensitive.
+  const filteredStories = useMemo(() => {
+    let result = allStories;
+
+    if (activeFilters.includes('Favourites')) {
+      result = result.filter((s) => Boolean(favMap[s.documentId]));
+    }
+
+    const categoryFilters = activeFilters
+      .filter((f) => f !== 'Favourites')
+      .map((f) => f.toLowerCase());
+    if (categoryFilters.length > 0) {
+      result = result.filter((s) => categoryFilters.includes(s.category?.toLowerCase()));
+    }
+
+    const query = searchQuery.trim().toLowerCase();
+    if (query) {
+      result = result.filter(
+        (s) =>
+          s.title?.toLowerCase().includes(query) ||
+          s.category?.toLowerCase().includes(query)
+      );
+    }
+
+    return result;
+  }, [allStories, activeFilters, searchQuery, favMap]);
+
+  const isFiltering = activeFilters.length > 0 || searchQuery.trim() !== '';
+
+  // Build the grid. When filtering/searching, show the exact matches; otherwise repeat
+  // the stories until the grid looks full. A stable distance is attached inside useMemo.
   const gridCards = useMemo(() => {
-    if (allStories.length === 0) return [];
-    const target = Math.max(GRID_MIN_CARDS, allStories.length);
+    if (filteredStories.length === 0) return [];
+    const target = isFiltering
+      ? filteredStories.length
+      : Math.max(GRID_MIN_CARDS, filteredStories.length);
     return Array.from({ length: target }, (_, i) => {
-      const story = allStories[i % allStories.length];
+      const story = filteredStories[i % filteredStories.length];
       return { story, distance: pseudoDistance(i) };
     });
-  }, [allStories]);
+  }, [filteredStories, isFiltering]);
 
   const activeStory = stories[currentPanoIndex];
   const displayIndex = currentPanoIndex;
@@ -612,6 +689,7 @@ export default function Home({ userLocation }) {
           </button>
         </div>
 
+        <div ref={filterControlsRef} className={styles['home__filter-controls']}>
         <div className={styles['home__actions-row']}>
           <Link to="/share" className={styles['home__share-story-button']}>
             <AddCircleIcon className={styles['home__share-story-button-icon']} />
@@ -619,10 +697,21 @@ export default function Home({ userLocation }) {
           </Link>
 
           <div className={styles['home__tools-container']}>
-            <button className={styles['home__tool-circle']} aria-label="Filter stories">
+            <button
+              className={`${styles['home__tool-circle']} ${activeFilters.length > 0 ? styles['home__tool-circle--active'] : ''}`}
+              aria-label="Filter stories"
+              aria-haspopup="menu"
+              aria-expanded={isCategoryOpen}
+              onClick={() => setIsCategoryOpen((prev) => !prev)}
+            >
               <FilterIcon />
             </button>
-            <button className={styles['home__tool-circle']} aria-label="Search stories">
+            <button
+              className={`${styles['home__tool-circle']} ${searchOpen ? styles['home__tool-circle--active'] : ''}`}
+              aria-label="Search stories"
+              aria-expanded={searchOpen}
+              onClick={toggleSearch}
+            >
               <SearchIcon />
             </button>
           </div>
@@ -658,19 +747,90 @@ export default function Home({ userLocation }) {
               </button>
             </div>
             <div className={styles['home__filters-divider-desktop']} />
-            <button className={styles['home__category-btn-desktop']}>
+            <button
+              className={`${styles['home__category-btn-desktop']} ${activeFilters.length > 0 ? styles['home__category-btn-desktop--active'] : ''}`}
+              aria-haspopup="menu"
+              aria-expanded={isCategoryOpen}
+              onClick={() => setIsCategoryOpen((prev) => !prev)}
+            >
               <svg width="2" height="4" viewBox="0 0 2 4" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0.583374 0.583008V3.41634" stroke="#141414" strokeWidth="1.16667" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
               <span>Category</span>
             </button>
-            <button className={styles['home__search-btn-desktop']}>
+            <button
+              className={`${styles['home__search-btn-desktop']} ${searchOpen ? styles['home__search-btn-desktop--active'] : ''}`}
+              aria-expanded={searchOpen}
+              onClick={toggleSearch}
+            >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 6.46094C0 2.89062 2.89062 0 6.45312 0C10.0156 0 12.9062 2.89062 12.9062 6.46094C12.9062 7.78906 12.5 9.01562 11.7969 10.0234L15.1641 13.4062C15.4141 13.6562 15.5469 13.9922 15.5469 14.3516C15.5469 15.1016 14.9844 15.6875 14.2188 15.6875C13.8594 15.6875 13.5156 15.5625 13.2578 15.3047L9.85938 11.9062C8.88281 12.5391 7.71875 12.9141 6.45312 12.9141C2.89062 12.9141 0 10.0234 0 6.46094ZM1.84375 6.46094C1.84375 9 3.91406 11.0703 6.45312 11.0703C9 11.0703 11.0625 9 11.0625 6.46094C11.0625 3.91406 9 1.85156 6.45312 1.85156C3.91406 1.85156 1.84375 3.91406 1.84375 6.46094Z" fill="currentColor"/>
               </svg>
               <span>Search</span>
             </button>
           </div>
+        </div>
+
+        {searchOpen && (
+          <div className={styles['home__search-bar']}>
+            <SearchIcon />
+            <input
+              type="text"
+              className={styles['home__search-input']}
+              placeholder="Search a story..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              aria-label="Search stories by title or category"
+              autoFocus
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                className={styles['home__search-clear']}
+                aria-label="Clear search"
+                onClick={() => setSearchQuery('')}
+              >
+                ✕
+              </button>
+            )}
+          </div>
+        )}
+
+        {isCategoryOpen && (
+          <div className={styles['home__filter-dropdown']} role="menu" aria-label="Categories">
+            <button
+              type="button"
+              className={`${styles['home__filter-chip']} ${activeFilters.length === 0 ? styles['home__filter-chip--active'] : ''}`}
+              onClick={() => setActiveFilters([])}
+              aria-pressed={activeFilters.length === 0}
+            >
+              All
+            </button>
+            <button
+              type="button"
+              className={`${styles['home__filter-chip']} ${activeFilters.includes('Favourites') ? styles['home__filter-chip--pink'] : ''}`}
+              onClick={() => handleCategoryToggle('Favourites')}
+              aria-pressed={activeFilters.includes('Favourites')}
+              role="menuitemcheckbox"
+            >
+              {activeFilters.includes('Favourites') ? <HeartFilledIcon /> : <HeartIcon />}
+              Favourites
+            </button>
+            {CATEGORIES.map(({ label, Icon, colorClass }) => (
+              <button
+                key={label}
+                type="button"
+                className={`${styles['home__filter-chip']} ${activeFilters.includes(label) ? styles[colorClass] : ''}`}
+                onClick={() => handleCategoryToggle(label)}
+                aria-pressed={activeFilters.includes(label)}
+                role="menuitemcheckbox"
+              >
+                <Icon />
+                {label}
+              </button>
+            ))}
+          </div>
+        )}
         </div>
 
         <div className={styles['home__stories-grid']}>
@@ -732,6 +892,12 @@ export default function Home({ userLocation }) {
             );
           })}
         </div>
+
+        {isFiltering && gridCards.length === 0 && storiesLoaded && (
+          <p className={styles['home__no-results']}>
+            No stories found. Try a different search or category.
+          </p>
+        )}
 
         {userLocation && (
           <p>Live Coordinates: {userLocation.lat}, {userLocation.lng}</p>
