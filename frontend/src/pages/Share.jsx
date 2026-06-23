@@ -15,6 +15,13 @@ import PersonDoubleIcon from '../assets/icons/PersonDouble';
 import FilterIcon from '../assets/icons/Filter';
 import SpeakerIcon from '../assets/icons/Speaker';
 
+import birdsSound from '../assets/sounds/birds.mp3';
+import citySound from '../assets/sounds/city.mp3';
+import tramSound from '../assets/sounds/tram.mp3';
+import churchSound from '../assets/sounds/church.mp3';
+import rainSound from '../assets/sounds/rain.mp3';
+import peopleSound from '../assets/sounds/people.mp3';
+
 const PinIcon = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M8.40197 14.5323C9.64197 13.4617 13.3346 9.99501 13.3346 6.66634C13.3346 5.25185 12.7727 3.8953 11.7725 2.89511C10.7723 1.89491 9.41579 1.33301 8.0013 1.33301C6.58681 1.33301 5.23026 1.89491 4.23007 2.89511C3.22987 3.8953 2.66797 5.25185 2.66797 6.66634C2.66797 9.99501 6.36064 13.4617 7.60064 14.5323C7.71615 14.6192 7.85677 14.6662 8.0013 14.6662C8.14583 14.6662 8.28645 14.6192 8.40197 14.5323Z" stroke="#5596FF" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
@@ -56,6 +63,15 @@ const SpotIcon = () => (
   </svg>
 );
 
+const SOUND_FILES = {
+  Birds: birdsSound,
+  City: citySound,
+  Tram: tramSound,
+  Church: churchSound,
+  Rain: rainSound,
+  People: peopleSound
+};
+
 export default function Share() {
   useDocumentTitle('Share your story');
   
@@ -78,6 +94,10 @@ export default function Share() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
+  const [playingSound, setPlayingSound] = useState(null);
+  const audioRef = useRef(null);
+  const previewTimeoutRef = useRef(null);
+
   const token = localStorage.getItem('token');
   const baseStoryRef = useRef('');
   const fileInputRef = useRef(null);
@@ -127,6 +147,17 @@ export default function Share() {
 
       setRecognition(rec);
     }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      if (previewTimeoutRef.current) {
+        clearTimeout(previewTimeoutRef.current);
+      }
+    };
   }, []);
 
   const handleTranscribeClick = () => {
@@ -180,6 +211,45 @@ export default function Share() {
         ? prev.filter(s => s !== sound)
         : [...prev, sound]
     );
+  };
+
+  const playPreview = (soundName) => {
+    const audioEl = audioRef.current;
+    
+    if (previewTimeoutRef.current) {
+      clearTimeout(previewTimeoutRef.current);
+    }
+
+    if (playingSound === soundName) {
+      audioEl.pause();
+      setPlayingSound(null);
+      return;
+    }
+
+    audioEl.src = SOUND_FILES[soundName];
+    audioEl.play().catch(e => console.error("Audio playback failed:", e));
+    setPlayingSound(soundName);
+
+    previewTimeoutRef.current = setTimeout(() => {
+      audioEl.pause();
+      setPlayingSound(null);
+    }, 5000);
+  };
+
+const handleSoundClick = (soundName) => {
+    const isTurningOff = soundEffects.includes(soundName);
+    toggleSound(soundName);
+    if (isTurningOff) {
+      if (playingSound === soundName && audioRef.current) {
+        audioRef.current.pause();
+        setPlayingSound(null);
+        if (previewTimeoutRef.current) {
+          clearTimeout(previewTimeoutRef.current);
+        }
+      }
+    } else {
+      playPreview(soundName);
+    }
   };
 
   const validateAndProcessFile = (file) => {
@@ -533,22 +603,22 @@ export default function Share() {
                 Select the ambient sounds that fit your story.
               </p>
               <div className={styles['share__pill-group']}>
-                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('City') ? styles.orangeTag : ''}`} onClick={() => toggleSound('City')}>
+                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('City') ? styles.orangeTag : ''}`} onClick={() => handleSoundClick('City')}>
                   <SpeakerIcon />City
                 </button>
-                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Rain') ? styles.orangeTag : ''}`} onClick={() => toggleSound('Rain')}>
+                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Rain') ? styles.orangeTag : ''}`} onClick={() => handleSoundClick('Rain')}>
                   <SpeakerIcon />Rain
                 </button>
-                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Café') ? styles.orangeTag : ''}`} onClick={() => toggleSound('Café')}>
+                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('People') ? styles.orangeTag : ''}`} onClick={() => handleSoundClick('People')}>
                   <SpeakerIcon />People
                 </button>
-                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Nature') ? styles.orangeTag : ''}`} onClick={() => toggleSound('Nature')}>
+                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Birds') ? styles.orangeTag : ''}`} onClick={() => handleSoundClick('Birds')}>
                   <SpeakerIcon />Birds
                 </button>
-                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Waves') ? styles.orangeTag : ''}`} onClick={() => toggleSound('Waves')}>
+                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Tram') ? styles.orangeTag : ''}`} onClick={() => handleSoundClick('Tram')}>
                   <SpeakerIcon />Tram
                 </button>
-                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Nightlife') ? styles.orangeTag : ''}`} onClick={() => toggleSound('Nightlife')}>
+                <button type="button" className={`${styles.filterButton} ${soundEffects.includes('Church') ? styles.orangeTag : ''}`} onClick={() => handleSoundClick('Church')}>
                   <SpeakerIcon />Church
                 </button>
               </div>
@@ -632,6 +702,9 @@ export default function Share() {
           </form>
         </div>
       )}
+      
+      <audio ref={audioRef} style={{ display: 'none' }} />
+      
     </div>
   );
 }
