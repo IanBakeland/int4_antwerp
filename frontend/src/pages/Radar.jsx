@@ -198,31 +198,6 @@ export default function Radar({
 
   }, [activeDistance, isRadarActive, isMuted, activeStory, hasSpeech]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = new FormData(e.target);
-    const inputId = data.get('storyId')?.trim();
-
-    const target = stories.find(s => s.documentId === inputId || String(s.id) === inputId);
-
-    if (!target) {
-      alert(`Error: Could not find a story with ID '${inputId}'.`);
-      return;
-    }
-
-    if (!target.latitude || !target.longitude) {
-      alert(`Error: Story ${inputId} does not have coordinates.`);
-      return;
-    }
-
-    setActiveFilters([]); 
-    setSelectedStory(target);
-  };
-
-  const handleReset = () => {
-    setSelectedStory(null);
-  };
-
   return (
     <div>
       <div className={`toolbar noDesktop noTablet`}>
@@ -317,64 +292,7 @@ export default function Radar({
 
       <audio ref={noiseAudioRef} src={whiteNoiseFile} loop playsInline />
       <audio ref={speechAudioRef} src={activeStory?.speach?.url} loop playsInline />
-
-      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-
-      <form>
-        <label htmlFor="radar-tracking-checkbox">
-          Enable Radar Tracking
-        </label>
-        <input
-          id="radar-tracking-checkbox"
-          type="checkbox"
-          checked={isRadarActive}
-          onChange={(e) => setIsRadarActive(e.target.checked)}
-        />
-      </form>
-
-      <h2>Test Location Input</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="story-id-input">Story ID: </label>
-          <input id="story-id-input" type="text" name="storyId" placeholder="Enter documentId or ID" required/>
-        </div>
-        <button type="submit">Lock Target to Story</button>
-      </form>
-
-      {selectedStory && (
-        <div style={{ marginTop: "1rem" }}>
-          <button onClick={handleReset} style={{ backgroundColor: "red", color: "white" }}>
-            Debug Reset Target
-          </button>
-        </div>
-      )}
-
-      {activeStory && (
-        <div>
-          <h3>Active Target:</h3>
-          <p>Title: {activeStory.title}</p>
-          <p>Target Lat: {activeStory.latitude}</p>
-          <p>Target Lng: {activeStory.longitude}</p>
-        </div>
-      )}
-
-      {activeDistance !== null && (
-        <div>
-          <h2>Proximity Calculation</h2>
-          <p>Distance to target: {formatDistance(activeDistance)}</p>
-        </div>
-      )}
-
-      <h2>Live Status</h2>
-      {isRadarActive ? (
-        userLocation ? (
-          <p>Live Coordinates: {userLocation.lat}, {userLocation.lng}</p>
-        ) : (
-          <p>Loading location data...</p>
-        )
-      ) : (
-        <p>Radar is disabled</p>
-      )}
+      <br/><br/><br/><br/>
     </div>
   );
 }
