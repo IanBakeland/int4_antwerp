@@ -1,18 +1,56 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import styles from "./Login.module.css";
 import antwerpLogo from "../assets/images/antwerpLogo.png";
 import PersonFilledIcon from "../assets/icons/PersonFilled";
 
-export default function Signup() {
+export default function Signup({ setToken }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Non-functional placeholder
+    setError("");
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/auth/local/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username.toLowerCase(),
+          email: email.toLowerCase(),
+          password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error?.message || "Registration failed");
+      }
+
+      localStorage.setItem("token", data.jwt);
+      setToken(data.jwt);
+      navigate("/account");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const asterisk = <span style={{ color: "#FF7D3C", marginLeft: "4px" }}>*</span>;
@@ -34,6 +72,7 @@ export default function Signup() {
             <h1>Welcome!</h1>
             <p className={styles.auth__subtitle}>Create a new account to get started</p>
           </div>
+          {error && <p style={{ color: "red" }} role="alert">{error}</p>}
           <form onSubmit={handleSubmit} className={styles['auth__form--signup']}>
             <h2 className={styles['auth__card-title']}>Create an account</h2>
 
@@ -126,8 +165,8 @@ export default function Signup() {
             </div>
 
             <div className={styles['auth__form-footer']}>
-              <button type="submit" className={`${styles['auth__submit-button']} ${styles['auth__submit-button--desktop']}`}>
-                Create account
+              <button type="submit" disabled={loading} className={`${styles['auth__submit-button']} ${styles['auth__submit-button--desktop']}`}>
+                {loading ? "Creating account..." : "Create account"}
               </button>
 
               <div className={`${styles.auth__divider} ${styles['auth__divider--desktop']}`}></div>

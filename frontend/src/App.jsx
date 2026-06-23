@@ -135,7 +135,7 @@ export default function App() {
           <Route 
             path="/signup" 
             element={
-              !token ? <Signup /> : <Navigate to="/account" replace />
+              !token ? <Signup setToken={setToken} /> : <Navigate to="/account" replace />
             } 
           />
 
