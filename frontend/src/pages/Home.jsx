@@ -32,9 +32,7 @@ import styles from './Home.module.css';
 
 const STRAPI_URL = "https://necessary-light-a082e19892.strapiapp.com";
 
-// Spelled-out ordinals for the hero panorama story counter ("One of 40+ stories…")
-const ORDINALS = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
-const getStoryCount = (index) => `${ORDINALS[index] || index + 1} of 40+ stories in Antwerp`;
+const getStoryCount = () => `One of 40+ stories in Antwerp`;
 
 // Truncate long descriptions and append an ellipsis so the hero card stays tidy.
 const truncate = (text, max = 120) => {
