@@ -25,6 +25,7 @@ import PersonRunningIcon from '../assets/icons/PersonRunning';
 import MonumentIcon from '../assets/icons/Monument';
 import FolderIcon from '../assets/icons/Folder';
 import PersonDoubleIcon from '../assets/icons/PersonDouble';
+import LocationFilledIcon from '../assets/icons/LocationFilled';
 import AuthorBadge from '../components/AuthorBadge';
 import FavouriteButton from '../components/FavouriteButton';
 import styles from './Home.module.css';
@@ -64,10 +65,44 @@ const GRID_MIN_CARDS = 20;
 const gridImage = (story) => story?.panorama?.url;
 
 // Deterministic placeholder distance (1.0–5.0 km) derived from the card index, so it
-// stays stable across renders. (Real per-user distances need the visitor's location.)
+// stays stable across renders. Only used as a fallback while we don't yet know the
+// visitor's location; once we do, the real distance is shown (same as the radar).
 const pseudoDistance = (seed) => {
   const n = ((seed * 9301 + 49297) % 233280) / 233280; // 0..1, stable per seed
   return `${(1 + n * 4).toFixed(1)} km`;
+};
+
+// Great-circle distance in metres between two lat/lng points (same maths as the radar).
+const haversineMeters = (lat1, lng1, lat2, lng2) => {
+  const earthRadius = 6371000;
+  const toRad = (deg) => (deg * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLng = toRad(lng2 - lng1);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+  return earthRadius * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+};
+
+// Format a distance the same way the radar does (metres under 1 km, otherwise km).
+const formatDistance = (meters) => {
+  if (meters == null) return '';
+  if (meters < 1000) {
+    return `${new Intl.NumberFormat('nl-BE', { maximumFractionDigits: 0 }).format(Math.round(meters))} m`;
+  }
+  return `${new Intl.NumberFormat('nl-BE', { minimumFractionDigits: 0, maximumFractionDigits: 1 }).format(meters / 1000)} km`;
+};
+
+// Category → AuthorBadge colour. The AuthorBadge already draws the matching category
+// symbol for each colour (heart/running/monument/folder/double-person), so feeding it
+// the right colour makes the badge symbol match the story's real category (see the
+// radar category filter). Same lime/orange/blue/pink/green as the filter chips.
+const CATEGORY_COLOR = {
+  action: '#D2FF4B',   // lime
+  culture: '#FF7D3C',  // orange
+  business: '#5597FE', // blue
+  romantic: '#FF82DC', // pink
+  social: '#00D77D',   // green
 };
 
 // Category filter options for the homepage grid (same categories as the radar).
@@ -257,9 +292,20 @@ export default function Home({ userLocation }) {
       : Math.max(GRID_MIN_CARDS, filteredStories.length);
     return Array.from({ length: target }, (_, i) => {
       const story = filteredStories[i % filteredStories.length];
-      return { story, distance: pseudoDistance(i) };
+      return { story, seed: i };
     });
   }, [filteredStories, isFiltering]);
+
+  // Real distance to the story when we know the visitor's location (same as the radar);
+  // otherwise a stable placeholder so the tag still reads nicely.
+  const getCardDistance = (story, seed) => {
+    if (userLocation && story?.latitude != null && story?.longitude != null) {
+      return formatDistance(
+        haversineMeters(userLocation.lat, userLocation.lng, story.latitude, story.longitude)
+      );
+    }
+    return pseudoDistance(seed);
+  };
 
   const activeStory = stories[currentPanoIndex];
   const displayIndex = currentPanoIndex;
@@ -862,8 +908,11 @@ export default function Home({ userLocation }) {
         </div>
 
         <div className={styles['home__stories-grid']}>
-          {gridCards.map(({ story, distance }, i) => {
+          {gridCards.map(({ story, seed }, i) => {
             const isLarge = (i % 11 === 0 || i % 11 === 5 || i % 11 === 6);
+            const distance = getCardDistance(story, seed);
+            // Colour the author badge by the story's real category so its symbol matches.
+            const categoryColor = CATEGORY_COLOR[story.category?.toLowerCase()];
             return (
               <Link
                 key={`${story.documentId}-${i}`}
@@ -871,28 +920,26 @@ export default function Home({ userLocation }) {
                 className={isLarge ? styles['home__story-card-large'] : styles['home__story-card-small']}
                 style={{ backgroundImage: `url(${gridImage(story)})` }}
               >
+                {/* Name tag + category symbol, top-left (padding mirrors the distance tag) */}
                 <AuthorBadge
                   author={story.user?.username || 'Emma'}
-                  colorIndex={i + 1} // Offset by 1 to differentiate from Top Stories
+                  color={categoryColor}
+                  colorIndex={i + 1} // Fallback colour when the story has no category
                   className={styles['home__author-badge-wrapper']}
                 />
-                {isLarge ? (
-                  <div className={styles['home__story-card-badge']}>
-                    <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M4.5 0C5.69047 0 6.73798 0.422548 7.64258 1.2666C8.54718 2.11076 8.99994 3.24429 9 4.66699C9 5.61553 8.62709 6.64719 7.88184 7.76172C7.13656 8.87626 6.00929 10.0833 4.5 11.3828C2.99078 10.0834 1.86342 8.87623 1.11816 7.76172C0.37296 6.64723 0 5.6155 0 4.66699C6.49664e-05 3.24429 0.452824 2.11076 1.35742 1.2666C2.26202 0.422497 3.30952 2.80738e-05 4.5 0ZM4.54395 2.22852C3.37454 2.22858 2.42685 3.17623 2.42676 4.3457C2.42676 5.51525 3.37449 6.4638 4.54395 6.46387C5.71346 6.46387 6.66211 5.51529 6.66211 4.3457C6.66202 3.17619 5.7134 2.22852 4.54395 2.22852Z" fill="white" />
-                    </svg>
-                    <span>{distance}</span>
-                  </div>
-                ) : (
-                  <div className={styles['home__story-card-badge-small']}>
-                    <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M4.5 0C5.69047 0 6.73798 0.422548 7.64258 1.2666C8.54718 2.11076 8.99994 3.24429 9 4.66699C9 5.61553 8.62709 6.64719 7.88184 7.76172C7.13656 8.87626 6.00929 10.0833 4.5 11.3828C2.99078 10.0834 1.86342 8.87623 1.11816 7.76172C0.37296 6.64723 0 5.6155 0 4.66699C6.49664e-05 3.24429 0.452824 2.11076 1.35742 1.2666C2.26202 0.422497 3.30952 2.80738e-05 4.5 0ZM4.54395 2.22852C3.37454 2.22858 2.42685 3.17623 2.42676 4.3457C2.42676 5.51525 3.37449 6.4638 4.54395 6.46387C5.71346 6.46387 6.66211 5.51529 6.66211 4.3457C6.66202 3.17619 5.7134 2.22852 4.54395 2.22852Z" fill="white" />
-                    </svg>
-                    <span>{distance}</span>
-                  </div>
-                )}
+
+                {/* Distance tag — real distance when location is known (see radar), top-right */}
+                <div className={styles['home__story-card-distance']}>
+                  <LocationFilledIcon />
+                  <span>{distance}</span>
+                </div>
+
                 <div className={styles['home__story-card-gradient']} />
-                <h3 className={styles['home__story-card-title']}>{story.title}</h3>
+
+                <div className={styles['home__story-card-footer']}>
+                  <h3 className={styles['home__story-card-title']}>{story.title}</h3>
+                </div>
+
                 <FavouriteButton
                   storyId={story.documentId}
                   initialFavouriteDocId={favMap[story.documentId]}

@@ -1347,49 +1347,96 @@
   z-index: 5;
 }
 
-.home__story-card-badge,
-.home__story-card-badge-small {
+/* On the story grid, the name tag + category symbol sit at the same inset as the
+   distance tag: same padding on top, and the same padding on the left as the
+   distance tag has on the right — so the two tags mirror each other across the card. */
+.home__stories-grid .home__author-badge-wrapper {
+  top: var(--card-pad);
+  left: var(--card-pad);
+}
+
+/* ===== Grid card tags (distance + name/category) =====
+   Each card exposes a few CSS variables so the distance tag, the category symbol
+   and the title all share one consistent height, padding and edge inset, and scale
+   together with the size of the card (small / large / desktop feature card). */
+.home__story-card-small,
+.home__story-card-large {
+  --card-pad: 0.75rem;     /* edge inset shared by every tag + the heart */
+  --tag-h: 1.5rem;         /* pill / category-symbol height */
+  --tag-px: 0.5rem;        /* horizontal padding inside the distance pill */
+  --tag-icon: 0.8125rem;   /* icon size inside the tags */
+  --tag-font: 0.75rem;     /* distance text size */
+  --title-size: 0.95rem;   /* story title size */
+}
+
+.home__story-card-large {
+  --card-pad: 0.875rem;
+  --tag-h: 1.625rem;
+  --tag-icon: 0.875rem;
+  --tag-font: 0.8rem;
+  --title-size: 1.4rem;
+}
+
+/* Distance tag: top-right, content centred in the pill */
+.home__story-card-distance {
   position: absolute;
-  width: 73px;
-  height: 26px;
-  display: flex;
+  top: var(--card-pad);
+  right: var(--card-pad);
+  z-index: 5;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  border-radius: 51px;
+  gap: 0.3rem;
+  height: var(--tag-h);
+  padding: 0 var(--tag-px);
+  border-radius: 999px;
   background: rgba(0, 0, 0, 0.50);
-  box-shadow: 0 1px 40px 0 rgba(0, 0, 0, 0.05);
-  z-index: 5;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   box-sizing: border-box;
 }
 
-.home__story-card-badge {
-  top: 14px;
-  right: 13px;
-}
-
-.home__story-card-badge-small {
-  bottom: 65px;
-  /* 25px bottom + 36px title + 4px gap */
-  left: 20px;
-}
-
-.home__story-card-badge span,
-.home__story-card-badge-small span {
-  color: #FFF;
-  text-box-trim: both;
-  text-box-edge: cap;
-  font-family: "League Spartan", var(--font-spartan);
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 28px;
-  /* 200% */
-}
-
-.home__story-card-badge svg,
-.home__story-card-badge-small svg {
+.home__story-card-distance svg {
+  width: auto;
+  height: var(--tag-icon);
+  fill: #fff;
   flex-shrink: 0;
+}
+
+.home__story-card-distance span {
+  color: #fff;
+  font-family: "League Spartan", var(--font-spartan);
+  font-size: var(--tag-font);
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* On mobile, the narrow small cards read better top-to-bottom: the distance tag
+   sits above the title on the left, instead of top-right. (Large cards and every
+   desktop card keep the distance top-right.) The bottom offset clears the title's
+   two-line maximum so the tag always sits just above it. */
+@media (max-width: 800px) {
+  .home__story-card-small .home__story-card-distance {
+    top: auto;
+    right: auto;
+    left: var(--card-pad);
+    bottom: calc(var(--card-pad) + 2.7rem);
+  }
+}
+
+/* Name tag (story title), bottom-left. Right edge clears the heart so long titles
+   never run underneath it. */
+.home__story-card-footer {
+  position: absolute;
+  left: var(--card-pad);
+  bottom: var(--card-pad);
+  right: calc(var(--card-pad) + var(--tag-h) + 0.4rem);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
 }
 
 
@@ -1506,46 +1553,26 @@
     grid-row: span 2;
   }
 
-  /* Distance badge sits top-right on every desktop card, as in the mockup,
-     regardless of which badge variant the markup rendered. */
-  .home__stories-grid .home__story-card-badge,
-  .home__stories-grid .home__story-card-badge-small {
-    top: 18px;
-    right: 18px;
-    bottom: auto;
-    left: auto;
+  /* Tag metrics on desktop. Standard (1x1) cards share one comfortable size;
+     the 2x2 feature cards step everything up so the tags stay proportional to
+     the larger image. All offsets/padding derive from these variables, so the
+     distance tag, name tag and heart stay aligned automatically. */
+  .home__stories-grid > .home__story-card-small,
+  .home__stories-grid > .home__story-card-large {
+    --card-pad: 14px;
+    --tag-h: 1.875rem;
+    --tag-icon: 0.9375rem;
+    --tag-font: 0.8125rem;
+    --title-size: 1.125rem;
   }
 
-  /* Titles follow the card's desktop footprint instead of the mobile class. */
-  .home__stories-grid > :not(:nth-child(9n + 1)):not(:nth-child(9n + 8)) .home__story-card-title {
-    font-size: 1.125rem;
-    line-height: 1.2;
-    width: auto;
-    max-height: none;
-    left: 20px;
-    right: 56px;
-    bottom: 22px;
-    white-space: normal;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-
-  .home__stories-grid > :nth-child(9n + 1) .home__story-card-title,
-  .home__stories-grid > :nth-child(9n + 8) .home__story-card-title {
-    font-size: clamp(1.5rem, 1.9vw, 1.875rem);
-    line-height: 1.15;
-    width: auto;
-    max-height: none;
-    left: 28px;
-    right: 70px;
-    bottom: 28px;
-    white-space: normal;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
+  .home__stories-grid > :nth-child(9n + 1),
+  .home__stories-grid > :nth-child(9n + 8) {
+    --card-pad: 20px;
+    --tag-h: 2.125rem;
+    --tag-icon: 1.0625rem;
+    --tag-font: 0.9375rem;
+    --title-size: clamp(1.5rem, 1.9vw, 1.875rem);
   }
 }
 
@@ -1639,50 +1666,28 @@
 }
 
 .home__story-card-title {
-  position: absolute;
-  bottom: 25px;
-  left: 20px;
-  right: 61px;
-  /* 16px right border margin + 26px heart size + 19px gap between text and heart */
+  margin: 0;
+  width: 100%;
   color: var(--color-white);
   font-family: var(--font-antwerpen);
-  font-size: 1.125rem;
+  font-size: var(--title-size);
   font-weight: 400;
-  margin: 0;
-  z-index: 2;
-  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.home__story-card-large .home__story-card-title {
-  font-size: 1.625rem;
-  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
   line-height: 1.2;
-}
-
-.home__story-card-small .home__story-card-title {
-  font-size: 1rem;
   text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
-  line-height: 1.2;
-  width: 114px;
-  max-height: 36px;
-  white-space: normal;
+  /* Clamp to two lines so the name tag stays tidy regardless of title length. */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  right: auto;
 }
 
 .home__story-card-heart {
   position: absolute;
-  bottom: 20px;
-  right: 16px;
-  /* exactly 16px from the right border */
+  bottom: var(--card-pad);
+  right: var(--card-pad);
+  /* same edge inset as the distance tag, so they line up vertically */
   z-index: 7;
   display: flex;
   align-items: center;
