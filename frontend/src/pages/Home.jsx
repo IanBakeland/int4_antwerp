@@ -630,8 +630,9 @@ export default function Home({ userLocation }) {
           {gridCards.map(({ story, distance }, i) => {
             const isLarge = (i % 11 === 0 || i % 11 === 5 || i % 11 === 6);
             return (
-              <div
+              <Link
                 key={`${story.documentId}-${i}`}
+                to={`/story?id=${story.documentId}`}
                 className={isLarge ? styles['home__story-card-large'] : styles['home__story-card-small']}
                 style={{ backgroundImage: `url(${gridImage(story)})` }}
               >
@@ -662,10 +663,7 @@ export default function Home({ userLocation }) {
                 </div>
 
                 <div className={styles['home__story-card-overlay']}>
-                  <Link
-                    to={`/story?id=${story.documentId}`}
-                    className={styles['home__story-card-explore']}
-                  >
+                  <span className={styles['home__story-card-explore']}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className={styles['home__story-card-explore-icon']}
@@ -676,10 +674,9 @@ export default function Home({ userLocation }) {
                       <path d="M7.82234 7.81998C8.99397 7.81998 9.94376 6.87019 9.94376 5.69856C9.94376 4.52694 8.99397 3.57715 7.82234 3.57715C6.65072 3.57715 5.70093 4.52694 5.70093 5.69856C5.70093 6.87019 6.65072 7.81998 7.82234 7.81998Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     Explore Scene
-                  </Link>
+                  </span>
                 </div>
-
-              </div>
+              </Link>
             );
           })}
         </div>

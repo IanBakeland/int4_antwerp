@@ -1346,6 +1346,9 @@
 }
 
 .home__story-card-large {
+  display: block;
+  text-decoration: none;
+  color: inherit;
   position: relative;
   grid-column: span 2;
   aspect-ratio: 182 / 107;
@@ -1360,6 +1363,9 @@
 }
 
 .home__story-card-small {
+  display: block;
+  text-decoration: none;
+  color: inherit;
   position: relative;
   grid-column: span 1;
   aspect-ratio: 3 / 4;
