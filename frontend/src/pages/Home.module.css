@@ -1865,7 +1865,7 @@
     left: 135px;
     right: 135px;
     top: 50%;
-    transform: translateY(calc(-30% + 37px));
+    transform: translateY(calc(-30% + 5px));
     bottom: auto;
   }
 
@@ -1885,6 +1885,7 @@
     white-space: normal;
     overflow: visible;
     margin-top: 0.5rem;
+    max-width: 450px;
   }
 
   .home__pano-content-description {
