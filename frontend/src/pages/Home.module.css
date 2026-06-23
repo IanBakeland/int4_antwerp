@@ -711,6 +711,9 @@
 }
 
 .home__top-stories-item-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
   position: relative;
   width: 100%;
   height: 100%;
@@ -735,9 +738,11 @@
 
 .home__top-stories-item-title {
   position: absolute;
-  bottom: 25px;
+  bottom: 32px;
   left: 20px;
-  right: 20px;
+  /* Narrower text column on mobile so titles wrap onto multiple lines sooner
+     (reset to the full width on desktop below). */
+  right: 90px;
   color: var(--color-white);
   font-family: var(--font-antwerpen);
   font-size: 1.625rem;
@@ -745,9 +750,10 @@
   margin: 0;
   text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
   line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  /* Wrap onto multiple lines instead of truncating with "…"; break-word keeps an
+     unusually long word from overflowing the card or touching the edges. */
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .home__pano-image.home__pano-image--static-active {
@@ -1814,7 +1820,8 @@
 
 /* Reveal the overlay only on hover-capable desktop pointers */
 @media (hover: hover) and (min-width: 801px) {
-  .home__stories-grid > *:hover .home__story-card-overlay {
+  .home__stories-grid > *:hover .home__story-card-overlay,
+  .home__top-stories-item-card:hover .home__story-card-overlay {
     opacity: 1;
     pointer-events: auto;
   }
@@ -2112,7 +2119,8 @@
   }
 
   .home__top-stories-item-title {
-    bottom: 45px;
+    bottom: 64px;
+    right: 20px;
     font-size: 2.2rem;
   }
 

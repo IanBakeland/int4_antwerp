@@ -1,13 +1,11 @@
 import { useLocation, Link } from 'react-router-dom';
 import { useState, useEffect, useRef, useMemo, Fragment } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import PanoramaViewer from '../components/PanoramaViewer';
 
-//panoramas (tijdelijk tot werking van database)
-import pano1 from '../assets/images/pano.jpeg';
-import pano2 from '../assets/images/pano2.jpeg';
-import pano3 from '../assets/images/pano3.jpeg';
-import pano4 from '../assets/images/pano4.jpeg';
+gsap.registerPlugin(ScrollTrigger);
 
 //icons
 import antwerpLogo from '../assets/images/antwerpLogo.png';
@@ -40,18 +38,9 @@ const truncate = (text, max = 120) => {
   return text.length > max ? `${text.slice(0, max).trimEnd()}…` : text;
 };
 
-const topStories = [
-  { title: "My first kiss", image: pano1 },
-  { title: "The Silent Cathedral", image: pano2 },
-  { title: "The street that inspired my carreer for painting", image: pano3 },
-  { title: "Park Spoor Noord", image: pano4 },
-  { title: "The MAS Museum", image: pano1 },
-  { title: "Central Station Echo", image: pano2 },
-  { title: "Scheldt Sunset", image: pano3 },
-  { title: "Grote Markt Lights", image: pano4 },
-  { title: "Het Steen Castle", image: pano1 },
-  { title: "Zurenborg Beauty", image: pano2 }
-];
+// How many stories the TOP 10 strip shows. It just takes the newest from the database
+// (like the grid lists stories) — it isn't a ranked top 10.
+const TOP_STORIES_COUNT = 10;
 
 
 const GRID_MIN_CARDS = 20;
@@ -117,6 +106,15 @@ const CATEGORIES = [
   { label: 'Social', Icon: PersonDoubleIcon, colorClass: 'home__filter-chip--green' },
 ];
 
+
+// The four stat blocks under the hero. `value` is the number that counts up; `suffix`
+// (e.g. "+") and `unit` (e.g. "KM") sit next to it without animating.
+const INFO_CARDS = [
+  { value: 50, suffix: '+', unit: 'KM', label: 'Across Antwerp', color: 'home__pano-info-card--orange' },
+  { value: 40, suffix: '+', unit: null, label: 'Stories', color: 'home__pano-info-card--blue' },
+  { value: 63, suffix: '', unit: null, label: 'Hidden spots', color: 'home__pano-info-card--pink' },
+  { value: 10, suffix: '', unit: null, label: 'Weekly stories', color: 'home__pano-info-card--lime' },
+];
 
 const strokeColors = ['#FD7C3F', '#66A0FF', '#FF82DC', '#D2FF4B'];
 
@@ -186,6 +184,25 @@ const ScrollBanner = ({ horizontal }) => (
   </div>
 );
 
+// Hover/tap CTA shared by the grid cards and the TOP 10 cards: a pink wash with an
+// "Explore Scene" button (revealed on hover on desktop, the card tap opens on mobile).
+const ExploreOverlay = () => (
+  <div className={styles['home__story-card-overlay']}>
+    <span className={styles['home__story-card-explore']}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className={styles['home__story-card-explore-icon']}
+        viewBox="0 0 16 12"
+        fill="none"
+      >
+        <path d="M0.7942 5.45344C0.735267 5.61221 0.735267 5.78685 0.7942 5.94561C1.36818 7.33736 2.34249 8.52735 3.5936 9.3647C4.8447 10.202 6.31627 10.6491 7.82174 10.6491C9.3272 10.6491 10.7988 10.202 12.0499 9.3647C13.301 8.52735 14.2753 7.33736 14.8493 5.94561C14.9082 5.78685 14.9082 5.61221 14.8493 5.45344C14.2753 4.06169 13.301 2.87171 12.0499 2.03436C10.7988 1.19701 9.3272 0.75 7.82174 0.75C6.31627 0.75 4.8447 1.19701 3.5936 2.03436C2.34249 2.87171 1.36818 4.06169 0.7942 5.45344Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M7.82234 7.81998C8.99397 7.81998 9.94376 6.87019 9.94376 5.69856C9.94376 4.52694 8.99397 3.57715 7.82234 3.57715C6.65072 3.57715 5.70093 4.52694 5.70093 5.69856C5.70093 6.87019 6.65072 7.81998 7.82234 7.81998Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+      Explore Scene
+    </span>
+  </div>
+);
+
 export default function Home({ userLocation }) {
   const location = useLocation();
   const title = location.hash === '#panoramas' ? 'Panoramas' : 'Home';
@@ -199,6 +216,7 @@ export default function Home({ userLocation }) {
 
   const top10Ref = useRef(null);
   const top10ScrollRef = useRef(null);
+  const infoGridRef = useRef(null);
 
   const handleScrollPrev = () => {
     if (top10ScrollRef.current) {
@@ -231,6 +249,10 @@ export default function Home({ userLocation }) {
 
   // QR-code lightbox (desktop only)
   const [qrExpanded, setQrExpanded] = useState(false);
+
+  // Becomes true once the hero panorama has loaded; gates the info-block animation so
+  // the panorama's layout shift can't disrupt it.
+  const [panoReady, setPanoReady] = useState(false);
 
   useEffect(() => {
     if (!qrExpanded) return;
@@ -284,6 +306,13 @@ export default function Home({ userLocation }) {
 
   // The hero carousel shows the first 4 panoramas; the grid below shows them all.
   const stories = useMemo(() => allStories.slice(0, 4), [allStories]);
+
+  // The TOP 10 strip always shows 10 cards straight from the database, repeating the
+  // stories to fill when there are fewer than 10 (same idea as the grid).
+  const topStories = useMemo(() => {
+    if (allStories.length === 0) return [];
+    return Array.from({ length: TOP_STORIES_COUNT }, (_, i) => allStories[i % allStories.length]);
+  }, [allStories]);
 
   // Apply the active category/favourites filters and the search query (same category
   // logic as the radar). Search matches the title or the category, case-insensitive.
@@ -349,6 +378,54 @@ export default function Home({ userLocation }) {
     mql.addEventListener('change', onChange);
     return () => mql.removeEventListener('change', onChange);
   }, []);
+
+  // Hide the info blocks (and zero their numbers) right away, before the pano-gated
+  // reveal, so there's no flash of the final state. Reduced-motion users keep them as-is.
+  useEffect(() => {
+    const grid = infoGridRef.current;
+    if (!grid || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    gsap.set(grid.children, { opacity: 0, y: 40, scale: 0.92 });
+    grid.querySelectorAll('[data-count]').forEach((el) => { el.textContent = '0'; });
+  }, []);
+
+  // Safety net: reveal anyway if the panorama never reports that it loaded.
+  useEffect(() => {
+    const t = setTimeout(() => setPanoReady(true), 4000);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Once the panorama has loaded (so its layout shift can't disrupt the timing), the
+  // info blocks rise/fade in and their numbers count up as the section scrolls into view.
+  useEffect(() => {
+    if (!panoReady) return;
+    const grid = infoGridRef.current;
+    if (!grid || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: grid, start: 'top 85%', once: true },
+      });
+      tl.to(grid.children, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.6,
+        ease: 'power3.out',
+        stagger: 0.12,
+      });
+      grid.querySelectorAll('[data-count]').forEach((el) => {
+        const counter = { value: 0 };
+        tl.to(counter, {
+          value: Number(el.dataset.count),
+          duration: 1,
+          ease: 'power1.out',
+          onUpdate: () => { el.textContent = String(Math.round(counter.value)); },
+        }, 0);
+      });
+    }, grid);
+
+    return () => ctx.revert();
+  }, [panoReady]);
 
   // Fetch all panoramas from Strapi (newest first) for both the hero carousel and the grid.
   useEffect(() => {
@@ -479,6 +556,7 @@ export default function Home({ userLocation }) {
   };
 
   const handlePanoLoaded = () => {
+    setPanoReady(true);
     if (prevPanoIndex !== null && isTransitionLoading) {
       setIsTransitionLoading(false);
       const direction = transitionDirectionRef.current;
@@ -615,25 +693,16 @@ export default function Home({ userLocation }) {
         </div>
 
         {/* Info Cards Grid */}
-        <div className={styles['home__pano-info-grid']}>
-          <div className={`${styles['home__pano-info-card']} ${styles['home__pano-info-card--orange']}`}>
-            <span className={styles['home__pano-info-card-number']}>
-              50+<span className={styles['home__pano-info-card-unit']}>KM</span>
-            </span>
-            <span className={styles['home__pano-info-card-label']}>Across Antwerp</span>
-          </div>
-          <div className={`${styles['home__pano-info-card']} ${styles['home__pano-info-card--blue']}`}>
-            <span className={styles['home__pano-info-card-number']}>40+</span>
-            <span className={styles['home__pano-info-card-label']}>Stories</span>
-          </div>
-          <div className={`${styles['home__pano-info-card']} ${styles['home__pano-info-card--pink']}`}>
-            <span className={styles['home__pano-info-card-number']}>63</span>
-            <span className={styles['home__pano-info-card-label']}>Hidden spots</span>
-          </div>
-          <div className={`${styles['home__pano-info-card']} ${styles['home__pano-info-card--lime']}`}>
-            <span className={styles['home__pano-info-card-number']}>10</span>
-            <span className={styles['home__pano-info-card-label']}>Weekly stories</span>
-          </div>
+        <div className={styles['home__pano-info-grid']} ref={infoGridRef}>
+          {INFO_CARDS.map(({ value, suffix, unit, label, color }) => (
+            <div key={label} className={`${styles['home__pano-info-card']} ${styles[color]}`}>
+              <span className={styles['home__pano-info-card-number']}>
+                <span data-count={value}>{value}</span>{suffix}
+                {unit && <span className={styles['home__pano-info-card-unit']}>{unit}</span>}
+              </span>
+              <span className={styles['home__pano-info-card-label']}>{label}</span>
+            </div>
+          ))}
         </div>
 
         {/* Desktop-only extra box */}
@@ -698,22 +767,28 @@ export default function Home({ userLocation }) {
           <div className={styles['home__top-stories-container']} ref={top10ScrollRef}>
             <div className={styles['home__top-stories-list']}>
               {topStories.map((story, index) => (
-                <div key={index} className={styles['home__top-stories-item']} style={{ zIndex: (index + 1) * 10 }}>
+                <div key={`${story.documentId}-${index}`} className={styles['home__top-stories-item']} style={{ zIndex: (index + 1) * 10 }}>
                   <span className={styles['home__top-stories-item-number']} style={{
                     WebkitTextStrokeColor: strokeColors[index % strokeColors.length],
                     left: getLeftOffset(index)
                   }}>
                     {index + 1}
                   </span>
-                  <div className={styles['home__top-stories-item-card']} style={{ backgroundImage: `url(${story.image})` }}>
+                  <Link
+                    to={`/story?id=${story.documentId}`}
+                    className={styles['home__top-stories-item-card']}
+                    style={{ backgroundImage: `url(${gridImage(story)})` }}
+                  >
                     <AuthorBadge
-                      author={story.author || 'Emma'}
+                      author={story.user?.username || 'Emma'}
+                      color={CATEGORY_COLOR[story.category?.toLowerCase()]}
                       colorIndex={index}
                       className={styles['home__author-badge-wrapper']}
                     />
                     <div className={styles['home__top-stories-item-gradient']} />
                     <h3 className={styles['home__top-stories-item-title']}>{story.title}</h3>
-                  </div>
+                    <ExploreOverlay />
+                  </Link>
                 </div>
               ))}
             </div>
@@ -933,20 +1008,7 @@ export default function Home({ userLocation }) {
                   onAdded={showFavToast}
                 />
 
-                <div className={styles['home__story-card-overlay']}>
-                  <span className={styles['home__story-card-explore']}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className={styles['home__story-card-explore-icon']}
-                      viewBox="0 0 16 12"
-                      fill="none"
-                    >
-                      <path d="M0.7942 5.45344C0.735267 5.61221 0.735267 5.78685 0.7942 5.94561C1.36818 7.33736 2.34249 8.52735 3.5936 9.3647C4.8447 10.202 6.31627 10.6491 7.82174 10.6491C9.3272 10.6491 10.7988 10.202 12.0499 9.3647C13.301 8.52735 14.2753 7.33736 14.8493 5.94561C14.9082 5.78685 14.9082 5.61221 14.8493 5.45344C14.2753 4.06169 13.301 2.87171 12.0499 2.03436C10.7988 1.19701 9.3272 0.75 7.82174 0.75C6.31627 0.75 4.8447 1.19701 3.5936 2.03436C2.34249 2.87171 1.36818 4.06169 0.7942 5.45344Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M7.82234 7.81998C8.99397 7.81998 9.94376 6.87019 9.94376 5.69856C9.94376 4.52694 8.99397 3.57715 7.82234 3.57715C6.65072 3.57715 5.70093 4.52694 5.70093 5.69856C5.70093 6.87019 6.65072 7.81998 7.82234 7.81998Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    Explore Scene
-                  </span>
-                </div>
+                <ExploreOverlay />
               </Link>
             );
           })}
