@@ -235,6 +235,7 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
 
   const [gyroPermission, setGyroPermission] = useState('prompt');
   
+  const feedContainerRef = useRef(null);
   const scrollLockRef = useRef(false);
   const wheelTimeoutRef = useRef(null);
 
@@ -279,6 +280,13 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
         
         setStories(fetchedStories);
         
+        setTimeout(() => {
+          if (feedContainerRef.current) {
+            feedContainerRef.current.scrollTop = 0;
+            feedContainerRef.current.scrollLeft = 0;
+          }
+        }, 0);
+
         if (fetchedStories.length > 0 && !initialStoryId) {
           setSearchParams({ id: fetchedStories[0].documentId }, { replace: true });
         }
@@ -290,7 +298,7 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
     };
 
     fetchStories();
-  }, []);
+  }, []); 
 
   const handleScroll = useCallback((e) => {
     const container = e.target;
@@ -372,6 +380,7 @@ export default function Story({ setToken, userLocation, formatDistance, setSelec
 
       <div 
         className={styles.feedContainer} 
+        ref={feedContainerRef}
         onScroll={handleScroll}
         onWheel={handleWheel}
       >
