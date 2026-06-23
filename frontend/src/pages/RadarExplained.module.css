@@ -3,6 +3,9 @@
   flex-direction: row;
   position: relative;
   width: 100%;
+  /* Fill the viewport (minus main's 6.5rem top/bottom margins) so the content column
+     centres vertically against the fixed illustration, like in the design. */
+  min-height: calc(100vh - 13rem);
   box-sizing: border-box;
   background-color: var(--color-white);
 }
@@ -88,8 +91,8 @@
   margin-bottom: 3rem;
   letter-spacing: -2px;
   color: var(--color-black);
-  white-space: normal !important;
-  /* Overrides the nowrap default from typography.css */
+  white-space: nowrap;
+  /* "using the RADAR" stays on one line; the <br/> handles the break after "Unlock stories" */
 }
 
 .radar-explained__title span {
@@ -154,4 +157,25 @@
 .radar-explained__step-description strong {
   font-weight: 700;
   color: #333333;
+}
+
+/* ---- Pink QR square (copied from the home page, static — no zoom) ---- */
+.radar-explained__qr-square {
+  width: 160px;
+  height: 160px;
+  margin-top: 2.5rem;
+  border-radius: 15px;
+  background: var(--color-secondary);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radar-explained__qr-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+  box-sizing: border-box;
 }
