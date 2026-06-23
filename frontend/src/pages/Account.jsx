@@ -39,6 +39,8 @@ export default function Account({ setToken }) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [saving, setSaving] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
@@ -97,8 +99,8 @@ export default function Account({ setToken }) {
 
     try {
       const updateData = {
-        username: usernameInput,
-        email: emailInput,
+        username: usernameInput.toLowerCase(),
+        email: emailInput.toLowerCase(),
       };
       if (passwordInput) {
         updateData.password = passwordInput;
@@ -129,10 +131,31 @@ export default function Account({ setToken }) {
     }
   };
 
-  const handleDeleteAccount = () => {
-    if (window.confirm("Are you sure you want to delete your account? This action is permanent.")) {
-      alert("Account deletion placeholder.");
-      handleLogout();
+  const handleDeleteAccount = async () => {
+    setDeleting(true);
+    setError("");
+
+    try {
+      const res = await fetch(`https://necessary-light-a082e19892.strapiapp.com/api/users/${user.id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error?.message || "Failed to delete account.");
+      }
+
+      localStorage.removeItem("token");
+      setToken(null);
+      navigate("/login");
+    } catch (err) {
+      setError(err.message);
+      setShowDeleteModal(false);
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -175,7 +198,7 @@ export default function Account({ setToken }) {
                       type="text"
                       className={styles['auth__input-field']}
                       value={usernameInput}
-                      onChange={(e) => setUsernameInput(e.target.value)}
+                      onChange={(e) => setUsernameInput(e.target.value.toLowerCase())}
                       required
                     />
                   </div>
@@ -190,7 +213,7 @@ export default function Account({ setToken }) {
                       type="email"
                       className={styles['auth__input-field']}
                       value={emailInput}
-                      onChange={(e) => setEmailInput(e.target.value)}
+                      onChange={(e) => setEmailInput(e.target.value.toLowerCase())}
                       required
                     />
                   </div>
@@ -223,7 +246,7 @@ export default function Account({ setToken }) {
                 <div className={styles['auth__delete-card']}>
                   <h3 className={styles['auth__delete-title']}>Delete account</h3>
                   <p className={styles['auth__delete-subtitle']}>This action cannot be undone.</p>
-                  <button type="button" onClick={handleDeleteAccount} className={styles['auth__delete-link']}>
+                  <button type="button" onClick={() => setShowDeleteModal(true)} className={styles['auth__delete-link']}>
                     Delete my account
                   </button>
                 </div>
@@ -246,6 +269,43 @@ export default function Account({ setToken }) {
         </div>
       </div>
       <div className={styles['auth__background--account']}></div>
+
+      {showDeleteModal && (
+        <div
+          className={styles['auth__modal-overlay']}
+          onClick={() => !deleting && setShowDeleteModal(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="delete-modal-title"
+        >
+          <div className={styles['auth__modal']} onClick={(e) => e.stopPropagation()}>
+            <h3 id="delete-modal-title" className={styles['auth__modal-title']}>
+              Delete account
+            </h3>
+            <p className={styles['auth__modal-text']}>
+              Are you sure you want to delete your account? This action cannot be undone.
+            </p>
+            <div className={styles['auth__modal-actions']}>
+              <button
+                type="button"
+                onClick={handleDeleteAccount}
+                disabled={deleting}
+                className={styles['auth__modal-confirm']}
+              >
+                {deleting ? "Deleting..." : "Yes, delete"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowDeleteModal(false)}
+                disabled={deleting}
+                className={styles['auth__modal-cancel']}
+              >
+                No, cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
