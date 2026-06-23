@@ -1,5 +1,5 @@
 import { useLocation, Link } from 'react-router-dom';
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, Fragment } from 'react';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import PanoramaViewer from '../components/PanoramaViewer';
 
@@ -60,9 +60,19 @@ const topStories = [
 // once there are more stories than this, all of them are shown.
 const GRID_MIN_CARDS = 20;
 
-// Use the original panorama image for the grid thumbnails so they stay full quality.
-// (The smaller Strapi formats looked blurry on the cards, especially the large ones.)
-const gridImage = (story) => story?.panorama?.url;
+// Grid image source. Standard cards use Strapi's "large" variant — high quality but a
+// fraction of the weight of the full panorama (which is several MB each). The big 2x2
+// feature cards use the full original (the only thing sharper than "large") so they
+// stay crisp at their larger size. Falls back gracefully when a variant is missing.
+const gridImage = (story, useOriginal) =>
+  (useOriginal && story?.panorama?.url) ||
+  story?.panorama?.formats?.large?.url ||
+  story?.panorama?.formats?.medium?.url ||
+  story?.panorama?.url;
+
+// Desktop renders the 1st and 8th card of every 9 as a large 2x2 "feature" card
+// (see the :nth-child(9n + 1) / :nth-child(9n + 8) rules in the CSS).
+const isFeatureCard = (index) => index % 9 === 0 || index % 9 === 7;
 
 // Deterministic placeholder distance (1.0–5.0 km) derived from the card index, so it
 // stays stable across renders. Only used as a fallback while we don't yet know the
@@ -152,6 +162,35 @@ const DividerSVG = ({ color }) => (
     <path d="M29.9435 19.2368L26.4572 21.0419L28.2623 24.5282L31.7486 22.7231L29.9435 19.2368Z" fill="currentColor" />
     <path d="M28.2616 24.5278L24.7754 26.3329L26.5804 29.8192L30.0667 28.0141L28.2616 24.5278Z" fill="currentColor" />
   </svg>
+);
+
+// Words for the marquee banners, each with the colour of the divider that follows it.
+const BANNER_ITEMS = [
+  { label: 'RADAR', color: '#66A0FF' },
+  { label: 'PANORAMIC SCENES', color: '#FF82DC' },
+  { label: 'RELIVE MOMENTS', color: '#D2FF4B' },
+  { label: 'LOCAL LIFE', color: '#66A0FF' },
+];
+
+// One copy of the marquee words; the track renders it twice for seamless looping.
+const BannerContent = ({ ariaHidden }) => (
+  <div className={styles['home__scroll-banner-content']} aria-hidden={ariaHidden || undefined}>
+    {BANNER_ITEMS.map(({ label, color }) => (
+      <Fragment key={label}>
+        <span>{label}</span>
+        <DividerSVG color={color} />
+      </Fragment>
+    ))}
+  </div>
+);
+
+const ScrollBanner = ({ horizontal }) => (
+  <div className={`${styles['home__scroll-banner']}${horizontal ? ` ${styles['home__scroll-banner--horizontal']}` : ''}`}>
+    <div className={styles['home__scroll-banner-track']}>
+      <BannerContent />
+      <BannerContent ariaHidden />
+    </div>
+  </div>
 );
 
 export default function Home({ userLocation }) {
@@ -308,7 +347,6 @@ export default function Home({ userLocation }) {
   };
 
   const activeStory = stories[currentPanoIndex];
-  const displayIndex = currentPanoIndex;
   const descMaxLength = isDesktop ? 90 : 120;
 
   // Track desktop breakpoint so the hero description can be truncated a bit shorter on desktop.
@@ -576,7 +614,7 @@ export default function Home({ userLocation }) {
           {stories.map((_, index) => (
             <button
               key={index}
-              className={`${styles['home__pano-pagination-dot']} ${index === displayIndex ? styles['home__pano-pagination-dot--active'] : ''}`}
+              className={`${styles['home__pano-pagination-dot']} ${index === currentPanoIndex ? styles['home__pano-pagination-dot--active'] : ''}`}
               onClick={() => navigateToPano(index)}
               aria-label={`Go to slide ${index + 1}`}
             />
@@ -646,7 +684,7 @@ export default function Home({ userLocation }) {
           </p>
 
           <Link to="/radar" className={styles['home__radar-button']}>
-            Radar <span className={styles.discoverSpotsButton__arrow || ''}>→</span>
+            Radar <span>→</span>
           </Link>
         </div>
 
@@ -655,55 +693,8 @@ export default function Home({ userLocation }) {
           <img src={backgroundMoments} alt="" className={styles['home__background-moments']} aria-hidden="true" />
         </picture>
 
-        <div className={styles['home__scroll-banner']}>
-          <div className={styles['home__scroll-banner-track']}>
-            <div className={styles['home__scroll-banner-content']}>
-              <span>RADAR</span>
-              <DividerSVG color="#66A0FF" />
-              <span>PANORAMIC SCENES</span>
-              <DividerSVG color="#FF82DC" />
-              <span>RELIVE MOMENTS</span>
-              <DividerSVG color="#D2FF4B" />
-              <span>LOCAL LIFE</span>
-              <DividerSVG color="#66A0FF" />
-            </div>
-            <div className={styles['home__scroll-banner-content']} aria-hidden="true">
-              <span>RADAR</span>
-              <DividerSVG color="#66A0FF" />
-              <span>PANORAMIC SCENES</span>
-              <DividerSVG color="#FF82DC" />
-              <span>RELIVE MOMENTS</span>
-              <DividerSVG color="#D2FF4B" />
-              <span>LOCAL LIFE</span>
-              <DividerSVG color="#66A0FF" />
-            </div>
-          </div>
-        </div>
-
-        <div className={`${styles['home__scroll-banner']} ${styles['home__scroll-banner--horizontal']}`}>
-          <div className={styles['home__scroll-banner-track']}>
-            <div className={styles['home__scroll-banner-content']}>
-              <span>RADAR</span>
-              <DividerSVG color="#66A0FF" />
-              <span>PANORAMIC SCENES</span>
-              <DividerSVG color="#FF82DC" />
-              <span>RELIVE MOMENTS</span>
-              <DividerSVG color="#D2FF4B" />
-              <span>LOCAL LIFE</span>
-              <DividerSVG color="#66A0FF" />
-            </div>
-            <div className={styles['home__scroll-banner-content']} aria-hidden="true">
-              <span>RADAR</span>
-              <DividerSVG color="#66A0FF" />
-              <span>PANORAMIC SCENES</span>
-              <DividerSVG color="#FF82DC" />
-              <span>RELIVE MOMENTS</span>
-              <DividerSVG color="#D2FF4B" />
-              <span>LOCAL LIFE</span>
-              <DividerSVG color="#66A0FF" />
-            </div>
-          </div>
-        </div>
+        <ScrollBanner />
+        <ScrollBanner horizontal />
 
         <div id="top-10" ref={top10Ref} className={styles['home__top-stories-title-wrapper']}>
           <h2 className={styles['home__top-stories-title-top']}>TOP 10</h2>
@@ -918,7 +909,7 @@ export default function Home({ userLocation }) {
                 key={`${story.documentId}-${i}`}
                 to={`/story?id=${story.documentId}`}
                 className={isLarge ? styles['home__story-card-large'] : styles['home__story-card-small']}
-                style={{ backgroundImage: `url(${gridImage(story)})` }}
+                style={{ backgroundImage: `url(${gridImage(story, isFeatureCard(i))})` }}
               >
                 {/* Name tag + category symbol, top-left (padding mirrors the distance tag) */}
                 <AuthorBadge
@@ -972,10 +963,6 @@ export default function Home({ userLocation }) {
           <p className={styles['home__no-results']}>
             No stories found. Try a different search or category.
           </p>
-        )}
-
-        {userLocation && (
-          <p>Live Coordinates: {userLocation.lat}, {userLocation.lng}</p>
         )}
 
         <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none' }}>

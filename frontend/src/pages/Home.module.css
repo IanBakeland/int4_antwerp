@@ -28,25 +28,6 @@
   align-items: center;
 }
 
-.home__top-nav-icon {
-  color: var(--color-dark-gray);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  transition: opacity 0.25s ease;
-}
-
-.home__top-nav-icon:hover {
-  opacity: 0.7;
-}
-
-.home__top-nav-icon svg {
-  width: 1.5rem;
-  height: 1.5rem;
-  fill: currentColor;
-}
-
 @media (min-width: 801px) {
   .home__mobile-nav {
     display: none !important;
