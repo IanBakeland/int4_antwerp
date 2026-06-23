@@ -1,5 +1,5 @@
 import { useLocation, Link } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import PanoramaViewer from '../components/PanoramaViewer';
 
@@ -15,41 +15,26 @@ import logoAntwerpScenes from '../assets/images/logoantwerpscenes.png';
 import backgroundMoments from '../assets/images/backgroundmoments.png';
 import backgroundMomentsDesktop from '../assets/images/cathedral_moments.png';
 import qrCodeImg from '../assets/images/qrradar.png';
-import HeartIcon from '../assets/icons/Heart';
+import HeartFilledIcon from '../assets/icons/HeartFilled';
 import PersonIcon from '../assets/icons/Person';
 import AddCircleIcon from '../assets/icons/AddCircle';
 import FilterIcon from '../assets/icons/Filter';
 import SearchIcon from '../assets/icons/Search';
-import UserCircleIcon from '../assets/icons/UserCircle';
 import AuthorBadge from '../components/AuthorBadge';
+import FavouriteButton from '../components/FavouriteButton';
 import styles from './Home.module.css';
 
-const stories = [
-  {
-    image: pano1,
-    storyCount: "One of 40+ stories in Antwerp",
-    title: "My first kiss",
-    description: "Step into the place where Emma’s first kiss became a lasting memory."
-  },
-  {
-    image: pano2,
-    storyCount: "Two of 40+ stories in Antwerp",
-    title: "The Silent Cathedral",
-    description: "Listen to the quiet echo of the historic bells in the heart of the city."
-  },
-  {
-    image: pano3,
-    storyCount: "Three of 40+ stories in Antwerp",
-    title: "The street that inspired my carreer for painting",
-    description: "Gaze at the futuristic lines merging with the historical harbor docks."
-  },
-  {
-    image: pano4,
-    storyCount: "Four of 40+ stories in Antwerp",
-    title: "Park Spoor Noord",
-    description: "Feel the vibrant summer energy of Antwerp's green oasis."
-  }
-];
+const STRAPI_URL = "https://necessary-light-a082e19892.strapiapp.com";
+
+// Spelled-out ordinals for the hero panorama story counter ("One of 40+ stories…")
+const ORDINALS = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
+const getStoryCount = (index) => `${ORDINALS[index] || index + 1} of 40+ stories in Antwerp`;
+
+// Truncate long descriptions and append an ellipsis so the hero card stays tidy.
+const truncate = (text, max = 120) => {
+  if (!text) return "";
+  return text.length > max ? `${text.slice(0, max).trimEnd()}…` : text;
+};
 
 const topStories = [
   { title: "My first kiss", image: pano1 },
@@ -64,16 +49,24 @@ const topStories = [
   { title: "Zurenborg Beauty", image: pano2 }
 ];
 
-const gridStories = Array.from({ length: 20 }, (_, index) => {
-  // Random number between 1 and 5 with 1 decimal place
-  const randomDist = (Math.random() * (5 - 1) + 1).toFixed(1);
-  return {
-    id: index + 1,
-    title: index === 5 ? "The street that inspired my carreer for painting" : (index === 1 ? "A sudden adventure" : "My first kiss"),
-    image: pano1,
-    distance: `${randomDist} km`
-  };
-});
+// Minimum number of cards to keep the grid visually full while the database is
+// still light on content. Real entries are repeated until this count is reached;
+// once there are more stories than this, all of them are shown.
+const GRID_MIN_CARDS = 20;
+
+// Prefer a smaller image format for the grid thumbnails (the full panorama is huge),
+// falling back to progressively larger sizes and finally the original.
+const gridImage = (story) =>
+  story?.panorama?.formats?.small?.url ||
+  story?.panorama?.formats?.medium?.url ||
+  story?.panorama?.url;
+
+// Deterministic placeholder distance (1.0–5.0 km) derived from the card index, so it
+// stays stable across renders. (Real per-user distances need the visitor's location.)
+const pseudoDistance = (seed) => {
+  const n = ((seed * 9301 + 49297) % 233280) / 233280; // 0..1, stable per seed
+  return `${(1 + n * 4).toFixed(1)} km`;
+};
 
 
 const strokeColors = ['#FD7C3F', '#66A0FF', '#FF82DC', '#D2FF4B'];
@@ -141,6 +134,24 @@ export default function Home({ userLocation }) {
     }
   };
   const [homeFilter, setHomeFilter] = useState('All');
+  const [allStories, setAllStories] = useState([]);
+  const [storiesLoaded, setStoriesLoaded] = useState(false);
+  // Map of storyDocumentId -> favourite documentId, for the CURRENT logged-in user only.
+  const [favMap, setFavMap] = useState({});
+  const [isDesktop, setIsDesktop] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(min-width: 801px)').matches
+  );
+  const [favToastVisible, setFavToastVisible] = useState(false);
+  const favToastTimerRef = useRef(null);
+
+  // Briefly show an "Added to favourites" toast (auto-dismisses).
+  const showFavToast = () => {
+    setFavToastVisible(true);
+    clearTimeout(favToastTimerRef.current);
+    favToastTimerRef.current = setTimeout(() => setFavToastVisible(false), 2200);
+  };
+
+  useEffect(() => () => clearTimeout(favToastTimerRef.current), []);
   const [currentPanoIndex, setCurrentPanoIndex] = useState(0);
   const [prevPanoIndex, setPrevPanoIndex] = useState(null);
   const [transitionClass, setTransitionClass] = useState('slide-active');
@@ -150,20 +161,109 @@ export default function Home({ userLocation }) {
 
   const transitionDirectionRef = useRef('next');
   const transitionFallbackRef = useRef(null);
+
+  // The hero carousel shows the first 4 panoramas; the grid below shows them all.
+  const stories = useMemo(() => allStories.slice(0, 4), [allStories]);
+
+  // Build the grid: repeat real stories until the grid looks full, but show every
+  // story once there are more than the minimum. A stable random distance is attached
+  // here (inside useMemo) so it doesn't change on every render.
+  const gridCards = useMemo(() => {
+    if (allStories.length === 0) return [];
+    const target = Math.max(GRID_MIN_CARDS, allStories.length);
+    return Array.from({ length: target }, (_, i) => {
+      const story = allStories[i % allStories.length];
+      return { story, distance: pseudoDistance(i) };
+    });
+  }, [allStories]);
+
   const activeStory = stories[currentPanoIndex];
   const displayIndex = currentPanoIndex;
+  const descMaxLength = isDesktop ? 90 : 120;
+
+  // Track desktop breakpoint so the hero description can be truncated a bit shorter on desktop.
+  useEffect(() => {
+    const mql = window.matchMedia('(min-width: 801px)');
+    const onChange = (e) => setIsDesktop(e.matches);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, []);
+
+  // Fetch all panoramas from Strapi (newest first) for both the hero carousel and the grid.
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const fetchStories = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+        const res = await fetch(
+          `${STRAPI_URL}/api/stories?populate[0]=panorama&populate[1]=user&sort=createdAt:desc&pagination[pageSize]=100`,
+          { headers, signal: controller.signal }
+        );
+        if (!res.ok) throw new Error('Failed to fetch panoramas');
+        const data = await res.json();
+        // Keep only entries that actually have a panorama image.
+        setAllStories((data.data || []).filter((story) => story?.panorama?.url));
+      } catch (err) {
+        if (err.name !== 'AbortError') console.error(err);
+      } finally {
+        setStoriesLoaded(true);
+      }
+    };
+
+    fetchStories();
+    return () => controller.abort();
+  }, []);
+
+  // Fetch ONLY the current user's favourites so a heart is filled solely when this
+  // specific user has favourited the story (not when anyone else has).
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    const controller = new AbortController();
+
+    const fetchFavourites = async () => {
+      try {
+        const headers = { Authorization: `Bearer ${token}` };
+        const meRes = await fetch(`${STRAPI_URL}/api/users/me`, { headers, signal: controller.signal });
+        if (!meRes.ok) throw new Error('Failed to fetch user');
+        const me = await meRes.json();
+
+        const favRes = await fetch(
+          `${STRAPI_URL}/api/favourites?filters[user][id][$eq]=${me.id}&populate=story&pagination[pageSize]=200`,
+          { headers, signal: controller.signal }
+        );
+        if (!favRes.ok) throw new Error('Failed to fetch favourites');
+        const favData = await favRes.json();
+
+        const map = {};
+        (favData.data || []).forEach((fav) => {
+          const storyDocId = fav.story?.documentId;
+          if (storyDocId) map[storyDocId] = fav.documentId;
+        });
+        setFavMap(map);
+      } catch (err) {
+        if (err.name !== 'AbortError') console.error(err);
+      }
+    };
+
+    fetchFavourites();
+    return () => controller.abort();
+  }, []);
 
   useEffect(() => {
     // Intelligent Adjacent Preloading: preload only next and previous panoramas relative to active index
+    if (stories.length === 0) return;
     const nextIndex = (currentPanoIndex + 1) % stories.length;
     const prevIndex = (currentPanoIndex - 1 + stories.length) % stories.length;
 
     const nextImg = new Image();
-    nextImg.src = stories[nextIndex].image;
+    nextImg.src = stories[nextIndex].panorama?.url;
 
     const prevImg = new Image();
-    prevImg.src = stories[prevIndex].image;
-  }, [currentPanoIndex]);
+    prevImg.src = stories[prevIndex].panorama?.url;
+  }, [currentPanoIndex, stories]);
 
   // Smooth scroll to TOP 10 section when navigating via the Panorama's navbar link
   useEffect(() => {
@@ -284,38 +384,41 @@ export default function Home({ userLocation }) {
         <div
           className={styles['home__pano-wrapper']}
           role="region"
-          aria-label={`360 degree panorama viewer displaying: ${activeStory.title}`}
+          aria-label={`360 degree panorama viewer displaying: ${activeStory?.title || 'panorama'}`}
         >
-          {prevPanoIndex !== null && (
+          {prevPanoIndex !== null && stories[prevPanoIndex] && (
             <div
               className={`${styles['home__pano-image']} ${styles['home__static-slide']} ${transitionClassMap[prevTransitionClass]}`}
               onTransitionEnd={handleTransitionEnd}
             >
-              <img src={stories[prevPanoIndex].image} alt="" className={styles['home__static-slide-image']} />
+              <img src={stories[prevPanoIndex].panorama?.url} alt="" className={styles['home__static-slide-image']} />
               <div className={styles['home__pano-gradient-overlay']} />
               <div className={styles['home__pano-content-wrapper']}>
-                <p className={styles['home__pano-content-story-count']}>{stories[prevPanoIndex].storyCount}</p>
+                <p className={styles['home__pano-content-story-count']}>{getStoryCount(prevPanoIndex)}</p>
                 <h2 className={styles['home__pano-content-title']}>{stories[prevPanoIndex].title}</h2>
-                <p className={styles['home__pano-content-description']}>{stories[prevPanoIndex].description}</p>
+                <p className={styles['home__pano-content-description']}>{truncate(stories[prevPanoIndex].preview, descMaxLength)}</p>
               </div>
             </div>
           )}
 
-          {isTransitionLoading && (
+          {(isTransitionLoading || !storiesLoaded) && (
             <div className={styles.transitionSpinnerWrapper}>
               <div className={styles.spinner} />
             </div>
           )}
-          <PanoramaViewer
-            image={activeStory.image}
-            storyCount={activeStory.storyCount}
-            title={activeStory.title}
-            description={activeStory.description}
-            onNext={handleNext}
-            onPrev={handlePrev}
-            onLoaded={handlePanoLoaded}
-            className={`${styles['home__pano-image']} ${transitionClassMap[transitionClass]}`}
-          />
+          {activeStory && (
+            <PanoramaViewer
+              image={activeStory.panorama?.url}
+              storyCount={getStoryCount(currentPanoIndex)}
+              title={activeStory.title}
+              description={truncate(activeStory.preview, descMaxLength)}
+              exploreTo={`/story?id=${activeStory.documentId}`}
+              onNext={handleNext}
+              onPrev={handlePrev}
+              onLoaded={handlePanoLoaded}
+              className={`${styles['home__pano-image']} ${transitionClassMap[transitionClass]}`}
+            />
+          )}
 
           {/* Desktop navigation circles */}
           <button
@@ -574,16 +677,17 @@ export default function Home({ userLocation }) {
         </div>
 
         <div className={styles['home__stories-grid']}>
-          {gridStories.map((story, i) => {
+          {gridCards.map(({ story, distance }, i) => {
             const isLarge = (i % 11 === 0 || i % 11 === 5 || i % 11 === 6);
             return (
-              <div
-                key={i}
+              <Link
+                key={`${story.documentId}-${i}`}
+                to={`/story?id=${story.documentId}`}
                 className={isLarge ? styles['home__story-card-large'] : styles['home__story-card-small']}
-                style={{ backgroundImage: `url(${story.image})` }}
+                style={{ backgroundImage: `url(${gridImage(story)})` }}
               >
                 <AuthorBadge
-                  author="Emma"
+                  author={story.user?.username || 'Emma'}
                   colorIndex={i + 1} // Offset by 1 to differentiate from Top Stories
                   className={styles['home__author-badge-wrapper']}
                 />
@@ -592,28 +696,29 @@ export default function Home({ userLocation }) {
                     <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M4.5 0C5.69047 0 6.73798 0.422548 7.64258 1.2666C8.54718 2.11076 8.99994 3.24429 9 4.66699C9 5.61553 8.62709 6.64719 7.88184 7.76172C7.13656 8.87626 6.00929 10.0833 4.5 11.3828C2.99078 10.0834 1.86342 8.87623 1.11816 7.76172C0.37296 6.64723 0 5.6155 0 4.66699C6.49664e-05 3.24429 0.452824 2.11076 1.35742 1.2666C2.26202 0.422497 3.30952 2.80738e-05 4.5 0ZM4.54395 2.22852C3.37454 2.22858 2.42685 3.17623 2.42676 4.3457C2.42676 5.51525 3.37449 6.4638 4.54395 6.46387C5.71346 6.46387 6.66211 5.51529 6.66211 4.3457C6.66202 3.17619 5.7134 2.22852 4.54395 2.22852Z" fill="white" />
                     </svg>
-                    <span>{story.distance}</span>
+                    <span>{distance}</span>
                   </div>
                 ) : (
                   <div className={styles['home__story-card-badge-small']}>
                     <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M4.5 0C5.69047 0 6.73798 0.422548 7.64258 1.2666C8.54718 2.11076 8.99994 3.24429 9 4.66699C9 5.61553 8.62709 6.64719 7.88184 7.76172C7.13656 8.87626 6.00929 10.0833 4.5 11.3828C2.99078 10.0834 1.86342 8.87623 1.11816 7.76172C0.37296 6.64723 0 5.6155 0 4.66699C6.49664e-05 3.24429 0.452824 2.11076 1.35742 1.2666C2.26202 0.422497 3.30952 2.80738e-05 4.5 0ZM4.54395 2.22852C3.37454 2.22858 2.42685 3.17623 2.42676 4.3457C2.42676 5.51525 3.37449 6.4638 4.54395 6.46387C5.71346 6.46387 6.66211 5.51529 6.66211 4.3457C6.66202 3.17619 5.7134 2.22852 4.54395 2.22852Z" fill="white" />
                     </svg>
-                    <span>{story.distance}</span>
+                    <span>{distance}</span>
                   </div>
                 )}
                 <div className={styles['home__story-card-gradient']} />
                 <h3 className={styles['home__story-card-title']}>{story.title}</h3>
-                <div className={styles['home__story-card-heart']}>
-                  <HeartIcon />
-                </div>
+                <FavouriteButton
+                  storyId={story.documentId}
+                  initialFavouriteDocId={favMap[story.documentId]}
+                  className={styles['home__story-card-heart']}
+                  activeClassName={styles['home__story-card-heart--active']}
+                  notLoggedInPath="/favourites"
+                  onAdded={showFavToast}
+                />
 
                 <div className={styles['home__story-card-overlay']}>
-                  <button
-                    type="button"
-                    className={styles['home__story-card-explore']}
-                    onClick={(e) => e.preventDefault()}
-                  >
+                  <span className={styles['home__story-card-explore']}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className={styles['home__story-card-explore-icon']}
@@ -624,10 +729,9 @@ export default function Home({ userLocation }) {
                       <path d="M7.82234 7.81998C8.99397 7.81998 9.94376 6.87019 9.94376 5.69856C9.94376 4.52694 8.99397 3.57715 7.82234 3.57715C6.65072 3.57715 5.70093 4.52694 5.70093 5.69856C5.70093 6.87019 6.65072 7.81998 7.82234 7.81998Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     Explore Scene
-                  </button>
+                  </span>
                 </div>
-
-              </div>
+              </Link>
             );
           })}
         </div>
@@ -649,6 +753,15 @@ export default function Home({ userLocation }) {
             </clipPath>
           </defs>
         </svg>
+      </div>
+
+      <div
+        className={`${styles['home__toast']} ${favToastVisible ? styles['home__toast--visible'] : ''}`}
+        role="status"
+        aria-live="polite"
+      >
+        <HeartFilledIcon />
+        <span>Added to favourites</span>
       </div>
     </>
   );
