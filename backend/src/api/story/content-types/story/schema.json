@@ -36,6 +36,9 @@
     "story": {
       "type": "richtext"
     },
+    "hiddenSpots": {
+      "type": "json"
+    },
     "soundEffects": {
       "type": "json"
     },
