@@ -163,7 +163,7 @@ h2{
 
 .scrollDisabled {
   overflow-y: hidden;
-  touch-action: pan-y;
+  touch-action: none; /* CRITICAL: Prevents the mobile browser from swallowing swipes */
 }
 
 .imageContainer {
