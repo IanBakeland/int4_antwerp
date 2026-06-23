@@ -1030,17 +1030,18 @@
     background: #FFF;
     border: none;
     cursor: pointer;
-    
+
     /* Typography settings requested by user */
     color: #000;
     font-family: var(--font-spartan);
     font-size: 18px;
     font-style: normal;
     font-weight: 500;
-    line-height: 28px; /* 155.556% */
+    line-height: 28px;
+    /* 155.556% */
     text-box-trim: both;
     text-box-edge: cap;
-    
+
     transition: background-color 0.2s ease, color 0.2s ease;
   }
 
