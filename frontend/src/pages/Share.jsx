@@ -342,9 +342,14 @@ export default function Share() {
     }
   };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
+
+    if (!userId || !token) {
+      setErrorMessage('Je moet ingelogd zijn om een verhaal te delen.');
+      return;
+    }
 
     if (!title || !location || !story || spots.length === 0 || !panoramaFile) {
       setErrorMessage('Vul alle verplichte velden in en upload een panorama.');
@@ -367,6 +372,8 @@ export default function Share() {
       const uploadData = await uploadRes.json();
       const imageId = uploadData[0].id;
 
+      const formattedSounds = soundEffects.map(sound => `${sound.toLowerCase()}.mp3`);
+
       const storyPayload = {
         data: {
           title: title,
@@ -374,9 +381,13 @@ export default function Share() {
           story: story,
           category: category,
           hiddenSpots: spots,
-          soundEffects: soundEffects,
+          soundEffects: formattedSounds,
           panorama: imageId,
-          user: userId
+          user: userId,
+          state: 'pending',
+          latitude: null,
+          longitude: null,
+          speach: null
         }
       };
 

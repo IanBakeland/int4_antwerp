@@ -68,6 +68,7 @@
     },
     "state": {
       "type": "enumeration",
+      "default": "pending",
       "enum": [
         "pending",
         "approved",
