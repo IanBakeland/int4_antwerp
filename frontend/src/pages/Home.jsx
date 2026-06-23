@@ -198,7 +198,7 @@ export default function Home({ userLocation }) {
         const token = localStorage.getItem('token');
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
         const res = await fetch(
-          `${STRAPI_URL}/api/stories?populate[0]=panorama&populate[1]=user&sort=createdAt:desc&pagination[pageSize]=100`,
+          `${STRAPI_URL}/api/stories?filters[state][$eq]=approved&populate[0]=panorama&populate[1]=user&sort=createdAt:desc&pagination[pageSize]=100`,
           { headers, signal: controller.signal }
         );
         if (!res.ok) throw new Error('Failed to fetch panoramas');
