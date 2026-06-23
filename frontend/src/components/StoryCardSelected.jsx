@@ -71,7 +71,7 @@ export default function StoryCardSelected({ id, title, category, username, image
         </div>
         <div className="iconTag dark">
           <StarFilledIcon />
-          <p>{hiddenSpots} hidden spots</p>
+          <p>{hiddenSpots?.length || 0} hidden spots</p>
         </div>
       </div>
       <div>

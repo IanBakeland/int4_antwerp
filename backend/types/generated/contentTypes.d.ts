@@ -529,16 +529,18 @@ export interface ApiStoryStory extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::favourite.favourite'
     >;
-    hiddenSpots: Schema.Attribute.Integer;
+    hiddenSpots: Schema.Attribute.JSON;
     latitude: Schema.Attribute.Float;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::story.story'> &
       Schema.Attribute.Private;
+    Location: Schema.Attribute.Text;
     longitude: Schema.Attribute.Float;
     panorama: Schema.Attribute.Media<'images'>;
     preview: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
     reactions: Schema.Attribute.Relation<'oneToMany', 'api::reaction.reaction'>;
+    soundEffects: Schema.Attribute.JSON;
     speach: Schema.Attribute.Media<'files' | 'audios'>;
     state: Schema.Attribute.Enumeration<['pending', 'approved', 'deleted']>;
     story: Schema.Attribute.RichText;
