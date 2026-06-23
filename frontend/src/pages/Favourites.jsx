@@ -107,6 +107,7 @@ export default function Favourites() {
           <FavouriteAntistate />
         )}
       </div>
+      <br/><br/><br/>
     </div>
   );
 }

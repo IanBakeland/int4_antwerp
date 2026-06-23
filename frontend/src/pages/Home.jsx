@@ -4,13 +4,14 @@ import gsap from 'gsap';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import PanoramaViewer from '../components/PanoramaViewer';
 
-//icons
+// Images
 import antwerpLogo from '../assets/images/antwerpLogo.png';
 import logoAntwerpScenes from '../assets/images/logoantwerpscenes.png';
 import backgroundMoments from '../assets/images/backgroundmoments.png';
 import backgroundMomentsDesktop from '../assets/images/cathedral_moments.png';
 import qrCodeImg from '../assets/images/qrradar.png';
 
+// Standard Icons
 import HeartIcon from '../assets/icons/Heart';
 import HeartFilledIcon from '../assets/icons/HeartFilled';
 import PersonIcon from '../assets/icons/Person';
@@ -19,7 +20,7 @@ import FilterIcon from '../assets/icons/Filter';
 import SearchIcon from '../assets/icons/Search';
 import PersonRunningIcon from '../assets/icons/PersonRunning';
 import MonumentIcon from '../assets/icons/Monument';
-import FolderIcon from '../assets/icons/Folder';  
+import FolderIcon from '../assets/icons/Folder';
 import PersonDoubleIcon from '../assets/icons/PersonDouble';
 import LocationFilledIcon from '../assets/icons/LocationFilled';
 import StarFilledIcon from '../assets/icons/StarFilled';
@@ -49,6 +50,7 @@ const truncate = (text, max = 120) => {
 };
 
 const TOP_STORIES_COUNT = 10;
+const GRID_MIN_CARDS = 20;
 
 const gridImage = (story, useOriginal) =>
   (useOriginal && story?.panorama?.url) ||
@@ -82,6 +84,14 @@ const formatDistance = (meters) => {
   return `${new Intl.NumberFormat('nl-BE', { minimumFractionDigits: 0, maximumFractionDigits: 1 }).format(meters / 1000)} km`;
 };
 
+const CATEGORY_COLOR = {
+  action: '#D2FF4B',   
+  culture: '#FF7D3C',  
+  business: '#5597FE', 
+  romantic: '#FF82DC', 
+  social: '#00D77D',   
+};
+
 const CATEGORIES = [
   { label: 'Action', Icon: PersonRunningIcon, colorClass: 'filterChipLime' },
   { label: 'Culture', Icon: MonumentIcon, colorClass: 'filterChipOrange' },
@@ -94,13 +104,6 @@ const getCategoryIcon = (category) => {
   const cat = CATEGORIES.find(c => c.label.toLowerCase() === category?.toLowerCase());
   return cat ? cat.Icon : HeartFilledIcon;
 };
-
-const INFO_CARDS = [
-  { value: 50, suffix: '+', unit: 'KM', label: 'Across Antwerp', color: 'panoInfoCardOrange' },
-  { value: 40, suffix: '+', unit: null, label: 'Stories', color: 'panoInfoCardBlue' },
-  { value: 63, suffix: '', unit: null, label: 'Hidden spots', color: 'panoInfoCardPink' },
-  { value: 10, suffix: '', unit: null, label: 'Weekly stories', color: 'panoInfoCardLime' },
-];
 
 const strokeColors = ['#FD7C3F', '#66A0FF', '#FF82DC', '#D2FF4B'];
 
@@ -157,6 +160,17 @@ export default function Home({ userLocation }) {
 
   const [top10AtStart, setTop10AtStart] = useState(true);
   const [top10AtEnd, setTop10AtEnd] = useState(false);
+
+  // Strip #panoramas from URL when scrolling up to the hero section
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY < 200 && window.location.hash === '#panoramas') {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleTop10Scroll = useCallback(() => {
     if (!top10ScrollRef.current) return;
@@ -307,6 +321,19 @@ export default function Home({ userLocation }) {
   const activeStory = stories[currentPanoIndex];
   const descMaxLength = isDesktop ? 90 : 120;
 
+  // Dynamic Info Counters
+  const totalStories = allStories.length || 0;
+  const totalHiddenSpots = useMemo(() => {
+    return allStories.reduce((acc, curr) => acc + (curr.hiddenSpots?.length || 0), 0);
+  }, [allStories]);
+
+  const infoCardsData = useMemo(() => [
+    { value: 50, suffix: '+', unit: 'KM', label: 'Across Antwerp', color: 'panoInfoCardOrange' },
+    { value: totalStories, suffix: '', unit: null, label: 'Stories', color: 'panoInfoCardBlue' },
+    { value: totalHiddenSpots, suffix: '', unit: null, label: 'Hidden spots', color: 'panoInfoCardPink' },
+    { value: 10, suffix: '', unit: null, label: 'Weekly stories', color: 'panoInfoCardLime' },
+  ], [totalStories, totalHiddenSpots]);
+
   useEffect(() => {
     const mql = window.matchMedia('(min-width: 801px)');
     const onChange = (e) => setIsDesktop(e.matches);
@@ -327,7 +354,7 @@ export default function Home({ userLocation }) {
   }, []);
 
   useEffect(() => {
-    if (!panoReady) return;
+    if (!panoReady || !storiesLoaded) return;
     const grid = infoGridRef.current;
     if (!grid || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
@@ -353,7 +380,7 @@ export default function Home({ userLocation }) {
     }, grid);
 
     return () => ctx.revert();
-  }, [panoReady]);
+  }, [panoReady, storiesLoaded]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -362,6 +389,7 @@ export default function Home({ userLocation }) {
       try {
         const token = localStorage.getItem('token');
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
+        // Removed populate[2]=hiddenSpots as Strapi populates JSON fields automatically
         const res = await fetch(
           `${STRAPI_URL}/api/stories?filters[state][$eq]=approved&populate[0]=panorama&populate[1]=user&sort=createdAt:desc&pagination[pageSize]=100`,
           { headers, signal: controller.signal }
@@ -607,7 +635,7 @@ export default function Home({ userLocation }) {
         </div>
 
         <div className={styles.panoInfoGrid} ref={infoGridRef}>
-          {INFO_CARDS.map(({ value, suffix, unit, label, color }) => (
+          {infoCardsData.map(({ value, suffix, unit, label, color }) => (
             <div key={label} className={`${styles.panoInfoCard} ${styles[color]}`}>
               <span className={styles.panoInfoCardNumber}>
                 <span data-count={value}>{value}</span>{suffix}
@@ -666,7 +694,7 @@ export default function Home({ userLocation }) {
         <ScrollBanner />
         <ScrollBanner horizontal />
 
-        <div id="top-10" ref={top10Ref} className={styles.topStoriesTitleWrapper}>
+        <div id="panoramas" ref={top10Ref} className={styles.topStoriesTitleWrapper}>
           <h2 className={styles.topStoriesTitleTop}>TOP 10</h2>
           <h3 className={styles.topStoriesTitleSub}>stories of the week</h3>
         </div>
@@ -692,7 +720,7 @@ export default function Home({ userLocation }) {
                       style={{ backgroundImage: `url(${gridImage(story)})` }}
                     >
                       <ExploreOverlay />
-                      
+
                       <div className={`${styles.authorBadgeWrapper} alignNext`} style={{ gap: '0.5rem' }}>
                         <div className="iconTag">
                           <PersonIcon />
@@ -706,7 +734,7 @@ export default function Home({ userLocation }) {
                       <div className={styles.topStoriesItemGradient} />
                       
                       <div className={styles.storyCardFooter}>
-                        <h3 className={styles.storyCardTitle}>{story.title}</h3>
+                        <h3 className={styles.topStoriesItemTitle}>{story.title}</h3>
                         <div className={styles.storyCardHeartWrapper}>
                           <FavouriteButton
                             storyId={story.documentId}

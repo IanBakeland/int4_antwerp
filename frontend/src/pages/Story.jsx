@@ -272,15 +272,19 @@ const StorySlide = ({
                 
                 <ReactionButton storyId={story?.documentId} />
 
-                <button 
-                  className="iconbutton dark"
-                  onClick={() => {
-                    setSelectedStory(story);
-                    navigate('/radar');
-                  }}
-                >
-                  <RadarLocationIcon />
-                </button>
+<button 
+  className="iconbutton dark"
+  onClick={() => {
+    setSelectedStory(story);
+    if (window.innerWidth > 800) {
+      navigate('/radar-explained');
+    } else {
+      navigate('/radar');
+    }
+  }}
+>
+  <RadarLocationIcon />
+</button>
 
                 <button 
                   className="iconbutton dark"

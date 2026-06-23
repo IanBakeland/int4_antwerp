@@ -266,8 +266,9 @@ export default function PanoramaViewer({
             </svg>
             Explore Scene
           </Link>
+                    
           <Link
-            to="#"
+            to="#panoramas"
             onClick={(e) => e.preventDefault()}
             className={styles.discoverSpotsButton}
           >

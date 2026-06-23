@@ -172,6 +172,11 @@
   opacity: 1;
 }
 
+.preloaderHidden {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
 .panoInfoGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -444,7 +449,7 @@
     width: 587px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
   }
 }
 
@@ -465,7 +470,7 @@
     margin-top: 0;
     margin-left: 0;
     width: 100%;
-    text-align: center;
+    text-align: left;
     font-size: 55.39px;
     line-height: 72.622px;
   }
@@ -1483,9 +1488,9 @@
 
 @media (min-width: 801px) {
   .topStoriesItemCard .storyCardFooter {
-  left: 2rem;
-  bottom: 4rem;
-}
+    left: 2rem;
+    bottom: 4rem;
+  }
 }
 
 .storyCardHeartWrapper {
@@ -1770,7 +1775,6 @@
   .storiesGrid > *:hover .storyCardOverlay,
   .topStoriesItemCard:hover .storyCardOverlay {
     opacity: 1;
-    pointer-events: none;
   }
 }
 
