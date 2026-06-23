@@ -1244,24 +1244,21 @@
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 0;
-    /* A scroll panel that always fits inside the viewport. Because it is
-       shorter than the screen there is page area above/below it, so the wheel
-       scrolls the page whenever the cursor is outside the panel, and reaching
-       the panel's top/bottom chains to the page (overscroll-behavior: auto) —
-       so you never get trapped in the internal scroll. */
+    /* Tall internal scroll panel. Reaching the panel's top/bottom chains to the
+       page (overscroll-behavior: auto) so you are never trapped.
+       pointer-events: none makes the wheel "fall through" the empty padding/gap
+       areas to the page; only the cards (re-enabled below) drive the internal
+       scroll — so the page scrolls unless the cursor is over a card image. */
     height: min(176vh, 136rem);
     overflow-y: auto;
     overscroll-behavior-y: auto;
     scroll-behavior: smooth;
+    pointer-events: none;
     padding: 2rem 84px 4rem 79px;
 
-    /* No edge-fade mask on desktop — the visible scrollbar is the affordance */
+    /* No edge-fade mask on desktop; the scrollbar stays hidden for a clean look */
     mask-image: none;
     -webkit-mask-image: none;
-
-    /* Show the site's scrollbar on the panel (overrides the mobile hide) */
-    scrollbar-width: auto;
-    scrollbar-gutter: stable;
 
     /* Desktop grid based on the mockup.
        Columns are fluid (1fr) so every card scales with the viewport instead
@@ -1278,12 +1275,6 @@
     grid-auto-flow: dense;
   }
 
-  /* Reveal the scrollbar on the panel (the mobile rules hide it). The site's
-     global scrollbar styling (orange thumb on a light track) then applies. */
-  .home__stories-grid::-webkit-scrollbar {
-    display: block;
-  }
-
   /* Every desktop card defaults to the small footprint and simply fills its
      1x1 cell; no fixed widths/heights or aspect ratios are needed. */
   .home__stories-grid > .home__story-card-large,
@@ -1294,6 +1285,9 @@
     border-radius: 10px;
     grid-column: span 1;
     grid-row: span 1;
+    /* Re-enable the mouse over the cards: scrolling here drives the internal
+       scroll, and the heart/links stay clickable. */
+    pointer-events: auto;
   }
 
   /* Feature cards reproduce the mockup rhythm: the 1st and 8th card of every
