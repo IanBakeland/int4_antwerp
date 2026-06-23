@@ -109,26 +109,29 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 11rem;
   height: 2.7rem;
-  border-radius: 2.2rem;
-  background: rgba(0, 0, 0, 0.5);
   color: var(--color-white, #fff);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
   cursor: pointer;
   z-index: 20;
   font-family: var(--font-spartan);
   font-size: 1rem;
   font-weight: 600;
   pointer-events: auto;
+
+
+  gap: 0.6rem;
+  background: rgba(46, 46, 46, 0.7);
+  border: rgba(255, 255, 255, 0.1) 1.75px solid;
+  backdrop-filter: blur(4px);
+  border-radius: 999px;
+  padding: 0 1rem;
 }
 
-.gyroStartOverlayIcon {
-  width: 0.75rem;
+.gyroStartOverlay svg{
+  width: 1rem;
   color: var(--color-white, #fff);
   display: inline-block;
 }
