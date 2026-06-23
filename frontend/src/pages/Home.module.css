@@ -1243,14 +1243,25 @@
     width: 100%;
     margin-left: 0;
     margin-right: 0;
-    height: 70rem;
-    /* Taller on desktop but within viewport bounds */
+    margin-bottom: 0;
+    /* A scroll panel that always fits inside the viewport. Because it is
+       shorter than the screen there is page area above/below it, so the wheel
+       scrolls the page whenever the cursor is outside the panel, and reaching
+       the panel's top/bottom chains to the page (overscroll-behavior: auto) —
+       so you never get trapped in the internal scroll. */
+    height: min(176vh, 136rem);
+    overflow-y: auto;
+    overscroll-behavior-y: auto;
+    scroll-behavior: smooth;
     padding: 2rem 84px 4rem 79px;
-    overscroll-behavior: auto;
 
-    /* Top fade only on desktop */
-    mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 100%);
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 100%);
+    /* No edge-fade mask on desktop — the visible scrollbar is the affordance */
+    mask-image: none;
+    -webkit-mask-image: none;
+
+    /* Show the site's scrollbar on the panel (overrides the mobile hide) */
+    scrollbar-width: auto;
+    scrollbar-gutter: stable;
 
     /* Desktop grid based on the mockup.
        Columns are fluid (1fr) so every card scales with the viewport instead
@@ -1265,6 +1276,12 @@
     column-gap: clamp(0.625rem, 0.97vw, 1.125rem);
     row-gap: clamp(0.875rem, 1.39vw, 1.625rem);
     grid-auto-flow: dense;
+  }
+
+  /* Reveal the scrollbar on the panel (the mobile rules hide it). The site's
+     global scrollbar styling (orange thumb on a light track) then applies. */
+  .home__stories-grid::-webkit-scrollbar {
+    display: block;
   }
 
   /* Every desktop card defaults to the small footprint and simply fills its
