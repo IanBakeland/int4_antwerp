@@ -41,7 +41,7 @@ export default function Radar({
     const fetchStories = async () => {
       try {
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
-        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user&populate[2]=speach&pagination[limit]=100", { headers });
+        const res = await fetch("https://necessary-light-a082e19892.strapiapp.com/api/stories?populate[0]=panorama&populate[1]=user&populate[2]=speach&pagination[limit]=100&filters[state][$eq]=approved", { headers });
         
         if (!res.ok) throw new Error("Failed to fetch stories");
         const data = await res.json();
