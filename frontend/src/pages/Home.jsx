@@ -20,36 +20,20 @@ import PersonIcon from '../assets/icons/Person';
 import AddCircleIcon from '../assets/icons/AddCircle';
 import FilterIcon from '../assets/icons/Filter';
 import SearchIcon from '../assets/icons/Search';
-import UserCircleIcon from '../assets/icons/UserCircle';
 import AuthorBadge from '../components/AuthorBadge';
 import styles from './Home.module.css';
 
-const stories = [
-  {
-    image: pano1,
-    storyCount: "One of 40+ stories in Antwerp",
-    title: "My first kiss",
-    description: "Step into the place where Emma’s first kiss became a lasting memory."
-  },
-  {
-    image: pano2,
-    storyCount: "Two of 40+ stories in Antwerp",
-    title: "The Silent Cathedral",
-    description: "Listen to the quiet echo of the historic bells in the heart of the city."
-  },
-  {
-    image: pano3,
-    storyCount: "Three of 40+ stories in Antwerp",
-    title: "The street that inspired my carreer for painting",
-    description: "Gaze at the futuristic lines merging with the historical harbor docks."
-  },
-  {
-    image: pano4,
-    storyCount: "Four of 40+ stories in Antwerp",
-    title: "Park Spoor Noord",
-    description: "Feel the vibrant summer energy of Antwerp's green oasis."
-  }
-];
+const STRAPI_URL = "https://necessary-light-a082e19892.strapiapp.com";
+
+// Spelled-out ordinals for the hero panorama story counter ("One of 40+ stories…")
+const ORDINALS = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
+const getStoryCount = (index) => `${ORDINALS[index] || index + 1} of 40+ stories in Antwerp`;
+
+// Truncate long descriptions and append an ellipsis so the hero card stays tidy.
+const truncate = (text, max = 120) => {
+  if (!text) return "";
+  return text.length > max ? `${text.slice(0, max).trimEnd()}…` : text;
+};
 
 const topStories = [
   { title: "My first kiss", image: pano1 },
@@ -141,6 +125,11 @@ export default function Home({ userLocation }) {
     }
   };
   const [homeFilter, setHomeFilter] = useState('All');
+  const [stories, setStories] = useState([]);
+  const [storiesLoaded, setStoriesLoaded] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(min-width: 801px)').matches
+  );
   const [currentPanoIndex, setCurrentPanoIndex] = useState(0);
   const [prevPanoIndex, setPrevPanoIndex] = useState(null);
   const [transitionClass, setTransitionClass] = useState('slide-active');
@@ -152,18 +141,55 @@ export default function Home({ userLocation }) {
   const transitionFallbackRef = useRef(null);
   const activeStory = stories[currentPanoIndex];
   const displayIndex = currentPanoIndex;
+  const descMaxLength = isDesktop ? 90 : 120;
+
+  // Track desktop breakpoint so the hero description can be truncated a bit shorter on desktop.
+  useEffect(() => {
+    const mql = window.matchMedia('(min-width: 801px)');
+    const onChange = (e) => setIsDesktop(e.matches);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, []);
+
+  // Fetch the first 4 panoramas (image, title, description) from Strapi for the hero carousel.
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const fetchHeroStories = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+        const res = await fetch(
+          `${STRAPI_URL}/api/stories?populate=panorama&pagination[limit]=4`,
+          { headers, signal: controller.signal }
+        );
+        if (!res.ok) throw new Error('Failed to fetch panoramas');
+        const data = await res.json();
+        // Keep only entries that actually have a panorama image.
+        setStories((data.data || []).filter((story) => story?.panorama?.url));
+      } catch (err) {
+        if (err.name !== 'AbortError') console.error(err);
+      } finally {
+        setStoriesLoaded(true);
+      }
+    };
+
+    fetchHeroStories();
+    return () => controller.abort();
+  }, []);
 
   useEffect(() => {
     // Intelligent Adjacent Preloading: preload only next and previous panoramas relative to active index
+    if (stories.length === 0) return;
     const nextIndex = (currentPanoIndex + 1) % stories.length;
     const prevIndex = (currentPanoIndex - 1 + stories.length) % stories.length;
 
     const nextImg = new Image();
-    nextImg.src = stories[nextIndex].image;
+    nextImg.src = stories[nextIndex].panorama?.url;
 
     const prevImg = new Image();
-    prevImg.src = stories[prevIndex].image;
-  }, [currentPanoIndex]);
+    prevImg.src = stories[prevIndex].panorama?.url;
+  }, [currentPanoIndex, stories]);
 
   // Smooth scroll to TOP 10 section when navigating via the Panorama's navbar link
   useEffect(() => {
@@ -284,38 +310,41 @@ export default function Home({ userLocation }) {
         <div
           className={styles['home__pano-wrapper']}
           role="region"
-          aria-label={`360 degree panorama viewer displaying: ${activeStory.title}`}
+          aria-label={`360 degree panorama viewer displaying: ${activeStory?.title || 'panorama'}`}
         >
-          {prevPanoIndex !== null && (
+          {prevPanoIndex !== null && stories[prevPanoIndex] && (
             <div
               className={`${styles['home__pano-image']} ${styles['home__static-slide']} ${transitionClassMap[prevTransitionClass]}`}
               onTransitionEnd={handleTransitionEnd}
             >
-              <img src={stories[prevPanoIndex].image} alt="" className={styles['home__static-slide-image']} />
+              <img src={stories[prevPanoIndex].panorama?.url} alt="" className={styles['home__static-slide-image']} />
               <div className={styles['home__pano-gradient-overlay']} />
               <div className={styles['home__pano-content-wrapper']}>
-                <p className={styles['home__pano-content-story-count']}>{stories[prevPanoIndex].storyCount}</p>
+                <p className={styles['home__pano-content-story-count']}>{getStoryCount(prevPanoIndex)}</p>
                 <h2 className={styles['home__pano-content-title']}>{stories[prevPanoIndex].title}</h2>
-                <p className={styles['home__pano-content-description']}>{stories[prevPanoIndex].description}</p>
+                <p className={styles['home__pano-content-description']}>{truncate(stories[prevPanoIndex].preview, descMaxLength)}</p>
               </div>
             </div>
           )}
 
-          {isTransitionLoading && (
+          {(isTransitionLoading || !storiesLoaded) && (
             <div className={styles.transitionSpinnerWrapper}>
               <div className={styles.spinner} />
             </div>
           )}
-          <PanoramaViewer
-            image={activeStory.image}
-            storyCount={activeStory.storyCount}
-            title={activeStory.title}
-            description={activeStory.description}
-            onNext={handleNext}
-            onPrev={handlePrev}
-            onLoaded={handlePanoLoaded}
-            className={`${styles['home__pano-image']} ${transitionClassMap[transitionClass]}`}
-          />
+          {activeStory && (
+            <PanoramaViewer
+              image={activeStory.panorama?.url}
+              storyCount={getStoryCount(currentPanoIndex)}
+              title={activeStory.title}
+              description={truncate(activeStory.preview, descMaxLength)}
+              exploreTo={`/story?id=${activeStory.documentId}`}
+              onNext={handleNext}
+              onPrev={handlePrev}
+              onLoaded={handlePanoLoaded}
+              className={`${styles['home__pano-image']} ${transitionClassMap[transitionClass]}`}
+            />
+          )}
 
           {/* Desktop navigation circles */}
           <button

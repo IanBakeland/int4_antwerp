@@ -13,7 +13,8 @@ export default function PanoramaViewer({
   onNext,
   onPrev,
   className,
-  onLoaded
+  onLoaded,
+  exploreTo
 }) {
   const [isMobile, setIsMobile] = useState(() => {
     return typeof window !== 'undefined' && (window.innerWidth <= 768 || /Mobi|Android/i.test(navigator.userAgent));
@@ -238,8 +239,8 @@ export default function PanoramaViewer({
         <p className={styles.panoContent__description}>{description}</p>
         <div className={styles.exploreActionsContainer}>
           <Link
-            to="#"
-            onClick={(e) => e.preventDefault()}
+            to={exploreTo || "#"}
+            onClick={exploreTo ? undefined : (e) => e.preventDefault()}
             className={styles.exploreSceneButton}
           >
             <svg
