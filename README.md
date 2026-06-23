@@ -38,16 +38,6 @@ https://necessary-light-a082e19892.strapiapp.com
 
 This is the live backend for all API calls (stories, users, favourites, reactions, uploads). The local `backend/` folder is used for local development or when you need to make content-type or plugin changes.
 
-
-
-### Frontend
-
-The frontend has **no `.env` file** — the Strapi Cloud URL is currently hardcoded in each page/component. If you want to make the URL configurable, replace the hardcoded URL with `import.meta.env.VITE_API_URL` and create a `frontend/.env` file:
-
-```
-VITE_API_URL=https://necessary-light-a082e19892.strapiapp.com
-```
-
 ---
 
 ## Setup & running
